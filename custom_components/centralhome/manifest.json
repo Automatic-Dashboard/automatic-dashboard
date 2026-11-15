@@ -1,0 +1,14 @@
+{
+  "domain": "centralhome",
+  "name": "CentralHome",
+  "codeowners": ["@antoninche"],
+  "config_flow": true,
+  "dependencies": ["frontend", "http"],
+  "documentation": "https://github.com/CentralHome-HA/centralhome",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/CentralHome-HA/centralhome/issues",
+  "single_config_entry": true,
+  "version": "2026.11.0"
+}
+

@@ -1,0 +1,24 @@
+{
+  "name": "centralhome-frontend",
+  "private": true,
+  "version": "2026.11.0",
+  "description": "Le tableau de bord CentralHome pour Home Assistant : moteur de tri, stratégie et cartes.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch --minify false",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "verifier": "npm run typecheck && npm run test && npm run build"
+  },
+  "dependencies": {
+    "lit": "^3.3.3"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8",
+    "vitest": "^5.1.0"
+  }
+}

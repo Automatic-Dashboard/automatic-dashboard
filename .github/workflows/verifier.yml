@@ -1,0 +1,58 @@
+# Vérifications à chaque modification : tableau (types, tests, construction), code Python,
+# validation HACS et hassfest (l'outil de vérification des intégrations de Home Assistant).
+name: Vérifier
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    - cron: "0 6 * * 1" # chaque lundi : une nouvelle version de Home Assistant peut tout changer
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  tableau:
+    name: Tableau (TypeScript)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run build
+      - name: Le fichier construit est à jour dans le dépôt
+        run: git diff --exit-code -- ../custom_components/centralhome/frontend/centralhome.js
+
+  python:
+    name: Intégration (Python)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: astral-sh/ruff-action@v3
+      - run: ruff format --check
+
+  hassfest:
+    name: hassfest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: home-assistant/actions/hassfest@master
+
+  hacs:
+    name: Validation HACS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hacs/action@main
+        with:
+          category: integration

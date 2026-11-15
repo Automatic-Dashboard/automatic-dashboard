@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "CentralHome",
+        "description": "Ajoute le tableau de bord CentralHome et son thème. Ensuite : Paramètres, Tableaux de bord, Ajouter un tableau de bord, CentralHome."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "CentralHome est déjà installé."
+    }
+  },
+  "issues": {
+    "themes_non_charges": {
+      "title": "Le thème CentralHome n'a pas pu être chargé",
+      "description": "Le tableau CentralHome fonctionne, mais sans ses couleurs. Pour les retrouver, ajoutez ces deux lignes dans configuration.yaml, puis redémarrez Home Assistant :\n\n```yaml\nfrontend:\n  themes: !include_dir_merge_named themes\n```"
+    }
+  }
+}

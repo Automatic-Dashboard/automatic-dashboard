@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "CentralHome",
+        "description": "Adds the CentralHome dashboard and its theme. Next: Settings, Dashboards, Add dashboard, CentralHome."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "CentralHome is already installed."
+    }
+  },
+  "issues": {
+    "themes_non_charges": {
+      "title": "The CentralHome theme could not be loaded",
+      "description": "The CentralHome dashboard works, but without its colours. To get them back, add these two lines to configuration.yaml, then restart Home Assistant:\n\n```yaml\nfrontend:\n  themes: !include_dir_merge_named themes\n```"
+    }
+  }
+}

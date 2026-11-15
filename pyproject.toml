@@ -1,0 +1,9 @@
+# Analyse du code Python de l'intégration (ruff), avec les règles de Home Assistant en tête.
+[tool.ruff]
+target-version = "py314"
+line-length = 120
+extend-exclude = ["dev/config", "dev/debutant/config", "dev/complet/config"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]  # les apostrophes et guillemets français sont voulus

@@ -1,0 +1,704 @@
+{
+ "areas": {
+  "chambre": {
+   "aliases": [],
+   "area_id": "chambre",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:bed",
+   "labels": [],
+   "name": "Chambre",
+   "temperature_entity_id": null
+  },
+  "cuisine": {
+   "aliases": [],
+   "area_id": "cuisine",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:stove",
+   "labels": [],
+   "name": "Cuisine",
+   "temperature_entity_id": null
+  },
+  "salon": {
+   "aliases": [],
+   "area_id": "salon",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:sofa",
+   "labels": [],
+   "name": "Salon",
+   "temperature_entity_id": null
+  }
+ },
+ "config": {
+  "components": [
+   "ai_task",
+   "air_quality",
+   "alarm_control_panel",
+   "analytics",
+   "api",
+   "application_credentials",
+   "assist_pipeline",
+   "assist_satellite",
+   "auth",
+   "automation",
+   "backup",
+   "backup.event",
+   "backup.sensor",
+   "battery",
+   "binary_sensor",
+   "blueprint",
+   "bluetooth",
+   "brands",
+   "button",
+   "camera",
+   "centralhome",
+   "climate",
+   "cloud",
+   "cloud.tts",
+   "config",
+   "conversation",
+   "counter",
+   "cover",
+   "date",
+   "datetime",
+   "default_config",
+   "device_automation",
+   "device_tracker",
+   "dhcp",
+   "diagnostics",
+   "door",
+   "energy",
+   "energy.sensor",
+   "event",
+   "fan",
+   "ffmpeg",
+   "file",
+   "file_upload",
+   "frontend",
+   "garage_door",
+   "gate",
+   "geo_location",
+   "go2rtc",
+   "google_translate",
+   "google_translate.tts",
+   "hardware",
+   "history",
+   "homeassistant",
+   "homeassistant.scene",
+   "homeassistant_alerts",
+   "http",
+   "humidifier",
+   "humidity",
+   "illuminance",
+   "image",
+   "image_processing",
+   "image_upload",
+   "infrared",
+   "input_boolean",
+   "input_button",
+   "input_datetime",
+   "input_number",
+   "input_select",
+   "input_text",
+   "intent",
+   "labs",
+   "lawn_mower",
+   "light",
+   "llm",
+   "lock",
+   "logbook",
+   "logger",
+   "lovelace",
+   "map_tiles",
+   "marketplace",
+   "marketplace.switch",
+   "marketplace.update",
+   "media_player",
+   "media_source",
+   "met",
+   "met.weather",
+   "mobile_app",
+   "mobile_app.notify",
+   "moisture",
+   "motion",
+   "my",
+   "network",
+   "notify",
+   "number",
+   "occupancy",
+   "onboarding",
+   "persistent_notification",
+   "person",
+   "power",
+   "radio_browser",
+   "radio_frequency",
+   "recorder",
+   "remote",
+   "repairs",
+   "scene",
+   "schedule",
+   "script",
+   "search",
+   "select",
+   "sensor",
+   "shopping_list",
+   "shopping_list.todo",
+   "siren",
+   "ssdp",
+   "stream",
+   "stt",
+   "sun",
+   "sun.binary_sensor",
+   "sun.sensor",
+   "switch",
+   "system_health",
+   "system_log",
+   "tag",
+   "temperature",
+   "template",
+   "template.light",
+   "template.sensor",
+   "template.switch",
+   "text",
+   "time",
+   "timer",
+   "todo",
+   "trace",
+   "tts",
+   "update",
+   "usage_prediction",
+   "usb",
+   "vacuum",
+   "valve",
+   "vibration",
+   "wake_word",
+   "water_heater",
+   "weather",
+   "web_rtc",
+   "webhook",
+   "websocket_api",
+   "window",
+   "zeroconf",
+   "zone"
+  ],
+  "country": "FR",
+  "language": "fr",
+  "latitude": 43.2965,
+  "location_name": "Studio d'essai",
+  "longitude": 5.3698,
+  "time_zone": "Europe/Paris",
+  "unit_system": {
+   "accumulated_precipitation": "mm",
+   "area": "m²",
+   "length": "km",
+   "mass": "g",
+   "pressure": "Pa",
+   "temperature": "°C",
+   "volume": "L",
+   "wind_speed": "m/s"
+  },
+  "version": "2026.11.1"
+ },
+ "devices": {
+  "2251a5d37140d77dba7012d3252520f3": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "2251a5d37140d77dba7012d3252520f3",
+   "labels": [],
+   "manufacturer": "Home Assistant",
+   "model": "Home Assistant Backup",
+   "name": "Backup",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "2c001da522da5f17f66e4d13e4de8056": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "2c001da522da5f17f66e4d13e4de8056",
+   "labels": [],
+   "manufacturer": "Met.no",
+   "model": "Forecast",
+   "name": "Met.no (43.2965, 5.3698)",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "4977b4b174b3759f0fd93b3077a9f72a": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "4977b4b174b3759f0fd93b3077a9f72a",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Sun",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "7ce7d8e25c95991d513da6f0e774c1f2": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "7ce7d8e25c95991d513da6f0e774c1f2",
+   "labels": [],
+   "manufacturer": "Google",
+   "model": "Google Translate TTS",
+   "name": "Google Translate en com",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  }
+ },
+ "entities": {
+  "event.backup_automatic_backup": {
+   "device_id": "2251a5d37140d77dba7012d3252520f3",
+   "entity_id": "event.backup_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Sauvegarde automatique",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "automatic_backup_event"
+  },
+  "input_boolean.essai_ampoule": {
+   "entity_id": "input_boolean.essai_ampoule",
+   "hidden": true,
+   "labels": [],
+   "name": "État de l'ampoule (interne)",
+   "platform": "input_boolean"
+  },
+  "input_boolean.essai_prise": {
+   "entity_id": "input_boolean.essai_prise",
+   "hidden": true,
+   "labels": [],
+   "name": "État de la prise (interne)",
+   "platform": "input_boolean"
+  },
+  "light.ampoule_du_salon": {
+   "area_id": "salon",
+   "entity_id": "light.ampoule_du_salon",
+   "hidden": false,
+   "labels": [],
+   "name": "Ampoule du salon",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "person.antonin_essai": {
+   "entity_id": "person.antonin_essai",
+   "hidden": false,
+   "labels": [],
+   "name": "Antonin (essai)",
+   "platform": "person"
+  },
+  "sensor.backup_backup_manager_state": {
+   "device_id": "2251a5d37140d77dba7012d3252520f3",
+   "entity_id": "sensor.backup_backup_manager_state",
+   "hidden": false,
+   "labels": [],
+   "name": "État du gestionnaire de sauvegarde",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "backup_manager_state"
+  },
+  "sensor.backup_last_attempted_automatic_backup": {
+   "device_id": "2251a5d37140d77dba7012d3252520f3",
+   "entity_id": "sensor.backup_last_attempted_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Dernière tentative de sauvegarde automatique",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "last_attempted_automatic_backup"
+  },
+  "sensor.backup_last_successful_automatic_backup": {
+   "device_id": "2251a5d37140d77dba7012d3252520f3",
+   "entity_id": "sensor.backup_last_successful_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Dernière sauvegarde automatique réussie",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "last_successful_automatic_backup"
+  },
+  "sensor.backup_last_successful_automatic_backup_size": {
+   "device_id": "2251a5d37140d77dba7012d3252520f3",
+   "display_precision": 0,
+   "entity_id": "sensor.backup_last_successful_automatic_backup_size",
+   "hidden": false,
+   "labels": [],
+   "name": "Last successful automatic backup size",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "last_successful_automatic_backup_size"
+  },
+  "sensor.backup_next_scheduled_automatic_backup": {
+   "device_id": "2251a5d37140d77dba7012d3252520f3",
+   "entity_id": "sensor.backup_next_scheduled_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochaine sauvegarde automatique programmée",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "next_scheduled_automatic_backup"
+  },
+  "sensor.sun_next_dawn": {
+   "device_id": "4977b4b174b3759f0fd93b3077a9f72a",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_dawn",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochaine aube",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_dawn"
+  },
+  "sensor.sun_next_dusk": {
+   "device_id": "4977b4b174b3759f0fd93b3077a9f72a",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_dusk",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain crépuscule",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_dusk"
+  },
+  "sensor.sun_next_midnight": {
+   "device_id": "4977b4b174b3759f0fd93b3077a9f72a",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_midnight",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain minuit",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_midnight"
+  },
+  "sensor.sun_next_noon": {
+   "device_id": "4977b4b174b3759f0fd93b3077a9f72a",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_noon",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain midi",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_noon"
+  },
+  "sensor.sun_next_rising": {
+   "device_id": "4977b4b174b3759f0fd93b3077a9f72a",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_rising",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain lever",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_rising"
+  },
+  "sensor.sun_next_setting": {
+   "device_id": "4977b4b174b3759f0fd93b3077a9f72a",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_setting",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain coucher",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_setting"
+  },
+  "sensor.thermometre_du_salon": {
+   "area_id": "salon",
+   "display_precision": 1,
+   "entity_id": "sensor.thermometre_du_salon",
+   "hidden": false,
+   "labels": [],
+   "name": "Thermomètre du salon",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "switch.prise_connectee": {
+   "entity_id": "switch.prise_connectee",
+   "hidden": false,
+   "labels": [],
+   "name": "Prise connectée",
+   "platform": "template"
+  },
+  "todo.shopping_list": {
+   "entity_id": "todo.shopping_list",
+   "hidden": false,
+   "labels": [],
+   "name": "Shopping list",
+   "platform": "shopping_list",
+   "translation_key": "shopping_list"
+  },
+  "tts.google_translate_en_com": {
+   "device_id": "7ce7d8e25c95991d513da6f0e774c1f2",
+   "entity_id": "tts.google_translate_en_com",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "google_translate"
+  },
+  "weather.met_no_43_2965_5_3698": {
+   "device_id": "2c001da522da5f17f66e4d13e4de8056",
+   "entity_id": "weather.met_no_43_2965_5_3698",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "met"
+  }
+ },
+ "floors": {},
+ "states": {
+  "conversation.home_assistant": {
+   "attributes": {
+    "friendly_name": "Home Assistant",
+    "supported_features": 1
+   },
+   "entity_id": "conversation.home_assistant",
+   "state": "unknown"
+  },
+  "event.backup_automatic_backup": {
+   "attributes": {
+    "event_type": null,
+    "event_types": [
+     "completed",
+     "failed",
+     "in_progress"
+    ],
+    "friendly_name": "Backup Sauvegarde automatique"
+   },
+   "entity_id": "event.backup_automatic_backup",
+   "state": "unknown"
+  },
+  "input_boolean.essai_ampoule": {
+   "attributes": {
+    "editable": false,
+    "friendly_name": "État de l'ampoule (interne)"
+   },
+   "entity_id": "input_boolean.essai_ampoule",
+   "state": "off"
+  },
+  "input_boolean.essai_prise": {
+   "attributes": {
+    "editable": false,
+    "friendly_name": "État de la prise (interne)"
+   },
+   "entity_id": "input_boolean.essai_prise",
+   "state": "off"
+  },
+  "light.ampoule_du_salon": {
+   "attributes": {
+    "color_mode": null,
+    "friendly_name": "Ampoule du salon",
+    "supported_color_modes": [
+     "onoff"
+    ],
+    "supported_features": 0
+   },
+   "entity_id": "light.ampoule_du_salon",
+   "state": "off"
+  },
+  "person.antonin_essai": {
+   "attributes": {
+    "device_trackers": [],
+    "editable": true,
+    "friendly_name": "Antonin (essai)",
+    "id": "antonin_essai",
+    "in_zones": [],
+    "user_id": "0eec2a0d67dc4520ab3ac815563be622"
+   },
+   "entity_id": "person.antonin_essai",
+   "state": "unknown"
+  },
+  "sensor.backup_backup_manager_state": {
+   "attributes": {
+    "device_class": "enum",
+    "friendly_name": "Backup État du gestionnaire de sauvegarde",
+    "options": [
+     "idle",
+     "create_backup",
+     "blocked",
+     "receive_backup",
+     "restore_backup"
+    ]
+   },
+   "entity_id": "sensor.backup_backup_manager_state",
+   "state": "idle"
+  },
+  "sensor.backup_last_attempted_automatic_backup": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Backup Dernière tentative de sauvegarde automatique"
+   },
+   "entity_id": "sensor.backup_last_attempted_automatic_backup",
+   "state": "unknown"
+  },
+  "sensor.backup_last_successful_automatic_backup": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Backup Dernière sauvegarde automatique réussie"
+   },
+   "entity_id": "sensor.backup_last_successful_automatic_backup",
+   "state": "unknown"
+  },
+  "sensor.backup_last_successful_automatic_backup_size": {
+   "attributes": {
+    "device_class": "data_size",
+    "friendly_name": "Backup Last successful automatic backup size",
+    "state_class": "measurement",
+    "unit_of_measurement": "MiB"
+   },
+   "entity_id": "sensor.backup_last_successful_automatic_backup_size",
+   "state": "unknown"
+  },
+  "sensor.backup_next_scheduled_automatic_backup": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Backup Prochaine sauvegarde automatique programmée"
+   },
+   "entity_id": "sensor.backup_next_scheduled_automatic_backup",
+   "state": "unknown"
+  },
+  "sensor.sun_next_dawn": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochaine aube"
+   },
+   "entity_id": "sensor.sun_next_dawn",
+   "state": "2026-11-16T06:00:56+00:00"
+  },
+  "sensor.sun_next_dusk": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain crépuscule"
+   },
+   "entity_id": "sensor.sun_next_dusk",
+   "state": "2026-11-16T16:45:06+00:00"
+  },
+  "sensor.sun_next_midnight": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain minuit"
+   },
+   "entity_id": "sensor.sun_next_midnight",
+   "state": "2026-11-15T23:23:16+00:00"
+  },
+  "sensor.sun_next_noon": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain midi"
+   },
+   "entity_id": "sensor.sun_next_noon",
+   "state": "2026-11-16T11:23:09+00:00"
+  },
+  "sensor.sun_next_rising": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain lever"
+   },
+   "entity_id": "sensor.sun_next_rising",
+   "state": "2026-11-16T06:32:13+00:00"
+  },
+  "sensor.sun_next_setting": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain coucher"
+   },
+   "entity_id": "sensor.sun_next_setting",
+   "state": "2026-11-16T16:13:50+00:00"
+  },
+  "sensor.thermometre_du_salon": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Thermomètre du salon",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.thermometre_du_salon",
+   "state": "20.3"
+  },
+  "sun.sun": {
+   "attributes": {
+    "azimuth": 281.54,
+    "elevation": -39.1,
+    "friendly_name": "Sun",
+    "next_dawn": "2026-11-16T06:00:56.626550+00:00",
+    "next_dusk": "2026-11-16T16:45:06.405134+00:00",
+    "next_midnight": "2026-11-15T23:23:16+00:00",
+    "next_noon": "2026-11-16T11:23:09+00:00",
+    "next_rising": "2026-11-16T06:32:13.444998+00:00",
+    "next_setting": "2026-11-16T16:13:50.789610+00:00",
+    "rising": false
+   },
+   "entity_id": "sun.sun",
+   "state": "below_horizon"
+  },
+  "switch.prise_connectee": {
+   "attributes": {
+    "friendly_name": "Prise connectée"
+   },
+   "entity_id": "switch.prise_connectee",
+   "state": "off"
+  },
+  "todo.shopping_list": {
+   "attributes": {
+    "friendly_name": "Shopping list",
+    "supported_features": 15
+   },
+   "entity_id": "todo.shopping_list",
+   "state": "0"
+  },
+  "tts.google_translate_en_com": {
+   "attributes": {
+    "friendly_name": "Google Translate en com"
+   },
+   "entity_id": "tts.google_translate_en_com",
+   "state": "unknown"
+  },
+  "weather.met_no_43_2965_5_3698": {
+   "attributes": {
+    "attribution": "Weather forecast from met.no, delivered by the Norwegian Meteorological Institute.",
+    "cloud_coverage": 100.0,
+    "dew_point": 11.9,
+    "friendly_name": "Met.no (43.2965, 5.3698)",
+    "humidity": 88,
+    "precipitation_unit": "mm",
+    "pressure": 1015.6,
+    "pressure_unit": "hPa",
+    "supported_features": 3,
+    "temperature": 13.8,
+    "temperature_unit": "°C",
+    "uv_index": 0.0,
+    "visibility_unit": "km",
+    "wind_bearing": 126.4,
+    "wind_speed": 33.1,
+    "wind_speed_unit": "km/h"
+   },
+   "entity_id": "weather.met_no_43_2965_5_3698",
+   "state": "cloudy"
+  },
+  "zone.home": {
+   "attributes": {
+    "device_trackers": [],
+    "editable": true,
+    "friendly_name": "Studio d'essai",
+    "icon": "mdi:home",
+    "latitude": 43.2965,
+    "longitude": 5.3698,
+    "passive": false,
+    "persons": [],
+    "radius": 100
+   },
+   "entity_id": "zone.home",
+   "state": "0"
+  }
+ }
+}

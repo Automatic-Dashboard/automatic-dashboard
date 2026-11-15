@@ -1,0 +1,4016 @@
+{
+ "areas": {
+  "bureau": {
+   "aliases": [],
+   "area_id": "bureau",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:desk",
+   "labels": [],
+   "name": "Bureau",
+   "temperature_entity_id": null
+  },
+  "chambre": {
+   "aliases": [],
+   "area_id": "chambre",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:bed-outline",
+   "labels": [],
+   "name": "Chambre",
+   "temperature_entity_id": null
+  },
+  "chambre_des_enfants": {
+   "aliases": [],
+   "area_id": "chambre_des_enfants",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:teddy-bear",
+   "labels": [],
+   "name": "Chambre des enfants",
+   "temperature_entity_id": null
+  },
+  "cuisine": {
+   "aliases": [],
+   "area_id": "cuisine",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:stove",
+   "labels": [],
+   "name": "Cuisine",
+   "temperature_entity_id": null
+  },
+  "entree": {
+   "aliases": [],
+   "area_id": "entree",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:door-open",
+   "labels": [],
+   "name": "Entrée",
+   "temperature_entity_id": null
+  },
+  "salle_de_bain": {
+   "aliases": [],
+   "area_id": "salle_de_bain",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:shower",
+   "labels": [],
+   "name": "Salle de bain",
+   "temperature_entity_id": null
+  },
+  "salon": {
+   "aliases": [],
+   "area_id": "salon",
+   "floor_id": null,
+   "humidity_entity_id": null,
+   "icon": "mdi:sofa-outline",
+   "labels": [],
+   "name": "Salon",
+   "temperature_entity_id": null
+  }
+ },
+ "config": {
+  "components": [
+   "ai_task",
+   "air_quality",
+   "alarm_control_panel",
+   "analytics",
+   "api",
+   "application_credentials",
+   "assist_pipeline",
+   "assist_satellite",
+   "auth",
+   "automation",
+   "backup",
+   "backup.event",
+   "backup.sensor",
+   "battery",
+   "binary_sensor",
+   "blueprint",
+   "bluetooth",
+   "brands",
+   "button",
+   "calendar",
+   "camera",
+   "centralhome",
+   "climate",
+   "cloud",
+   "cloud.tts",
+   "config",
+   "conversation",
+   "counter",
+   "cover",
+   "date",
+   "datetime",
+   "default_config",
+   "demo",
+   "demo.air_quality",
+   "demo.alarm_control_panel",
+   "demo.binary_sensor",
+   "demo.button",
+   "demo.calendar",
+   "demo.camera",
+   "demo.climate",
+   "demo.cover",
+   "demo.date",
+   "demo.datetime",
+   "demo.device_tracker",
+   "demo.event",
+   "demo.fan",
+   "demo.geo_location",
+   "demo.humidifier",
+   "demo.image_processing",
+   "demo.lawn_mower",
+   "demo.light",
+   "demo.lock",
+   "demo.media_player",
+   "demo.notify",
+   "demo.number",
+   "demo.remote",
+   "demo.select",
+   "demo.sensor",
+   "demo.siren",
+   "demo.stt",
+   "demo.switch",
+   "demo.text",
+   "demo.time",
+   "demo.tts",
+   "demo.update",
+   "demo.vacuum",
+   "demo.valve",
+   "demo.water_heater",
+   "demo.weather",
+   "device_automation",
+   "device_tracker",
+   "dhcp",
+   "diagnostics",
+   "door",
+   "energy",
+   "energy.sensor",
+   "event",
+   "fan",
+   "ffmpeg",
+   "file",
+   "file_upload",
+   "frontend",
+   "garage_door",
+   "gate",
+   "geo_location",
+   "go2rtc",
+   "google_translate",
+   "google_translate.tts",
+   "group",
+   "hardware",
+   "history",
+   "homeassistant",
+   "homeassistant.scene",
+   "homeassistant_alerts",
+   "http",
+   "humidifier",
+   "humidity",
+   "illuminance",
+   "image",
+   "image_processing",
+   "image_upload",
+   "infrared",
+   "input_boolean",
+   "input_button",
+   "input_datetime",
+   "input_number",
+   "input_select",
+   "input_text",
+   "integration.sensor",
+   "intent",
+   "labs",
+   "lawn_mower",
+   "light",
+   "llm",
+   "lock",
+   "logbook",
+   "logger",
+   "lovelace",
+   "map_tiles",
+   "marketplace",
+   "marketplace.switch",
+   "marketplace.update",
+   "media_player",
+   "media_source",
+   "met",
+   "met.weather",
+   "mobile_app",
+   "mobile_app.notify",
+   "moisture",
+   "motion",
+   "my",
+   "network",
+   "notify",
+   "number",
+   "occupancy",
+   "onboarding",
+   "persistent_notification",
+   "person",
+   "power",
+   "radio_browser",
+   "radio_frequency",
+   "recorder",
+   "remote",
+   "repairs",
+   "scene",
+   "schedule",
+   "script",
+   "search",
+   "select",
+   "sensor",
+   "shopping_list",
+   "shopping_list.todo",
+   "siren",
+   "ssdp",
+   "stream",
+   "stt",
+   "sun",
+   "sun.binary_sensor",
+   "sun.sensor",
+   "switch",
+   "system_health",
+   "system_log",
+   "tag",
+   "temperature",
+   "template",
+   "template.binary_sensor",
+   "template.sensor",
+   "text",
+   "time",
+   "timer",
+   "todo",
+   "trace",
+   "tts",
+   "update",
+   "usage_prediction",
+   "usb",
+   "vacuum",
+   "valve",
+   "vibration",
+   "wake_word",
+   "water_heater",
+   "weather",
+   "web_rtc",
+   "webhook",
+   "websocket_api",
+   "window",
+   "zeroconf",
+   "zone"
+  ],
+  "country": "FR",
+  "language": "fr",
+  "latitude": 43.2965,
+  "location_name": "Appartement d'essai",
+  "longitude": 5.3698,
+  "time_zone": "Europe/Paris",
+  "unit_system": {
+   "accumulated_precipitation": "mm",
+   "area": "m²",
+   "length": "km",
+   "mass": "g",
+   "pressure": "Pa",
+   "temperature": "°C",
+   "volume": "L",
+   "wind_speed": "m/s"
+  },
+  "version": "2026.11.1"
+ },
+ "devices": {
+  "00a19399a7587f38a2b00982c9cb2e87": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "00a19399a7587f38a2b00982c9cb2e87",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo Living Room Bulb Update",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "00ea96170b4dea25e1f40567ebc18562": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "00ea96170b4dea25e1f40567ebc18562",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo Update No Install",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "07317eb88e8043e363dbc608279d6c93": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "07317eb88e8043e363dbc608279d6c93",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo Update with Decimal Progress",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "083d0412e98999fe5a2427f361b95a34": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "083d0412e98999fe5a2427f361b95a34",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Text with only lower case characters",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "1755c38563b6711bcba207b4a1631dd4": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "1755c38563b6711bcba207b4a1631dd4",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Trees",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "1a84cbdb2646e87df019040f7716a886": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "1a84cbdb2646e87df019040f7716a886",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Text with 1 to 5 characters",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "1c6a76fd16ba14766176c04b374fbb01": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "1c6a76fd16ba14766176c04b374fbb01",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "My Lawn Mower",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "20c4b1258a6713db7be1f651c45c3b38": {
+   "area_id": "chambre_des_enfants",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "20c4b1258a6713db7be1f651c45c3b38",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Decorative Lights",
+   "name_by_user": "Guirlande lumineuse",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "21f4f5d3b108b0ef211316618c5da9c5": {
+   "area_id": "chambre",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "21f4f5d3b108b0ef211316618c5da9c5",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Hall Window",
+   "name_by_user": "Volet de la chambre",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "22c81293a184a2ae8a4b4e3ea7537593": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "22c81293a184a2ae8a4b4e3ea7537593",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Date and Time",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "2c3d34f47bfbac309e6593baaf5b12e0": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "2c3d34f47bfbac309e6593baaf5b12e0",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo vacuum 3 third floor",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "306804635fc951d33c82b313de3a8558": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "306804635fc951d33c82b313de3a8558",
+   "labels": [],
+   "manufacturer": "Google",
+   "model": "Google Translate TTS",
+   "name": "Google Translate en com",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "37aec7927889b260a0c1bad680cfb869": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "37aec7927889b260a0c1bad680cfb869",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Total gas 1",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "38211e3feb5a779c994c0fb902138cab": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "38211e3feb5a779c994c0fb902138cab",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo add-on",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "39b783bbebe6d92c48b801211835b7e1": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "39b783bbebe6d92c48b801211835b7e1",
+   "labels": [],
+   "manufacturer": "Home Assistant",
+   "model": "Home Assistant Backup",
+   "name": "Backup",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "428fb47842ae77dc2254da1796c9eb1e": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "428fb47842ae77dc2254da1796c9eb1e",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Front Garden",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "46702c2fe35066c42f00cc1c58baf79e": {
+   "area_id": "salon",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "46702c2fe35066c42f00cc1c58baf79e",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Ceiling Lights",
+   "name_by_user": "Plafonnier du salon",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "4c48e70160954be70447f2093c4f5ac9": {
+   "area_id": "cuisine",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "4c48e70160954be70447f2093c4f5ac9",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Kitchen Lights",
+   "name_by_user": "Réglette du plan de travail",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "4eee520df0f80d83b9ae4cac3117e1b2": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "4eee520df0f80d83b9ae4cac3117e1b2",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Speed",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "52c01a3029029345d2421abb0803c27a": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "52c01a3029029345d2421abb0803c27a",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo Update with Progress",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "5959683ac4f4d43c01bd5a7e386cb49d": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "5959683ac4f4d43c01bd5a7e386cb49d",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Notifier",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "5b083ee0e96f5a43827781ddb916802a": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "5b083ee0e96f5a43827781ddb916802a",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Back Garden",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "5e5d502eca7d917f810dd4d0a307b7f2": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "5e5d502eca7d917f810dd4d0a307b7f2",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Power consumption",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "5ed85c0cdec1e774659277a0728bd389": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "5ed85c0cdec1e774659277a0728bd389",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo No Update",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "639dd4532205dacfd2aa03e985053c68": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "639dd4532205dacfd2aa03e985053c68",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Total energy 1",
+   "name_by_user": "Énergie consommée",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "679312a7e80ad6754384b6f58faeca41": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "679312a7e80ad6754384b6f58faeca41",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo vacuum 2 second floor",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "6bdc0b3a1a06bf52f32c46c4a3a08610": {
+   "area_id": "salle_de_bain",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "6bdc0b3a1a06bf52f32c46c4a3a08610",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "AC",
+   "name_by_user": "Prise du lave-linge",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "71cdb19055852b069c412f5d68ead51d": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "71cdb19055852b069c412f5d68ead51d",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Total gas 2",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "728dce97ca76cb5e86e7851222641f0e": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "728dce97ca76cb5e86e7851222641f0e",
+   "labels": [],
+   "manufacturer": "Met.no",
+   "model": "Forecast",
+   "name": "Appartement d'essai",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "78af92ebd07f5ebddcda1b540c6e37cc": {
+   "area_id": "cuisine",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "78af92ebd07f5ebddcda1b540c6e37cc",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Basement Floor Wet",
+   "name_by_user": "Fuite sous l'évier",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "7b87f4a976100abf1f1c02fbee89f8dd": {
+   "area_id": "chambre",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "7b87f4a976100abf1f1c02fbee89f8dd",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Hvac",
+   "name_by_user": "Climatisation",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "7eff8544f436e73af7fb340b7935e5a6": {
+   "area_id": "salon",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "7eff8544f436e73af7fb340b7935e5a6",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Living Room RGBWW Lights",
+   "name_by_user": "Lampadaire",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "7f81aee07216a73da4ee0bdd3b255c5f": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "7f81aee07216a73da4ee0bdd3b255c5f",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Small Range",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "8f6b43e02e82e526526f4e3f63f5bb95": {
+   "area_id": "entree",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "8f6b43e02e82e526526f4e3f63f5bb95",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Entrance Color + White Lights",
+   "name_by_user": "Plafonnier de l'entrée",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "959f84a128870bf81fcf25ee64ec8b77": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "959f84a128870bf81fcf25ee64ec8b77",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Sun",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "97f3bf649c56b35611748ae009c7a306": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "97f3bf649c56b35611748ae009c7a306",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Total energy 2",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "9dcc15dba807309023f92402b82b1d5f": {
+   "area_id": "chambre_des_enfants",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "9dcc15dba807309023f92402b82b1d5f",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Ecobee",
+   "name_by_user": "Radiateur des enfants",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "a0d460b7052e906786a66cdb48b7076b": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "a0d460b7052e906786a66cdb48b7076b",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Carbon dioxide",
+   "name_by_user": "Qualité de l'air",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "b0a1eb2511c52edc5eb0ec59f188163e": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "b0a1eb2511c52edc5eb0ec59f188163e",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Outside Humidity",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "b26098ef9148cb6f7549d63ebe0a4bd8": {
+   "area_id": "salon",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "b26098ef9148cb6f7549d63ebe0a4bd8",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo vacuum 0 ground floor",
+   "name_by_user": "Aspirateur robot",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "b2940415ae13de9e2f19da5726be510a": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "b2940415ae13de9e2f19da5726be510a",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Thermostat",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "b627c18924c41304250a4822dda0e0b2": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "b627c18924c41304250a4822dda0e0b2",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Large Range",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "b63e39b52045c19cd3a2e578c37e0b16": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "b63e39b52045c19cd3a2e578c37e0b16",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Text",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "ba499f577fe4aa9d0e565744869f387f": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "ba499f577fe4aa9d0e565744869f387f",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Push",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "c2ff15ac50f80730c43849178e3d2d13": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "c2ff15ac50f80730c43849178e3d2d13",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Date",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "c39228280200c26024c6ef48b287de03": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "c39228280200c26024c6ef48b287de03",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Orchard",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "c8dd503e9257a2d6fb8f954e5ba153ee": {
+   "area_id": "salon",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "c8dd503e9257a2d6fb8f954e5ba153ee",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "HeatPump",
+   "name_by_user": "Radiateur du salon",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "d21a3829397e2767b3f851a5688086ab": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "d21a3829397e2767b3f851a5688086ab",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Pergola Roof",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "d45a7c890667676eb18057935e91e586": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "d45a7c890667676eb18057935e91e586",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Garage Door",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "d5f45f5e4ee19a38852704e4f79a260c": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "d5f45f5e4ee19a38852704e4f79a260c",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Password",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "d650c72429029c050119bf189af9570d": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "d650c72429029c050119bf189af9570d",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "PWM 1",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "db334c22dcfc8e1e344c91f05b7b3c03": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "db334c22dcfc8e1e344c91f05b7b3c03",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo vacuum 4 fourth floor",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "dbc9e73f9feacbcbd10a5404de95ae1a": {
+   "area_id": "chambre",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "dbc9e73f9feacbcbd10a5404de95ae1a",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Bed Light",
+   "name_by_user": "Lampe de chevet",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "dc2c8408429b037323d1a96d636e74ce": {
+   "area_id": "cuisine",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "dc2c8408429b037323d1a96d636e74ce",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Kitchen Window",
+   "name_by_user": "Volet de la cuisine",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "e20b4174a22da755b7fa22e080543141": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "e20b4174a22da755b7fa22e080543141",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Temperature setting",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "e25b5fdd0e290dec2f536d3e571818c6": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "e25b5fdd0e290dec2f536d3e571818c6",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Time",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "e3daa198c4138bacd3d4ccfc0406e080": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "e3daa198c4138bacd3d4ccfc0406e080",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "volume",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "ecff6da16d48522e5de506286a9629f1": {
+   "area_id": "bureau",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "ecff6da16d48522e5de506286a9629f1",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Office RGBW Lights",
+   "name_by_user": "Lampe de bureau",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "edf6865153a6b9c561e9d307a5eb651c": {
+   "area_id": "entree",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "edf6865153a6b9c561e9d307a5eb651c",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Movement Backyard",
+   "name_by_user": "Mouvement dans l'entrée",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "f2948c0bf0727f5f9205fabe972ea108": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "f2948c0bf0727f5f9205fabe972ea108",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Outside Temperature",
+   "name_by_user": "Température extérieure",
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "f63b719b882106b872102cd46699529a": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "f63b719b882106b872102cd46699529a",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Demo vacuum 1 first floor",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "f6dcaf7f6cf13120d8ea595e62989f09": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "f6dcaf7f6cf13120d8ea595e62989f09",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Carbon monoxide",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "f93b7504bce92cb7e5c0105b1afe4db7": {
+   "area_id": "salon",
+   "disabled_by": null,
+   "entry_type": null,
+   "id": "f93b7504bce92cb7e5c0105b1afe4db7",
+   "labels": [],
+   "manufacturer": null,
+   "model": null,
+   "name": "Living Room Window",
+   "name_by_user": "Volet du salon",
+   "parent_device_id": null,
+   "via_device_id": null
+  }
+ },
+ "entities": {
+  "alarm_control_panel.security": {
+   "entity_id": "alarm_control_panel.security",
+   "hidden": false,
+   "labels": [],
+   "name": "Alarme",
+   "platform": "demo"
+  },
+  "binary_sensor.basement_floor_wet": {
+   "device_id": "78af92ebd07f5ebddcda1b540c6e37cc",
+   "entity_id": "binary_sensor.basement_floor_wet",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "binary_sensor.detecteur_de_fumee": {
+   "area_id": "entree",
+   "entity_id": "binary_sensor.detecteur_de_fumee",
+   "hidden": false,
+   "labels": [],
+   "name": "Détecteur de fumée",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "binary_sensor.fenetre_de_la_chambre": {
+   "area_id": "chambre",
+   "entity_id": "binary_sensor.fenetre_de_la_chambre",
+   "hidden": false,
+   "labels": [],
+   "name": "Fenêtre de la chambre",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "binary_sensor.fenetre_du_salon": {
+   "area_id": "salon",
+   "entity_id": "binary_sensor.fenetre_du_salon",
+   "hidden": false,
+   "labels": [],
+   "name": "Fenêtre du salon",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "binary_sensor.fuite_dans_la_salle_de_bain": {
+   "area_id": "salle_de_bain",
+   "entity_id": "binary_sensor.fuite_dans_la_salle_de_bain",
+   "hidden": false,
+   "labels": [],
+   "name": "Fuite dans la salle de bain",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "binary_sensor.movement_backyard": {
+   "device_id": "edf6865153a6b9c561e9d307a5eb651c",
+   "entity_id": "binary_sensor.movement_backyard",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "binary_sensor.outside_temperature_battery_charging": {
+   "device_id": "f2948c0bf0727f5f9205fabe972ea108",
+   "entity_category": "diagnostic",
+   "entity_id": "binary_sensor.outside_temperature_battery_charging",
+   "hidden": true,
+   "labels": [],
+   "name": "Battery Charging",
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "binary_sensor.porte_d_entree": {
+   "area_id": "entree",
+   "entity_id": "binary_sensor.porte_d_entree",
+   "hidden": false,
+   "labels": [],
+   "name": "Porte d'entrée",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "binary_sensor.presence_dans_le_salon": {
+   "area_id": "salon",
+   "entity_id": "binary_sensor.presence_dans_le_salon",
+   "hidden": false,
+   "labels": [],
+   "name": "Présence dans le salon",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "button.push": {
+   "device_id": "ba499f577fe4aa9d0e565744869f387f",
+   "entity_id": "button.push",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "climate.ecobee": {
+   "device_id": "9dcc15dba807309023f92402b82b1d5f",
+   "entity_id": "climate.ecobee",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "ubercool"
+  },
+  "climate.heatpump": {
+   "device_id": "c8dd503e9257a2d6fb8f954e5ba153ee",
+   "entity_id": "climate.heatpump",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "ubercool"
+  },
+  "climate.hvac": {
+   "device_id": "7b87f4a976100abf1f1c02fbee89f8dd",
+   "entity_id": "climate.hvac",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "ubercool"
+  },
+  "cover.garage_door": {
+   "device_id": "d45a7c890667676eb18057935e91e586",
+   "entity_id": "cover.garage_door",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "cover.hall_window": {
+   "device_id": "21f4f5d3b108b0ef211316618c5da9c5",
+   "entity_id": "cover.hall_window",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "cover.kitchen_window": {
+   "device_id": "dc2c8408429b037323d1a96d636e74ce",
+   "entity_id": "cover.kitchen_window",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "cover.living_room_window": {
+   "device_id": "f93b7504bce92cb7e5c0105b1afe4db7",
+   "entity_id": "cover.living_room_window",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "living_room_window"
+  },
+  "cover.pergola_roof": {
+   "device_id": "d21a3829397e2767b3f851a5688086ab",
+   "entity_id": "cover.pergola_roof",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "date.date": {
+   "device_id": "c2ff15ac50f80730c43849178e3d2d13",
+   "entity_id": "date.date",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "datetime.date_and_time": {
+   "device_id": "22c81293a184a2ae8a4b4e3ea7537593",
+   "entity_id": "datetime.date_and_time",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "event.backup_automatic_backup": {
+   "device_id": "39b783bbebe6d92c48b801211835b7e1",
+   "entity_id": "event.backup_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Sauvegarde automatique",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "automatic_backup_event"
+  },
+  "event.push_button_press": {
+   "device_id": "ba499f577fe4aa9d0e565744869f387f",
+   "entity_id": "event.push_button_press",
+   "hidden": true,
+   "labels": [],
+   "name": "Button press",
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "push"
+  },
+  "fan.ceiling_fan": {
+   "entity_id": "fan.ceiling_fan",
+   "hidden": true,
+   "labels": [],
+   "name": "Ceiling Fan",
+   "platform": "demo",
+   "translation_key": "demo"
+  },
+  "fan.living_room_fan": {
+   "entity_id": "fan.living_room_fan",
+   "hidden": false,
+   "labels": [],
+   "name": "Ventilateur",
+   "platform": "demo",
+   "translation_key": "demo"
+  },
+  "fan.percentage_full_fan": {
+   "entity_id": "fan.percentage_full_fan",
+   "hidden": true,
+   "labels": [],
+   "name": "Percentage Full Fan",
+   "platform": "demo",
+   "translation_key": "demo"
+  },
+  "fan.percentage_limited_fan": {
+   "entity_id": "fan.percentage_limited_fan",
+   "hidden": true,
+   "labels": [],
+   "name": "Percentage Limited Fan",
+   "platform": "demo",
+   "translation_key": "demo"
+  },
+  "fan.preset_only_limited_fan": {
+   "entity_id": "fan.preset_only_limited_fan",
+   "hidden": true,
+   "labels": [],
+   "name": "Preset Only Limited Fan",
+   "platform": "demo",
+   "translation_key": "demo"
+  },
+  "lawn_mower.my_lawn_mower": {
+   "device_id": "1c6a76fd16ba14766176c04b374fbb01",
+   "entity_id": "lawn_mower.my_lawn_mower",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "light.bed_light": {
+   "device_id": "dbc9e73f9feacbcbd10a5404de95ae1a",
+   "entity_id": "light.bed_light",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "bed_light"
+  },
+  "light.ceiling_lights": {
+   "device_id": "46702c2fe35066c42f00cc1c58baf79e",
+   "entity_id": "light.ceiling_lights",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "light.entrance_color_white_lights": {
+   "device_id": "8f6b43e02e82e526526f4e3f63f5bb95",
+   "entity_id": "light.entrance_color_white_lights",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "light.kitchen_lights": {
+   "device_id": "4c48e70160954be70447f2093c4f5ac9",
+   "entity_id": "light.kitchen_lights",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "light.living_room_rgbww_lights": {
+   "device_id": "7eff8544f436e73af7fb340b7935e5a6",
+   "entity_id": "light.living_room_rgbww_lights",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "light.office_rgbw_lights": {
+   "device_id": "ecff6da16d48522e5de506286a9629f1",
+   "entity_id": "light.office_rgbw_lights",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "notify.notifier": {
+   "device_id": "5959683ac4f4d43c01bd5a7e386cb49d",
+   "entity_id": "notify.notifier",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "number.large_range": {
+   "device_id": "b627c18924c41304250a4822dda0e0b2",
+   "entity_id": "number.large_range",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "range"
+  },
+  "number.pwm_1": {
+   "device_id": "d650c72429029c050119bf189af9570d",
+   "entity_id": "number.pwm_1",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "pwm"
+  },
+  "number.small_range": {
+   "device_id": "7f81aee07216a73da4ee0bdd3b255c5f",
+   "entity_id": "number.small_range",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "range"
+  },
+  "number.temperature_setting": {
+   "device_id": "e20b4174a22da755b7fa22e080543141",
+   "entity_id": "number.temperature_setting",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "number.volume": {
+   "device_id": "e3daa198c4138bacd3d4ccfc0406e080",
+   "entity_id": "number.volume",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "volume"
+  },
+  "person.antonin_essai": {
+   "entity_id": "person.antonin_essai",
+   "hidden": false,
+   "labels": [],
+   "name": "Antonin (essai)",
+   "platform": "person"
+  },
+  "select.speed": {
+   "device_id": "4eee520df0f80d83b9ae4cac3117e1b2",
+   "entity_id": "select.speed",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "speed"
+  },
+  "sensor.backup_backup_manager_state": {
+   "device_id": "39b783bbebe6d92c48b801211835b7e1",
+   "entity_id": "sensor.backup_backup_manager_state",
+   "hidden": false,
+   "labels": [],
+   "name": "État du gestionnaire de sauvegarde",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "backup_manager_state"
+  },
+  "sensor.backup_last_attempted_automatic_backup": {
+   "device_id": "39b783bbebe6d92c48b801211835b7e1",
+   "entity_id": "sensor.backup_last_attempted_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Dernière tentative de sauvegarde automatique",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "last_attempted_automatic_backup"
+  },
+  "sensor.backup_last_successful_automatic_backup": {
+   "device_id": "39b783bbebe6d92c48b801211835b7e1",
+   "entity_id": "sensor.backup_last_successful_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Dernière sauvegarde automatique réussie",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "last_successful_automatic_backup"
+  },
+  "sensor.backup_last_successful_automatic_backup_size": {
+   "device_id": "39b783bbebe6d92c48b801211835b7e1",
+   "display_precision": 0,
+   "entity_id": "sensor.backup_last_successful_automatic_backup_size",
+   "hidden": false,
+   "labels": [],
+   "name": "Last successful automatic backup size",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "last_successful_automatic_backup_size"
+  },
+  "sensor.backup_next_scheduled_automatic_backup": {
+   "device_id": "39b783bbebe6d92c48b801211835b7e1",
+   "entity_id": "sensor.backup_next_scheduled_automatic_backup",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochaine sauvegarde automatique programmée",
+   "next_name_part": "device",
+   "platform": "backup",
+   "translation_key": "next_scheduled_automatic_backup"
+  },
+  "sensor.carbon_dioxide": {
+   "device_id": "a0d460b7052e906786a66cdb48b7076b",
+   "entity_id": "sensor.carbon_dioxide",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.carbon_dioxide_battery": {
+   "device_id": "a0d460b7052e906786a66cdb48b7076b",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.carbon_dioxide_battery",
+   "hidden": false,
+   "labels": [],
+   "name": "Battery",
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.carbon_monoxide": {
+   "device_id": "f6dcaf7f6cf13120d8ea595e62989f09",
+   "entity_id": "sensor.carbon_monoxide",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.consommation_de_la_maison": {
+   "display_precision": 0,
+   "entity_id": "sensor.consommation_de_la_maison",
+   "hidden": false,
+   "labels": [],
+   "name": "Consommation de la maison",
+   "platform": "template"
+  },
+  "sensor.energie_de_la_maison": {
+   "display_precision": 3,
+   "entity_id": "sensor.energie_de_la_maison",
+   "hidden": false,
+   "labels": [],
+   "name": "Énergie de la maison",
+   "platform": "integration"
+  },
+  "sensor.humidite_chambre": {
+   "area_id": "chambre",
+   "entity_id": "sensor.humidite_chambre",
+   "hidden": false,
+   "labels": [],
+   "name": "Humidité chambre",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.humidite_salle_de_bain": {
+   "area_id": "salle_de_bain",
+   "entity_id": "sensor.humidite_salle_de_bain",
+   "hidden": false,
+   "labels": [],
+   "name": "Humidité salle de bain",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.humidite_salon": {
+   "area_id": "salon",
+   "entity_id": "sensor.humidite_salon",
+   "hidden": false,
+   "labels": [],
+   "name": "Humidité salon",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.outside_humidity": {
+   "device_id": "b0a1eb2511c52edc5eb0ec59f188163e",
+   "entity_id": "sensor.outside_humidity",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.outside_temperature": {
+   "device_id": "f2948c0bf0727f5f9205fabe972ea108",
+   "display_precision": 1,
+   "entity_id": "sensor.outside_temperature",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.outside_temperature_battery": {
+   "device_id": "f2948c0bf0727f5f9205fabe972ea108",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.outside_temperature_battery",
+   "hidden": true,
+   "labels": [],
+   "name": "Battery",
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.pile_du_capteur_de_fenetre": {
+   "area_id": "chambre",
+   "entity_id": "sensor.pile_du_capteur_de_fenetre",
+   "hidden": false,
+   "labels": [],
+   "name": "Pile du capteur de fenêtre",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.pile_du_capteur_de_porte": {
+   "area_id": "entree",
+   "entity_id": "sensor.pile_du_capteur_de_porte",
+   "hidden": false,
+   "labels": [],
+   "name": "Pile du capteur de porte",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.pile_du_detecteur_de_fuite": {
+   "area_id": "salle_de_bain",
+   "entity_id": "sensor.pile_du_detecteur_de_fuite",
+   "hidden": false,
+   "labels": [],
+   "name": "Pile du détecteur de fuite",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.power_consumption": {
+   "device_id": "5e5d502eca7d917f810dd4d0a307b7f2",
+   "display_precision": 0,
+   "entity_id": "sensor.power_consumption",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.puissance_du_lave_linge": {
+   "area_id": "salle_de_bain",
+   "display_precision": 0,
+   "entity_id": "sensor.puissance_du_lave_linge",
+   "hidden": false,
+   "labels": [],
+   "name": "Puissance du lave-linge",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.sun_next_dawn": {
+   "device_id": "959f84a128870bf81fcf25ee64ec8b77",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_dawn",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochaine aube",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_dawn"
+  },
+  "sensor.sun_next_dusk": {
+   "device_id": "959f84a128870bf81fcf25ee64ec8b77",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_dusk",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain crépuscule",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_dusk"
+  },
+  "sensor.sun_next_midnight": {
+   "device_id": "959f84a128870bf81fcf25ee64ec8b77",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_midnight",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain minuit",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_midnight"
+  },
+  "sensor.sun_next_noon": {
+   "device_id": "959f84a128870bf81fcf25ee64ec8b77",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_noon",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain midi",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_noon"
+  },
+  "sensor.sun_next_rising": {
+   "device_id": "959f84a128870bf81fcf25ee64ec8b77",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_rising",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain lever",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_rising"
+  },
+  "sensor.sun_next_setting": {
+   "device_id": "959f84a128870bf81fcf25ee64ec8b77",
+   "entity_category": "diagnostic",
+   "entity_id": "sensor.sun_next_setting",
+   "hidden": false,
+   "labels": [],
+   "name": "Prochain coucher",
+   "next_name_part": "device",
+   "platform": "sun",
+   "translation_key": "next_setting"
+  },
+  "sensor.temperature_bureau": {
+   "area_id": "bureau",
+   "display_precision": 1,
+   "entity_id": "sensor.temperature_bureau",
+   "hidden": false,
+   "labels": [],
+   "name": "Température bureau",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.temperature_chambre": {
+   "area_id": "chambre",
+   "display_precision": 1,
+   "entity_id": "sensor.temperature_chambre",
+   "hidden": false,
+   "labels": [],
+   "name": "Température chambre",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.temperature_chambre_des_enfants": {
+   "area_id": "chambre_des_enfants",
+   "display_precision": 1,
+   "entity_id": "sensor.temperature_chambre_des_enfants",
+   "hidden": false,
+   "labels": [],
+   "name": "Température chambre des enfants",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.temperature_cuisine": {
+   "area_id": "cuisine",
+   "display_precision": 1,
+   "entity_id": "sensor.temperature_cuisine",
+   "hidden": false,
+   "labels": [],
+   "name": "Température cuisine",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.temperature_entree": {
+   "area_id": "entree",
+   "display_precision": 1,
+   "entity_id": "sensor.temperature_entree",
+   "hidden": false,
+   "labels": [],
+   "name": "Température entrée",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.temperature_salle_de_bain": {
+   "area_id": "salle_de_bain",
+   "display_precision": 1,
+   "entity_id": "sensor.temperature_salle_de_bain",
+   "hidden": false,
+   "labels": [],
+   "name": "Température salle de bain",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.temperature_salon": {
+   "area_id": "salon",
+   "display_precision": 1,
+   "entity_id": "sensor.temperature_salon",
+   "hidden": false,
+   "labels": [],
+   "name": "Température salon",
+   "next_name_part": "area",
+   "platform": "template"
+  },
+  "sensor.thermostat": {
+   "device_id": "b2940415ae13de9e2f19da5726be510a",
+   "entity_id": "sensor.thermostat",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "thermostat_mode"
+  },
+  "sensor.total_energy_kwh": {
+   "device_id": "639dd4532205dacfd2aa03e985053c68",
+   "display_precision": 2,
+   "entity_id": "sensor.total_energy_kwh",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.total_energy_mwh": {
+   "device_id": "97f3bf649c56b35611748ae009c7a306",
+   "display_precision": 2,
+   "entity_id": "sensor.total_energy_mwh",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.total_gas_ft3": {
+   "device_id": "71cdb19055852b069c412f5d68ead51d",
+   "display_precision": 2,
+   "entity_id": "sensor.total_gas_ft3",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "sensor.total_gas_m3": {
+   "device_id": "37aec7927889b260a0c1bad680cfb869",
+   "display_precision": 2,
+   "entity_id": "sensor.total_gas_m3",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "switch.ac": {
+   "device_id": "6bdc0b3a1a06bf52f32c46c4a3a08610",
+   "entity_id": "switch.ac",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "air_conditioner"
+  },
+  "switch.decorative_lights": {
+   "device_id": "20c4b1258a6713db7be1f651c45c3b38",
+   "entity_id": "switch.decorative_lights",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "text.password": {
+   "device_id": "d5f45f5e4ee19a38852704e4f79a260c",
+   "entity_id": "text.password",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "text.text": {
+   "device_id": "b63e39b52045c19cd3a2e578c37e0b16",
+   "entity_id": "text.text",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "text.text_with_1_to_5_characters": {
+   "device_id": "1a84cbdb2646e87df019040f7716a886",
+   "entity_id": "text.text_with_1_to_5_characters",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "text.text_with_only_lower_case_characters": {
+   "device_id": "083d0412e98999fe5a2427f361b95a34",
+   "entity_id": "text.text_with_only_lower_case_characters",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "time.time": {
+   "device_id": "e25b5fdd0e290dec2f536d3e571818c6",
+   "entity_id": "time.time",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "todo.shopping_list": {
+   "entity_id": "todo.shopping_list",
+   "hidden": false,
+   "labels": [],
+   "name": "Shopping list",
+   "platform": "shopping_list",
+   "translation_key": "shopping_list"
+  },
+  "tts.google_translate_en_com": {
+   "device_id": "306804635fc951d33c82b313de3a8558",
+   "entity_id": "tts.google_translate_en_com",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "google_translate"
+  },
+  "update.demo_add_on": {
+   "device_id": "38211e3feb5a779c994c0fb902138cab",
+   "entity_category": "config",
+   "entity_id": "update.demo_add_on",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "update.demo_living_room_bulb_update": {
+   "device_id": "00a19399a7587f38a2b00982c9cb2e87",
+   "entity_category": "config",
+   "entity_id": "update.demo_living_room_bulb_update",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "update.demo_no_update": {
+   "device_id": "5ed85c0cdec1e774659277a0728bd389",
+   "entity_category": "config",
+   "entity_id": "update.demo_no_update",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "update.demo_update_no_install": {
+   "device_id": "00ea96170b4dea25e1f40567ebc18562",
+   "entity_category": "diagnostic",
+   "entity_id": "update.demo_update_no_install",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "update.demo_update_with_decimal_progress": {
+   "device_id": "07317eb88e8043e363dbc608279d6c93",
+   "entity_category": "config",
+   "entity_id": "update.demo_update_with_decimal_progress",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "update.demo_update_with_progress": {
+   "device_id": "52c01a3029029345d2421abb0803c27a",
+   "entity_category": "config",
+   "entity_id": "update.demo_update_with_progress",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "vacuum.demo_vacuum_0_ground_floor": {
+   "device_id": "b26098ef9148cb6f7549d63ebe0a4bd8",
+   "entity_id": "vacuum.demo_vacuum_0_ground_floor",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "model_s"
+  },
+  "vacuum.demo_vacuum_1_first_floor": {
+   "device_id": "f63b719b882106b872102cd46699529a",
+   "entity_id": "vacuum.demo_vacuum_1_first_floor",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "model_s"
+  },
+  "vacuum.demo_vacuum_2_second_floor": {
+   "device_id": "679312a7e80ad6754384b6f58faeca41",
+   "entity_id": "vacuum.demo_vacuum_2_second_floor",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "model_s"
+  },
+  "vacuum.demo_vacuum_3_third_floor": {
+   "device_id": "2c3d34f47bfbac309e6593baaf5b12e0",
+   "entity_id": "vacuum.demo_vacuum_3_third_floor",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "model_s"
+  },
+  "vacuum.demo_vacuum_4_fourth_floor": {
+   "device_id": "db334c22dcfc8e1e344c91f05b7b3c03",
+   "entity_id": "vacuum.demo_vacuum_4_fourth_floor",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo",
+   "translation_key": "model_s"
+  },
+  "valve.back_garden": {
+   "device_id": "5b083ee0e96f5a43827781ddb916802a",
+   "entity_id": "valve.back_garden",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "valve.front_garden": {
+   "device_id": "428fb47842ae77dc2254da1796c9eb1e",
+   "entity_id": "valve.front_garden",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "valve.orchard": {
+   "device_id": "c39228280200c26024c6ef48b287de03",
+   "entity_id": "valve.orchard",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "valve.trees": {
+   "device_id": "1755c38563b6711bcba207b4a1631dd4",
+   "entity_id": "valve.trees",
+   "hidden": true,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "demo"
+  },
+  "water_heater.demo_water_heater": {
+   "entity_id": "water_heater.demo_water_heater",
+   "hidden": true,
+   "labels": [],
+   "name": "Demo Water Heater",
+   "platform": "demo"
+  },
+  "water_heater.demo_water_heater_celsius": {
+   "area_id": "salle_de_bain",
+   "entity_id": "water_heater.demo_water_heater_celsius",
+   "hidden": false,
+   "labels": [],
+   "name": "Chauffe-eau",
+   "next_name_part": "area",
+   "platform": "demo"
+  },
+  "weather.demo_weather_north": {
+   "entity_id": "weather.demo_weather_north",
+   "hidden": true,
+   "labels": [],
+   "name": "Demo Weather North",
+   "platform": "demo"
+  },
+  "weather.demo_weather_south": {
+   "entity_id": "weather.demo_weather_south",
+   "hidden": true,
+   "labels": [],
+   "name": "Demo Weather South",
+   "platform": "demo"
+  },
+  "weather.maison_d_essai": {
+   "device_id": "728dce97ca76cb5e86e7851222641f0e",
+   "entity_id": "weather.maison_d_essai",
+   "hidden": false,
+   "labels": [],
+   "next_name_part": "device",
+   "platform": "met"
+  }
+ },
+ "floors": {},
+ "states": {
+  "air_quality.demo_air_quality_home": {
+   "attributes": {
+    "attribution": "Powered by Home Assistant",
+    "friendly_name": "Demo Air Quality Home",
+    "nitrogen_oxide": 100,
+    "particulate_matter_10": 23,
+    "particulate_matter_2_5": 14,
+    "unit_of_measurement": "μg/m³"
+   },
+   "entity_id": "air_quality.demo_air_quality_home",
+   "state": "14"
+  },
+  "air_quality.demo_air_quality_office": {
+   "attributes": {
+    "attribution": "Powered by Home Assistant",
+    "friendly_name": "Demo Air Quality Office",
+    "particulate_matter_10": 16,
+    "particulate_matter_2_5": 4,
+    "unit_of_measurement": "μg/m³"
+   },
+   "entity_id": "air_quality.demo_air_quality_office",
+   "state": "4"
+  },
+  "alarm_control_panel.security": {
+   "attributes": {
+    "changed_by": null,
+    "code_arm_required": true,
+    "code_format": "number",
+    "friendly_name": "Alarme",
+    "next_state": null,
+    "previous_state": null,
+    "supported_features": 63
+   },
+   "entity_id": "alarm_control_panel.security",
+   "state": "disarmed"
+  },
+  "binary_sensor.basement_floor_wet": {
+   "attributes": {
+    "device_class": "moisture",
+    "friendly_name": "Fuite sous l'évier"
+   },
+   "entity_id": "binary_sensor.basement_floor_wet",
+   "state": "off"
+  },
+  "binary_sensor.detecteur_de_fumee": {
+   "attributes": {
+    "device_class": "smoke",
+    "friendly_name": "Détecteur de fumée"
+   },
+   "entity_id": "binary_sensor.detecteur_de_fumee",
+   "state": "off"
+  },
+  "binary_sensor.fenetre_de_la_chambre": {
+   "attributes": {
+    "device_class": "window",
+    "friendly_name": "Fenêtre de la chambre"
+   },
+   "entity_id": "binary_sensor.fenetre_de_la_chambre",
+   "state": "on"
+  },
+  "binary_sensor.fenetre_du_salon": {
+   "attributes": {
+    "device_class": "window",
+    "friendly_name": "Fenêtre du salon"
+   },
+   "entity_id": "binary_sensor.fenetre_du_salon",
+   "state": "off"
+  },
+  "binary_sensor.fuite_dans_la_salle_de_bain": {
+   "attributes": {
+    "device_class": "moisture",
+    "friendly_name": "Fuite dans la salle de bain"
+   },
+   "entity_id": "binary_sensor.fuite_dans_la_salle_de_bain",
+   "state": "off"
+  },
+  "binary_sensor.movement_backyard": {
+   "attributes": {
+    "device_class": "motion",
+    "friendly_name": "Mouvement dans l'entrée"
+   },
+   "entity_id": "binary_sensor.movement_backyard",
+   "state": "on"
+  },
+  "binary_sensor.outside_temperature_battery_charging": {
+   "attributes": {
+    "device_class": "battery_charging",
+    "friendly_name": "Température extérieure Battery Charging"
+   },
+   "entity_id": "binary_sensor.outside_temperature_battery_charging",
+   "state": "off"
+  },
+  "binary_sensor.porte_d_entree": {
+   "attributes": {
+    "device_class": "door",
+    "friendly_name": "Porte d'entrée"
+   },
+   "entity_id": "binary_sensor.porte_d_entree",
+   "state": "off"
+  },
+  "binary_sensor.presence_dans_le_salon": {
+   "attributes": {
+    "device_class": "occupancy",
+    "friendly_name": "Présence dans le salon"
+   },
+   "entity_id": "binary_sensor.presence_dans_le_salon",
+   "state": "on"
+  },
+  "button.push": {
+   "attributes": {
+    "friendly_name": "Push"
+   },
+   "entity_id": "button.push",
+   "state": "unknown"
+  },
+  "calendar.calendar_1": {
+   "attributes": {
+    "all_day": false,
+    "description": "Future Description",
+    "end_time": "2026-11-15 22:19:42",
+    "friendly_name": "Calendar 1",
+    "location": "Future Location",
+    "message": "Future Event",
+    "start_time": "2026-11-15 21:19:42"
+   },
+   "entity_id": "calendar.calendar_1",
+   "state": "off"
+  },
+  "calendar.calendar_2": {
+   "attributes": {
+    "all_day": false,
+    "description": "",
+    "end_time": "2026-11-15 21:19:42",
+    "friendly_name": "Calendar 2",
+    "location": "",
+    "message": "Current Event",
+    "start_time": "2026-11-15 20:19:42"
+   },
+   "entity_id": "calendar.calendar_2",
+   "state": "on"
+  },
+  "camera.demo_camera": {
+   "attributes": {
+    "friendly_name": "Demo camera",
+    "supported_features": 3
+   },
+   "entity_id": "camera.demo_camera",
+   "state": "streaming"
+  },
+  "camera.demo_camera_png": {
+   "attributes": {
+    "friendly_name": "Demo camera png",
+    "supported_features": 3
+   },
+   "entity_id": "camera.demo_camera_png",
+   "state": "streaming"
+  },
+  "camera.demo_camera_without_stream": {
+   "attributes": {
+    "friendly_name": "Demo camera without stream",
+    "supported_features": 1
+   },
+   "entity_id": "camera.demo_camera_without_stream",
+   "state": "streaming"
+  },
+  "climate.ecobee": {
+   "attributes": {
+    "current_temperature": 23,
+    "fan_mode": "auto_low",
+    "fan_modes": [
+     "on_low",
+     "on_high",
+     "auto_low",
+     "auto_high",
+     "off"
+    ],
+    "friendly_name": "Radiateur des enfants",
+    "hvac_modes": [
+     "off",
+     "cool",
+     "heat_cool",
+     "auto",
+     "dry",
+     "fan_only"
+    ],
+    "max_temp": 35,
+    "min_temp": 7,
+    "preset_mode": "home",
+    "preset_modes": [
+     "home",
+     "eco",
+     "away"
+    ],
+    "supported_features": 442,
+    "swing_mode": "auto",
+    "swing_modes": [
+     "auto",
+     "1",
+     "2",
+     "3",
+     "off"
+    ],
+    "target_temp_high": 24,
+    "target_temp_low": 21,
+    "temperature_unit": "°C"
+   },
+   "entity_id": "climate.ecobee",
+   "state": "heat_cool"
+  },
+  "climate.heatpump": {
+   "attributes": {
+    "current_temperature": 25.0,
+    "friendly_name": "Radiateur du salon",
+    "hvac_action": "heating",
+    "hvac_modes": [
+     "heat",
+     "off"
+    ],
+    "max_temp": 35.0,
+    "min_temp": 7.0,
+    "supported_features": 385,
+    "temperature": 20.0,
+    "temperature_unit": "°C"
+   },
+   "entity_id": "climate.heatpump",
+   "state": "heat"
+  },
+  "climate.hvac": {
+   "attributes": {
+    "current_humidity": 54.2,
+    "current_temperature": 22,
+    "fan_mode": "on_high",
+    "fan_modes": [
+     "on_low",
+     "on_high",
+     "auto_low",
+     "auto_high",
+     "off"
+    ],
+    "friendly_name": "Climatisation",
+    "humidity": 67.4,
+    "hvac_action": "cooling",
+    "hvac_modes": [
+     "off",
+     "heat",
+     "cool",
+     "auto",
+     "dry",
+     "fan_only"
+    ],
+    "max_humidity": 99,
+    "max_temp": 35,
+    "min_humidity": 30,
+    "min_temp": 7,
+    "supported_features": 943,
+    "swing_horizontal_mode": "auto",
+    "swing_horizontal_modes": [
+     "auto",
+     "rangefull",
+     "off"
+    ],
+    "swing_mode": "off",
+    "swing_modes": [
+     "auto",
+     "1",
+     "2",
+     "3",
+     "off"
+    ],
+    "target_humidity_step": 5,
+    "target_temp_high": null,
+    "target_temp_low": null,
+    "temperature": 21,
+    "temperature_unit": "°C"
+   },
+   "entity_id": "climate.hvac",
+   "state": "cool"
+  },
+  "conversation.home_assistant": {
+   "attributes": {
+    "friendly_name": "Home Assistant",
+    "supported_features": 1
+   },
+   "entity_id": "conversation.home_assistant",
+   "state": "unknown"
+  },
+  "cover.garage_door": {
+   "attributes": {
+    "device_class": "garage",
+    "friendly_name": "Garage Door",
+    "is_closed": true,
+    "supported_features": 3
+   },
+   "entity_id": "cover.garage_door",
+   "state": "closed"
+  },
+  "cover.hall_window": {
+   "attributes": {
+    "current_position": 10,
+    "friendly_name": "Volet de la chambre",
+    "is_closed": false,
+    "supported_features": 15
+   },
+   "entity_id": "cover.hall_window",
+   "state": "open"
+  },
+  "cover.kitchen_window": {
+   "attributes": {
+    "friendly_name": "Volet de la cuisine",
+    "is_closed": true,
+    "supported_features": 11
+   },
+   "entity_id": "cover.kitchen_window",
+   "state": "closed"
+  },
+  "cover.living_room_window": {
+   "attributes": {
+    "current_position": 70,
+    "current_tilt_position": 50,
+    "friendly_name": "Volet du salon",
+    "is_closed": false,
+    "supported_features": 511,
+    "supported_speeds": [
+     "slow",
+     "fast"
+    ]
+   },
+   "entity_id": "cover.living_room_window",
+   "state": "open"
+  },
+  "cover.pergola_roof": {
+   "attributes": {
+    "current_tilt_position": 60,
+    "friendly_name": "Pergola Roof",
+    "is_closed": true,
+    "supported_features": 240
+   },
+   "entity_id": "cover.pergola_roof",
+   "state": "closed"
+  },
+  "date.date": {
+   "attributes": {
+    "friendly_name": "Date",
+    "icon": "mdi:calendar"
+   },
+   "entity_id": "date.date",
+   "state": "2020-01-01"
+  },
+  "datetime.date_and_time": {
+   "attributes": {
+    "friendly_name": "Date and Time",
+    "icon": "mdi:calendar-clock"
+   },
+   "entity_id": "datetime.date_and_time",
+   "state": "2020-01-01T12:00:00+00:00"
+  },
+  "device_tracker.demo_anne_therese": {
+   "attributes": {
+    "battery": 37,
+    "friendly_name": "Anne Therese",
+    "gps_accuracy": 134,
+    "latitude": 43.306380000000004,
+    "longitude": 5.3729,
+    "source_type": "gps"
+   },
+   "entity_id": "device_tracker.demo_anne_therese",
+   "state": "not_home"
+  },
+  "device_tracker.demo_home_boy": {
+   "attributes": {
+    "battery": 53,
+    "friendly_name": "Home Boy",
+    "gps_accuracy": 20,
+    "latitude": 43.29648,
+    "longitude": 5.36982,
+    "source_type": "gps"
+   },
+   "entity_id": "device_tracker.demo_home_boy",
+   "state": "home"
+  },
+  "device_tracker.demo_paulus": {
+   "attributes": {
+    "battery": 55,
+    "friendly_name": "Paulus",
+    "gps_accuracy": 63,
+    "latitude": 43.28756,
+    "longitude": 5.3774,
+    "source_type": "gps"
+   },
+   "entity_id": "device_tracker.demo_paulus",
+   "state": "not_home"
+  },
+  "event.backup_automatic_backup": {
+   "attributes": {
+    "event_type": null,
+    "event_types": [
+     "completed",
+     "failed",
+     "in_progress"
+    ],
+    "friendly_name": "Backup Sauvegarde automatique"
+   },
+   "entity_id": "event.backup_automatic_backup",
+   "state": "unknown"
+  },
+  "event.push_button_press": {
+   "attributes": {
+    "device_class": "button",
+    "event_type": null,
+    "event_types": [
+     "pressed"
+    ],
+    "friendly_name": "Push Button press"
+   },
+   "entity_id": "event.push_button_press",
+   "state": "unknown"
+  },
+  "fan.ceiling_fan": {
+   "attributes": {
+    "friendly_name": "Ceiling Fan",
+    "percentage": null,
+    "percentage_step": 33.333333333333336,
+    "preset_mode": null,
+    "preset_modes": null,
+    "supported_features": 49
+   },
+   "entity_id": "fan.ceiling_fan",
+   "state": "off"
+  },
+  "fan.living_room_fan": {
+   "attributes": {
+    "direction": "forward",
+    "friendly_name": "Ventilateur",
+    "oscillating": false,
+    "percentage": null,
+    "percentage_step": 33.333333333333336,
+    "preset_mode": null,
+    "preset_modes": [
+     "auto",
+     "smart",
+     "sleep",
+     "on"
+    ],
+    "supported_features": 55
+   },
+   "entity_id": "fan.living_room_fan",
+   "state": "off"
+  },
+  "fan.percentage_full_fan": {
+   "attributes": {
+    "direction": "forward",
+    "friendly_name": "Percentage Full Fan",
+    "oscillating": false,
+    "percentage": null,
+    "percentage_step": 33.333333333333336,
+    "preset_mode": null,
+    "preset_modes": [
+     "auto",
+     "smart",
+     "sleep",
+     "on"
+    ],
+    "supported_features": 55
+   },
+   "entity_id": "fan.percentage_full_fan",
+   "state": "off"
+  },
+  "fan.percentage_limited_fan": {
+   "attributes": {
+    "friendly_name": "Percentage Limited Fan",
+    "percentage": null,
+    "percentage_step": 33.333333333333336,
+    "preset_mode": null,
+    "preset_modes": [
+     "auto",
+     "smart",
+     "sleep",
+     "on"
+    ],
+    "supported_features": 49
+   },
+   "entity_id": "fan.percentage_limited_fan",
+   "state": "off"
+  },
+  "fan.preset_only_limited_fan": {
+   "attributes": {
+    "friendly_name": "Preset Only Limited Fan",
+    "preset_mode": null,
+    "preset_modes": [
+     "auto",
+     "smart",
+     "sleep",
+     "on"
+    ],
+    "supported_features": 56
+   },
+   "entity_id": "fan.preset_only_limited_fan",
+   "state": "off"
+  },
+  "geo_location.cyclone": {
+   "attributes": {
+    "friendly_name": "Cyclone",
+    "icon": "mdi:weather-tornado",
+    "latitude": 43.20894,
+    "longitude": 5.61147,
+    "source": "demo",
+    "unit_of_measurement": "km"
+   },
+   "entity_id": "geo_location.cyclone",
+   "state": "21.8"
+  },
+  "geo_location.waterspout": {
+   "attributes": {
+    "friendly_name": "Waterspout",
+    "icon": "mdi:weather-tornado",
+    "latitude": 42.96987,
+    "longitude": 5.33936,
+    "source": "demo",
+    "unit_of_measurement": "km"
+   },
+   "entity_id": "geo_location.waterspout",
+   "state": "36.3"
+  },
+  "humidifier.dehumidifier": {
+   "attributes": {
+    "action": "drying",
+    "current_humidity": 59.4,
+    "device_class": "dehumidifier",
+    "friendly_name": "Dehumidifier",
+    "humidity": 54.2,
+    "max_humidity": 100,
+    "min_humidity": 0,
+    "supported_features": 0
+   },
+   "entity_id": "humidifier.dehumidifier",
+   "state": "on"
+  },
+  "humidifier.humidifier": {
+   "attributes": {
+    "action": "humidifying",
+    "current_humidity": 45,
+    "device_class": "humidifier",
+    "friendly_name": "Humidifier",
+    "humidity": 65,
+    "max_humidity": 100,
+    "min_humidity": 0,
+    "supported_features": 0,
+    "target_humidity_step": 5
+   },
+   "entity_id": "humidifier.humidifier",
+   "state": "on"
+  },
+  "humidifier.hygrostat": {
+   "attributes": {
+    "available_modes": [
+     "home",
+     "eco"
+    ],
+    "friendly_name": "Hygrostat",
+    "humidity": 50,
+    "max_humidity": 100,
+    "min_humidity": 0,
+    "mode": "home",
+    "supported_features": 1
+   },
+   "entity_id": "humidifier.hygrostat",
+   "state": "on"
+  },
+  "image_processing.demo_face": {
+   "attributes": {
+    "device_class": "face",
+    "faces": [
+     {
+      "age": 16.0,
+      "confidence": 98.34,
+      "entity_id": "image_processing.demo_face",
+      "gender": "male",
+      "name": "Hans"
+     },
+     {
+      "age": 28.0,
+      "entity_id": "image_processing.demo_face",
+      "gender": "female",
+      "name": "Helena"
+     },
+     {
+      "confidence": 62.53,
+      "name": "Luna"
+     }
+    ],
+    "friendly_name": "Demo Face",
+    "total_faces": 4
+   },
+   "entity_id": "image_processing.demo_face",
+   "state": "Hans"
+  },
+  "lawn_mower.my_lawn_mower": {
+   "attributes": {
+    "friendly_name": "My Lawn Mower",
+    "supported_features": 15
+   },
+   "entity_id": "lawn_mower.my_lawn_mower",
+   "state": "docked"
+  },
+  "light.bed_light": {
+   "attributes": {
+    "brightness": null,
+    "color_mode": null,
+    "color_temp_kelvin": null,
+    "effect": null,
+    "effect_list": [
+     "rainbow",
+     "off"
+    ],
+    "friendly_name": "Lampe de chevet",
+    "hs_color": null,
+    "max_color_temp_kelvin": 6535,
+    "min_color_temp_kelvin": 2000,
+    "rgb_color": null,
+    "supported_color_modes": [
+     "color_temp",
+     "hs"
+    ],
+    "supported_features": 4,
+    "xy_color": null
+   },
+   "entity_id": "light.bed_light",
+   "state": "off"
+  },
+  "light.ceiling_lights": {
+   "attributes": {
+    "brightness": 180,
+    "color_mode": "color_temp",
+    "color_temp_kelvin": 2631,
+    "friendly_name": "Plafonnier du salon",
+    "hs_color": [
+     28.55,
+     67.974
+    ],
+    "max_color_temp_kelvin": 6535,
+    "min_color_temp_kelvin": 2000,
+    "rgb_color": [
+     255,
+     164,
+     82
+    ],
+    "supported_color_modes": [
+     "color_temp",
+     "hs"
+    ],
+    "supported_features": 0,
+    "xy_color": [
+     0.532,
+     0.388
+    ]
+   },
+   "entity_id": "light.ceiling_lights",
+   "state": "on"
+  },
+  "light.entrance_color_white_lights": {
+   "attributes": {
+    "brightness": 180,
+    "color_mode": "hs",
+    "friendly_name": "Plafonnier de l'entrée",
+    "hs_color": [
+     345,
+     75
+    ],
+    "rgb_color": [
+     255,
+     64,
+     112
+    ],
+    "supported_color_modes": [
+     "hs",
+     "white"
+    ],
+    "supported_features": 0,
+    "xy_color": [
+     0.588,
+     0.274
+    ]
+   },
+   "entity_id": "light.entrance_color_white_lights",
+   "state": "on"
+  },
+  "light.kitchen_lights": {
+   "attributes": {
+    "brightness": 180,
+    "color_mode": "hs",
+    "color_temp_kelvin": null,
+    "friendly_name": "Réglette du plan de travail",
+    "hs_color": [
+     345,
+     75
+    ],
+    "max_color_temp_kelvin": 6535,
+    "min_color_temp_kelvin": 2000,
+    "rgb_color": [
+     255,
+     64,
+     112
+    ],
+    "supported_color_modes": [
+     "color_temp",
+     "hs"
+    ],
+    "supported_features": 0,
+    "xy_color": [
+     0.588,
+     0.274
+    ]
+   },
+   "entity_id": "light.kitchen_lights",
+   "state": "on"
+  },
+  "light.living_room_rgbww_lights": {
+   "attributes": {
+    "brightness": 180,
+    "color_mode": "rgbww",
+    "friendly_name": "Lampadaire",
+    "hs_color": [
+     0.923,
+     50.98
+    ],
+    "rgb_color": [
+     255,
+     127,
+     125
+    ],
+    "rgbww_color": [
+     255,
+     0,
+     0,
+     255,
+     0
+    ],
+    "supported_color_modes": [
+     "rgbww"
+    ],
+    "supported_features": 0,
+    "xy_color": [
+     0.528,
+     0.315
+    ]
+   },
+   "entity_id": "light.living_room_rgbww_lights",
+   "state": "on"
+  },
+  "light.office_rgbw_lights": {
+   "attributes": {
+    "brightness": 180,
+    "color_mode": "rgbw",
+    "friendly_name": "Lampe de bureau",
+    "hs_color": [
+     0.0,
+     49.804
+    ],
+    "rgb_color": [
+     255,
+     128,
+     128
+    ],
+    "rgbw_color": [
+     255,
+     0,
+     0,
+     255
+    ],
+    "supported_color_modes": [
+     "rgbw"
+    ],
+    "supported_features": 0,
+    "xy_color": [
+     0.524,
+     0.313
+    ]
+   },
+   "entity_id": "light.office_rgbw_lights",
+   "state": "on"
+  },
+  "lock.front_door": {
+   "attributes": {
+    "friendly_name": "Front Door",
+    "supported_features": 0
+   },
+   "entity_id": "lock.front_door",
+   "state": "locked"
+  },
+  "lock.kitchen_door": {
+   "attributes": {
+    "friendly_name": "Kitchen Door",
+    "supported_features": 0
+   },
+   "entity_id": "lock.kitchen_door",
+   "state": "unlocked"
+  },
+  "lock.openable_lock": {
+   "attributes": {
+    "friendly_name": "Openable Lock",
+    "supported_features": 1
+   },
+   "entity_id": "lock.openable_lock",
+   "state": "locked"
+  },
+  "lock.poorly_installed_door": {
+   "attributes": {
+    "friendly_name": "Poorly Installed Door",
+    "supported_features": 0
+   },
+   "entity_id": "lock.poorly_installed_door",
+   "state": "unlocked"
+  },
+  "media_player.bedroom": {
+   "attributes": {
+    "app_name": "YouTube",
+    "friendly_name": "Bedroom",
+    "is_volume_muted": false,
+    "media_content_id": "kxopViU98Xo",
+    "media_content_type": "movie",
+    "media_duration": 360000,
+    "media_position": 54000,
+    "media_position_updated_at": "2026-11-15T19:49:42.823642+00:00",
+    "media_title": "Epic sax guy 10 hours",
+    "shuffle": false,
+    "sound_mode": "Music",
+    "sound_mode_list": [
+     "Music",
+     "Movie"
+    ],
+    "supported_features": 119695,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.bedroom",
+   "state": "playing"
+  },
+  "media_player.browse": {
+   "attributes": {
+    "friendly_name": "Browse",
+    "is_volume_muted": false,
+    "shuffle": false,
+    "sound_mode": "Music",
+    "supported_features": 4325376,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.browse",
+   "state": "playing"
+  },
+  "media_player.group": {
+   "attributes": {
+    "friendly_name": "Group",
+    "group_members": null,
+    "is_volume_muted": false,
+    "shuffle": false,
+    "sound_mode": "Music",
+    "sound_mode_list": [
+     "Music",
+     "Movie"
+    ],
+    "supported_features": 643983,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.group",
+   "state": "playing"
+  },
+  "media_player.kitchen": {
+   "attributes": {
+    "friendly_name": "Kitchen",
+    "group_members": [],
+    "is_volume_muted": false,
+    "media_album_name": "Bounzz",
+    "media_artist": "Technohead",
+    "media_content_id": "bounzz-1",
+    "media_content_type": "music",
+    "media_duration": 213,
+    "media_title": "I Wanna Be A Hippy (Flamman & Abraxas Radio Mix)",
+    "media_track": 1,
+    "repeat": "off",
+    "shuffle": false,
+    "sound_mode": "Music",
+    "sound_mode_list": [
+     "Music",
+     "Movie"
+    ],
+    "supported_features": 914877,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.kitchen",
+   "state": "playing"
+  },
+  "media_player.living_room": {
+   "attributes": {
+    "app_name": "YouTube",
+    "friendly_name": "Living Room",
+    "is_volume_muted": false,
+    "media_content_id": "eyU3bRy2x44",
+    "media_content_type": "movie",
+    "media_duration": 300,
+    "media_position": 45,
+    "media_position_updated_at": "2026-11-15T19:49:42.823638+00:00",
+    "media_title": "♥♥ The Best Fireplace Video (3 hours)",
+    "shuffle": false,
+    "sound_mode": "Music",
+    "sound_mode_list": [
+     "Music",
+     "Movie"
+    ],
+    "supported_features": 119695,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.living_room",
+   "state": "playing"
+  },
+  "media_player.lounge_room": {
+   "attributes": {
+    "app_name": "Netflix",
+    "device_class": "tv",
+    "friendly_name": "Lounge room",
+    "is_volume_muted": false,
+    "media_content_id": "house-of-cards-1",
+    "media_content_type": "tvshow",
+    "media_duration": 3600,
+    "media_episode": "1",
+    "media_season": "1",
+    "media_series_title": "House of Cards",
+    "media_title": "Chapter 1",
+    "shuffle": false,
+    "sound_mode": "Music",
+    "sound_mode_list": [
+     "Music",
+     "Movie"
+    ],
+    "source": "dvd",
+    "source_list": [
+     "dvd",
+     "youtube"
+    ],
+    "supported_features": 121265,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.lounge_room",
+   "state": "playing"
+  },
+  "media_player.search": {
+   "attributes": {
+    "friendly_name": "Search",
+    "is_volume_muted": false,
+    "shuffle": false,
+    "sound_mode": "Music",
+    "supported_features": 4194304,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.search",
+   "state": "playing"
+  },
+  "media_player.walkman": {
+   "attributes": {
+    "friendly_name": "Walkman",
+    "group_members": [],
+    "is_volume_muted": false,
+    "media_album_name": "Bounzz",
+    "media_artist": "Technohead",
+    "media_content_id": "bounzz-1",
+    "media_content_type": "music",
+    "media_duration": 213,
+    "media_title": "I Wanna Be A Hippy (Flamman & Abraxas Radio Mix)",
+    "media_track": 1,
+    "repeat": "off",
+    "shuffle": false,
+    "sound_mode": "Music",
+    "sound_mode_list": [
+     "Music",
+     "Movie"
+    ],
+    "supported_features": 914877,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.walkman",
+   "state": "playing"
+  },
+  "notify.notifier": {
+   "attributes": {
+    "friendly_name": "Notifier",
+    "supported_features": 1
+   },
+   "entity_id": "notify.notifier",
+   "state": "unknown"
+  },
+  "number.large_range": {
+   "attributes": {
+    "friendly_name": "Large Range",
+    "max": 1000,
+    "min": 1,
+    "mode": "auto",
+    "step": 1
+   },
+   "entity_id": "number.large_range",
+   "state": "500"
+  },
+  "number.pwm_1": {
+   "attributes": {
+    "friendly_name": "PWM 1",
+    "max": 1.0,
+    "min": 0.0,
+    "mode": "box",
+    "step": 0.01
+   },
+   "entity_id": "number.pwm_1",
+   "state": "0.42"
+  },
+  "number.small_range": {
+   "attributes": {
+    "friendly_name": "Small Range",
+    "max": 255,
+    "min": 1,
+    "mode": "auto",
+    "step": 1
+   },
+   "entity_id": "number.small_range",
+   "state": "128"
+  },
+  "number.temperature_setting": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Temperature setting",
+    "max": 35.0,
+    "min": 15.0,
+    "mode": "box",
+    "step": 1,
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "number.temperature_setting",
+   "state": "22"
+  },
+  "number.volume": {
+   "attributes": {
+    "friendly_name": "volume",
+    "max": 100.0,
+    "min": 0.0,
+    "mode": "slider",
+    "step": 1.0
+   },
+   "entity_id": "number.volume",
+   "state": "42.0"
+  },
+  "person.antonin_essai": {
+   "attributes": {
+    "device_trackers": [],
+    "editable": true,
+    "friendly_name": "Antonin (essai)",
+    "id": "antonin_essai",
+    "in_zones": [],
+    "user_id": "a4472fec4ebf4631b23bff8e949b9492"
+   },
+   "entity_id": "person.antonin_essai",
+   "state": "unknown"
+  },
+  "remote.remote_one": {
+   "attributes": {
+    "friendly_name": "Remote One",
+    "supported_features": 0
+   },
+   "entity_id": "remote.remote_one",
+   "state": "off"
+  },
+  "remote.remote_two": {
+   "attributes": {
+    "friendly_name": "Remote Two",
+    "supported_features": 0
+   },
+   "entity_id": "remote.remote_two",
+   "state": "on"
+  },
+  "select.speed": {
+   "attributes": {
+    "friendly_name": "Speed",
+    "options": [
+     "light_speed",
+     "ridiculous_speed",
+     "ludicrous_speed"
+    ]
+   },
+   "entity_id": "select.speed",
+   "state": "ridiculous_speed"
+  },
+  "sensor.backup_backup_manager_state": {
+   "attributes": {
+    "device_class": "enum",
+    "friendly_name": "Backup État du gestionnaire de sauvegarde",
+    "options": [
+     "idle",
+     "create_backup",
+     "blocked",
+     "receive_backup",
+     "restore_backup"
+    ]
+   },
+   "entity_id": "sensor.backup_backup_manager_state",
+   "state": "idle"
+  },
+  "sensor.backup_last_attempted_automatic_backup": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Backup Dernière tentative de sauvegarde automatique"
+   },
+   "entity_id": "sensor.backup_last_attempted_automatic_backup",
+   "state": "unknown"
+  },
+  "sensor.backup_last_successful_automatic_backup": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Backup Dernière sauvegarde automatique réussie"
+   },
+   "entity_id": "sensor.backup_last_successful_automatic_backup",
+   "state": "unknown"
+  },
+  "sensor.backup_last_successful_automatic_backup_size": {
+   "attributes": {
+    "device_class": "data_size",
+    "friendly_name": "Backup Last successful automatic backup size",
+    "state_class": "measurement",
+    "unit_of_measurement": "MiB"
+   },
+   "entity_id": "sensor.backup_last_successful_automatic_backup_size",
+   "state": "unknown"
+  },
+  "sensor.backup_next_scheduled_automatic_backup": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Backup Prochaine sauvegarde automatique programmée"
+   },
+   "entity_id": "sensor.backup_next_scheduled_automatic_backup",
+   "state": "unknown"
+  },
+  "sensor.carbon_dioxide": {
+   "attributes": {
+    "device_class": "carbon_dioxide",
+    "friendly_name": "Qualité de l'air",
+    "state_class": "measurement",
+    "unit_of_measurement": "ppm"
+   },
+   "entity_id": "sensor.carbon_dioxide",
+   "state": "54"
+  },
+  "sensor.carbon_dioxide_battery": {
+   "attributes": {
+    "device_class": "battery",
+    "friendly_name": "Qualité de l'air Battery",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.carbon_dioxide_battery",
+   "state": "99"
+  },
+  "sensor.carbon_monoxide": {
+   "attributes": {
+    "device_class": "carbon_monoxide",
+    "friendly_name": "Carbon monoxide",
+    "state_class": "measurement",
+    "unit_of_measurement": "ppm"
+   },
+   "entity_id": "sensor.carbon_monoxide",
+   "state": "54"
+  },
+  "sensor.consommation_de_la_maison": {
+   "attributes": {
+    "device_class": "power",
+    "friendly_name": "Consommation de la maison",
+    "state_class": "measurement",
+    "unit_of_measurement": "W"
+   },
+   "entity_id": "sensor.consommation_de_la_maison",
+   "state": "650"
+  },
+  "sensor.energie_de_la_maison": {
+   "attributes": {
+    "device_class": "energy",
+    "friendly_name": "Énergie de la maison",
+    "source": "sensor.consommation_de_la_maison",
+    "state_class": "total",
+    "unit_of_measurement": "kWh"
+   },
+   "entity_id": "sensor.energie_de_la_maison",
+   "state": "0.137"
+  },
+  "sensor.humidite_chambre": {
+   "attributes": {
+    "device_class": "humidity",
+    "friendly_name": "Humidité chambre",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.humidite_chambre",
+   "state": "53"
+  },
+  "sensor.humidite_salle_de_bain": {
+   "attributes": {
+    "device_class": "humidity",
+    "friendly_name": "Humidité salle de bain",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.humidite_salle_de_bain",
+   "state": "64"
+  },
+  "sensor.humidite_salon": {
+   "attributes": {
+    "device_class": "humidity",
+    "friendly_name": "Humidité salon",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.humidite_salon",
+   "state": "45"
+  },
+  "sensor.outside_humidity": {
+   "attributes": {
+    "device_class": "humidity",
+    "friendly_name": "Outside Humidity",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.outside_humidity",
+   "state": "54"
+  },
+  "sensor.outside_temperature": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température extérieure",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.outside_temperature",
+   "state": "15.6"
+  },
+  "sensor.outside_temperature_battery": {
+   "attributes": {
+    "device_class": "battery",
+    "friendly_name": "Température extérieure Battery",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.outside_temperature_battery",
+   "state": "12"
+  },
+  "sensor.pile_du_capteur_de_fenetre": {
+   "attributes": {
+    "device_class": "battery",
+    "friendly_name": "Pile du capteur de fenêtre",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.pile_du_capteur_de_fenetre",
+   "state": "14.0"
+  },
+  "sensor.pile_du_capteur_de_porte": {
+   "attributes": {
+    "device_class": "battery",
+    "friendly_name": "Pile du capteur de porte",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.pile_du_capteur_de_porte",
+   "state": "64.0"
+  },
+  "sensor.pile_du_detecteur_de_fuite": {
+   "attributes": {
+    "device_class": "battery",
+    "friendly_name": "Pile du détecteur de fuite",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.pile_du_detecteur_de_fuite",
+   "state": "82.0"
+  },
+  "sensor.power_consumption": {
+   "attributes": {
+    "device_class": "power",
+    "friendly_name": "Power consumption",
+    "state_class": "measurement",
+    "unit_of_measurement": "W"
+   },
+   "entity_id": "sensor.power_consumption",
+   "state": "100"
+  },
+  "sensor.puissance_du_lave_linge": {
+   "attributes": {
+    "device_class": "power",
+    "friendly_name": "Puissance du lave-linge",
+    "state_class": "measurement",
+    "unit_of_measurement": "W"
+   },
+   "entity_id": "sensor.puissance_du_lave_linge",
+   "state": "180"
+  },
+  "sensor.sun_next_dawn": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochaine aube"
+   },
+   "entity_id": "sensor.sun_next_dawn",
+   "state": "2026-11-16T06:00:56+00:00"
+  },
+  "sensor.sun_next_dusk": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain crépuscule"
+   },
+   "entity_id": "sensor.sun_next_dusk",
+   "state": "2026-11-16T16:45:06+00:00"
+  },
+  "sensor.sun_next_midnight": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain minuit"
+   },
+   "entity_id": "sensor.sun_next_midnight",
+   "state": "2026-11-15T23:23:16+00:00"
+  },
+  "sensor.sun_next_noon": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain midi"
+   },
+   "entity_id": "sensor.sun_next_noon",
+   "state": "2026-11-16T11:23:09+00:00"
+  },
+  "sensor.sun_next_rising": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain lever"
+   },
+   "entity_id": "sensor.sun_next_rising",
+   "state": "2026-11-16T06:32:13+00:00"
+  },
+  "sensor.sun_next_setting": {
+   "attributes": {
+    "device_class": "timestamp",
+    "friendly_name": "Sun Prochain coucher"
+   },
+   "entity_id": "sensor.sun_next_setting",
+   "state": "2026-11-16T16:13:50+00:00"
+  },
+  "sensor.temperature_bureau": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température bureau",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.temperature_bureau",
+   "state": "19.7"
+  },
+  "sensor.temperature_chambre": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température chambre",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.temperature_chambre",
+   "state": "18.8"
+  },
+  "sensor.temperature_chambre_des_enfants": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température chambre des enfants",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.temperature_chambre_des_enfants",
+   "state": "19.8"
+  },
+  "sensor.temperature_cuisine": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température cuisine",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.temperature_cuisine",
+   "state": "21.2"
+  },
+  "sensor.temperature_entree": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température entrée",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.temperature_entree",
+   "state": "19.3"
+  },
+  "sensor.temperature_salle_de_bain": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température salle de bain",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.temperature_salle_de_bain",
+   "state": "22.2"
+  },
+  "sensor.temperature_salon": {
+   "attributes": {
+    "device_class": "temperature",
+    "friendly_name": "Température salon",
+    "state_class": "measurement",
+    "unit_of_measurement": "°C"
+   },
+   "entity_id": "sensor.temperature_salon",
+   "state": "20.4"
+  },
+  "sensor.thermostat": {
+   "attributes": {
+    "device_class": "enum",
+    "friendly_name": "Thermostat",
+    "options": [
+     "away",
+     "comfort",
+     "eco",
+     "sleep"
+    ]
+   },
+   "entity_id": "sensor.thermostat",
+   "state": "eco"
+  },
+  "sensor.total_energy_kwh": {
+   "attributes": {
+    "device_class": "energy",
+    "friendly_name": "Énergie consommée",
+    "state_class": "total",
+    "unit_of_measurement": "kWh"
+   },
+   "entity_id": "sensor.total_energy_kwh",
+   "state": "13.0"
+  },
+  "sensor.total_energy_mwh": {
+   "attributes": {
+    "device_class": "energy",
+    "friendly_name": "Total energy 2",
+    "state_class": "total",
+    "unit_of_measurement": "MWh"
+   },
+   "entity_id": "sensor.total_energy_mwh",
+   "state": "0.0065"
+  },
+  "sensor.total_gas_ft3": {
+   "attributes": {
+    "device_class": "gas",
+    "friendly_name": "Total gas 2",
+    "state_class": "total",
+    "unit_of_measurement": "m³"
+   },
+   "entity_id": "sensor.total_gas_ft3",
+   "state": "0.736238011392"
+  },
+  "sensor.total_gas_m3": {
+   "attributes": {
+    "device_class": "gas",
+    "friendly_name": "Total gas 1",
+    "state_class": "total",
+    "unit_of_measurement": "m³"
+   },
+   "entity_id": "sensor.total_gas_m3",
+   "state": "0.65"
+  },
+  "siren.siren": {
+   "attributes": {
+    "friendly_name": "Siren",
+    "supported_features": 3
+   },
+   "entity_id": "siren.siren",
+   "state": "on"
+  },
+  "siren.siren_with_all_features": {
+   "attributes": {
+    "available_tones": [
+     "fire",
+     "alarm"
+    ],
+    "friendly_name": "Siren with all features",
+    "supported_features": 31
+   },
+   "entity_id": "siren.siren_with_all_features",
+   "state": "on"
+  },
+  "stt.demo_stt": {
+   "attributes": {
+    "friendly_name": "Demo STT"
+   },
+   "entity_id": "stt.demo_stt",
+   "state": "unknown"
+  },
+  "sun.sun": {
+   "attributes": {
+    "azimuth": 281.54,
+    "elevation": -39.1,
+    "friendly_name": "Sun",
+    "next_dawn": "2026-11-16T06:00:56.626550+00:00",
+    "next_dusk": "2026-11-16T16:45:06.405134+00:00",
+    "next_midnight": "2026-11-15T23:23:16+00:00",
+    "next_noon": "2026-11-16T11:23:09+00:00",
+    "next_rising": "2026-11-16T06:32:13.444998+00:00",
+    "next_setting": "2026-11-16T16:13:50.789610+00:00",
+    "rising": false
+   },
+   "entity_id": "sun.sun",
+   "state": "below_horizon"
+  },
+  "switch.ac": {
+   "attributes": {
+    "device_class": "outlet",
+    "friendly_name": "Prise du lave-linge"
+   },
+   "entity_id": "switch.ac",
+   "state": "off"
+  },
+  "switch.decorative_lights": {
+   "attributes": {
+    "assumed_state": true,
+    "friendly_name": "Guirlande lumineuse"
+   },
+   "entity_id": "switch.decorative_lights",
+   "state": "on"
+  },
+  "text.password": {
+   "attributes": {
+    "friendly_name": "Password",
+    "max": 255,
+    "min": 0,
+    "mode": "password",
+    "pattern": null
+   },
+   "entity_id": "text.password",
+   "state": "Hello world"
+  },
+  "text.text": {
+   "attributes": {
+    "friendly_name": "Text",
+    "max": 255,
+    "min": 0,
+    "mode": "text",
+    "pattern": null
+   },
+   "entity_id": "text.text",
+   "state": "Hello world"
+  },
+  "text.text_with_1_to_5_characters": {
+   "attributes": {
+    "friendly_name": "Text with 1 to 5 characters",
+    "max": 5,
+    "min": 1,
+    "mode": "text",
+    "pattern": null
+   },
+   "entity_id": "text.text_with_1_to_5_characters",
+   "state": "Hello"
+  },
+  "text.text_with_only_lower_case_characters": {
+   "attributes": {
+    "friendly_name": "Text with only lower case characters",
+    "max": 255,
+    "min": 0,
+    "mode": "text",
+    "pattern": "[a-z]+"
+   },
+   "entity_id": "text.text_with_only_lower_case_characters",
+   "state": "world"
+  },
+  "time.time": {
+   "attributes": {
+    "friendly_name": "Time"
+   },
+   "entity_id": "time.time",
+   "state": "12:00:00"
+  },
+  "todo.shopping_list": {
+   "attributes": {
+    "friendly_name": "Shopping list",
+    "supported_features": 15
+   },
+   "entity_id": "todo.shopping_list",
+   "state": "0"
+  },
+  "tts.google_translate_en_com": {
+   "attributes": {
+    "friendly_name": "Google Translate en com"
+   },
+   "entity_id": "tts.google_translate_en_com",
+   "state": "unknown"
+  },
+  "update.demo_add_on": {
+   "attributes": {
+    "auto_update": false,
+    "display_precision": 0,
+    "friendly_name": "Demo add-on",
+    "in_progress": false,
+    "installed_version": "1.0.0",
+    "latest_version": "1.0.1",
+    "release_summary": "Awesome update, fixing everything!",
+    "release_url": "https://www.example.com/release/1.0.1",
+    "skipped_version": null,
+    "supported_features": 11,
+    "title": "AdGuard Home",
+    "update_percentage": null
+   },
+   "entity_id": "update.demo_add_on",
+   "state": "on"
+  },
+  "update.demo_living_room_bulb_update": {
+   "attributes": {
+    "auto_update": false,
+    "device_class": "firmware",
+    "display_precision": 0,
+    "friendly_name": "Demo Living Room Bulb Update",
+    "in_progress": false,
+    "installed_version": "1.93.3",
+    "latest_version": "1.94.2",
+    "release_summary": "Added support for effects",
+    "release_url": "https://www.example.com/release/1.93.3",
+    "skipped_version": null,
+    "supported_features": 11,
+    "title": "Philips Lamps Firmware",
+    "update_percentage": null
+   },
+   "entity_id": "update.demo_living_room_bulb_update",
+   "state": "on"
+  },
+  "update.demo_no_update": {
+   "attributes": {
+    "auto_update": false,
+    "display_precision": 0,
+    "friendly_name": "Demo No Update",
+    "in_progress": false,
+    "installed_version": "1.0.0",
+    "latest_version": "1.0.0",
+    "release_summary": null,
+    "release_url": null,
+    "skipped_version": null,
+    "supported_features": 11,
+    "title": "AdGuard Home",
+    "update_percentage": null
+   },
+   "entity_id": "update.demo_no_update",
+   "state": "off"
+  },
+  "update.demo_update_no_install": {
+   "attributes": {
+    "auto_update": false,
+    "display_precision": 0,
+    "friendly_name": "Demo Update No Install",
+    "in_progress": false,
+    "installed_version": "1.0.0",
+    "latest_version": "1.0.1",
+    "release_summary": "Awesome update, fixing everything!",
+    "release_url": "https://www.example.com/release/1.0.1",
+    "skipped_version": null,
+    "supported_features": 0,
+    "title": "Awesomesoft Inc.",
+    "update_percentage": null
+   },
+   "entity_id": "update.demo_update_no_install",
+   "state": "on"
+  },
+  "update.demo_update_with_decimal_progress": {
+   "attributes": {
+    "auto_update": false,
+    "device_class": "firmware",
+    "display_precision": 2,
+    "friendly_name": "Demo Update with Decimal Progress",
+    "in_progress": false,
+    "installed_version": "1.93.3",
+    "latest_version": "1.94.2",
+    "release_summary": "Added support for effects",
+    "release_url": "https://www.example.com/release/1.93.3",
+    "skipped_version": null,
+    "supported_features": 31,
+    "title": "Philips Lamps Firmware",
+    "update_percentage": null
+   },
+   "entity_id": "update.demo_update_with_decimal_progress",
+   "state": "on"
+  },
+  "update.demo_update_with_progress": {
+   "attributes": {
+    "auto_update": false,
+    "device_class": "firmware",
+    "display_precision": 0,
+    "friendly_name": "Demo Update with Progress",
+    "in_progress": false,
+    "installed_version": "1.93.3",
+    "latest_version": "1.94.2",
+    "release_summary": "Added support for effects",
+    "release_url": "https://www.example.com/release/1.93.3",
+    "skipped_version": null,
+    "supported_features": 31,
+    "title": "Philips Lamps Firmware",
+    "update_percentage": null
+   },
+   "entity_id": "update.demo_update_with_progress",
+   "state": "on"
+  },
+  "vacuum.demo_vacuum_0_ground_floor": {
+   "attributes": {
+    "cleaned_area": 0,
+    "fan_speed": "medium",
+    "fan_speed_list": [
+     "min",
+     "medium",
+     "high",
+     "max"
+    ],
+    "friendly_name": "Aspirateur robot",
+    "supported_features": 32700
+   },
+   "entity_id": "vacuum.demo_vacuum_0_ground_floor",
+   "state": "docked"
+  },
+  "vacuum.demo_vacuum_1_first_floor": {
+   "attributes": {
+    "cleaned_area": 0,
+    "fan_speed": "medium",
+    "fan_speed_list": [
+     "min",
+     "medium",
+     "high",
+     "max"
+    ],
+    "friendly_name": "Demo vacuum 1 first floor",
+    "supported_features": 12348
+   },
+   "entity_id": "vacuum.demo_vacuum_1_first_floor",
+   "state": "docked"
+  },
+  "vacuum.demo_vacuum_2_second_floor": {
+   "attributes": {
+    "cleaned_area": 0,
+    "friendly_name": "Demo vacuum 2 second floor",
+    "supported_features": 12296
+   },
+   "entity_id": "vacuum.demo_vacuum_2_second_floor",
+   "state": "docked"
+  },
+  "vacuum.demo_vacuum_3_third_floor": {
+   "attributes": {
+    "cleaned_area": 0,
+    "friendly_name": "Demo vacuum 3 third floor",
+    "supported_features": 3
+   },
+   "entity_id": "vacuum.demo_vacuum_3_third_floor",
+   "state": "docked"
+  },
+  "vacuum.demo_vacuum_4_fourth_floor": {
+   "attributes": {
+    "cleaned_area": 0,
+    "friendly_name": "Demo vacuum 4 fourth floor",
+    "supported_features": 0
+   },
+   "entity_id": "vacuum.demo_vacuum_4_fourth_floor",
+   "state": "docked"
+  },
+  "valve.back_garden": {
+   "attributes": {
+    "current_position": 70,
+    "friendly_name": "Back Garden",
+    "is_closed": false,
+    "supported_features": 15
+   },
+   "entity_id": "valve.back_garden",
+   "state": "open"
+  },
+  "valve.front_garden": {
+   "attributes": {
+    "friendly_name": "Front Garden",
+    "is_closed": false,
+    "supported_features": 3
+   },
+   "entity_id": "valve.front_garden",
+   "state": "open"
+  },
+  "valve.orchard": {
+   "attributes": {
+    "friendly_name": "Orchard",
+    "is_closed": true,
+    "supported_features": 3
+   },
+   "entity_id": "valve.orchard",
+   "state": "closed"
+  },
+  "valve.trees": {
+   "attributes": {
+    "current_position": 30,
+    "friendly_name": "Trees",
+    "is_closed": false,
+    "supported_features": 15
+   },
+   "entity_id": "valve.trees",
+   "state": "open"
+  },
+  "water_heater.demo_water_heater": {
+   "attributes": {
+    "away_mode": "off",
+    "current_temperature": null,
+    "friendly_name": "Demo Water Heater",
+    "max_temp": 60.0,
+    "min_temp": 43.3,
+    "operation_list": [
+     "eco",
+     "electric",
+     "performance",
+     "high_demand",
+     "heat_pump",
+     "gas",
+     "off"
+    ],
+    "operation_mode": "eco",
+    "supported_features": 15,
+    "target_temp_high": null,
+    "target_temp_low": null,
+    "target_temp_step": 1,
+    "temperature": 48.3,
+    "temperature_unit": "°C"
+   },
+   "entity_id": "water_heater.demo_water_heater",
+   "state": "eco"
+  },
+  "water_heater.demo_water_heater_celsius": {
+   "attributes": {
+    "away_mode": "on",
+    "current_temperature": null,
+    "friendly_name": "Chauffe-eau",
+    "max_temp": 60.0,
+    "min_temp": 43.3,
+    "operation_list": [
+     "eco",
+     "electric",
+     "performance",
+     "high_demand",
+     "heat_pump",
+     "gas",
+     "off"
+    ],
+    "operation_mode": "eco",
+    "supported_features": 15,
+    "target_temp_high": null,
+    "target_temp_low": null,
+    "target_temp_step": 1,
+    "temperature": 45,
+    "temperature_unit": "°C"
+   },
+   "entity_id": "water_heater.demo_water_heater_celsius",
+   "state": "eco"
+  },
+  "weather.demo_weather_north": {
+   "attributes": {
+    "attribution": "Powered by Home Assistant",
+    "friendly_name": "Demo Weather North",
+    "humidity": 54,
+    "precipitation_unit": "mm",
+    "pressure": 33423.66,
+    "pressure_unit": "hPa",
+    "supported_features": 7,
+    "temperature": -24.4,
+    "temperature_unit": "°C",
+    "visibility_unit": "km",
+    "wind_speed": 7.72,
+    "wind_speed_unit": "km/h"
+   },
+   "entity_id": "weather.demo_weather_north",
+   "state": "rainy"
+  },
+  "weather.demo_weather_south": {
+   "attributes": {
+    "attribution": "Powered by Home Assistant",
+    "friendly_name": "Demo Weather South",
+    "humidity": 92,
+    "precipitation_unit": "mm",
+    "pressure": 1099.0,
+    "pressure_unit": "hPa",
+    "supported_features": 1,
+    "temperature": 21.6,
+    "temperature_unit": "°C",
+    "visibility_unit": "km",
+    "wind_speed": 1.8,
+    "wind_speed_unit": "km/h"
+   },
+   "entity_id": "weather.demo_weather_south",
+   "state": "sunny"
+  },
+  "weather.maison_d_essai": {
+   "attributes": {
+    "attribution": "Weather forecast from met.no, delivered by the Norwegian Meteorological Institute.",
+    "cloud_coverage": 100.0,
+    "dew_point": 11.9,
+    "friendly_name": "Appartement d'essai",
+    "humidity": 88,
+    "precipitation_unit": "mm",
+    "pressure": 1015.6,
+    "pressure_unit": "hPa",
+    "supported_features": 3,
+    "temperature": 13.8,
+    "temperature_unit": "°C",
+    "uv_index": 0.0,
+    "visibility_unit": "km",
+    "wind_bearing": 126.4,
+    "wind_speed": 33.1,
+    "wind_speed_unit": "km/h"
+   },
+   "entity_id": "weather.maison_d_essai",
+   "state": "cloudy"
+  },
+  "zone.home": {
+   "attributes": {
+    "device_trackers": [],
+    "editable": true,
+    "friendly_name": "Appartement d'essai",
+    "icon": "mdi:home",
+    "latitude": 43.2965,
+    "longitude": 5.3698,
+    "passive": false,
+    "persons": [],
+    "radius": 100
+   },
+   "entity_id": "zone.home",
+   "state": "0"
+  }
+ }
+}

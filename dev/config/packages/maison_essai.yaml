@@ -1,0 +1,139 @@
+# Maison d'essai : un appartement familial fictif, avec des capteurs dont les
+# valeurs bougent un peu chaque minute pour que les graphiques aient du relief.
+# Les pièces sont attribuées par essais/scripts/maison_familiale.py.
+
+template:
+  - sensor:
+      # Températures, pièce par pièce
+      - name: "Température entrée"
+        unique_id: essai_temperature_entree
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (19.4 + ((now().minute * 7 + now().hour * 3) % 11 - 5) / 20) | round(1) }}"
+      - name: "Température salon"
+        unique_id: essai_temperature_salon
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (20.6 + ((now().minute * 5 + now().hour) % 9 - 4) / 20) | round(1) }}"
+      - name: "Température cuisine"
+        unique_id: essai_temperature_cuisine
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (21.2 + ((now().minute * 3) % 13 - 6) / 20) | round(1) }}"
+      - name: "Température chambre"
+        unique_id: essai_temperature_chambre
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (18.7 + ((now().minute * 11) % 7 - 3) / 20) | round(1) }}"
+      - name: "Température chambre des enfants"
+        unique_id: essai_temperature_enfants
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (19.9 + ((now().minute * 13) % 9 - 4) / 20) | round(1) }}"
+      - name: "Température salle de bain"
+        unique_id: essai_temperature_salle_de_bain
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (22.3 + ((now().minute * 17) % 11 - 5) / 20) | round(1) }}"
+      - name: "Température bureau"
+        unique_id: essai_temperature_bureau
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (19.6 + ((now().minute * 19) % 7 - 3) / 20) | round(1) }}"
+
+      # Humidité
+      - name: "Humidité salon"
+        unique_id: essai_humidite_salon
+        device_class: humidity
+        state_class: measurement
+        unit_of_measurement: "%"
+        state: "{{ 47 + (now().minute % 5) - 2 }}"
+      - name: "Humidité chambre"
+        unique_id: essai_humidite_chambre
+        device_class: humidity
+        state_class: measurement
+        unit_of_measurement: "%"
+        state: "{{ 52 + (now().minute % 3) - 1 }}"
+      - name: "Humidité salle de bain"
+        unique_id: essai_humidite_salle_de_bain
+        device_class: humidity
+        state_class: measurement
+        unit_of_measurement: "%"
+        state: "{{ 66 + (now().minute % 7) - 3 }}"
+
+      # Piles des capteurs
+      - name: "Pile du capteur de fenêtre"
+        unique_id: essai_pile_fenetre_chambre
+        device_class: battery
+        state_class: measurement
+        unit_of_measurement: "%"
+        state: "14"
+      - name: "Pile du détecteur de fuite"
+        unique_id: essai_pile_fuite_salle_de_bain
+        device_class: battery
+        state_class: measurement
+        unit_of_measurement: "%"
+        state: "82"
+      - name: "Pile du capteur de porte"
+        unique_id: essai_pile_porte_entree
+        device_class: battery
+        state_class: measurement
+        unit_of_measurement: "%"
+        state: "64"
+
+      # Énergie
+      - name: "Puissance du lave-linge"
+        unique_id: essai_puissance_lave_linge
+        device_class: power
+        state_class: measurement
+        unit_of_measurement: "W"
+        state: "{{ [0, 0, 180, 1950, 420, 60][now().minute % 6] }}"
+      - name: "Consommation de la maison"
+        unique_id: essai_puissance_maison
+        device_class: power
+        state_class: measurement
+        unit_of_measurement: "W"
+        state: "{{ 380 + (now().minute * 37 + now().hour * 11) % 900 }}"
+
+  - binary_sensor:
+      - name: "Fenêtre de la chambre"
+        unique_id: essai_fenetre_chambre
+        device_class: window
+        state: "{{ true }}"
+      - name: "Fenêtre du salon"
+        unique_id: essai_fenetre_salon
+        device_class: window
+        state: "{{ false }}"
+      - name: "Porte d'entrée"
+        unique_id: essai_porte_entree
+        device_class: door
+        state: "{{ false }}"
+      - name: "Fuite dans la salle de bain"
+        unique_id: essai_fuite_salle_de_bain
+        device_class: moisture
+        state: "{{ false }}"
+      - name: "Détecteur de fumée"
+        unique_id: essai_fumee_entree
+        device_class: smoke
+        state: "{{ false }}"
+      - name: "Présence dans le salon"
+        unique_id: essai_presence_salon
+        device_class: occupancy
+        state: "{{ true }}"
+
+# Énergie de la maison : intégrale de la puissance (kWh qui augmentent au fil du temps)
+sensor:
+  - platform: integration
+    source: sensor.consommation_de_la_maison
+    name: "Énergie de la maison"
+    unique_id: essai_energie_maison
+    unit_prefix: k
+    round: 3
+    method: left

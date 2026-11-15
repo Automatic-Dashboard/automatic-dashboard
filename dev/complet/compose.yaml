@@ -1,0 +1,23 @@
+# Maison « complète » : ~75 appareils simulés comme par Zigbee2MQTT (découverte MQTT),
+# avec leurs entités techniques. Lancer : docker compose -f dev/complet/compose.yaml up -d
+# Home Assistant sur http://127.0.0.1:8125
+services:
+  homeassistant:
+    container_name: centralhome-complet
+    image: ghcr.io/home-assistant/home-assistant:2026.11.1
+    environment:
+      TZ: Europe/Paris
+    volumes:
+      - ./config:/config
+      - ../../custom_components/centralhome:/config/custom_components/centralhome:ro
+    ports:
+      - "127.0.0.1:8125:8123"
+    depends_on: [mosquitto]
+    restart: "no"
+  mosquitto:
+    container_name: centralhome-mosquitto
+    image: eclipse-mosquitto:2
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./mosquitto/data:/mosquitto/data
+    restart: "no"

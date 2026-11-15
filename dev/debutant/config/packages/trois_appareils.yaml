@@ -1,0 +1,35 @@
+# Le premier équipement typique d'un débutant : une ampoule, une prise, un thermomètre.
+input_boolean:
+  essai_ampoule:
+    name: "État de l'ampoule (interne)"
+  essai_prise:
+    name: "État de la prise (interne)"
+
+template:
+  - light:
+      - name: "Ampoule du salon"
+        unique_id: debutant_ampoule_salon
+        state: "{{ is_state('input_boolean.essai_ampoule', 'on') }}"
+        turn_on:
+          - action: input_boolean.turn_on
+            target: { entity_id: input_boolean.essai_ampoule }
+        turn_off:
+          - action: input_boolean.turn_off
+            target: { entity_id: input_boolean.essai_ampoule }
+    switch:
+      - name: "Prise connectée"
+        unique_id: debutant_prise
+        state: "{{ is_state('input_boolean.essai_prise', 'on') }}"
+        turn_on:
+          - action: input_boolean.turn_on
+            target: { entity_id: input_boolean.essai_prise }
+        turn_off:
+          - action: input_boolean.turn_off
+            target: { entity_id: input_boolean.essai_prise }
+    sensor:
+      - name: "Thermomètre du salon"
+        unique_id: debutant_thermometre_salon
+        device_class: temperature
+        state_class: measurement
+        unit_of_measurement: "°C"
+        state: "{{ (20.1 + ((now().minute * 7) % 9 - 4) / 20) | round(1) }}"

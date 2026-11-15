@@ -1,0 +1,22 @@
+# Configuration par défaut de Home Assistant 2026.11, plus l'intégration de démonstration.
+homeassistant:
+  packages: !include_dir_named packages
+
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Load frontend themes from the themes folder
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+# Appareils fictifs pour les essais de CentralHome
+demo:
+
+logger:
+  default: warning
+  logs:
+    custom_components.centralhome: info

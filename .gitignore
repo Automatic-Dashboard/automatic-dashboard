@@ -1,0 +1,31 @@
+# Outillage du tableau
+frontend/node_modules/
+frontend/coverage/
+frontend/.vite/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+.ruff_cache/
+.pytest_cache/
+
+# Environnement d'essai : données produites par Home Assistant, jamais versionnées
+dev/.secrets/
+dev/**/config/.storage/
+dev/**/config/.cloud/
+dev/**/config/.HA_VERSION
+dev/**/config/home-assistant_v2.db*
+dev/**/config/home-assistant.log*
+dev/**/config/deps/
+dev/**/config/tts/
+dev/**/config/blueprints/
+dev/**/config/themes/
+dev/**/config/custom_components/
+
+# Système
+.DS_Store
+dev/**/config/.cache/
+dev/**/config/.ha_run.lock
+dev/**/config/known_devices.yaml
+dev/complet/mosquitto/data/
