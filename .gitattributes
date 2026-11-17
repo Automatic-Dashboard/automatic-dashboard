@@ -1,0 +1,2 @@
+# Le tableau construit est généré depuis frontend/ : GitHub ne le compte pas dans les langues du dépôt.
+custom_components/automatic_dashboard/frontend/*.js linguist-generated=true

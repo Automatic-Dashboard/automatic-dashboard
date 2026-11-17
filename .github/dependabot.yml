@@ -1,0 +1,27 @@
+# Les mises à jour des dépendances, proposées chaque mois : une pull request par écosystème,
+# vérifiée par la CI comme toute contribution. Les failles connues, elles, sont corrigées aussitôt.
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # Le tableau : Lit, Vite, Vitest, TypeScript. Après une mise à jour, le fichier construit
+  # (custom_components/automatic_dashboard/frontend/automatic-dashboard.js) est à reconstruire.
+  - package-ecosystem: npm
+    directory: /frontend
+    schedule:
+      interval: monthly
+    groups:
+      tableau:
+        patterns: ["*"]
+
+  # Le Home Assistant de test de l'intégration, aligné sur une version publiée.
+  - package-ecosystem: pip
+    directory: /tests
+    schedule:
+      interval: monthly
