@@ -6609,7 +6609,7 @@ function diagnostiquer(hass, reglages = {}, cibles = [], attentes = {}) {
 		titre: "",
 		ticket: null,
 		attendu: { entites: attendu },
-		version: "2026.12.0",
+		version: "2026.12.1",
 		home_assistant: hass.config?.version ?? null,
 		langue: (hass.locale?.language || hass.language || "").slice(0, 2),
 		reglages: {
@@ -7918,7 +7918,7 @@ async function genererTableau(config, hass) {
 }
 // src/index.ts
 /** Numéro de version, lu dans package.json à la construction. */
-var VERSION = "2026.12.0";
+var VERSION = "2026.12.1";
 var AutomaticStrategie = class extends HTMLElement {
 	static getCreateSuggestions() {
 		return {

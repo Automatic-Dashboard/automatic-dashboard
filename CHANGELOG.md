@@ -2,6 +2,22 @@
 
 Les numéros suivent ceux de Home Assistant : l'année, le mois, puis les corrections (2026.12.0, 2026.12.1…). Chaque version est publiée comme une release GitHub, avec ces notes en français et en anglais.
 
+## 2026.12.1
+
+Une version de correction, pour les maisons en degrés Fahrenheit et l'heure sur 12 heures.
+
+### En français
+
+**Corrigé**
+- Les maisons en °F : les conseils de saison (fermer les volets quand il fait chaud, ouvrir quand il fait plus frais dehors), la phrase du climat, la carte Confort et les couleurs de la maison en plan comparaient les degrés Fahrenheit à des seuils en °C. Le tableau pouvait conseiller de fermer les volets par temps de gel. Chaque mesure est maintenant convertie selon l'unité de son capteur, et les échelles sont graduées dans l'unité affichée.
+- L'heure suit le format 12 ou 24 heures choisi dans le profil de Home Assistant, jusque sur l'horloge de la tablette murale.
+
+### In English
+
+**Fixed**
+- Homes in °F: seasonal advice (closing shutters when it is hot, opening when it is cooler outside), the climate sentence, the Comfort card and the colors of the floor plan compared Fahrenheit readings with thresholds in °C. The dashboard could suggest closing the shutters in freezing weather. Each reading is now converted according to its own sensor's unit, and scales use the displayed unit.
+- Times follow the 12 or 24-hour format chosen in the Home Assistant profile, including the wall tablet clock.
+
 ## 2026.12.0
 
 Première version publique.
