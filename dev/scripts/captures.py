@@ -7,7 +7,7 @@ Chaque maison est ouverte avec son compte administrateur de dev/.secrets/ : le s
 se connecte lui-même par le flux de connexion de Home Assistant, sans jamais afficher le
 mot de passe ni le jeton.
 
-Usage (les trois maisons doivent tourner) :
+Usage (les trois maisons doivent tourner ; CAPTURES_PAGES=accueil pour ne refaire que ces pages) :
   uv run --with playwright python dev/scripts/captures.py              # tout, dans docs/captures/v1/
   uv run --with playwright python dev/scripts/captures.py famille      # une seule maison
   uv run --with playwright python dev/scripts/captures.py --anglais    # l'interface en anglais
@@ -21,6 +21,7 @@ from __future__ import annotations
 
 import base64
 import json
+import os
 import sys
 import urllib.request
 from dataclasses import dataclass, field
@@ -31,6 +32,8 @@ from playwright.sync_api import Page, sync_playwright
 
 RACINE = Path(__file__).resolve().parents[2]
 SORTIE = RACINE / "docs" / "captures" / "v1"
+# Pour ne refaire que quelques pages : CAPTURES_PAGES=accueil (la page entière de l'accueil suit).
+SEULEMENT = [p for p in os.environ.get("CAPTURES_PAGES", "").split(",") if p]
 TABLEAU = "/automatic-essai"
 
 APPAREILS = {
@@ -74,12 +77,18 @@ MAISONS = [
         "famille",
         "http://127.0.0.1:8123",
         "identifiants.json",
-        ["accueil", "climat", "energie", "securite", "systeme", "salon", "bilan", "tablette"],
+        ["accueil", "climat", "energie", "securite", "systeme", "salon", "bilan", "tablette", "depart", "mes-favoris"],
         cartes=True,
         extras=["entier", "editeur", "native"],
     ),
     Maison("debutant", "http://127.0.0.1:8124", "debutant.json", ["accueil", "climat"], extras=["native"]),
-    Maison("complete", "http://127.0.0.1:8125", "complet.json", ["accueil", "energie", "securite"], extras=["native"]),
+    Maison(
+        "complete",
+        "http://127.0.0.1:8125",
+        "complet.json",
+        ["accueil", "energie", "securite", "exterieur"],
+        extras=["native"],
+    ),
 ]
 
 
@@ -148,11 +157,11 @@ def capturer(maison: Maison, anglais: bool) -> None:
                 )
                 page = contexte.new_page()
                 connecter(page, maison)
-                for vue in maison.pages:
+                for vue in [v for v in maison.pages if not SEULEMENT or v in SEULEMENT]:
                     aller(page, maison, f"{TABLEAU}/{vue}")
                     enregistrer(page, f"{vue}-{appareil}-{theme}")
 
-                if appareil == "ordinateur" and maison.cartes:
+                if appareil == "ordinateur" and maison.cartes and not SEULEMENT:
                     for nom, vue, balise in CARTES:
                         aller(page, maison, f"{TABLEAU}/{vue}")
                         carte = page.locator(f"{balise} >> visible=true").first
@@ -160,11 +169,11 @@ def capturer(maison: Maison, anglais: bool) -> None:
                             enregistrer(carte, f"carte-{nom}-{theme}")
 
                 if appareil == "ordinateur" and theme == "clair":
-                    if "native" in maison.extras:
+                    if "native" in maison.extras and not SEULEMENT:
                         # La vue d'ensemble que Home Assistant génère lui-même, pour la comparaison.
                         aller(page, maison, "/home")
                         enregistrer(page, "vue-native-ordinateur-clair")
-                    if "editeur" in maison.extras:
+                    if "editeur" in maison.extras and not SEULEMENT:
                         aller(page, maison, f"{TABLEAU}/accueil")
                         page.get_by_role("button", name="Modifier le tableau de bord").or_(
                             page.get_by_role("button", name="Edit dashboard")

@@ -6,6 +6,8 @@ import { analyser } from "../src/moteur/analyser";
 import { estAbsent } from "../src/moteur/absence";
 import { pointsARegarder } from "../src/moteur/points";
 import { genererTableau } from "../src/strategie/strategie";
+import { avantDePartir } from "../src/cartes/depart";
+import { favorisDeLaPersonne } from "../src/strategie/accueil";
 import famille from "./fixtures/famille.json";
 
 const maison = (modifier: (h: HomeAssistant) => void = () => {}) => {
@@ -65,5 +67,33 @@ describe("quand tout le monde est parti", () => {
     const forme = (t: Awaited<ReturnType<typeof genererTableau>>) => JSON.stringify(t.views.map((v) => [v.path,
       (v.sections ?? []).map((s) => s.cards.map((c) => c.type))]));
     expect(forme(await genererTableau({}, absent))).toBe(forme(await genererTableau({}, h)));
+  });
+});
+
+describe("l'alarme et le départ", () => {
+  it("l'alarme armée en mode absence suffit, même sans personne suivie", () => {
+    const { h, m } = maison((x) => {
+      x.states["alarm_control_panel.security"].state = "armed_away";
+      for (const s of Object.values(x.states)) if (s.entity_id.startsWith("person.")) s.attributes.device_trackers = [];
+    });
+    expect(estAbsent(h, m)).toBe(true);
+  });
+
+  it("« Je pars » liste les lumières, les volets (pas le garage) et les ouvertures", () => {
+    const { h, m } = maison();
+    const a = avantDePartir(h, m);
+    expect(a.lumieres.length).toBeGreaterThan(0);
+    expect(a.volets.every((e) => !["garage", "gate", "door"].includes(e.classe ?? ""))).toBe(true);
+    expect(a.ouvertures.map((e) => e.id)).toContain("binary_sensor.fenetre_de_la_chambre");
+  });
+});
+
+describe("les favoris de chacun", () => {
+  it("remplacent ceux du tableau pour la personne qui les a choisis", async () => {
+    const { h, m } = maison();
+    const lampes = Object.keys(h.states).filter((id) => id.startsWith("light.")).slice(0, 2);
+    const perso = { ...h, callWS: async (msg: Record<string, unknown>) => (msg.type === "frontend/get_user_data" ? { value: [lampes[1]] } : { entities: [] }) } as HomeAssistant;
+    expect((await favorisDeLaPersonne(perso, m, { favoris: [lampes[0]], completer: false }))).toEqual([lampes[1]]);
+    expect((await favorisDeLaPersonne(h, m, { favoris: [lampes[0]], completer: false }))).toEqual([lampes[0]]);
   });
 });

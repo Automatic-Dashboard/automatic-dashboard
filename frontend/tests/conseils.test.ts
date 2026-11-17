@@ -100,3 +100,57 @@ describe("l'air des pièces", () => {
     expect(pointsARegarder(h, m).find((x) => x.cle.startsWith("air:"))!.detail).toMatch(/85 % d'humidité/u);
   });
 });
+
+describe("les conseils de saison", () => {
+  const chaleur = (dehors: number, dedans: string) => maison((x) => {
+    const m0 = analyser(x as Instantane);
+    const meteo = m0.meteo!;
+    x.states[meteo] = { ...x.states[meteo], attributes: { ...x.states[meteo].attributes, temperature: dehors } };
+    x.states["sun.sun"] = { entity_id: "sun.sun", state: "above_horizon", attributes: {} };
+    const salon = m0.pieces.find((p) => p.name === "Salon")!;
+    x.states[salon.temperatures[0]] = { ...x.states[salon.temperatures[0]], state: dedans };
+    const volet = m0.gardees.find((e) => e.domaine === "cover" && e.piece === salon.area_id)!;
+    x.states[volet.id] = { ...x.states[volet.id], state: "open" };
+  });
+
+  it("il fait chaud : « Fermez les volets du salon »", () => {
+    const { h, m } = chaleur(29, "25.5");
+    const p = pointsARegarder(h, m).find((x) => x.cle.startsWith("volets:"))!;
+    expect(p.titre).toBe("Fermez les volets du salon");
+    expect(p.detail).toMatch(/^Il fait 29,0° dehors et 25,5° dedans/u);
+  });
+
+  it("il fait plus frais dehors le soir : « Ouvrez les fenêtres »", () => {
+    const { h, m } = maison((x) => {
+      const meteo = analyser(x as Instantane).meteo!;
+      x.states[meteo] = { ...x.states[meteo], attributes: { ...x.states[meteo].attributes, temperature: 18 } };
+      x.states["sun.sun"] = { entity_id: "sun.sun", state: "below_horizon", attributes: {} };
+      for (const s of Object.values(x.states)) if (s.attributes.device_class === "temperature" && s.entity_id.startsWith("sensor.")) s.state = "25";
+    });
+    const heure = new Date().getHours();
+    const p = pointsARegarder(h, m).find((x) => x.cle === "fraicheur");
+    if (heure >= 18 || heure < 10) expect(p?.titre).toBe("Ouvrez les fenêtres");
+    else expect(p).toBeUndefined();
+  });
+});
+
+describe("la machine qui a fini", () => {
+  it("« Le lave-linge a fini », depuis 20 minutes", () => {
+    const { h, m } = maison((x) => {
+      x.states["binary_sensor.lave_linge"] = { entity_id: "binary_sensor.lave_linge", state: "off",
+        last_changed: new Date(Date.now() - 20 * 60000).toISOString(), attributes: { device_class: "running", friendly_name: "Lave-linge" } };
+      x.entities["binary_sensor.lave_linge"] = { entity_id: "binary_sensor.lave_linge", platform: "template", area_id: "salle_de_bain", labels: [] };
+    });
+    const p = pointsARegarder(h, m).find((x) => x.cle === "machine:binary_sensor.lave_linge")!;
+    expect(p).toMatchObject({ titre: "Le lave-linge a fini", detail: "Depuis 20 min.", conseil: true });
+  });
+
+  it("il y a trois heures : ce n'est plus une nouvelle", () => {
+    const { h, m } = maison((x) => {
+      x.states["binary_sensor.lave_linge"] = { entity_id: "binary_sensor.lave_linge", state: "off",
+        last_changed: new Date(Date.now() - 3 * 3600000).toISOString(), attributes: { device_class: "running", friendly_name: "Lave-linge" } };
+      x.entities["binary_sensor.lave_linge"] = { entity_id: "binary_sensor.lave_linge", platform: "template", area_id: "salle_de_bain", labels: [] };
+    });
+    expect(pointsARegarder(h, m).some((x) => x.cle.startsWith("machine:"))).toBe(false);
+  });
+});

@@ -8,8 +8,8 @@ import type { Diagnostic } from "../src/diagnostic";
 import type { Instantane } from "../src/ha";
 import { analyser } from "../src/moteur/analyser";
 
-type Attendu = Partial<{ ecart: string | null; role: string | null; section: string | null; piece: string | null; aRanger: boolean }>;
-interface Cas extends Diagnostic {
+type Attendu = Partial<{ ecart: string | null; ecartee: boolean; role: string | null; section: string | null; piece: string | null; aRanger: boolean }>;
+interface Cas extends Omit<Diagnostic, "attendu" | "titre" | "ticket"> {
   titre: string;
   ticket: string | null;
   attendu: { mode?: string; entites?: Record<string, Attendu> };
@@ -22,12 +22,12 @@ describe.each(Object.entries(fichiers))("%s", (_fichier, cas) => {
   const parId = new Map(m.toutes.map((e) => [e.id, e]));
   const aRanger = new Set(m.aRanger.map((e) => e.id));
 
-  it(cas.titre, () => {
+  it(cas.titre || _fichier, () => {
     if (cas.attendu.mode) expect(m.mode).toBe(cas.attendu.mode);
     for (const [id, attendu] of Object.entries(cas.attendu.entites ?? {})) {
       const e = parId.get(id);
       expect(e, `${id} absente du tri`).toBeDefined();
-      const obtenu = { ecart: e!.ecart, role: e!.role, section: e!.section, piece: e!.piece, aRanger: aRanger.has(id) };
+      const obtenu = { ecart: e!.ecart, ecartee: e!.ecart !== null, role: e!.role, section: e!.section, piece: e!.piece, aRanger: aRanger.has(id) };
       expect({ id, ...Object.fromEntries(Object.keys(attendu).map((k) => [k, obtenu[k as keyof Attendu]])) }).toEqual({ id, ...attendu });
     }
   });

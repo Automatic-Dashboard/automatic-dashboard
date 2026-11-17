@@ -7,6 +7,11 @@ THEME_NAME = "Automatic Dashboard"
 THEME_FILE = "automatic_dashboard.yaml"
 ISSUE_THEMES = "themes_non_charges"
 
+# Le premier tableau : créé au premier chargement de l'interface par un administrateur.
+CONF_CREER_TABLEAU = "creer_tableau"
+CONF_PAR_DEFAUT = "par_defaut"
+TABLEAU_CREE = "tableau_cree"
+
 # Les étiquettes de réglage en masse : posées dans Home Assistant sur des dizaines d'entités,
 # d'appareils ou de pièces d'un coup. Le tableau les reconnaît par leur identifiant, tiré du
 # nom à la création : les deux langues sont reconnues.

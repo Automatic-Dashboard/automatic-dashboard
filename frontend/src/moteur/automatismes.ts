@@ -49,18 +49,51 @@ export const idAutomatisme = (sujet: Sujet): string => `automatic_dashboard_${su
 export const automatismeExiste = (hass: HomeAssistant, sujet: Sujet): boolean =>
   Object.values(hass.states).some((s) => s.entity_id.startsWith("automation.") && s.attributes.id === idAutomatisme(sujet));
 
-/** Les téléphones de l'application Home Assistant, plus la notification dans Home Assistant. */
-function prevenir(hass: HomeAssistant, titre: string, message: string, sujet: Sujet): Record<string, unknown>[] {
-  const telephones = Object.keys((hass as { services?: Record<string, Record<string, unknown>> }).services?.notify ?? {})
+export const SUJETS: Sujet[] = ["fuite", "fumee", "pile", "sauvegarde"];
+
+/** Qui prévenir : des téléphones de l'application Home Assistant, et la notification dans Home Assistant. */
+export interface Destinataires {
+  telephones: string[];
+  homeAssistant: boolean;
+}
+
+const enSlug = (s: string) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+
+/** Les téléphones qui ont l'application Home Assistant : le service de notification et le nom de l'appareil. */
+export function telephones(hass: HomeAssistant): { service: string; nom: string }[] {
+  const services = Object.keys((hass as { services?: Record<string, Record<string, unknown>> }).services?.notify ?? {})
     .filter((s) => s.startsWith("mobile_app_")).sort();
+  const appareils = Object.values(hass.devices ?? {});
+  return services.map((service) => {
+    const slug = service.slice("mobile_app_".length);
+    const appareil = appareils.find((a) => enSlug(a.name_by_user || a.name || "") === slug || enSlug(a.name || "") === slug);
+    const nom = appareil?.name_by_user || appareil?.name || slug.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase());
+    return { service, nom };
+  });
+}
+
+/** Par défaut : tous les téléphones, et la notification dans Home Assistant. */
+export const tousLesDestinataires = (hass: HomeAssistant): Destinataires => ({ telephones: telephones(hass).map((t) => t.service), homeAssistant: true });
+
+function prevenir(titre: string, message: string, sujet: Sujet, d: Destinataires): Record<string, unknown>[] {
   return [
-    { action: "persistent_notification.create", data: { title: titre, message, notification_id: idAutomatisme(sujet) } },
-    ...telephones.map((s) => ({ action: `notify.${s}`, data: { title: titre, message } })),
+    ...(d.homeAssistant ? [{ action: "persistent_notification.create", data: { title: titre, message, notification_id: idAutomatisme(sujet) } }] : []),
+    ...d.telephones.map((s) => ({ action: `notify.${s}`, data: { title: titre, message } })),
   ];
 }
 
+/** Les destinataires d'un automatisme existant, lus dans ses actions. */
+export function destinatairesDe(config: { actions?: { action?: string; service?: string }[] } | null | undefined): Destinataires | null {
+  if (!config) return null;
+  const actions = (config.actions ?? []).map((a) => a.action ?? a.service ?? "");
+  return {
+    telephones: actions.filter((a) => a.startsWith("notify.mobile_app_")).map((a) => a.slice("notify.".length)),
+    homeAssistant: actions.includes("persistent_notification.create"),
+  };
+}
+
 /** L'automatisme d'un sujet, ou null si la maison n'a rien à surveiller pour lui. */
-export function automatisme(hass: HomeAssistant, m: Maison, sujet: Sujet): Automatisme | null {
+export function automatisme(hass: HomeAssistant, m: Maison, sujet: Sujet, destinataires: Destinataires = tousLesDestinataires(hass)): Automatisme | null {
   const tx = estFrancais(hass) ? TEXTES.fr : TEXTES.en;
   let triggers: Record<string, unknown>[] = [];
   let conditions: Record<string, unknown>[] = [];
@@ -95,14 +128,34 @@ export function automatisme(hass: HomeAssistant, m: Maison, sujet: Sujet): Autom
       mode: "queued",
       triggers,
       conditions,
-      actions: prevenir(hass, tx.titre[sujet], tx.message[sujet], sujet),
+      actions: prevenir(tx.titre[sujet], tx.message[sujet], sujet, destinataires),
     },
   };
 }
 
 /** Crée l'automatisme dans Home Assistant (administrateur seulement), comme l'éditeur d'automatisations. */
 export async function creerAutomatisme(hass: HomeAssistant, a: Automatisme): Promise<void> {
-  const api = (hass as { callApi?: (methode: string, chemin: string, donnees?: unknown) => Promise<unknown> }).callApi;
-  if (!api) throw new Error("callApi indisponible");
-  await api("POST", `config/automation/config/${a.id}`, a.config);
+  await api(hass)("POST", `config/automation/config/${a.id}`, a.config);
+}
+
+type Api = (methode: string, chemin: string, donnees?: unknown) => Promise<unknown>;
+const api = (hass: HomeAssistant): Api => {
+  const appel = (hass as { callApi?: Api }).callApi;
+  if (!appel) throw new Error("callApi indisponible");
+  return appel;
+};
+
+/** La configuration d'un automatisme créé ici, ou null s'il n'existe pas (ou plus). */
+export async function lireAutomatisme(hass: HomeAssistant, sujet: Sujet): Promise<{ actions?: { action?: string }[] } | null> {
+  if (!automatismeExiste(hass, sujet)) return null;
+  try {
+    return (await api(hass)("GET", `config/automation/config/${idAutomatisme(sujet)}`)) as { actions?: { action?: string }[] };
+  } catch {
+    return null;
+  }
+}
+
+/** Ne plus être prévenu : l'automatisme est supprimé. */
+export async function supprimerAutomatisme(hass: HomeAssistant, sujet: Sujet): Promise<void> {
+  await api(hass)("DELETE", `config/automation/config/${idAutomatisme(sujet)}`);
 }

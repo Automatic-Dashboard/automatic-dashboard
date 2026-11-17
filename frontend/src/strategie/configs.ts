@@ -25,7 +25,8 @@ export interface VueConfig {
   icon: string;
   type: "sections";
   max_columns: number;
-  theme: string;
+  /** Absent : le thème du profil Home Assistant (style « Thème de Home Assistant »). */
+  theme?: string;
   subview: boolean;
   header: Record<string, unknown>;
   badges: CarteConfig[];
@@ -65,7 +66,7 @@ export function vue({ path, title, icon, ouverture, badges = [], scene, cote = [
   }
   return {
     path, title, icon, type: "sections", max_columns: 3, theme: THEME, subview,
-    header: { layout: "start", badges_position: "bottom", badges_wrap: "scroll", card: ouverture },
+    header: { layout: "start", badges_position: "bottom", badges_wrap: "wrap", card: ouverture },
     badges,
     sections,
     ...(cote.length ? { sidebar: { visibility: [{ condition: "view_columns", min: 3 }], sections: [{ type: "grid", cards: cote }] } } : {}),

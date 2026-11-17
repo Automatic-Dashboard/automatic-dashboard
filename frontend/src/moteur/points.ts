@@ -49,7 +49,7 @@ export function pointsARegarder(hass: HomeAssistant, m: Maison): Point[] {
     points.push({ cle: "vigilance", niveau: vig.niveau === 3 ? 3 : 2, icone: "mdi:alert-outline", titre: tx.vigilance(tx.couleurs[vig.niveau]), detail: phenomenes, entite: m.vigilance! });
   }
   // Les conseils d'abord : ils remplacent le simple constat d'une fenêtre ouverte.
-  const avis = conseils(hass, m);
+  const avis = m.reglages.conseils === false ? { points: [], remplaces: new Set<string>() } : conseils(hass, m);
   points.push(...avis.points);
   for (const e of m.ouvrants) {
     if (avis.remplaces.has(e.id)) continue;
@@ -84,9 +84,22 @@ export function pointsARegarder(hass: HomeAssistant, m: Maison): Point[] {
       points.push({ cle: "sauvegarde", niveau: 1, icone: "mdi:backup-restore", titre: tx.sauvegardeAucune, detail: tx.sauvegardeAucuneDetail, chemin: "/config/backup" });
     }
   }
+  // La voiture a fini de charger dans l'heure : on peut la débrancher.
+  const charge = m.vehicules.find((e) => e.classe === "battery_charging");
+  const batterie = m.vehicules.find((e) => e.classe === "battery" && e.domaine === "sensor");
+  const sc = charge ? etat(charge.id) : undefined;
+  const niveauBatterie = batterie ? Number.parseFloat(etat(batterie.id)?.state ?? "") : Number.NaN;
+  if (sc?.state === "off" && sc.last_changed && Date.now() - new Date(sc.last_changed).getTime() < 3600000 && niveauBatterie >= 80) {
+    points.push({ cle: "vehicule-charge", niveau: 1, icone: "mdi:car-electric-outline", titre: tx.voitureChargee,
+      detail: tx.vehiculeBatterie(nombre(hass, niveauBatterie, 0), false), entite: batterie!.id, chemin: "vehicule" });
+  }
+
   // Le lundi, le bilan de la semaine passée attend dans sa page.
-  if (new Date().getDay() === 1 && aUnBilan(hass, m)) {
-    points.push({ cle: "bilan", niveau: 1, icone: "mdi:calendar-week", titre: tx.bilanPret, detail: tx.bilanPretDetail, chemin: "bilan" });
+  const aujourdhui = new Date();
+  if (m.reglages.bilan !== false && (aujourdhui.getDay() === 1 || aujourdhui.getDate() === 1) && aUnBilan(hass, m)) {
+    const mois = aujourdhui.getDate() === 1;
+    points.push({ cle: mois ? "bilan-mois" : "bilan", niveau: 1, icone: mois ? "mdi:calendar-month" : "mdi:calendar-week",
+      titre: mois ? tx.bilanPretMois : tx.bilanPret, detail: tx.bilanPretDetail, chemin: "bilan" });
   }
 
   // Personne à la maison : ce qui est resté ouvert, allumé ou déverrouillé passe en tête,
@@ -102,9 +115,23 @@ export function pointsARegarder(hass: HomeAssistant, m: Maison): Point[] {
 /** Un point grave ne s'ignore jamais. */
 export const ignorable = (p: Point): boolean => p.niveau < 3;
 
-/** Les points à regarder, sans ceux que l'utilisateur a ignorés aujourd'hui. */
+/**
+ * Ce qui doit changer pour qu'un point ignoré revienne : pour une ouverture, une serrure ou un
+ * service, son état et l'heure de son dernier changement (refermée puis rouverte, elle revient) ;
+ * pour un compte (mises à jour, lumières), le texte ; pour le reste, son niveau et son titre
+ * (une pile qui passe sous 10 %, un conseil qui devient pressant).
+ */
+export function signature(hass: HomeAssistant, p: Point): string {
+  const genre = p.cle.split(":")[0];
+  const etat = p.entite ? hass.states[p.entite] : undefined;
+  if (etat && ["ouvrant", "serrure", "alarme-desarmee", "service"].includes(genre)) return `${etat.state}|${etat.last_changed ?? ""}`;
+  if (["lumieres-absence", "majs", "vigilance"].includes(genre)) return `${p.titre}|${p.detail}`;
+  return `${p.niveau}|${p.titre}`;
+}
+
+/** Les points à regarder, sans ceux que l'utilisateur a ignorés tant qu'ils ne changent pas. */
 export function pointsVisibles(hass: HomeAssistant, m: Maison): { visibles: Point[]; ignores: Point[] } {
   const tous = pointsARegarder(hass, m);
-  const ignores = tous.filter((p) => ignorable(p) && estIgnore(p.cle));
+  const ignores = tous.filter((p) => ignorable(p) && estIgnore(p.cle, signature(hass, p)));
   return { visibles: tous.filter((p) => !ignores.includes(p)), ignores };
 }

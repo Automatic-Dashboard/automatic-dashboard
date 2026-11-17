@@ -27,7 +27,7 @@ export class AutomaticPremiersPas extends CarteAutomatic {
     li{border-top:1px solid var(--divider-color)}
     li button{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;font-size:14.5px;font-weight:550;color:var(--primary-text-color)}
     .coche{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;flex:none;border:2px solid var(--divider-color)}
-    .fait .coche{background:var(--automatic-dashboard-vert);border-color:var(--automatic-dashboard-vert);color:#fff}
+    .fait .coche{background:var(--automatic-dashboard-vert, var(--success-color, #1E6B47));border-color:var(--automatic-dashboard-vert, var(--success-color, #1E6B47));color:#fff}
     .fait .coche ha-icon{--mdc-icon-size:16px}
     .fait span.texte{color:var(--secondary-text-color);text-decoration:line-through;text-decoration-color:var(--divider-color)}
     .texte{flex:1}

@@ -2,7 +2,9 @@
 // plages et les ouvertures comptées.
 
 import { describe, expect, it } from "vitest";
-import { chargerBilan, compterOuvertures, resumerTemperatures, semainePassee, sommeParJour } from "../src/donnees/bilan";
+import { chargerBilan, compterOuvertures, moisPasse, resumerTemperatures, semainePassee, sommeParJour } from "../src/donnees/bilan";
+import { lireReglagesEnergie, poserReglagesEnergie } from "../src/donnees/energie";
+import { energiesMaison } from "../src/moteur/valeurs";
 import type { HomeAssistant, Instantane } from "../src/ha";
 import { analyser } from "../src/moteur/analyser";
 
@@ -72,9 +74,67 @@ describe("le bilan complet", () => {
     } as unknown as HomeAssistant;
     const b = await chargerBilan(hass, analyser(hass as Instantane), new Date("2026-11-17T12:00:00"));
     expect(b.debut).toEqual(debut);
-    expect(b.energie).toEqual({ jours: [9, 9, 9, 9, 9, 9, 9], total: 63, precedent: 70 });
+    expect(b.energie).toEqual({ jours: [9, 9, 9, 9, 9, 9, 9], total: 63, precedent: 70, cout: null, coutPrecedent: null });
     expect(b.dedans).toEqual({ moyenne: 20, min: 19, max: 21 });
     expect(b.ouvertures).toEqual({ total: 2, parEntite: [["binary_sensor.porte", 2]] });
     expect(appels).toContain("history/history_during_period");
+  });
+});
+
+describe("le mois passé", () => {
+  it.each([
+    ["2026-11-17T15:00:00", "2026-10-01", "2026-11-01", "2026-09-01"],
+    ["2026-01-05T08:00:00", "2025-12-01", "2026-01-01", "2025-11-01"],
+  ])("le %s → du %s au %s (avant : %s)", (maintenant, debut, fin, avant) => {
+    const m = moisPasse(new Date(maintenant));
+    const jour = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+    expect([jour(m.debut), jour(m.fin), jour(m.avant)]).toEqual([debut, fin, avant]);
+  });
+});
+
+describe("les réglages Énergie de Home Assistant", () => {
+  const prefs = {
+    energy_sources: [
+      { type: "grid", flow_from: [{ stat_energy_from: "sensor.linky_hp", stat_cost: null }, { stat_energy_from: "sensor.linky_hc", stat_cost: "sensor.cout_hc" }],
+        flow_to: [{ stat_energy_to: "sensor.revente" }] },
+      { type: "solar", stat_energy_from: "sensor.panneaux" }, { type: "gas", stat_energy_from: "sensor.gaz" },
+    ],
+    device_consumption: [{ stat_consumption: "sensor.lave_linge_energie" }],
+  };
+
+  it("donnent les compteurs déclarés et leurs coûts (choisis, ou calculés par Home Assistant d'après le prix)", () => {
+    expect(lireReglagesEnergie(prefs, { "sensor.linky_hp": "sensor.linky_hp_cost" })).toEqual({
+      reseau: ["sensor.linky_hp", "sensor.linky_hc"], retour: ["sensor.revente"], solaire: ["sensor.panneaux"], gaz: ["sensor.gaz"], eau: [],
+      couts: ["sensor.linky_hp_cost", "sensor.cout_hc"], appareils: ["sensor.lave_linge_energie"], puissance: [],
+    });
+    expect(lireReglagesEnergie({ energy_sources: [] })).toBeNull();
+  });
+
+  it("la forme de Home Assistant 2026 : une source réseau par compteur, avec prix, revente et puissance", () => {
+    const r = lireReglagesEnergie({ energy_sources: [{ type: "grid", stat_energy_from: "sensor.linky", stat_energy_to: "sensor.revente",
+      stat_cost: null, stat_rate: "sensor.linky_puissance" }] }, { "sensor.linky": "sensor.linky_cost" });
+    expect(r).toMatchObject({ reseau: ["sensor.linky"], retour: ["sensor.revente"], couts: ["sensor.linky_cost"], puissance: ["sensor.linky_puissance"] });
+  });
+
+  it("l'emportent sur le compteur deviné d'après les noms", () => {
+    const m = { energie: [], puissanceReseau: null } as any;
+    poserReglagesEnergie(lireReglagesEnergie(prefs));
+    expect(energiesMaison({ entities: {}, states: {} } as any, m)).toEqual(["sensor.linky_hp", "sensor.linky_hc"]);
+    poserReglagesEnergie(null);
+  });
+
+  it("le bilan donne le coût, comparé à la période d'avant", async () => {
+    poserReglagesEnergie({ reseau: ["sensor.linky"], retour: [], solaire: [], gaz: [], eau: [], couts: ["sensor.linky_cost"], appareils: [], puissance: [] });
+    const { avant } = semainePassee(new Date("2026-11-17T12:00:00"));
+    const hass = {
+      states: {}, entities: {}, devices: {}, floors: {}, areas: {}, config: { latitude: 0, longitude: 0, currency: "EUR" }, locale: { language: "fr" },
+      callWS: async (msg: Record<string, any>) => (msg.statistic_ids?.[0] === "sensor.linky_cost"
+        ? { "sensor.linky_cost": Array.from({ length: 14 }, (_, i) => ({ start: avant.getTime() + i * 86400000, change: i < 7 ? 2 : 1.5 })) }
+        : msg.statistic_ids?.[0] === "sensor.linky"
+          ? { "sensor.linky": Array.from({ length: 14 }, (_, i) => ({ start: avant.getTime() + i * 86400000, change: 10 })) } : {}),
+    } as unknown as HomeAssistant;
+    const b = await chargerBilan(hass, analyser(hass as Instantane), new Date("2026-11-17T12:00:00"));
+    expect(b.energie).toMatchObject({ total: 70, precedent: 70, cout: 10.5, coutPrecedent: 14 });
+    poserReglagesEnergie(null);
   });
 });

@@ -6,7 +6,7 @@ import { historique, type Serie } from "../donnees/historique";
 import type { HomeAssistant } from "../ha";
 import { courbe } from "../mise-en-page/courbes";
 import type { Maison } from "../moteur/types";
-import { moyenneInterieure, temperatureDehors } from "../moteur/valeurs";
+import { enMarcheClimat, moyenneInterieure, temperatureDehors } from "../moteur/valeurs";
 import { degres, estFrancais, heure, langue, naviguer, nombre, phaseLune, plusDInfos, t, valide } from "../outils";
 import { CarteAutomatic, definis, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
@@ -59,10 +59,10 @@ export class AutomaticApercu extends CarteAutomatic {
       const d = moyenneInterieure(hass, m);
       if (d === null) return null;
       const e = temperatureDehors(hass, m);
-      const enMarche = m.climats.filter((x) => !["off", "unavailable"].includes(etat(x.id)?.state ?? "")).length;
+      const enMarche = enMarcheClimat(hass, m);
       this.chargerCourbe("climat", m.temperaturesInterieures.map((c) => c[0]).slice(0, 8));
       return this.gabarit("mdi:home-thermometer-outline", tx.climat, html`${nombre(hass, d, 1)}<small>° ${tx.dedans}</small>`,
-        [e !== null ? `${tx.dehors} ${degres(hass, e)}` : "", enMarche ? (estFrancais(hass) ? `${enMarche} en marche` : `${enMarche} running`) : ""]
+        [e !== null ? `${tx.dehors} ${degres(hass, e)}` : "", enMarche]
           .filter(Boolean).join(" · "));
     }
     if (s === "energie") {

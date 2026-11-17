@@ -20,8 +20,8 @@ export class AutomaticConfort extends CarteAutomatic {
     .ligne:first-child{border-top:0}
     .nom{font-weight:600;font-size:14.5px;color:var(--primary-text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .temp{font-size:16px;font-weight:650;text-align:right;color:var(--primary-text-color)}
-    .echelle{position:relative;height:8px;border-radius:999px;background:var(--automatic-dashboard-fond-alt)}
-    .zone{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--automatic-dashboard-vert-pale);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--automatic-dashboard-vert) 30%, transparent)}
+    .echelle{position:relative;height:8px;border-radius:999px;background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color))}
+    .zone{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--automatic-dashboard-vert-pale, color-mix(in srgb, var(--success-color, #1E6B47) 12%, transparent));box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--automatic-dashboard-vert, var(--success-color, #1E6B47)) 30%, transparent)}
     .point{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid var(--ha-card-background);background:var(--primary-color)}
     .point.froid{background:var(--state-climate-cool-color)} .point.chaud{background:var(--state-climate-heat-color)}
     .hum{font-size:12.5px;text-align:right}

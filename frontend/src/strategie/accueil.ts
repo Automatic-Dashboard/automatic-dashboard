@@ -5,29 +5,33 @@ import { avecLargeurs } from "../mise-en-page/rangees";
 import type { Maison, Reglages } from "../moteur/types";
 import { estFrancais, t } from "../outils";
 import { type CarteConfig, section, titre, tuile, vue, type VueConfig } from "./configs";
+import { lireFavorisPerso } from "../donnees/favoris";
 
 type AvecReglages = (c: CarteConfig) => CarteConfig;
 
 /** Les commandes habituelles prédites par Home Assistant, sinon une lumière par pièce de vie, puis les thermostats. */
 export async function favorisAutomatiques(hass: HomeAssistant, m: Maison): Promise<string[]> {
+  // Jamais une entité masquée dans les réglages ou écartée du tri (la prédiction ne les connaît pas),
+  // et seulement ce qui se commande : la météo ou un capteur ont déjà leur place ailleurs.
+  const commandes = new Set(m.gardees.filter((e) => e.role === "commande").map((e) => e.id));
+  const garder = (ids: string[]) => ids.filter((id) => hass.states[id] && commandes.has(id));
   let favoris: string[] = [];
   try {
     const r = await hass.callWS<{ entities?: string[] }>({ type: "usage_prediction/common_control" });
-    favoris = r?.entities ?? [];
+    favoris = garder(r?.entities ?? []);
   } catch {
     // Pas de prédiction : on choisit nous-mêmes.
   }
+  // Rien d'utilisable dans la prédiction : une lumière par pièce de vie, puis les thermostats.
   if (!favoris.length) {
-    favoris = [
+    favoris = garder([
       ...m.pieces.filter((p) => !p.exterieur && !p.annexe)
         .map((p) => p.entites.find((e) => e.domaine === "light" && e.principale) ?? p.entites.find((e) => e.domaine === "light"))
         .filter((e) => e !== undefined).map((e) => e.id),
       ...m.climats.filter((e) => e.piece).map((e) => e.id),
-    ];
+    ]);
   }
-  // Jamais une entité masquée dans les réglages ou écartée du tri (la prédiction ne les connaît pas).
-  const gardees = new Set(m.gardees.map((e) => e.id));
-  return favoris.filter((id) => hass.states[id] && gardees.has(id));
+  return favoris;
 }
 
 /**
@@ -35,6 +39,12 @@ export async function favorisAutomatiques(hass: HomeAssistant, m: Maison): Promi
  * l'a refusé) les commandes habituelles, pour remplir les rangées : 4 ou 8 tuiles.
  * Au-delà de 8 épinglés, on les montre tous, sans rien ajouter.
  */
+/** Les favoris de la personne connectée : les siens s'il en a choisi, sinon ceux épinglés dans le tableau. */
+export async function favorisDeLaPersonne(hass: HomeAssistant, m: Maison, reglages: Reglages = {}): Promise<string[]> {
+  const perso = await lireFavorisPerso(hass);
+  return choisirFavoris(hass, m, perso.length ? { ...reglages, favoris: perso } : reglages);
+}
+
 export async function choisirFavoris(hass: HomeAssistant, m: Maison, reglages: Reglages = {}): Promise<string[]> {
   // Les épinglés des réglages d'abord, dans leur ordre, puis ceux posés par étiquette.
   const epingles = [...new Set([...(reglages.favoris ?? []), ...m.favorisEtiquette])].filter((id) => hass.states[id]);
@@ -84,7 +94,13 @@ export function accueilMaison(hass: HomeAssistant, m: Maison, avecReglages: Avec
   const tx = t(hass);
   const piece = (id: string) => avecReglages({ type: "custom:automatic-dashboard-piece", piece: id });
   const scene = [section([avecReglages({ type: "custom:automatic-dashboard-points" })])];
-  if (favoris.length) scene.push(section([titre(tx.favoris), ...favoris.map((id) => ({ type: "tile", entity: id }))]));
+  // Les favoris : la tuile Automatic Dashboard (nom sur deux lignes) ou celle de Home Assistant, au choix.
+  const favori = (id: string): CarteConfig => (m.reglages.tuiles === "home_assistant"
+    ? { type: "tile", entity: id } : avecReglages({ type: "custom:automatic-dashboard-favori", entity: id }));
+  // « Mes favoris » : chacun choisit les siens, depuis le titre de la rangée.
+  const mesFavoris = { badges: [{ type: "button", text: tx.modifierFavoris, icon: "mdi:star-cog-outline",
+    tap_action: { action: "navigate", navigation_path: "mes-favoris" } }] };
+  if (favoris.length) scene.push(section([titre(tx.favoris, mesFavoris), ...favoris.map(favori)]));
 
   const pieces = m.pieces.filter((p) => p.utiles > 0);
   if (m.mode === "complet" && m.etages.length > 1) {

@@ -8,8 +8,14 @@ import { avecArticle } from "./conseils";
 import type { Point } from "./points";
 import type { Maison } from "./types";
 
-/** Tout le monde est parti : au moins une personne suivie, et aucune à la maison. */
+/**
+ * Tout le monde est parti : l'alarme est armée en mode absence (ou vacances), ou bien au moins
+ * une personne est suivie et aucune n'est à la maison.
+ */
 export function estAbsent(hass: HomeAssistant, m: Maison): boolean {
+  const alarmeAbsent = m.securite.some((e) => e.domaine === "alarm_control_panel"
+    && ["armed_away", "armed_vacation"].includes(hass.states[e.id]?.state ?? ""));
+  if (alarmeAbsent) return true;
   const suivies = m.personnes.map((id) => hass.states[id])
     .filter((s) => s && Array.isArray(s.attributes.device_trackers) && s.attributes.device_trackers.length > 0);
   return suivies.length > 0 && suivies.every((s) => s.state !== "home" && s.state !== "unknown" && s.state !== "unavailable");

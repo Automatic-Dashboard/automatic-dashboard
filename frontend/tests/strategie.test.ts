@@ -11,7 +11,7 @@ import famille from "./fixtures/famille.json";
 
 const BALISES = ["automatic-dashboard-ouverture", "automatic-dashboard-pastille", "automatic-dashboard-points", "automatic-dashboard-piece", "automatic-dashboard-apercu",
   "automatic-dashboard-premiers-pas", "automatic-dashboard-heros", "automatic-dashboard-confort", "automatic-dashboard-a-ranger",
-  "automatic-dashboard-meteo-france", "automatic-dashboard-moment", "automatic-dashboard-bilan", "automatic-dashboard-plan"];
+  "automatic-dashboard-meteo-france", "automatic-dashboard-moment", "automatic-dashboard-bilan", "automatic-dashboard-plan", "automatic-dashboard-favori", "automatic-dashboard-depart", "automatic-dashboard-mes-favoris"];
 
 function hass(fixture: unknown): HomeAssistant {
   const f = fixture as HomeAssistant;
@@ -50,7 +50,7 @@ describe("chaque maison a ses pages", () => {
   it("maison complète : une page par pièce, et les pièces vides n'en ont pas", () => {
     const p = chemins(tableaux.complete.views);
     expect(p).toEqual(expect.arrayContaining(["climat", "energie", "securite", "systeme"]));
-    expect(p.filter((x) => !["accueil", "climat", "energie", "securite", "systeme", "a-ranger", "bilan", "tablette"].includes(x)).length).toBe(13);
+    expect(p.filter((x) => !["accueil", "climat", "energie", "securite", "systeme", "a-ranger", "bilan", "tablette", "depart", "mes-favoris", "air", "vehicule", "exterieur"].includes(x)).length).toBe(13);
   });
 });
 

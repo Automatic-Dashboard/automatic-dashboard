@@ -3,7 +3,15 @@
     "step": {
       "user": {
         "title": "Automatic Dashboard",
-        "description": "Ajoute Automatic Dashboard et son thème. Ensuite : Paramètres, Tableaux de bord, Ajouter un tableau de bord, Automatic Dashboard."
+        "description": "Ajoute Automatic Dashboard et son thème. Le tableau se construit tout seul à partir de vos appareils, de vos pièces et de vos étages.",
+        "data": {
+          "creer_tableau": "Créer le tableau Automatic Dashboard",
+          "par_defaut": "En faire le tableau par défaut pour tout le monde"
+        },
+        "data_description": {
+          "creer_tableau": "Il apparaît dans la barre latérale dès que Home Assistant est rechargé.",
+          "par_defaut": "Tout le monde arrive dessus en ouvrant Home Assistant. Vous pourrez changer d'avis dans Paramètres, Tableaux de bord."
+        }
       }
     },
     "abort": {

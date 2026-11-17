@@ -123,3 +123,27 @@ describe("le signalement", () => {
     expect(JSON.stringify(d)).not.toContain("Léa");
   });
 });
+
+describe("le diagnostic dans un ticket", () => {
+  it("tient dans un ticket pour la maison familiale, et se relit en se triant pareil", () => {
+    const h = maisons.famille;
+    const texte = texteDiagnostic(diagnostiquer(h));
+    expect(texte.length).toBeLessThan(60000);
+    const relu = JSON.parse(texte);
+    const vraie = analyser(h);
+    const decrite = analyser(relu.maison as Instantane);
+    expect([decrite.mode, decrite.compteurs]).toEqual([vraie.mode, vraie.compteurs]);
+  });
+
+  it("« Il devrait être… » devient ce que le cas de test vérifiera", () => {
+    const h = maisons.famille;
+    const [lampe, capteur] = [Object.keys(h.entities).find((x) => x.startsWith("light.") && h.states[x])!, "sensor.outside_temperature"];
+    const salon = Object.values(h.areas).find((a) => a.name === "Salon")!.area_id;
+    const d = diagnostiquer(h, {}, [lampe, capteur], { [lampe]: "cache", [capteur]: `piece:${salon}` });
+    const [a, b] = d.signalement.map((s) => s.entite);
+    expect(d.attendu.entites[a]).toEqual({ ecartee: true });
+    expect(d.attendu.entites[b]).toMatchObject({ ecart: null });
+    expect(d.attendu.entites[b].piece).toMatch(/^p\d+$/);
+    expect(d.maison.areas[d.attendu.entites[b].piece!]).toBeDefined();
+  });
+});

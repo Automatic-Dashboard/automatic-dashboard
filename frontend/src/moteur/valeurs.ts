@@ -1,7 +1,9 @@
 // Les valeurs vivantes, lues à chaque rendu dans `hass.states` (le tri, lui, ne change pas).
 
 import type { HomeAssistant } from "../ha";
-import { valide } from "../outils";
+import { estFrancais, valide } from "../outils";
+import { reglagesEnergie } from "../donnees/energie";
+import { chauffe } from "./conseils";
 import type { Maison } from "./types";
 
 /** Première valeur numérique disponible parmi des candidats ordonnés. */
@@ -38,6 +40,9 @@ export function temperatureDehors(hass: HomeAssistant, m: Maison): number | null
  * Jamais la somme des prises.
  */
 export function energiesMaison(hass: HomeAssistant, m: Maison): string[] {
+  // Les compteurs déclarés dans les réglages Énergie de Home Assistant l'emportent toujours.
+  const declares = reglagesEnergie()?.reseau ?? [];
+  if (declares.length) return declares;
   const reseau = m.puissanceReseau ? hass.entities[m.puissanceReseau]?.device_id : null;
   const energies = m.energie.filter((e) => e.classe === "energy");
   if (reseau) {
@@ -46,4 +51,24 @@ export function energiesMaison(hass: HomeAssistant, m: Maison): string[] {
   }
   const maison = energies.find((e) => !e.piece && /maison|home|total|linky|compteur|index|r(é|e)seau|grid/i.test(e.etat.attributes.friendly_name ?? ""));
   return maison ? [maison.id] : [];
+}
+
+/** « 2 chauffages et 1 clim en marche » : ce que font les appareils de climat allumés. */
+export function enMarcheClimat(hass: HomeAssistant, m: Maison): string {
+  const fr = estFrancais(hass);
+  const actifs = m.climats.filter((e) => !["off", "unavailable", "unknown"].includes(hass.states[e.id]?.state ?? "off"));
+  if (!actifs.length) return "";
+  const etat = (id: string) => hass.states[id];
+  const froid = (id: string) => etat(id)?.attributes.hvac_action === "cooling" || (!etat(id)?.attributes.hvac_action && etat(id)?.state === "cool");
+  const chauffages = actifs.filter((e) => e.domaine === "water_heater" || (e.domaine === "climate" && chauffe(etat(e.id)))).length;
+  const clims = actifs.filter((e) => e.domaine === "climate" && froid(e.id)).length;
+  const autres = actifs.length - chauffages - clims;
+  const pluriel = (n: number, un: string, plusieurs: string) => (n ? `${n} ${n > 1 ? plusieurs : un}` : "");
+  const parties = fr
+    ? [pluriel(chauffages, "chauffage", "chauffages"), pluriel(clims, "clim", "clims"), pluriel(autres, "appareil", "appareils")]
+    : [pluriel(chauffages, "heater", "heaters"), pluriel(clims, "AC unit", "AC units"), pluriel(autres, "device", "devices")];
+  const liste = parties.filter(Boolean);
+  const et = fr ? " et " : " and ";
+  const texte = liste.length > 1 ? `${liste.slice(0, -1).join(", ")}${et}${liste.at(-1)}` : liste[0];
+  return fr ? `${texte} en marche` : `${texte} running`;
 }

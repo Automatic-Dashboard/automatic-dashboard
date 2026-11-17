@@ -62,6 +62,15 @@ docker rm -f automatic-sonde-8130 && rm -rf dev/neuve                    # pour 
 
 `maison_neuve.sh` monte une maison familiale toute neuve sur l'image demandée (le dossier doit être sous votre dossier personnel avec Colima).
 
+## Publier
+
+```sh
+dev/scripts/publier.sh --essai         # la première publication : dépôts, réglages GitHub, site, version
+dev/scripts/demander_hacs.sh --essai   # la demande d'inscription au catalogue officiel de HACS
+```
+
+Sans `--essai`, ils le font. Le mode d'emploi complet est dans `docs/publication.md`.
+
 ## Outils
 
 ```sh

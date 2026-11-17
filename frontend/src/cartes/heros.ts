@@ -43,12 +43,12 @@ export class AutomaticHeros extends CarteAutomatic {
     .bouton ha-icon{--mdc-icon-size:18px}
     .boutons{display:flex;flex-wrap:wrap;gap:10px}
     .liste{display:grid;gap:8px;align-content:center}
-    .item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--automatic-dashboard-fond-alt);font-size:14px;font-weight:550;color:var(--primary-text-color)}
+    .item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color));font-size:14px;font-weight:550;color:var(--primary-text-color)}
     .item ha-icon{--mdc-icon-size:18px;color:var(--warning-color)}
-    .item.ok ha-icon{color:var(--automatic-dashboard-vert)}
-    .alerte{background:var(--automatic-dashboard-alerte-pale)} .alerte .ico{background:var(--automatic-dashboard-alerte);color:#fff}
-    .barre{height:12px;border-radius:999px;background:var(--automatic-dashboard-fond-alt);overflow:hidden;margin:12px 0 6px}
-    .barre span{display:block;height:100%;border-radius:999px;background:var(--automatic-dashboard-vert)}
+    .item.ok ha-icon{color:var(--automatic-dashboard-vert, var(--success-color, #1E6B47))}
+    .alerte{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent))} .alerte .ico{background:var(--automatic-dashboard-alerte, var(--error-color, #B42318));color:#fff}
+    .barre{height:12px;border-radius:999px;background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color));overflow:hidden;margin:12px 0 6px}
+    .barre span{display:block;height:100%;border-radius:999px;background:var(--automatic-dashboard-vert, var(--success-color, #1E6B47))}
     .legende{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:var(--secondary-text-color)}
     .colonne{display:flex;flex-direction:column;gap:16px;justify-content:center;height:100%}
   `];
@@ -224,7 +224,7 @@ export class AutomaticHeros extends CarteAutomatic {
       ${majs ? html`<button class="bouton" @click=${() => naviguer("/config/updates")}>${w.voir}</button>` : nothing}</div>`;
     let droite: TemplateResult;
     if (!ok(dReussie) && !ok(dProchaine)) {
-      droite = html`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--automatic-dashboard-alerte-pale);color:var(--automatic-dashboard-alerte)"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
+      droite = html`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));color:var(--automatic-dashboard-alerte, var(--error-color, #B42318))"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
         <span>${w.sansSauvegarde}<div class="detail">${w.sansSauvegardeDetail}</div></span></div>
         <div class="boutons"><button class="bouton" @click=${() => naviguer("/config/backup")}>${w.regler}</button></div></div>`;
     } else {

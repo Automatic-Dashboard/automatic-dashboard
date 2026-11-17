@@ -1,0 +1,36 @@
+name: Mon retour de testeur
+description: Vous avez installé Automatic Dashboard chez vous ? Dites ce qui marche et ce qui coince.
+title: "Retour de testeur : "
+labels: ["testeur"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de tester ! Le tableau a été mis au point sur des maisons d'essai : la vôtre lui apprendra ce qu'elles ne montrent pas.
+        Thanks for testing! The dashboard was tuned on test homes: yours will teach it what they don't show. (English welcome.)
+  - type: input
+    id: maison
+    attributes:
+      label: Votre maison
+      description: "En haut des réglages du tableau (le crayon) : le mode et les chiffres."
+      placeholder: « mode Maison (60 entités utiles, 45 appareils, 8 pièces) »
+    validations:
+      required: true
+  - type: textarea
+    id: bien
+    attributes:
+      label: Ce qui marche bien
+      placeholder: Ce que vous avez aimé, ce qui vous a fait gagner du temps.
+  - type: textarea
+    id: mal
+    attributes:
+      label: Ce qui coince
+      description: "Un appareil mal rangé ? Joignez le diagnostic (réglages, « Signaler un problème », « Télécharger le diagnostic »). Une capture aide aussi beaucoup."
+      placeholder: « Le capteur de signal de ma prise apparaît dans le salon. »
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: Home Assistant 2026.12.1, Automatic Dashboard 2026.12.0, sur téléphone et ordinateur

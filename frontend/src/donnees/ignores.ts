@@ -1,26 +1,40 @@
-// Les points ignorés pour aujourd'hui : une fenêtre ouverte exprès ne reste pas en tête
-// toute la journée. Gardés dans les données de l'utilisateur de Home Assistant (le même
-// réglage sur tous ses écrans), ou dans le navigateur si elles ne sont pas accessibles.
+// Les points ignorés « tant que ça ne change pas » : une fenêtre ouverte exprès ne reste pas
+// en tête ; refermée puis rouverte, elle revient. Chaque point ignoré garde sa signature
+// (l'état et l'heure du dernier changement, ou le texte du conseil) : dès qu'elle change, le
+// point revient. Gardés dans les données de l'utilisateur de Home Assistant (le même réglage
+// sur tous ses écrans), ou dans le navigateur si elles ne sont pas accessibles.
 // Un point grave (fuite, fumée, alarme) ne s'ignore jamais.
 
 import type { HomeAssistant } from "../ha";
 
 const CLE = "automatic_dashboard_ignores";
 export const EVENEMENT = "automatic-dashboard-ignores";
+/** Au-delà, un point ignoré est oublié, même s'il n'a pas changé. */
+const OUBLI = 30 * 24 * 3600000;
 
-/** Point → jour où il a été ignoré (AAAA-MM-JJ, heure locale). */
-let ignores: Record<string, string> = {};
+interface Ignore {
+  /** La signature du point au moment où il a été ignoré. */
+  s: string;
+  /** Quand (millisecondes). */
+  t: number;
+}
+
+/** Point → signature au moment où il a été ignoré. */
+let ignores: Record<string, Ignore> = {};
 let suivi = false;
 
-const deux = (n: number) => String(n).padStart(2, "0");
-export const aujourdhui = (d = new Date()): string => `${d.getFullYear()}-${deux(d.getMonth() + 1)}-${deux(d.getDate())}`;
+export const estIgnore = (cle: string, signature: string): boolean => ignores[cle]?.s === signature;
 
-export const estIgnore = (cle: string): boolean => ignores[cle] === aujourdhui();
-export const ignoresDuJour = (): string[] => Object.keys(ignores).filter(estIgnore);
-
-function publier(valeur: Record<string, string> | null | undefined): void {
-  ignores = valeur && typeof valeur === "object" ? valeur : {};
-  window.dispatchEvent(new Event(EVENEMENT));
+function publier(valeur: unknown): void {
+  // Les anciennes valeurs (une date par point) ne ressemblent pas à une signature : elles sont oubliées.
+  const propre: Record<string, Ignore> = {};
+  if (valeur && typeof valeur === "object") {
+    for (const [cle, v] of Object.entries(valeur as Record<string, unknown>)) {
+      if (v && typeof v === "object" && typeof (v as Ignore).s === "string" && typeof (v as Ignore).t === "number") propre[cle] = v as Ignore;
+    }
+  }
+  ignores = propre;
+  if (typeof window !== "undefined") window.dispatchEvent(new Event(EVENEMENT));
 }
 
 function lireNavigateur(): void {
@@ -31,22 +45,24 @@ function lireNavigateur(): void {
   }
 }
 
+type Connexion = { subscribeMessage: (cb: (m: { value?: unknown }) => void, msg: object) => Promise<unknown> };
+
 /** S'abonne une fois aux points ignorés de l'utilisateur : chaque écran suit les autres. */
 export function suivreIgnores(hass: HomeAssistant): void {
   if (suivi) return;
   suivi = true;
-  const connexion = (hass as { connection?: { subscribeMessage: (cb: (m: { value?: Record<string, string> }) => void, msg: object) => Promise<unknown> } }).connection;
+  const connexion = (hass as { connection?: Connexion }).connection;
   if (!connexion) return lireNavigateur();
   connexion.subscribeMessage((message) => publier(message.value), { type: "frontend/subscribe_user_data", key: CLE }).catch(lireNavigateur);
 }
 
-/** Ignore un point jusqu'à demain (ou le remontre). Les jours passés sont oubliés. */
-export async function ignorer(hass: HomeAssistant, cles: string[], oui: boolean): Promise<void> {
-  const jour = aujourdhui();
-  const suivant = Object.fromEntries(Object.entries(ignores).filter(([, j]) => j === jour));
-  for (const cle of cles) {
-    if (oui) suivant[cle] = jour;
-    else delete suivant[cle];
+/** Ignore des points tant qu'ils ne changent pas (ou les remontre). */
+export async function ignorer(hass: HomeAssistant, points: { cle: string; signature: string }[], oui: boolean): Promise<void> {
+  const maintenant = Date.now();
+  const suivant = Object.fromEntries(Object.entries(ignores).filter(([, v]) => maintenant - v.t < OUBLI));
+  for (const p of points) {
+    if (oui) suivant[p.cle] = { s: p.signature, t: maintenant };
+    else delete suivant[p.cle];
   }
   publier(suivant);
   try {
@@ -57,6 +73,6 @@ export async function ignorer(hass: HomeAssistant, cles: string[], oui: boolean)
 }
 
 /** Pour les tests. */
-export const remettreIgnores = (valeur: Record<string, string> = {}): void => {
+export const remettreIgnores = (valeur: Record<string, Ignore> = {}): void => {
   ignores = valeur;
 };

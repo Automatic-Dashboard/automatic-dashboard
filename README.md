@@ -54,59 +54,44 @@ Home Assistant génère déjà une vue d'ensemble : des pièces et des résumés
 
 ## Installer
 
-Automatic Dashboard demande Home Assistant 2026.9 ou plus récent.
+Il faut Home Assistant 2026.9 ou plus récent, et [HACS](https://hacs.xyz/docs/use/).
 
-1. **Ajoutez Automatic Dashboard à HACS.** En attendant son inscription au catalogue officiel (et donc au Marketplace de Home Assistant), ajoutez-le comme dépôt personnalisé :
+1. **Téléchargez Automatic Dashboard dans HACS**, puis redémarrez Home Assistant. En attendant son inscription au catalogue officiel (et donc au Marketplace de Home Assistant), ce bouton l'ajoute comme dépôt personnalisé :
 
-   [![Ajouter à HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Automatic-Dashboard&repository=automatic-dashboard&category=integration)
+   [![Ouvrir dans HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Automatic-Dashboard&repository=automatic-dashboard&category=integration)
 
-2. **Ajoutez l'intégration**, puis redémarrez Home Assistant :
+2. **Ajoutez l'intégration.** Un écran, deux cases : créer le tableau (cochée), et en faire le tableau par défaut pour tout le monde.
 
    [![Ajouter l'intégration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=automatic_dashboard)
 
-3. **Créez le tableau** : Paramètres, Tableaux de bord, Ajouter un tableau de bord, rubrique « Tableaux de bord communautaires », Automatic Dashboard.
+3. **Rechargez la page** : le tableau est dans la barre latérale. C'est prêt.
 
-L'intégration installe aussi le thème Automatic Dashboard (clair et sombre). Le tableau l'utilise même si vous gardez un autre thème ailleurs.
+L'intégration installe aussi le thème Automatic Dashboard (clair et sombre), et trois étiquettes de réglage en masse. Le pas à pas complet, avec les questions fréquentes, est dans [la documentation](https://automatic-dashboard.github.io/documentation/).
 
-## Réglages
+## À votre goût
 
-Tout est automatique, mais vous pouvez préciser : sur le tableau, le crayon en haut à droite (« Modifier le tableau de bord ») ouvre les réglages d'Automatic Dashboard.
+Tout est automatique, mais tout se règle : sur le tableau, le crayon en haut à droite (« Modifier le tableau de bord ») ouvre les réglages d'Automatic Dashboard.
 
-- **Mode** : automatique (Automatic Dashboard montre ce qu'il a vu chez vous : « mode Maison, 40 entités utiles, 40 appareils, 7 pièces »), ou forcé en Découverte, Maison ou Complet.
-- **Favoris** : épinglez les vôtres et faites-les glisser pour les ranger (ou les flèches du clavier). Les appareils que vous utilisez le plus complètent la rangée, sauf si vous le refusez.
-- **Masqués** : ce qu'Automatic Dashboard ne montre nulle part, sans rien changer ailleurs dans Home Assistant.
-- **Noms** : le nom affiché dans Automatic Dashboard, sans renommer l'appareil dans Home Assistant ni pour les assistants vocaux.
-- **Pièces** : elles suivent l'ordre choisi dans Home Assistant (Paramètres, Pièces) ; un lien y mène.
+- **Mode** : automatique (le tableau montre ce qu'il a vu chez vous : « mode Maison, 40 entités utiles, 40 appareils, 7 pièces »), ou forcé en Découverte, Maison ou Complet.
+- **Apparence** : quatre styles (Automatic, Doux, Contrasté, ou votre thème Home Assistant), les pièces de Climat en barres ou en mosaïque, les tuiles des favoris, et le ciel du jour, les conseils et le bilan à garder ou non.
+- **Favoris** du tableau, à épingler et ranger ; et sur l'accueil, **Mes favoris** : chacun choisit les siens, sans être administrateur.
+- **Masqués** et **Noms** : ce que le tableau ne montre pas, et le nom qu'il affiche, sans rien changer ailleurs dans Home Assistant.
+- **Me prévenir** : en cas de fuite, de fumée, de pile faible ou de sauvegarde ratée, l'automatisme tout fait, avec le choix des téléphones à prévenir.
+- **Tablette murale** : les heures de nuit de l'écran de veille, et le détecteur qui rallume l'écran au passage.
 
-![Les réglages d'Automatic Dashboard dans l'éditeur visuel : mode, favoris, masqués, noms](docs/captures/v1/famille/editeur-ordinateur-clair.png)
+![Les réglages d'Automatic Dashboard dans l'éditeur visuel](docs/captures/v1/famille/editeur-ordinateur-clair.png)
 
-Les mêmes réglages, en mode YAML du tableau :
-
-```yaml
-strategy:
-  type: custom:automatic-dashboard
-  mode: complet          # sinon automatique
-  favoris:               # épinglés, dans cet ordre
-    - light.salon
-  completer: false       # seulement les épinglés
-  masquer:               # entités à ne jamais montrer
-    - switch.prise_technique
-  noms:                  # noms affichés dans Automatic Dashboard
-    light.lampe_chevet: Veilleuse
-```
-
-Pour une pièce, la température affichée est celle que vous choisissez dans les réglages de la pièce dans Home Assistant ; sinon, celle d'un thermomètre de la pièce.
+Les mêmes réglages s'écrivent en YAML : voir [la documentation](https://automatic-dashboard.github.io/documentation/#en-yaml).
 
 ## Au quotidien
 
-- **Des conseils, pas seulement des constats** : « Fermez la fenêtre du salon » quand le chauffage tourne, « Aérez la chambre » quand le CO₂ monte.
-- **Ignorer un point pour aujourd'hui** (l'œil barré) : la fenêtre ouverte exprès ne reste pas en tête toute la journée. Elle revient demain.
-- **Me prévenir** (la cloche) sur une fuite, une pile faible ou une sauvegarde ratée : l'automatisme tout fait est créé dans Home Assistant, il prévient vos téléphones.
-- **Le mode absence** : quand tout le monde est parti, la phrase et les points mettent la sécurité en tête. La disposition ne bouge pas.
-- **Le bilan de la semaine**, annoncé le lundi : l'énergie jour par jour, les températures, ce qui s'est ouvert.
-- **Le ciel du jour** en tête de l'accueil, **la maison en plan** dans Climat, et **une page tablette murale** (`/votre-tableau/tablette`) avec un écran de veille la nuit.
+- **Des conseils, pas seulement des constats** : « Fermez la fenêtre du salon » quand le chauffage tourne, « Aérez la chambre » quand le CO₂ monte, « Fermez les volets » quand il fait chaud, « Le lave-linge a fini ».
+- **Les points à regarder** s'ignorent tant qu'ils ne changent pas (le bouton ⋯), sauf une fuite ou une alarme.
+- **Le mode absence** : quand tout le monde est parti, la sécurité passe en tête. **Je pars** : ce qui reste ouvert ou allumé, avec un bouton par geste.
+- **Le bilan** de la semaine ou du mois : l'énergie et son coût (d'après les réglages Énergie de Home Assistant), les températures, ce qui s'est ouvert.
+- **Des pages qui apparaissent seules** quand la maison en a besoin : Air, Véhicule, Extérieur.
+- **Le ciel du jour** en tête de l'accueil, et **une page tablette murale** en plein écran, avec un écran de veille la nuit.
 - **« À ranger » propose la pièce** d'après le nom de l'appareil, en un clic.
-- **Les étiquettes « Automatic Dashboard : masquer », « favori » et « extérieur »**, créées par l'intégration, règlent des dizaines d'entités d'un coup depuis Home Assistant.
 - **Signaler un problème** : dans les réglages, un diagnostic de votre maison sans aucun nom ni valeur, à joindre au ticket. Il devient un cas de test, pour que l'erreur ne revienne jamais.
 
 ## Vie privée
@@ -141,4 +126,4 @@ Home Assistant est une marque de l'Open Home Foundation. Automatic Dashboard n'y
 
 ## In English
 
-**Install it, it's ready.** Automatic Dashboard builds a complete, polished Home Assistant dashboard from your own devices, rooms and floors, with nothing to configure. As its name says, it builds itself, and rebuilds itself when the home changes. It adapts to your home with three densities (Discovery for beginners, Home, Complete for hundreds of entities) and keeps one visual identity for everyone. It is a free, community project started by Antonin Chenavaz: no paid features, no data collected, no external service contacted. Install it through HACS (custom repository for now), add the integration, then add the "Automatic Dashboard" community dashboard. Settings (mode, favorites, hidden entities, names) are in the visual editor ("Edit dashboard"). Day to day, it gives advice rather than facts (close the window while the heating is on, air out a stuffy room), lets you ignore a thing to check for today, creates ready-made "notify me" automations, switches to an away mode when everyone has left, sums up the week every Monday, draws the sky of the day and a floor plan colored by temperature, offers a wall tablet page, suggests the room of unassigned devices, and reads bulk-setting labels. Reporting a problem attaches a diagnostic of the home without any name or value, which becomes a test case. The interface is available in French and English; contributions and bug reports in English are welcome ([contributing guide](CONTRIBUTING.md), [changelog](CHANGELOG.md)).
+**Install it, it's ready.** Automatic Dashboard builds a complete, polished Home Assistant dashboard from your own devices, rooms and floors, with nothing to configure. As its name says, it builds itself, and rebuilds itself when the home changes. It adapts to your home with three densities (Discovery for beginners, Home, Complete for hundreds of entities) and keeps one visual identity for everyone. It is a free, community project started by Antonin Chenavaz: no paid features, no data collected, no external service contacted. Install it through HACS (custom repository for now), add the integration (one screen: it creates the dashboard for you, and can make it everyone's default), reload the page: it's ready. Everything can be adjusted in the visual editor ("Edit dashboard"): mode, four styles, how rooms are shown, favorites (and each person's own), hidden entities, names, ready-made "notify me" automations with a choice of phones, and the wall tablet. Day to day, it gives advice rather than facts, lets you ignore a thing to check while nothing changes, puts security first when everyone has left, lists what to do before leaving, sums up the week or month with the energy cost, adds Air, Vehicle and Outdoor pages when the home has them, and suggests the room of unassigned devices. Reporting a problem attaches a diagnostic of the home without any name or value, which becomes a test case. The interface is available in French and English; contributions and bug reports in English are welcome ([contributing guide](CONTRIBUTING.md), [changelog](CHANGELOG.md)).

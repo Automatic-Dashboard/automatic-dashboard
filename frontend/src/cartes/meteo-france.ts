@@ -28,12 +28,12 @@ export class AutomaticMeteoFrance extends CarteAutomatic {
     .barre i.i3{background:var(--primary-color)}
     .axe{display:flex;justify-content:space-between;margin-top:5px;font-size:11.5px;color:var(--secondary-text-color)}
     button.vert{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--secondary-text-color);border-radius:8px}
-    .pastille{width:9px;height:9px;border-radius:50%;background:var(--automatic-dashboard-vert);flex:none}
+    .pastille{width:9px;height:9px;border-radius:50%;background:var(--automatic-dashboard-vert, var(--success-color, #1E6B47));flex:none}
     .vigilance{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:13px 14px;border-radius:14px}
     .vigilance .ico{width:38px;height:38px}
     .n1{background:rgba(232,194,26,.16)} .n1 .ico{background:#E8C21A;color:#3A3000}
     .n2{background:rgba(233,140,40,.16)} .n2 .ico{background:#E98C28;color:#fff}
-    .n3{background:var(--automatic-dashboard-alerte-pale)} .n3 .ico{background:var(--automatic-dashboard-alerte);color:#fff}
+    .n3{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent))} .n3 .ico{background:var(--automatic-dashboard-alerte, var(--error-color, #B42318));color:#fff}
     .titre{font-size:15px;font-weight:700;color:var(--primary-text-color)}
     .phenomenes{font-size:13.5px;font-weight:600;color:var(--primary-text-color);margin-top:2px}
     .conseil{margin:6px 0 0;font-size:13px;line-height:1.4;color:var(--secondary-text-color)}

@@ -744,10 +744,48 @@ var TEXTES$1 = {
 		ouvertures: "Portes et fenêtres",
 		alertes: "Détecteurs",
 		toutVaBien: "Tout va bien à la maison.",
+		mesFavoris: "Mes favoris",
+		mesFavorisPhrase: "Les vôtres remplacent ceux du tableau, pour vous seulement, sur tous vos écrans.",
+		mesFavorisListe: "Vos favoris",
+		mesFavorisOrdre: "Dans l'ordre de l'accueil : les flèches le changent.",
+		mesFavorisVide: "Vous n'en avez pas choisi : l'accueil montre ceux du tableau. Touchez les étoiles ci-dessous.",
+		monter: "Monter",
+		descendre: "Descendre",
+		retirerFavori: "Retirer de mes favoris",
+		sansPieceTitre: "Sans pièce",
+		favorisDuTableau: "Revenir aux favoris du tableau",
+		termine: "Terminé",
+		modifierFavoris: "Mes favoris",
+		air: "Air",
+		vehicule: "Véhicule",
+		exterieur: "Extérieur",
+		airBon: "L'air est bon partout.",
+		vehiculeSansBatterie: "Votre véhicule et sa recharge.",
+		vehiculeBatterie: (v, charge) => `Batterie à ${v} %${charge ? ", en charge" : ""}.`,
+		voitureChargee: "La voiture est chargée",
+		jePars: "Je pars",
+		departPhrase: "Ce qui reste ouvert, allumé ou déverrouillé, et un bouton pour chaque geste.",
+		departLumieres: (n) => `${n} lumière${n > 1 ? "s allumées" : " allumée"}`,
+		departSerrures: (n) => `${n} serrure${n > 1 ? "s ouvertes" : " ouverte"}`,
+		departVolets: (n) => `${n} volet${n > 1 ? "s ouverts" : " ouvert"}`,
+		departAlarme: "L'alarme est désarmée",
+		departOuvertures: (n) => n > 1 ? `${n} portes ou fenêtres ouvertes` : "1 porte ou fenêtre ouverte",
+		aLaMain: "À fermer à la main",
+		departPret: "Tout est fermé et éteint. Bonne journée !",
+		departEchec: "Ça n'a pas marché :",
+		toutVerrouiller: "Tout verrouiller",
+		aFaire: (n) => `${n} à faire`,
 		reveiller: "Toucher pour rallumer l'écran",
-		bilan: "Bilan de la semaine",
+		pleinEcran: "Plein écran",
+		sortirPleinEcran: "Appui long pour quitter le plein écran",
+		bilan: "Bilan",
 		bilanPret: "Le bilan de la semaine est prêt",
+		bilanPretMois: "Le bilan du mois est prêt",
 		bilanPretDetail: "Énergie, températures et ouvertures.",
+		bilanEntete: "La semaine ou le mois passé : l'énergie et son coût, les températures, ce qui s'est ouvert.",
+		semaine: "Semaine",
+		mois: "Mois",
+		bilanPartielMois: (n) => `Home Assistant n'a que ${n} jour${n > 1 ? "s" : ""} d'historique pour ce mois : le premier bilan complet arrivera le 1er du mois prochain.`,
 		bilanPhrase: (du, au) => `Du ${du} au ${au}.`,
 		bilanVide: "Pas encore assez d'historique : le bilan se remplira tout seul au fil des semaines.",
 		bilanSansEnergie: "Pas de compteur d'énergie pour la maison.",
@@ -755,6 +793,8 @@ var TEXTES$1 = {
 		bilanEcart: (v) => `${v} par rapport à la semaine d'avant`,
 		bilanBarres: "Consommation jour par jour",
 		bilanFois: (n) => n > 1 ? "ouvertures" : "ouverture",
+		bilanPartiel: (n) => `Home Assistant n'a que ${n} jour${n > 1 ? "s" : ""} d'historique pour cette semaine : le premier bilan complet arrivera lundi prochain.`,
+		bilanSansDonnee: "Pas encore de données ce jour-là",
 		absenceCalme: "Personne à la maison, tout est fermé et éteint.",
 		absenceReste: (liste) => `Personne à la maison : ${liste}.`,
 		absOuverts: (n) => n > 1 ? `${n} ouvertures` : "1 ouverture",
@@ -780,6 +820,14 @@ var TEXTES$1 = {
 		chauffageOuvert: "Le chauffage tourne pendant que c'est ouvert.",
 		aerer: (piece) => `Aérez ${piece}`,
 		aererSans: "À aérer",
+		fermerVolets: (piece) => `Fermez les volets ${piece.replace(/^le /, "du ").replace(/^la /, "de la ").replace(/^l'/, "de l'")}`,
+		fermerVoletsSans: "Volets à fermer",
+		chaleur: (dehors, dedans) => `Il fait ${dehors} dehors et ${dedans} dedans : gardez la fraîcheur.`,
+		ouvrirFrais: "Ouvrez les fenêtres",
+		fraisDehors: (dehors, dedans) => `Il fait plus frais dehors : ${dehors}, contre ${dedans} dedans.`,
+		machineFinie: (quoi) => `${quoi} a fini`,
+		machineFinieSans: "Terminé",
+		depuis: (min) => min < 60 ? `Depuis ${min} min.` : `Depuis ${Math.floor(min / 60)} h ${String(min % 60).padStart(2, "0")}.`,
 		co2: (v) => `${v} ppm de CO₂ : quelques minutes de fenêtre ouverte suffisent.`,
 		humidite: (v) => `${v} % d'humidité : aérez pour éviter la moisissure.`,
 		majs: (n) => n > 1 ? `${n} mises à jour disponibles` : "1 mise à jour disponible",
@@ -790,13 +838,15 @@ var TEXTES$1 = {
 		sauvegardeEchecDetail: "Ouvrir les sauvegardes",
 		vigilance: (c) => `Vigilance ${c}`,
 		autres: (n) => `et ${n} autre${n > 1 ? "s" : ""}`,
-		ignorer: "Ignorer jusqu'à demain",
+		ignorer: "Ignorer tant que ça ne change pas",
+		actions: "Que faire de ce point ?",
 		prevenir: "Me prévenir la prochaine fois",
 		prevenu: "Vous serez prévenu : voir l'automatisme",
+		prevenirAdmin: "Pour être prévenu, un administrateur peut l'activer dans les réglages du tableau.",
 		automatismeCree: (nom) => `Automatisme créé : ${nom}.`,
 		automatismeEchec: "L'automatisme n'a pas pu être créé.",
 		voir: "Voir",
-		ignores: (n) => `${n} point${n > 1 ? "s" : ""} ignoré${n > 1 ? "s" : ""} jusqu'à demain.`,
+		ignores: (n) => `${n} point${n > 1 ? "s" : ""} ignoré${n > 1 ? "s" : ""} tant qu'il${n > 1 ? "s ne changent" : " ne change"} pas.`,
 		remontrer: "Remontrer",
 		allumees: (n) => n > 1 ? `${n} allumées` : n === 1 ? "1 allumée" : "Éteintes",
 		dedans: "dedans",
@@ -921,10 +971,48 @@ var TEXTES$1 = {
 		ouvertures: "Doors and windows",
 		alertes: "Detectors",
 		toutVaBien: "All is well at home.",
+		mesFavoris: "My favorites",
+		mesFavorisPhrase: "Yours replace the dashboard's, for you only, on all your screens.",
+		mesFavorisListe: "Your favorites",
+		mesFavorisOrdre: "In home page order: the arrows change it.",
+		mesFavorisVide: "You haven't chosen any: the home page shows the dashboard's. Tap the stars below.",
+		monter: "Move up",
+		descendre: "Move down",
+		retirerFavori: "Remove from my favorites",
+		sansPieceTitre: "Without area",
+		favorisDuTableau: "Back to the dashboard's favorites",
+		termine: "Done",
+		modifierFavoris: "My favorites",
+		air: "Air",
+		vehicule: "Vehicle",
+		exterieur: "Outdoor",
+		airBon: "The air is good everywhere.",
+		vehiculeSansBatterie: "Your vehicle and its charging.",
+		vehiculeBatterie: (v, charge) => `Battery at ${v}%${charge ? ", charging" : ""}.`,
+		voitureChargee: "The car is charged",
+		jePars: "I'm leaving",
+		departPhrase: "What is still open, on or unlocked, with a button for each step.",
+		departLumieres: (n) => `${n} light${n > 1 ? "s" : ""} on`,
+		departSerrures: (n) => `${n} lock${n > 1 ? "s" : ""} open`,
+		departVolets: (n) => `${n} shutter${n > 1 ? "s" : ""} open`,
+		departAlarme: "The alarm is disarmed",
+		departOuvertures: (n) => n > 1 ? `${n} doors or windows open` : "1 door or window open",
+		aLaMain: "To close by hand",
+		departPret: "Everything is closed and off. Have a nice day!",
+		departEchec: "That didn't work:",
+		toutVerrouiller: "Lock all",
+		aFaire: (n) => `${n} to do`,
 		reveiller: "Touch to wake the screen",
-		bilan: "Weekly report",
+		pleinEcran: "Full screen",
+		sortirPleinEcran: "Long press to leave full screen",
+		bilan: "Report",
 		bilanPret: "The weekly report is ready",
+		bilanPretMois: "The monthly report is ready",
 		bilanPretDetail: "Energy, temperatures and openings.",
+		bilanEntete: "The past week or month: energy and its cost, temperatures, what was opened.",
+		semaine: "Week",
+		mois: "Month",
+		bilanPartielMois: (n) => `Home Assistant only has ${n} day${n > 1 ? "s" : ""} of history for this month: the first full report arrives on the 1st of next month.`,
 		bilanPhrase: (du, au) => `From ${du} to ${au}.`,
 		bilanVide: "Not enough history yet: the report will fill in by itself over the weeks.",
 		bilanSansEnergie: "No energy meter for the home.",
@@ -932,6 +1020,8 @@ var TEXTES$1 = {
 		bilanEcart: (v) => `${v} vs the week before`,
 		bilanBarres: "Consumption day by day",
 		bilanFois: (n) => n > 1 ? "openings" : "opening",
+		bilanPartiel: (n) => `Home Assistant only has ${n} day${n > 1 ? "s" : ""} of history for this week: the first full report arrives next Monday.`,
+		bilanSansDonnee: "No data yet for this day",
 		absenceCalme: "Nobody home, everything is closed and off.",
 		absenceReste: (liste) => `Nobody home: ${liste}.`,
 		absOuverts: (n) => n > 1 ? `${n} openings` : "1 opening",
@@ -957,6 +1047,14 @@ var TEXTES$1 = {
 		chauffageOuvert: "The heating is on while it's open.",
 		aerer: (piece) => `Air out ${piece}`,
 		aererSans: "To air out",
+		fermerVolets: (piece) => `Close the shutters in ${piece}`,
+		fermerVoletsSans: "Shutters to close",
+		chaleur: (dehors, dedans) => `It's ${dehors} outside and ${dedans} inside: keep the cool in.`,
+		ouvrirFrais: "Open the windows",
+		fraisDehors: (dehors, dedans) => `It's cooler outside: ${dehors}, against ${dedans} inside.`,
+		machineFinie: (quoi) => `${quoi} has finished`,
+		machineFinieSans: "Finished",
+		depuis: (min) => min < 60 ? `${min} min ago.` : `${Math.floor(min / 60)} h ${String(min % 60).padStart(2, "0")} ago.`,
 		co2: (v) => `${v} ppm of CO₂: a few minutes with the window open is enough.`,
 		humidite: (v) => `${v}% humidity: air it out to prevent mould.`,
 		majs: (n) => n > 1 ? `${n} updates available` : "1 update available",
@@ -967,13 +1065,15 @@ var TEXTES$1 = {
 		sauvegardeEchecDetail: "Open backups",
 		vigilance: (c) => `${c} warning`,
 		autres: (n) => `and ${n} more`,
-		ignorer: "Ignore until tomorrow",
+		ignorer: "Ignore while nothing changes",
+		actions: "What to do with this item?",
 		prevenir: "Notify me next time",
 		prevenu: "You will be notified: see the automation",
+		prevenirAdmin: "To be notified, an administrator can turn it on in the dashboard settings.",
 		automatismeCree: (nom) => `Automation created: ${nom}.`,
 		automatismeEchec: "The automation could not be created.",
 		voir: "See",
-		ignores: (n) => `${n} item${n > 1 ? "s" : ""} ignored until tomorrow.`,
+		ignores: (n) => `${n} item${n > 1 ? "s" : ""} ignored while ${n > 1 ? "they don't" : "it doesn't"} change.`,
 		remontrer: "Show again",
 		allumees: (n) => n > 1 ? `${n} on` : n === 1 ? "1 on" : "Off",
 		dedans: "inside",
@@ -1240,6 +1340,27 @@ var EDITEUR = {
 			complet: "Complet"
 		},
 		detecte: (mode, u, d, p) => `D'après votre maison : mode ${mode} (${u} entité${u > 1 ? "s" : ""} utile${u > 1 ? "s" : ""}, ${d} appareil${d > 1 ? "s" : ""}, ${p} pièce${p > 1 ? "s" : ""}).`,
+		apparence: "Apparence",
+		apparenceAide: "Choisissez le style et ce que le tableau montre. Tout reste réglé automatiquement.",
+		style: "Style",
+		styles: {
+			automatic: ["Automatic", "Bleu et terre cuite, avec la trame du site."],
+			doux: ["Doux", "Crème et vert sauge, sans bordure, plus arrondi."],
+			contraste: ["Contrasté", "Noir sur blanc, bordures marquées : le plus lisible."],
+			home_assistant: ["Votre thème", "Celui choisi dans votre profil Home Assistant."]
+		},
+		piecesClimat: "Les pièces, dans Climat",
+		barres: "Barres",
+		mosaique: "Mosaïque",
+		tuiles: "Les tuiles des favoris",
+		tuilesAutomatic: "Nom sur deux lignes",
+		tuilesHA: "Home Assistant",
+		ciel: "Le ciel du jour",
+		cielAide: "En tête de l'accueil : l'arc du soleil, et la lune la nuit.",
+		conseils: "Les conseils",
+		conseilsAide: "« Fermez la fenêtre du salon », « Aérez la chambre »… dans les points à regarder.",
+		bilanPage: "Le bilan de la semaine",
+		bilanPageAide: "Une page à part, annoncée le lundi.",
 		favoris: "Favoris",
 		favorisAide: "Vos favoris d'abord, dans l'ordre choisi : faites-les glisser pour le changer.",
 		completer: "Compléter avec les appareils que vous utilisez le plus",
@@ -1267,12 +1388,48 @@ var EDITEUR = {
 		piecesAide: "Les pièces et les étages suivent l'ordre choisi dans Home Assistant.",
 		changerOrdre: "Changer l'ordre",
 		enregistrerDabord: "Enregistrez d'abord vos réglages pour changer l'ordre des pièces.",
+		prevenirTitre: "Me prévenir",
+		prevenirAide: "Automatic Dashboard crée l'automatisme tout fait dans Home Assistant (Paramètres, Automatisations), qui surveille tous les capteurs du même genre. S'applique tout de suite.",
+		sujets: {
+			fuite: "En cas de fuite d'eau",
+			fumee: "En cas de fumée ou de gaz",
+			pile: "Quand une pile est faible",
+			sauvegarde: "Si la sauvegarde échoue"
+		},
+		surveille: (n) => `Surveille ${n} capteur${n > 1 ? "s" : ""}.`,
+		surveilleSauvegarde: "Surveille les sauvegardes automatiques de Home Assistant.",
+		rienASurveiller: {
+			fuite: "Aucun détecteur de fuite dans la maison.",
+			fumee: "Aucun détecteur de fumée ou de gaz.",
+			pile: "Aucune pile suivie.",
+			sauvegarde: "Les sauvegardes automatiques ne sont pas réglées."
+		},
+		quiPrevenir: "Qui prévenir",
+		notificationHA: "La notification dans Home Assistant",
+		aucunTelephone: "Aucun téléphone n'a l'application Home Assistant : installez-la pour être prévenu sur votre téléphone.",
 		tablette: "Tablette murale",
 		tabletteAide: (page) => `Sur la tablette, ouvrez ${page} : l'heure en grand, la phrase d'état, les points à regarder et, la nuit, un écran de veille.`,
 		ouvrirTablette: "Ouvrir la page",
+		nuit: "Écran de veille la nuit, de",
+		a: "à",
+		heureCourte: (h) => `${h} h`,
+		reveil: "Rallumer l'écran au passage",
+		reveilAide: "Un détecteur de mouvement ou de présence près de la tablette.",
+		choisirDetecteur: "Choisir le détecteur",
 		signaler: "Signaler un problème",
 		signalerAide: "Un appareil mal rangé, absent ou en trop ? Choisissez-le, puis joignez le diagnostic à votre ticket. Il décrit votre maison sans aucun nom ni valeur, et devient un cas de test pour que l'erreur ne revienne jamais.",
 		signalerChoisir: "Choisir l'appareil concerné",
+		devraitEtre: "Il devrait être…",
+		attenteCache: "Caché : c'est une information technique",
+		attenteVisible: "Visible : il manque aujourd'hui",
+		dansLaPiece: "Dans la pièce",
+		dansLaPage: "Dans la page",
+		pages: {
+			securite: "Sécurité",
+			climat: "Climat",
+			energie: "Énergie",
+			systeme: "Système"
+		},
 		telecharger: "Télécharger le diagnostic",
 		copier: "Copier",
 		ouvrirTicket: "Ouvrir un ticket",
@@ -1294,6 +1451,27 @@ var EDITEUR = {
 			complet: "Complete"
 		},
 		detecte: (mode, u, d, p) => `From your home: ${mode} mode (${u} useful entit${u > 1 ? "ies" : "y"}, ${d} device${d > 1 ? "s" : ""}, ${p} room${p > 1 ? "s" : ""}).`,
+		apparence: "Appearance",
+		apparenceAide: "Choose the style and what the dashboard shows. Everything else stays automatic.",
+		style: "Style",
+		styles: {
+			automatic: ["Automatic", "Blue and terracotta, with the site's dot pattern."],
+			doux: ["Soft", "Cream and sage green, no borders, rounder."],
+			contraste: ["High contrast", "Black on white, strong borders: the most readable."],
+			home_assistant: ["Your theme", "The one chosen in your Home Assistant profile."]
+		},
+		piecesClimat: "Rooms, in Climate",
+		barres: "Bars",
+		mosaique: "Mosaic",
+		tuiles: "Favorite tiles",
+		tuilesAutomatic: "Name on two lines",
+		tuilesHA: "Home Assistant",
+		ciel: "The sky of the day",
+		cielAide: "At the top of the home page: the sun's arc, and the moon at night.",
+		conseils: "Advice",
+		conseilsAide: "\"Close the living room window\", \"Air out the bedroom\"… in the things to check.",
+		bilanPage: "The weekly report",
+		bilanPageAide: "A page of its own, announced on Mondays.",
 		favoris: "Favorites",
 		favorisAide: "Your favorites first, in the order you choose: drag them to change it.",
 		completer: "Fill in with the devices you use most",
@@ -1321,12 +1499,48 @@ var EDITEUR = {
 		piecesAide: "Rooms and floors follow the order chosen in Home Assistant.",
 		changerOrdre: "Change the order",
 		enregistrerDabord: "Save your settings first to change the order of rooms.",
+		prevenirTitre: "Notify me",
+		prevenirAide: "Automatic Dashboard creates the ready-made automation in Home Assistant (Settings, Automations), watching every sensor of the same kind. Applies right away.",
+		sujets: {
+			fuite: "On a water leak",
+			fumee: "On smoke or gas",
+			pile: "When a battery is low",
+			sauvegarde: "If the backup fails"
+		},
+		surveille: (n) => `Watches ${n} sensor${n > 1 ? "s" : ""}.`,
+		surveilleSauvegarde: "Watches Home Assistant's automatic backups.",
+		rienASurveiller: {
+			fuite: "No leak detector in the home.",
+			fumee: "No smoke or gas detector.",
+			pile: "No battery tracked.",
+			sauvegarde: "Automatic backups are not set up."
+		},
+		quiPrevenir: "Who to notify",
+		notificationHA: "The notification in Home Assistant",
+		aucunTelephone: "No phone has the Home Assistant app: install it to be notified on your phone.",
 		tablette: "Wall tablet",
 		tabletteAide: (page) => `On the tablet, open ${page}: the time shown large, the status sentence, things to check and, at night, a screen saver.`,
 		ouvrirTablette: "Open the page",
+		nuit: "Night screen saver, from",
+		a: "to",
+		heureCourte: (h) => `${h}:00`,
+		reveil: "Wake the screen when someone passes",
+		reveilAide: "A motion or presence sensor near the tablet.",
+		choisirDetecteur: "Pick the sensor",
 		signaler: "Report a problem",
 		signalerAide: "A device misplaced, missing or shown by mistake? Pick it, then attach the diagnostic to your issue. It describes your home without any name or value, and becomes a test case so the mistake never comes back.",
 		signalerChoisir: "Pick the device involved",
+		devraitEtre: "It should be…",
+		attenteCache: "Hidden: it's technical information",
+		attenteVisible: "Visible: it's missing today",
+		dansLaPiece: "In the area",
+		dansLaPage: "On the page",
+		pages: {
+			securite: "Security",
+			climat: "Climate",
+			energie: "Energy",
+			systeme: "System"
+		},
 		telecharger: "Download the diagnostic",
 		copier: "Copy",
 		ouvrirTicket: "Open an issue",
@@ -1345,8 +1559,9 @@ var nombre = (hass, v, chiffres = 1) => new Intl.NumberFormat(hass?.locale?.lang
 	minimumFractionDigits: chiffres
 }).format(v);
 var degres = (hass, v) => `${nombre(hass, v, 1)}°`;
-var heure = (hass, date) => new Intl.DateTimeFormat(hass?.locale?.language || "fr", {
-	hour: "2-digit",
+/** « 7 h 34 » en français, « 7:34 AM » ou « 07:34 » selon la langue anglaise choisie. */
+var heure = (hass, date) => estFrancais(hass) ? `${date.getHours()} h ${String(date.getMinutes()).padStart(2, "0")}` : new Intl.DateTimeFormat(hass?.locale?.language || "en", {
+	hour: "numeric",
 	minute: "2-digit"
 }).format(date);
 var majuscule = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
@@ -1476,6 +1691,204 @@ function phaseLune(date, lg) {
 		pleine
 	};
 }
+// src/donnees/energie.ts
+var memoire$2 = null;
+var enCours = null;
+/** Ce que les réglages Énergie disent de la maison (null s'ils ne sont pas faits). */
+function lireReglagesEnergie(prefs, couts = {}) {
+	const sources = prefs?.energy_sources ?? [];
+	if (!sources.length) return null;
+	const r = {
+		reseau: [],
+		retour: [],
+		solaire: [],
+		gaz: [],
+		eau: [],
+		couts: [],
+		appareils: [],
+		puissance: []
+	};
+	const achat = (stat, cout) => {
+		r.reseau.push(stat);
+		const c = cout || couts[stat];
+		if (c) r.couts.push(c);
+	};
+	for (const s of sources) if (s.type === "grid") {
+		if (s.stat_energy_from) achat(s.stat_energy_from, s.stat_cost);
+		if (s.stat_energy_to) r.retour.push(s.stat_energy_to);
+		if (s.stat_rate) r.puissance.push(s.stat_rate);
+		for (const f of s.flow_from ?? []) if (f.stat_energy_from) achat(f.stat_energy_from, f.stat_cost);
+		for (const f of s.flow_to ?? []) if (f.stat_energy_to) r.retour.push(f.stat_energy_to);
+	} else if (s.type === "solar" && s.stat_energy_from) r.solaire.push(s.stat_energy_from);
+	else if (s.type === "gas" && s.stat_energy_from) r.gaz.push(s.stat_energy_from);
+	else if (s.type === "water" && s.stat_energy_from) r.eau.push(s.stat_energy_from);
+	r.appareils = (prefs?.device_consumption ?? []).map((d) => d.stat_consumption).filter((x) => Boolean(x));
+	return r;
+}
+/** Charge les réglages Énergie (une fois par heure). La stratégie l'attend avant de construire le tableau. */
+function chargerReglagesEnergie(hass) {
+	if (memoire$2 && Date.now() - memoire$2.quand < 36e5) return Promise.resolve(memoire$2.valeur);
+	enCours ??= Promise.all([hass.callWS({ type: "energy/get_prefs" }).catch(() => null), hass.callWS({ type: "energy/info" }).catch(() => null)]).then(([prefs, info]) => {
+		const valeur = lireReglagesEnergie(prefs, info?.cost_sensors ?? {});
+		memoire$2 = {
+			quand: Date.now(),
+			valeur
+		};
+		enCours = null;
+		return valeur;
+	});
+	return enCours;
+}
+/** Les réglages Énergie déjà chargés (null s'ils ne le sont pas, ou s'ils ne sont pas faits). */
+var reglagesEnergie = () => memoire$2?.valeur ?? null;
+var NOMS_FR = [
+	[/^(chambre|cuisine|salle|buanderie|cave|mezzanine|v(é|e)randa|terrasse|piscine|fen(ê|e)tre|porte|baie|lucarne|trappe|machine)\b/i, "la "],
+	[/^(salon|bureau|s(é|e)jour|couloir|garage|grenier|cellier|dressing|hall|palier|jardin|balcon|patio|velux|portail|volet|garde-manger|wc|lave-linge|lave-vaisselle|s(è|e)che-linge|four)\b/i, "le "],
+	[/^(entr(é|e)e|(é|e)tage|atelier|abri|escalier)\b/i, "l'"]
+];
+var NOMS_EN = /^(bedroom|kitchen|living|bathroom|office|hall|hallway|garage|attic|basement|cellar|laundry|dining|nursery|guest|master|kids?|window|door|patio|garden|terrace|balcony|washer|washing|dryer|dishwasher|oven)\b/i;
+/** Ce qui ressemble à une machine dont on attend la fin. */
+var MACHINES$1 = /lave-linge|lave-vaisselle|s(è|e)che-linge|machine (à|a) laver|washer|washing machine|dryer|dishwasher/i;
+/** Au-delà, une machine finie n'est plus une nouvelle. */
+var MACHINE_FINIE_DEPUIS = 72e5;
+/**
+* « la chambre de Léa », « l'entrée », « the bedroom » ; null si le nom n'est pas un nom
+* commun connu (« Atelier Paul » oui, « Chez Léa » non) : la phrase s'écrit alors sans article.
+*/
+function avecArticle(nom, fr) {
+	const minuscule = (s) => s.charAt(0).toLowerCase() + s.slice(1);
+	if (!fr) return NOMS_EN.test(nom) ? `the ${minuscule(nom)}` : null;
+	const trouve = NOMS_FR.find(([motif]) => motif.test(nom));
+	return trouve ? `${trouve[1]}${minuscule(nom)}` : null;
+}
+/** Le chauffage tourne-t-il ? L'action en cours si l'appareil la donne, sinon son mode. */
+function chauffe(etat) {
+	if (!etat || [
+		"off",
+		"unavailable",
+		"unknown"
+	].includes(etat.state)) return false;
+	const action = etat.attributes.hvac_action;
+	if (action) return action === "heating" || action === "preheating";
+	return [
+		"heat",
+		"heat_cool",
+		"auto"
+	].includes(etat.state);
+}
+/** Les conseils du moment, et les ouvertures qu'ils remplacent (pas deux points pour la même fenêtre). */
+function conseils(hass, m) {
+	const fr = estFrancais(hass);
+	const tx = t$1(hass);
+	const etat = (id) => hass.states[id];
+	const points = [];
+	const remplaces = /* @__PURE__ */ new Set();
+	const chauffages = m.climats.filter((e) => e.domaine === "climate" && chauffe(etat(e.id)));
+	const central = chauffages.some((e) => !e.piece);
+	for (const o of m.ouvrants) {
+		if (etat(o.id)?.state !== "on") continue;
+		if (!central && !chauffages.some((c) => c.piece && c.piece === o.piece)) continue;
+		const nom = nomCourt(hass, o.id, m.noms);
+		const article = avecArticle(nom, fr);
+		points.push({
+			cle: `ouvrant:${o.id}`,
+			niveau: 2,
+			icone: "mdi:radiator",
+			conseil: true,
+			securite: true,
+			titre: article ? tx.fermer(article) : `${tx.fermerSans} : ${nom}`,
+			detail: tx.chauffageOuvert,
+			entite: o.id
+		});
+		remplaces.add(o.id);
+	}
+	for (const p of m.pieces.filter((x) => !x.exterieur)) {
+		const mesure = (classe) => p.entites.filter((e) => e.role === "mesure" && e.classe === classe).map((e) => [e.id, Number.parseFloat(etat(e.id)?.state ?? "")]).filter(([, v]) => !Number.isNaN(v)).sort((a, b) => b[1] - a[1])[0];
+		const article = avecArticle(p.name, fr);
+		const aerer = article ? tx.aerer(article) : `${tx.aererSans} : ${p.name}`;
+		const co2 = mesure("carbon_dioxide");
+		if (co2 && co2[1] >= 1e3) {
+			points.push({
+				cle: `air:${p.area_id}`,
+				niveau: co2[1] >= 1500 ? 2 : 1,
+				icone: "mdi:molecule-co2",
+				conseil: true,
+				titre: aerer,
+				detail: tx.co2(nombre(hass, co2[1], 0)),
+				entite: co2[0]
+			});
+			continue;
+		}
+		const humidite = mesure("humidity");
+		if (humidite && humidite[1] >= 80) points.push({
+			cle: `air:${p.area_id}`,
+			niveau: 1,
+			icone: "mdi:water-percent",
+			conseil: true,
+			titre: aerer,
+			detail: tx.humidite(nombre(hass, humidite[1], 0)),
+			entite: humidite[0]
+		});
+	}
+	const dehors = temperatureDehors(hass, m);
+	const soleilLeve = hass.states["sun.sun"]?.state === "above_horizon";
+	const heureNow = (/* @__PURE__ */ new Date()).getHours();
+	let fraicheurProposee = false;
+	for (const p of m.pieces.filter((x) => !x.exterieur && !x.annexe)) {
+		const dedans = premiereValeur(hass, p.temperatures);
+		if (dehors === null || dedans === null) continue;
+		const voletsOuverts = p.entites.filter((e) => e.domaine === "cover" && ![
+			"garage",
+			"gate",
+			"door"
+		].includes(e.classe ?? "") && etat(e.id)?.state === "open");
+		const article = avecArticle(p.name, fr);
+		if (soleilLeve && dehors >= 25 && dedans >= 24 && voletsOuverts.length) points.push({
+			cle: `volets:${p.area_id}`,
+			niveau: 1,
+			icone: "mdi:weather-sunny-alert",
+			conseil: true,
+			titre: article ? tx.fermerVolets(article) : `${tx.fermerVoletsSans} : ${p.name}`,
+			detail: tx.chaleur(degres(hass, dehors), degres(hass, dedans)),
+			entite: voletsOuverts[0].id
+		});
+		else if (!fraicheurProposee && dedans >= 24 && dehors <= dedans - 2 && (heureNow >= 18 || heureNow < 10) && !m.ouvrants.some((o) => o.piece === p.area_id && etat(o.id)?.state === "on")) {
+			fraicheurProposee = true;
+			points.push({
+				cle: "fraicheur",
+				niveau: 1,
+				icone: "mdi:weather-windy",
+				conseil: true,
+				titre: tx.ouvrirFrais,
+				detail: tx.fraisDehors(degres(hass, dehors), degres(hass, dedans))
+			});
+		}
+	}
+	const maintenant = Date.now();
+	for (const e of m.gardees.filter((x) => x.domaine === "binary_sensor" && x.classe === "running")) {
+		const s = etat(e.id);
+		const nom = nomCourt(hass, e.id, m.noms);
+		const appareil = e.appareil ? hass.devices[e.appareil] : void 0;
+		const nomAppareil = appareil?.name_by_user || appareil?.name || nom;
+		if (s?.state !== "off" || !s.last_changed || !MACHINES$1.test(`${nom} ${nomAppareil}`)) continue;
+		const depuis = maintenant - new Date(s.last_changed).getTime();
+		if (depuis < 0 || depuis > MACHINE_FINIE_DEPUIS) continue;
+		const article = avecArticle(nomAppareil, fr);
+		points.push({
+			cle: `machine:${e.id}`,
+			niveau: 1,
+			icone: "mdi:washing-machine",
+			conseil: true,
+			titre: article ? tx.machineFinie(majuscule(article)) : `${tx.machineFinieSans} : ${nomAppareil}`,
+			detail: tx.depuis(Math.max(1, Math.round(depuis / 6e4))),
+			entite: e.id
+		});
+	}
+	return {
+		points,
+		remplaces
+	};
+}
 // src/moteur/valeurs.ts
 /** Première valeur numérique disponible parmi des candidats ordonnés. */
 function premiereValeur(hass, candidats) {
@@ -1502,6 +1915,8 @@ function temperatureDehors(hass, m) {
 * Jamais la somme des prises.
 */
 function energiesMaison(hass, m) {
+	const declares = reglagesEnergie()?.reseau ?? [];
+	if (declares.length) return declares;
 	const reseau = m.puissanceReseau ? hass.entities[m.puissanceReseau]?.device_id : null;
 	const energies = m.energie.filter((e) => e.classe === "energy");
 	if (reseau) {
@@ -1511,22 +1926,54 @@ function energiesMaison(hass, m) {
 	const maison = energies.find((e) => !e.piece && /maison|home|total|linky|compteur|index|r(é|e)seau|grid/i.test(e.etat.attributes.friendly_name ?? ""));
 	return maison ? [maison.id] : [];
 }
+/** « 2 chauffages et 1 clim en marche » : ce que font les appareils de climat allumés. */
+function enMarcheClimat(hass, m) {
+	const fr = estFrancais(hass);
+	const actifs = m.climats.filter((e) => ![
+		"off",
+		"unavailable",
+		"unknown"
+	].includes(hass.states[e.id]?.state ?? "off"));
+	if (!actifs.length) return "";
+	const etat = (id) => hass.states[id];
+	const froid = (id) => etat(id)?.attributes.hvac_action === "cooling" || !etat(id)?.attributes.hvac_action && etat(id)?.state === "cool";
+	const chauffages = actifs.filter((e) => e.domaine === "water_heater" || e.domaine === "climate" && chauffe(etat(e.id))).length;
+	const clims = actifs.filter((e) => e.domaine === "climate" && froid(e.id)).length;
+	const autres = actifs.length - chauffages - clims;
+	const pluriel = (n, un, plusieurs) => n ? `${n} ${n > 1 ? plusieurs : un}` : "";
+	const liste = (fr ? [
+		pluriel(chauffages, "chauffage", "chauffages"),
+		pluriel(clims, "clim", "clims"),
+		pluriel(autres, "appareil", "appareils")
+	] : [
+		pluriel(chauffages, "heater", "heaters"),
+		pluriel(clims, "AC unit", "AC units"),
+		pluriel(autres, "device", "devices")
+	]).filter(Boolean);
+	const et = fr ? " et " : " and ";
+	const texte = liste.length > 1 ? `${liste.slice(0, -1).join(", ")}${et}${liste.at(-1)}` : liste[0];
+	return fr ? `${texte} en marche` : `${texte} running`;
+}
 // src/donnees/ignores.ts
-var CLE = "automatic_dashboard_ignores";
+var CLE$1 = "automatic_dashboard_ignores";
 var EVENEMENT = "automatic-dashboard-ignores";
-/** Point → jour où il a été ignoré (AAAA-MM-JJ, heure locale). */
+/** Au-delà, un point ignoré est oublié, même s'il n'a pas changé. */
+var OUBLI = 2592e6;
+/** Point → signature au moment où il a été ignoré. */
 var ignores = {};
 var suivi = false;
-var deux = (n) => String(n).padStart(2, "0");
-var aujourdhui = (d = /* @__PURE__ */ new Date()) => `${d.getFullYear()}-${deux(d.getMonth() + 1)}-${deux(d.getDate())}`;
-var estIgnore = (cle) => ignores[cle] === aujourdhui();
+var estIgnore = (cle, signature) => ignores[cle]?.s === signature;
 function publier(valeur) {
-	ignores = valeur && typeof valeur === "object" ? valeur : {};
-	window.dispatchEvent(new Event(EVENEMENT));
+	const propre = {};
+	if (valeur && typeof valeur === "object") {
+		for (const [cle, v] of Object.entries(valeur)) if (v && typeof v === "object" && typeof v.s === "string" && typeof v.t === "number") propre[cle] = v;
+	}
+	ignores = propre;
+	if (typeof window !== "undefined") window.dispatchEvent(new Event(EVENEMENT));
 }
 function lireNavigateur() {
 	try {
-		publier(JSON.parse(localStorage.getItem(CLE) ?? "{}"));
+		publier(JSON.parse(localStorage.getItem(CLE$1) ?? "{}"));
 	} catch {
 		publier({});
 	}
@@ -1539,24 +1986,27 @@ function suivreIgnores(hass) {
 	if (!connexion) return lireNavigateur();
 	connexion.subscribeMessage((message) => publier(message.value), {
 		type: "frontend/subscribe_user_data",
-		key: CLE
+		key: CLE$1
 	}).catch(lireNavigateur);
 }
-/** Ignore un point jusqu'à demain (ou le remontre). Les jours passés sont oubliés. */
-async function ignorer(hass, cles, oui) {
-	const jour = aujourdhui();
-	const suivant = Object.fromEntries(Object.entries(ignores).filter(([, j]) => j === jour));
-	for (const cle of cles) if (oui) suivant[cle] = jour;
-	else delete suivant[cle];
+/** Ignore des points tant qu'ils ne changent pas (ou les remontre). */
+async function ignorer(hass, points, oui) {
+	const maintenant = Date.now();
+	const suivant = Object.fromEntries(Object.entries(ignores).filter(([, v]) => maintenant - v.t < OUBLI));
+	for (const p of points) if (oui) suivant[p.cle] = {
+		s: p.signature,
+		t: maintenant
+	};
+	else delete suivant[p.cle];
 	publier(suivant);
 	try {
 		await hass.callWS({
 			type: "frontend/set_user_data",
-			key: CLE,
+			key: CLE$1,
 			value: suivant
 		});
 	} catch {
-		localStorage.setItem(CLE, JSON.stringify(suivant));
+		localStorage.setItem(CLE$1, JSON.stringify(suivant));
 	}
 }
 // src/moteur/regles.ts
@@ -1652,6 +2102,59 @@ var UNITES_TECHNIQUES = /* @__PURE__ */ new Set([
 	"kbit/s",
 	"Mbit/s"
 ]);
+/** Les voitures et leurs bornes de recharge : leur batterie n'est pas une pile à changer. */
+var PLATEFORMES_VEHICULE = /* @__PURE__ */ new Set([
+	"tesla_fleet",
+	"teslemetry",
+	"tessie",
+	"tesla_wall_connector",
+	"renault",
+	"bmw_connected_drive",
+	"volvo",
+	"kia_uvo",
+	"hyundai_kia_connect",
+	"mbapi2020",
+	"mercedes_me",
+	"polestar",
+	"audiconnect",
+	"volkswagencarnet",
+	"volkswagen_we_connect_id",
+	"myskoda",
+	"skodaconnect",
+	"toyota",
+	"nissan_leaf",
+	"stellantis_vehicles",
+	"psa_car_controller",
+	"fordpass",
+	"smartcar",
+	"easee",
+	"wallbox",
+	"ocpp",
+	"zaptec",
+	"ohme",
+	"myenergi",
+	"goecharger",
+	"go_echarger",
+	"evcc_intg",
+	"peblar",
+	"v2c",
+	"ev_smart_charging"
+]);
+/** L'air intérieur : ce que la page Air montre. */
+var AIR = /* @__PURE__ */ new Set([
+	"carbon_dioxide",
+	"pm25",
+	"pm10",
+	"pm1",
+	"volatile_organic_compounds",
+	"volatile_organic_compounds_parts",
+	"aqi",
+	"nitrogen_dioxide",
+	"ozone",
+	"carbon_monoxide"
+]);
+/** Ce qui se passe dehors sans être une pièce : arrosage, piscine, tondeuse. */
+var NOM_EXTERIEUR = /arrosage|irrigation|sprinkler|piscine|pool|bassin|tondeuse|mower|portail|gate/i;
 var MESURES = /* @__PURE__ */ new Set([
 	"temperature",
 	"humidity",
@@ -1783,6 +2286,12 @@ function juger(e, en, masquer) {
 	if (domaine === "update") {
 		e.role = "maintenance";
 		e.section = "systeme";
+		return;
+	}
+	if (classe === "battery" && PLATEFORMES_VEHICULE.has(e.plateforme)) {
+		e.role = "mesure";
+		e.section = "pieces";
+		e.secondaire = domaine === "binary_sensor";
 		return;
 	}
 	if ((domaine === "sensor" || domaine === "binary_sensor") && classe === "battery") {
@@ -2036,6 +2545,10 @@ function analyser(maison, reglages = {}) {
 		return rang(a) - rang(b);
 	});
 	const energie = parRole("energie");
+	const air = gardees.filter((e) => e.domaine === "sensor" && e.classe && AIR.has(e.classe));
+	const vehicules = gardees.filter((e) => PLATEFORMES_VEHICULE.has(e.plateforme) && e.role !== null && e.role !== "maintenance");
+	const piecesDehors = new Set(pieces.filter((p) => p.exterieur).map((p) => p.area_id));
+	const exterieur = gardees.filter((e) => e.role !== null && e.role !== "maintenance" && e.role !== "systeme" && e.role !== "meteo" && (e.piece && piecesDehors.has(e.piece) || ["lawn_mower", "valve"].includes(e.domaine) || e.domaine === "cover" && ["gate", "garage"].includes(e.classe ?? "") || NOM_EXTERIEUR.test(`${e.nomPropre} ${e.etat.attributes.friendly_name ?? ""}`)));
 	return {
 		toutes,
 		gardees,
@@ -2050,6 +2563,10 @@ function analyser(maison, reglages = {}) {
 			T
 		},
 		favorisEtiquette,
+		reglages,
+		air,
+		vehicules,
+		exterieur,
 		meteo: meteos[0]?.id ?? null,
 		meteoFrance: toutes.find((e) => e.plateforme === "meteo_france" && visible(e) && (e.id.endsWith("_next_rain") || e.etat.attributes["1_hour_forecast"]))?.id ?? null,
 		vigilance: gardees.find((e) => e.plateforme === "meteo_france" && (e.id.endsWith("_weather_alert") || [
@@ -2092,6 +2609,8 @@ function analyser(maison, reglages = {}) {
 }
 /** Puissance de toute la maison : celle du compteur, jamais la somme des prises (double compte). */
 function choisirReseau(energie) {
+	const declaree = reglagesEnergie()?.puissance.find((id) => energie.some((e) => e.id === id));
+	if (declaree) return declaree;
 	const puissances = energie.filter((e) => e.classe === "power" || e.classe === "apparent_power");
 	return (puissances.find((e) => e.classe === "apparent_power" || /linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home/i.test(e.etat.attributes.friendly_name ?? "")) ?? puissances.find((e) => !e.piece))?.id ?? null;
 }
@@ -2103,9 +2622,7 @@ function analyserMemo(maison, reglages = {}) {
 		maison.devices,
 		maison.areas,
 		maison.floors,
-		reglages.mode,
-		(reglages.masquer ?? []).join(),
-		JSON.stringify(reglages.noms ?? {})
+		JSON.stringify(reglages)
 	];
 	if (memoire$1 && cle.every((v, i) => v === memoire$1.cle[i])) return memoire$1.resultat;
 	const resultat = analyser(maison, reglages);
@@ -2272,9 +2789,9 @@ var AutomaticApercu = class extends CarteAutomatic {
 			const d = moyenneInterieure(hass, m);
 			if (d === null) return null;
 			const e = temperatureDehors(hass, m);
-			const enMarche = m.climats.filter((x) => !["off", "unavailable"].includes(etat(x.id)?.state ?? "")).length;
+			const enMarche = enMarcheClimat(hass, m);
 			this.chargerCourbe("climat", m.temperaturesInterieures.map((c) => c[0]).slice(0, 8));
-			return this.gabarit("mdi:home-thermometer-outline", tx.climat, b`${nombre(hass, d, 1)}<small>° ${tx.dedans}</small>`, [e !== null ? `${tx.dehors} ${degres(hass, e)}` : "", enMarche ? estFrancais(hass) ? `${enMarche} en marche` : `${enMarche} running` : ""].filter(Boolean).join(" · "));
+			return this.gabarit("mdi:home-thermometer-outline", tx.climat, b`${nombre(hass, d, 1)}<small>° ${tx.dedans}</small>`, [e !== null ? `${tx.dehors} ${degres(hass, e)}` : "", enMarche].filter(Boolean).join(" · "));
 		}
 		if (s === "energie") {
 			const ent = etat(m.puissanceReseau);
@@ -2400,6 +2917,8 @@ var AutomaticARanger = class extends CarteAutomatic {
     .proposer:disabled{opacity:.5;cursor:default}
     .proposer ha-icon{--mdc-icon-size:18px}
     .choisir.discret{font-weight:600;color:var(--secondary-text-color)}
+    .indice{font-size:13.5px;font-weight:600;color:var(--secondary-text-color);padding:0 4px}
+    .note{margin:6px 0 4px;padding-top:10px;border-top:1px solid var(--divider-color);font-size:13px;color:var(--secondary-text-color)}
     .range{display:flex;align-items:center;gap:10px;margin:8px 0 2px;padding:10px 12px;border-radius:12px;font-size:14px;
       background:color-mix(in srgb, var(--success-color, #2e7d32) 11%, transparent);color:var(--primary-text-color)}
     .range > ha-icon{--mdc-icon-size:20px;color:var(--success-color, #2e7d32);flex:none}
@@ -2430,6 +2949,7 @@ var AutomaticARanger = class extends CarteAutomatic {
 		}
 		const nbEntites = (deviceId) => Object.values(hass.entities).filter((x) => x.device_id === deviceId && !x.hidden).length;
 		const contenu = [];
+		let proposeesSansDroit = 0;
 		for (const [plateforme, liste] of groupes) {
 			const titre = nomIntegration(hass, plateforme);
 			contenu.push(b`<div class="groupe">${titre}</div>`);
@@ -2438,14 +2958,16 @@ var AutomaticARanger = class extends CarteAutomatic {
 				const nom = m.noms[e.id] || appareil?.name_by_user || appareil?.name || e.etat.attributes.friendly_name;
 				const n = appareil ? nbEntites(e.appareil) : 1;
 				const detail = appareil ? fr ? `${n} entité${n > 1 ? "s" : ""}` : `${n} entit${n > 1 ? "ies" : "y"}` : fr ? "sans appareil" : "no device";
-				const proposee = admin ? m.pieces.find((p) => p.area_id === m.propositions[e.id]) : void 0;
+				const proposee = m.pieces.find((p) => p.area_id === m.propositions[e.id]);
+				if (proposee && !admin) proposeesSansDroit++;
 				contenu.push(b`<div class="ligne"><span class="ico"><ha-icon icon=${ICONES_DOMAINES[e.domaine] || "mdi:devices"}></ha-icon></span>
           <span class="nom">${nom}<small>${detail}</small></span>
           <span class="actions">
-            ${proposee ? b`<button class="proposer" ?disabled=${this._enCours === e.id} @click=${() => this.ranger(e, String(nom), proposee.area_id)}
+            ${proposee && !admin ? b`<span class="indice">${proposee.name} ?</span>` : A}
+            ${proposee && admin ? b`<button class="proposer" ?disabled=${this._enCours === e.id} @click=${() => this.ranger(e, String(nom), proposee.area_id)}
                   title=${fr ? `Ranger dans ${proposee.name}` : `Put in ${proposee.name}`}><ha-icon icon=${proposee.icon}></ha-icon>${proposee.name} ?</button>` : A}
-            <button class=${proposee ? "choisir discret" : "choisir"} @click=${() => this.choisir(e)}>
-              ${proposee ? fr ? "Autre" : "Other" : fr ? "Choisir" : "Choose"}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
+            <button class=${proposee && admin ? "choisir discret" : "choisir"} @click=${() => this.choisir(e)}>
+              ${proposee && admin ? fr ? "Autre" : "Other" : fr ? "Choisir" : "Choose"}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
           </span></div>`);
 			}
 		}
@@ -2454,7 +2976,7 @@ var AutomaticARanger = class extends CarteAutomatic {
 			return b`<div class="range" role="status"><ha-icon icon="mdi:check-circle"></ha-icon>
         <span>${fr ? `${r.nom} : rangé dans ${piece}.` : `${r.nom}: put in ${piece}.`}</span>
         <button @click=${() => this.annuler(r)}>${fr ? "Annuler" : "Undo"}</button></div>`;
-		})}${contenu}</ha-card>`;
+		})}${contenu}${proposeesSansDroit ? b`<p class="note">${fr ? "Un administrateur peut ranger ces appareils en un clic, dans la pièce proposée." : "An administrator can put these devices in the suggested room in one click."}</p>` : A}</ha-card>`;
 	}
 	/** Range l'appareil (ou l'entité seule) dans la pièce proposée. */
 	async ranger(e, nom, piece) {
@@ -2516,6 +3038,18 @@ function semainePassee(maintenant = /* @__PURE__ */ new Date()) {
 	};
 }
 var ms = (t) => typeof t === "string" ? Date.parse(t) : t > 0xe8d4a51000 ? t : t * 1e3;
+/** Le dernier mois civil entier, et le mois d'avant pour comparer. */
+function moisPasse(maintenant = /* @__PURE__ */ new Date()) {
+	const fin = new Date(maintenant.getFullYear(), maintenant.getMonth(), 1);
+	return {
+		debut: new Date(maintenant.getFullYear(), maintenant.getMonth() - 1, 1),
+		fin,
+		avant: new Date(maintenant.getFullYear(), maintenant.getMonth() - 2, 1)
+	};
+}
+/** La période passée : la dernière semaine ou le dernier mois entier. */
+var periodePassee = (periode, maintenant = /* @__PURE__ */ new Date()) => periode === "mois" ? moisPasse(maintenant) : semainePassee(maintenant);
+var jours = (de, a) => Math.round((a.getTime() - de.getTime()) / JOUR);
 /** Somme, jour par jour depuis `debut`, des variations de plusieurs compteurs. */
 function sommeParJour(stats, debut, jours) {
 	const resultat = Array.from({ length: jours }, () => null);
@@ -2546,15 +3080,18 @@ function compterOuvertures(historique) {
 /** La maison a-t-elle de quoi faire un bilan ? */
 var aUnBilan = (hass, m) => energiesMaison(hass, m).length > 0 || m.temperaturesInterieures.length > 0 || m.ouvrants.length > 0;
 var memoire = /* @__PURE__ */ new Map();
-function chargerBilan(hass, m, maintenant = /* @__PURE__ */ new Date()) {
-	const { debut, fin, avant } = semainePassee(maintenant);
+function chargerBilan(hass, m, maintenant = /* @__PURE__ */ new Date(), periode = "semaine") {
+	const { debut, fin, avant } = periodePassee(periode, maintenant);
+	const couts = reglagesEnergie()?.couts ?? [];
 	const energies = energiesMaison(hass, m);
 	const dedans = m.temperaturesInterieures.map((c) => c[0]).filter(Boolean);
 	const dehors = m.temperaturesExterieures.slice(0, 1);
 	const ouvrants = m.ouvrants.slice(0, 40).map((e) => e.id);
 	const cle = [
+		periode,
 		debut.getTime(),
 		energies,
+		couts,
 		dedans,
 		dehors,
 		ouvrants
@@ -2571,6 +3108,7 @@ function chargerBilan(hass, m, maintenant = /* @__PURE__ */ new Date()) {
 	}).catch(() => ({})) : Promise.resolve({});
 	const promesse = Promise.all([
 		statistiques(energies, avant, ["change"]),
+		statistiques(couts, avant, ["change"]),
 		statistiques(dedans, debut, [
 			"mean",
 			"min",
@@ -2590,19 +3128,24 @@ function chargerBilan(hass, m, maintenant = /* @__PURE__ */ new Date()) {
 			no_attributes: true,
 			significant_changes_only: false
 		}).catch(() => null) : Promise.resolve(null)
-	]).then(([stEnergie, stDedans, stDehors, histoire]) => {
-		const quatorze = sommeParJour(stEnergie, avant, 14);
-		const semaine = quatorze.slice(7);
+	]).then(([stEnergie, stCouts, stDedans, stDehors, histoire]) => {
+		const avantN = jours(avant, debut);
+		const n = jours(debut, fin);
 		const somme = (l) => l.some((v) => v !== null) ? l.reduce((a, b) => a + (b ?? 0), 0) : null;
-		const total = somme(semaine);
+		const energie = sommeParJour(stEnergie, avant, avantN + n);
+		const cout = sommeParJour(stCouts, avant, avantN + n);
+		const total = somme(energie.slice(avantN));
 		const parEntite = histoire ? compterOuvertures(histoire) : [];
 		return {
+			periode,
 			debut,
 			fin,
 			energie: total === null ? null : {
-				jours: semaine,
+				jours: energie.slice(avantN),
 				total,
-				precedent: somme(quatorze.slice(0, 7))
+				precedent: somme(energie.slice(0, avantN)),
+				cout: somme(cout.slice(avantN)),
+				coutPrecedent: somme(cout.slice(0, avantN))
 			},
 			dedans: resumerTemperatures(stDedans),
 			dehors: resumerTemperatures(stDehors),
@@ -2620,17 +3163,30 @@ function chargerBilan(hass, m, maintenant = /* @__PURE__ */ new Date()) {
 }
 // src/cartes/bilan.ts
 var AutomaticBilan = class extends CarteAutomatic {
-	constructor(..._args) {
-		super(..._args);
-		this._demande = false;
-	}
 	static {
-		this.properties = { _bilan: { state: true } };
+		this.properties = {
+			_bilan: { state: true },
+			_periode: { state: true }
+		};
+	}
+	constructor() {
+		super();
+		this._periode = localStorage.getItem("automatic_dashboard_bilan") === "mois" ? "mois" : "semaine";
+	}
+	changerPeriode(p) {
+		this._periode = p;
+		localStorage.setItem("automatic_dashboard_bilan", p);
 	}
 	static {
 		this.styles = [STYLE_COMMUN, i$5`
-    ha-card{padding:18px 20px 16px;display:grid;gap:18px 28px;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
-      grid-template-areas:"energie temperatures" "ouvertures ouvertures"}
+    ha-card{padding:16px 20px 16px;display:grid;gap:18px 28px;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
+      grid-template-areas:"tete tete" "energie temperatures" "ouvertures ouvertures"}
+    .tete{grid-area:tete;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+    .periode{font-size:15px;font-weight:650;color:var(--primary-text-color)}
+    .segments{display:inline-flex;padding:3px;border-radius:12px;background:var(--secondary-background-color);gap:2px}
+    .segments button{padding:6px 13px;border-radius:9px;font-size:13px;font-weight:600;color:var(--secondary-text-color)}
+    .segments button.choisi{background:var(--card-background-color, #fff);color:var(--primary-text-color);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+    .cout{font-size:20px;font-weight:650;color:var(--secondary-text-color)}
     .energie{grid-area:energie}
     .temperatures{grid-area:temperatures;display:grid;gap:16px;align-content:start}
     .ouvertures{grid-area:ouvertures;padding-top:16px;border-top:1px solid var(--divider-color)}
@@ -2640,7 +3196,7 @@ var AutomaticBilan = class extends CarteAutomatic {
     .ecart{font-size:12.5px;font-weight:650;padding:3px 9px;border-radius:11px;background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color))}
     .ecart.baisse{background:color-mix(in srgb, var(--success-color, #2e7d32) 14%, transparent);color:var(--success-color, #2e7d32)}
     .ecart.hausse{background:rgba(233,162,59,.16);color:var(--warning-color)}
-    .barres{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;align-items:end;height:92px;margin-top:16px}
+    .barres{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:clamp(2px,1vw,8px);align-items:end;height:92px;margin-top:16px}
     .barre{display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
     .barre span{display:block;width:100%;max-width:34px;border-radius:7px 7px 3px 3px;min-height:3px;
       background:color-mix(in srgb, var(--primary-color) 32%, transparent)}
@@ -2659,10 +3215,12 @@ var AutomaticBilan = class extends CarteAutomatic {
       background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color));color:var(--primary-text-color)}
     .liste b{font-variant-numeric:tabular-nums;color:var(--primary-color)}
     .vide{font-size:13.5px;color:var(--secondary-text-color);margin-top:8px}
+    .partiel{margin:10px 0 0;font-size:13px;line-height:1.4;color:var(--secondary-text-color)}
+    .barre.sans span{background:transparent;border:1px dashed var(--divider-color);min-height:14px;box-sizing:border-box}
     .attente.e{height:150px}
     .attente.t{height:120px}
     @container (max-width: 560px){
-      ha-card{grid-template-columns:1fr;grid-template-areas:"energie" "temperatures" "ouvertures"}
+      ha-card{grid-template-columns:1fr;grid-template-areas:"tete" "energie" "temperatures" "ouvertures"}
     }
   `];
 	}
@@ -2673,37 +3231,74 @@ var AutomaticBilan = class extends CarteAutomatic {
 		};
 	}
 	rendu(hass, m) {
-		if (!this._demande) {
-			this._demande = true;
-			chargerBilan(hass, m).then((b) => this._bilan = b);
+		if (this._demande !== this._periode) {
+			this._demande = this._periode;
+			const periode = this._periode;
+			chargerBilan(hass, m, /* @__PURE__ */ new Date(), periode).then((b) => {
+				if (b.periode === this._periode) this._bilan = b;
+			});
 		}
-		const b$2 = this._bilan;
-		if (!b$2) return b`<ha-card><span class="attente e"></span><span class="attente t"></span></ha-card>`;
-		if (!b$2.energie && !b$2.dedans && !b$2.ouvertures?.total) return b`<ha-card><p class="vide" style="grid-column:1/-1">${t$1(hass).bilanVide}</p></ha-card>`;
-		return b`<ha-card>${this.energie(hass, b$2)}${this.temperatures(hass, b$2)}${this.ouvertures(hass, m, b$2)}</ha-card>`;
+		const b$2 = this._bilan?.periode === this._periode ? this._bilan : void 0;
+		const tete = this.tete(hass, b$2);
+		if (!b$2) return b`<ha-card>${tete}<span class="attente e"></span><span class="attente t"></span></ha-card>`;
+		if (!b$2.energie && !b$2.dedans && !b$2.ouvertures?.total) return b`<ha-card>${tete}<p class="vide" style="grid-column:1/-1">${t$1(hass).bilanVide}</p></ha-card>`;
+		return b`<ha-card>${tete}${this.energie(hass, b$2)}${this.temperatures(hass, b$2)}${this.ouvertures(hass, m, b$2)}</ha-card>`;
 	}
-	energie(hass, b$3) {
+	/** La période montrée, et le choix entre la semaine et le mois. */
+	tete(hass, b$3) {
 		const tx = t$1(hass);
-		if (!b$3.energie) return b`<div class="energie"><div class="sur">${tx.energie}</div><p class="vide">${tx.bilanSansEnergie}</p></div>`;
-		const { jours, total, precedent } = b$3.energie;
+		const lg = langue(hass);
+		let titre = "";
+		if (b$3) {
+			const dernier = /* @__PURE__ */ new Date(b$3.fin.getTime() - 432e5);
+			titre = b$3.periode === "mois" ? majuscule(new Intl.DateTimeFormat(lg, {
+				month: "long",
+				year: "numeric"
+			}).format(b$3.debut)) : tx.bilanPhrase(new Intl.DateTimeFormat(lg, {
+				weekday: "long",
+				day: "numeric"
+			}).format(b$3.debut), new Intl.DateTimeFormat(lg, {
+				weekday: "long",
+				day: "numeric",
+				month: "long"
+			}).format(dernier));
+		}
+		return b`<div class="tete"><span class="periode">${titre}</span>
+      <div class="segments" role="radiogroup" aria-label=${tx.bilan}>
+        ${["semaine", "mois"].map((p) => b`<button role="radio" aria-checked=${this._periode === p ? "true" : "false"}
+          class=${this._periode === p ? "choisi" : ""} @click=${() => this.changerPeriode(p)}>${p === "mois" ? tx.mois : tx.semaine}</button>`)}
+      </div></div>`;
+	}
+	energie(hass, b$4) {
+		const tx = t$1(hass);
+		if (!b$4.energie) return b`<div class="energie"><div class="sur">${tx.energie}</div><p class="vide">${tx.bilanSansEnergie}</p></div>`;
+		const { jours, total, precedent, cout } = b$4.energie;
 		const plus = Math.max(...jours.map((v) => v ?? 0), .001);
 		const jour = new Intl.DateTimeFormat(langue(hass), { weekday: "narrow" });
 		const ecart = precedent ? Math.round((total - precedent) / precedent * 100) : null;
+		const monnaie = hass.config.currency || "EUR";
+		const euros = cout === null ? null : new Intl.NumberFormat(langue(hass), {
+			style: "currency",
+			currency: monnaie
+		}).format(cout);
+		const etiquette = (date, i) => b$4.periode === "mois" ? i % 7 === 0 ? String(date.getDate()) : "" : jour.format(date);
 		return b`<div class="energie">
       <div class="sur">${tx.energie}</div>
       <div class="grand"><span class="valeur chiffre">${nombre(hass, total, total < 100 ? 1 : 0)}<small>kWh</small></span>
+        ${euros ? b`<span class="cout chiffre">${euros}</span>` : A}
         ${ecart !== null && ecart !== 0 ? b`<span class=${`ecart ${ecart < 0 ? "baisse" : "hausse"}`}>${tx.bilanEcart(`${ecart > 0 ? "+" : "−"}${Math.abs(ecart)} %`)}</span>` : A}</div>
+      ${jours.some((v) => v === null) ? b`<p class="partiel">${b$4.periode === "mois" ? tx.bilanPartielMois(jours.filter((v) => v !== null).length) : tx.bilanPartiel(jours.filter((v) => v !== null).length)}</p>` : A}
       <div class="barres" role="img" aria-label=${tx.bilanBarres}>
         ${jours.map((v, i) => {
-			const date = new Date(b$3.debut.getTime() + i * 864e5 + 432e5);
-			return b`<div class=${`barre${v !== null && v === plus ? " haut" : ""}`} title=${v === null ? "" : `${nombre(hass, v, 1)} kWh`}>
-            <span style=${`height:${v === null ? 0 : Math.max(3, v / plus * 100)}%`}></span><small>${jour.format(date)}</small></div>`;
+			const date = new Date(b$4.debut.getFullYear(), b$4.debut.getMonth(), b$4.debut.getDate() + i, 12);
+			return b`<div class=${`barre${v === null ? " sans" : v === plus ? " haut" : ""}`} title=${v === null ? tx.bilanSansDonnee : `${nombre(hass, v, 1)} kWh`}>
+            <span style=${`height:${v === null ? 0 : Math.max(3, v / plus * 100)}%`}></span><small>${etiquette(date, i)}</small></div>`;
 		})}
       </div></div>`;
 	}
-	temperatures(hass, b$4) {
+	temperatures(hass, b$5) {
 		const tx = t$1(hass);
-		const plages = [[majuscule(tx.dedans), b$4.dedans], [tx.dehors, b$4.dehors]].filter((x) => Boolean(x[1]));
+		const plages = [[majuscule(tx.dedans), b$5.dedans], [tx.dehors, b$5.dehors]].filter((x) => Boolean(x[1]));
 		if (!plages.length) return b`<div class="temperatures"><div class="sur">${tx.temperatures}</div><p class="vide">${tx.bilanSansTemperature}</p></div>`;
 		const bas = Math.min(...plages.map(([, p]) => p.min)) - 1;
 		const haut = Math.max(...plages.map(([, p]) => p.max)) + 1;
@@ -2715,10 +3310,10 @@ var AutomaticBilan = class extends CarteAutomatic {
           <div class="bornes chiffre"><span>${degres(hass, p.min)}</span><span>${degres(hass, p.max)}</span></div></div>
       </div>`)}</div>`;
 	}
-	ouvertures(hass, m, b$5) {
+	ouvertures(hass, m, b$6) {
 		const tx = t$1(hass);
-		if (!b$5.ouvertures || !m.ouvrants.length) return A;
-		const { total, parEntite } = b$5.ouvertures;
+		if (!b$6.ouvertures || !m.ouvrants.length) return A;
+		const { total, parEntite } = b$6.ouvertures;
 		return b`<div class="ouvertures"><div class="sur">${tx.ouvertures}</div>
       <div class="grand"><span class="valeur chiffre">${total}<small>${tx.bilanFois(total)}</small></span></div>
       ${parEntite.length ? b`<div class="liste">${parEntite.slice(0, 4).map(([id, n]) => b`<button @click=${() => plusDInfos(this, id)}>
@@ -2804,8 +3399,8 @@ var AutomaticConfort = class extends CarteAutomatic {
     .ligne:first-child{border-top:0}
     .nom{font-weight:600;font-size:14.5px;color:var(--primary-text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .temp{font-size:16px;font-weight:650;text-align:right;color:var(--primary-text-color)}
-    .echelle{position:relative;height:8px;border-radius:999px;background:var(--automatic-dashboard-fond-alt)}
-    .zone{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--automatic-dashboard-vert-pale);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--automatic-dashboard-vert) 30%, transparent)}
+    .echelle{position:relative;height:8px;border-radius:999px;background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color))}
+    .zone{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--automatic-dashboard-vert-pale, color-mix(in srgb, var(--success-color, #1E6B47) 12%, transparent));box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--automatic-dashboard-vert, var(--success-color, #1E6B47)) 30%, transparent)}
     .point{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid var(--ha-card-background);background:var(--primary-color)}
     .point.froid{background:var(--state-climate-cool-color)} .point.chaud{background:var(--state-climate-heat-color)}
     .hum{font-size:12.5px;text-align:right}
@@ -2863,6 +3458,209 @@ var AutomaticConfort = class extends CarteAutomatic {
       <span class="etat">${l.chauffe ? b`<ha-icon class="chauffe" icon="mdi:radiator"></ha-icon>` : l.froid ? b`<ha-icon class="refroidit" icon="mdi:snowflake"></ha-icon>` : A}</span></div>`)}<div class="graduations"><span></span><span></span><span class="g"><span>${MIN}°</span><span>${BAS}°</span><span>${HAUT}°</span><span>${MAX}°</span></span><span></span><span></span></div></ha-card>`;
 	}
 };
+// src/cartes/depart.ts
+/** Ce qui reste à faire avant de partir. */
+function avantDePartir(hass, m) {
+	const etat = (e) => hass.states[e.id]?.state;
+	return {
+		ouvertures: m.ouvrants.filter((e) => etat(e) === "on"),
+		lumieres: m.lumieres.filter((e) => etat(e) === "on"),
+		serrures: m.gardees.filter((e) => e.domaine === "lock" && ["unlocked", "open"].includes(etat(e) ?? "")),
+		volets: m.gardees.filter((e) => e.domaine === "cover" && etat(e) === "open" && ![
+			"garage",
+			"gate",
+			"door"
+		].includes(e.classe ?? "")),
+		alarmes: m.gardees.filter((e) => e.domaine === "alarm_control_panel" && etat(e) === "disarmed")
+	};
+}
+var AutomaticDepart = class extends CarteAutomatic {
+	static {
+		this.properties = {
+			_enCours: { state: true },
+			_message: { state: true }
+		};
+	}
+	constructor() {
+		super();
+		this._enCours = null;
+		this._message = "";
+	}
+	static {
+		this.styles = [STYLE_COMMUN, i$5`
+    ha-card{padding:8px 20px 16px}
+    .groupe{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--divider-color)}
+    .groupe:first-child{border-top:0}
+    .titre{font-size:15px;font-weight:650;color:var(--primary-text-color)}
+    .liste{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+    .liste button{font-size:13px;padding:4px 10px;border-radius:12px;background:var(--secondary-background-color);color:var(--primary-text-color)}
+    .agir{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 16px 0 12px;border-radius:19px;font-size:14px;font-weight:650;
+      background:var(--primary-color);color:var(--text-primary-color, #fff)}
+    .agir:disabled{opacity:.5;cursor:default}
+    .agir ha-icon{--mdc-icon-size:18px}
+    .main{font-size:13px;color:var(--secondary-text-color)}
+    .pret{display:flex;align-items:center;gap:14px;padding:18px 0 10px;font-size:17px;font-weight:600;color:var(--primary-text-color)}
+    .pret ha-icon{--mdc-icon-size:32px;color:var(--automatic-dashboard-vert, var(--success-color, #1E6B47))}
+    .message{margin:8px 0 0;font-size:13px;color:var(--secondary-text-color)}
+    @container (max-width: 480px){ .groupe{grid-template-columns:auto 1fr} .groupe > .agir,.groupe > .main{grid-column:2;justify-self:start} }
+  `];
+	}
+	getGridOptions() {
+		return {
+			columns: "full",
+			rows: "auto"
+		};
+	}
+	suivies(m) {
+		return [
+			...m.ouvrants,
+			...m.lumieres,
+			...m.gardees.filter((e) => [
+				"lock",
+				"cover",
+				"alarm_control_panel"
+			].includes(e.domaine))
+		].map((e) => e.id);
+	}
+	rendu(hass, m) {
+		const tx = t$1(hass);
+		const a = avantDePartir(hass, m);
+		const groupes = [];
+		const liste = (entites) => b`<div class="liste">${entites.map((e) => b`<button @click=${() => plusDInfos(this, e.id)}>
+      ${nomCourt(hass, e.id, m.noms)}</button>`)}</div>`;
+		const groupe = (icone, titre, entites, action) => b`<div class="groupe">
+      <span class="ico actif"><ha-icon icon=${icone}></ha-icon></span><div><div class="titre">${titre}</div>${liste(entites)}</div>${action}</div>`;
+		const bouton = (cle, libelle, icone, faire) => b`<button class="agir"
+      ?disabled=${this._enCours !== null} @click=${() => this.agir(cle, faire)}><ha-icon icon=${icone}></ha-icon>${libelle}</button>`;
+		const appeler = (domaine, service, ids) => () => hass.callService(domaine, service, { entity_id: ids });
+		if (a.lumieres.length) groupes.push(groupe("mdi:lightbulb-group-outline", tx.departLumieres(a.lumieres.length), a.lumieres, bouton("lumieres", tx.toutEteindre, "mdi:lightbulb-off-outline", appeler("light", "turn_off", a.lumieres.map((e) => e.id)))));
+		if (a.serrures.length) groupes.push(groupe("mdi:lock-open-variant-outline", tx.departSerrures(a.serrures.length), a.serrures, bouton("serrures", tx.toutVerrouiller, "mdi:lock-outline", appeler("lock", "lock", a.serrures.map((e) => e.id)))));
+		if (a.volets.length) groupes.push(groupe("mdi:window-shutter-open", tx.departVolets(a.volets.length), a.volets, bouton("volets", tx.toutFermer, "mdi:window-shutter", appeler("cover", "close_cover", a.volets.map((e) => e.id)))));
+		for (const alarme of a.alarmes) {
+			const code = Boolean(hass.states[alarme.id]?.attributes.code_arm_required);
+			groupes.push(groupe("mdi:shield-off-outline", tx.departAlarme, [alarme], code ? b`<button class="agir" @click=${() => plusDInfos(this, alarme.id)}><ha-icon icon="mdi:shield-lock-outline"></ha-icon>${tx.armer}</button>` : bouton("alarme", tx.armer, "mdi:shield-lock-outline", appeler("alarm_control_panel", "alarm_arm_away", [alarme.id]))));
+		}
+		if (a.ouvertures.length) groupes.push(groupe("mdi:window-open-variant", tx.departOuvertures(a.ouvertures.length), a.ouvertures, b`<span class="main">${tx.aLaMain}</span>`));
+		return b`<ha-card>
+      ${groupes.length ? groupes : b`<div class="pret"><ha-icon icon="mdi:check-circle-outline"></ha-icon>${tx.departPret}</div>`}
+      ${this._message ? b`<p class="message" role="status">${this._message}</p>` : A}
+    </ha-card>`;
+	}
+	async agir(cle, faire) {
+		this._enCours = cle;
+		this._message = "";
+		try {
+			await faire();
+		} catch (erreur) {
+			this._message = `${t$1(this.hass).departEchec} ${erreur?.message ?? ""}`.trim();
+		} finally {
+			this._enCours = null;
+		}
+	}
+};
+// src/cartes/favori.ts
+/** Ce qu'un toucher bascule directement. */
+var BASCULE$1 = /* @__PURE__ */ new Set([
+	"light",
+	"switch",
+	"fan",
+	"input_boolean",
+	"siren",
+	"humidifier"
+]);
+var ACTIVES = /* @__PURE__ */ new Set([
+	"on",
+	"open",
+	"opening",
+	"playing",
+	"heat",
+	"cool",
+	"heat_cool",
+	"auto",
+	"dry",
+	"fan_only",
+	"unlocked",
+	"cleaning",
+	"mowing"
+]);
+var AutomaticFavori = class extends CarteAutomatic {
+	constructor(..._args) {
+		super(..._args);
+		this._long = false;
+		this.appuyer = () => {
+			this._long = false;
+			window.clearTimeout(this._appui);
+			this._appui = window.setTimeout(() => {
+				this._long = true;
+				plusDInfos(this, String(this._config?.entity));
+			}, 500);
+		};
+		this.relacher = (ev) => {
+			window.clearTimeout(this._appui);
+			if (!this._long && ev.button === 0) this.toucher();
+		};
+		this.annuler = () => window.clearTimeout(this._appui);
+	}
+	static {
+		this.styles = [STYLE_COMMUN, i$5`
+    button.tuile{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:11px;width:100%;height:100%;min-height:56px;
+      padding:4px 12px 4px 9px;border-radius:var(--ha-card-border-radius, 12px);box-sizing:border-box;text-align:left;
+      background:var(--ha-card-background, var(--card-background-color));border:var(--ha-card-border-width, 1px) solid var(--ha-card-border-color, var(--divider-color));
+      box-shadow:var(--ha-card-box-shadow, none);transition:background-color .15s}
+    button.tuile:hover{background:color-mix(in srgb, var(--primary-color) 5%, var(--ha-card-background, var(--card-background-color)))}
+    .icone{display:grid;place-items:center;width:36px;height:36px;border-radius:var(--ha-tile-icon-border-radius, 10px);
+      background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color));color:var(--state-icon-color, var(--secondary-text-color))}
+    .actif .icone{background:color-mix(in srgb, var(--couleur) 18%, transparent);color:var(--couleur)}
+    .icone ha-state-icon{--mdc-icon-size:21px}
+    .texte{min-width:0;display:flex;flex-direction:column;gap:1px}
+    /* Deux lignes de nom et l'état tiennent dans la hauteur d'une tuile (56 px). */
+    .nom{font-size:13.5px;font-weight:600;line-height:1.1;color:var(--primary-text-color);
+      display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;overflow-wrap:anywhere}
+    .etat{font-size:11.5px;line-height:1.15;color:var(--secondary-text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    @media (prefers-reduced-motion: reduce){ button.tuile{transition:none} }
+  `];
+	}
+	getGridOptions() {
+		return {
+			columns: 6,
+			rows: 1,
+			min_columns: 4
+		};
+	}
+	suivies() {
+		return this._config?.entity ? [String(this._config.entity)] : [];
+	}
+	rendu(hass, m) {
+		const id = String(this._config?.entity ?? "");
+		const etat = hass.states[id];
+		if (!etat) return null;
+		const domaine = id.split(".")[0];
+		const actif = ACTIVES.has(etat.state);
+		const couleur = domaine === "light" ? "var(--state-light-active-color, #E9A23B)" : etat.state === "heat" ? "var(--state-climate-heat-color, #D97A2B)" : etat.state === "cool" ? "var(--state-climate-cool-color, #0288D1)" : "var(--state-active-color, var(--primary-color))";
+		const nom = String(this._config?.name ?? nomCourt(hass, id, m.noms));
+		const texteEtat = valide(etat) && domaine === "light" && etat.state === "on" && typeof etat.attributes.brightness === "number" ? `${Math.round(etat.attributes.brightness / 255 * 100)} %` : hass.formatEntityState?.(etat) ?? etat.state;
+		return b`<button class=${actif ? "tuile actif" : "tuile"} style=${`--couleur:${couleur}`} title=${nom}
+      @pointerdown=${this.appuyer} @pointerup=${this.relacher} @pointerleave=${this.annuler} @contextmenu=${(ev) => ev.preventDefault()}
+      @keydown=${(ev) => {
+			if (ev.key === "Enter" || ev.key === " ") {
+				ev.preventDefault();
+				this.toucher();
+			}
+		}}>
+      <span class="icone"><ha-state-icon .hass=${hass} .stateObj=${etat}></ha-state-icon></span>
+      <span class="texte"><span class="nom">${nom}</span><span class="etat">${texteEtat}</span></span>
+    </button>`;
+	}
+	toucher() {
+		const id = String(this._config?.entity ?? "");
+		const domaine = id.split(".")[0];
+		const appeler = this.hass?.callService;
+		if (appeler && BASCULE$1.has(domaine)) appeler(domaine, "toggle", { entity_id: id });
+		else if (appeler && (domaine === "scene" || domaine === "script")) appeler(domaine, "turn_on", { entity_id: id });
+		else if (appeler && domaine === "cover") appeler("cover", "toggle", { entity_id: id });
+		else plusDInfos(this, id);
+	}
+};
 // src/cartes/heros.ts
 var AutomaticHeros = class extends CarteAutomatic {
 	static {
@@ -2894,12 +3692,12 @@ var AutomaticHeros = class extends CarteAutomatic {
     .bouton ha-icon{--mdc-icon-size:18px}
     .boutons{display:flex;flex-wrap:wrap;gap:10px}
     .liste{display:grid;gap:8px;align-content:center}
-    .item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--automatic-dashboard-fond-alt);font-size:14px;font-weight:550;color:var(--primary-text-color)}
+    .item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color));font-size:14px;font-weight:550;color:var(--primary-text-color)}
     .item ha-icon{--mdc-icon-size:18px;color:var(--warning-color)}
-    .item.ok ha-icon{color:var(--automatic-dashboard-vert)}
-    .alerte{background:var(--automatic-dashboard-alerte-pale)} .alerte .ico{background:var(--automatic-dashboard-alerte);color:#fff}
-    .barre{height:12px;border-radius:999px;background:var(--automatic-dashboard-fond-alt);overflow:hidden;margin:12px 0 6px}
-    .barre span{display:block;height:100%;border-radius:999px;background:var(--automatic-dashboard-vert)}
+    .item.ok ha-icon{color:var(--automatic-dashboard-vert, var(--success-color, #1E6B47))}
+    .alerte{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent))} .alerte .ico{background:var(--automatic-dashboard-alerte, var(--error-color, #B42318));color:#fff}
+    .barre{height:12px;border-radius:999px;background:var(--automatic-dashboard-fond-alt, var(--secondary-background-color));overflow:hidden;margin:12px 0 6px}
+    .barre span{display:block;height:100%;border-radius:999px;background:var(--automatic-dashboard-vert, var(--success-color, #1E6B47))}
     .legende{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:var(--secondary-text-color)}
     .colonne{display:flex;flex-direction:column;gap:16px;justify-content:center;height:100%}
   `];
@@ -3062,7 +3860,7 @@ var AutomaticHeros = class extends CarteAutomatic {
       <span>${majs ? w.majs(majs) : w.aJour}<div class="detail">${w.version} ${hass.config.version ?? ""}</div></span>
       ${majs ? b`<button class="bouton" @click=${() => naviguer("/config/updates")}>${w.voir}</button>` : A}</div>`;
 		let droite;
-		if (!ok(dReussie) && !ok(dProchaine)) droite = b`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--automatic-dashboard-alerte-pale);color:var(--automatic-dashboard-alerte)"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
+		if (!ok(dReussie) && !ok(dProchaine)) droite = b`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));color:var(--automatic-dashboard-alerte, var(--error-color, #B42318))"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
         <span>${w.sansSauvegarde}<div class="detail">${w.sansSauvegardeDetail}</div></span></div>
         <div class="boutons"><button class="bouton" @click=${() => naviguer("/config/backup")}>${w.regler}</button></div></div>`;
 		else {
@@ -3089,6 +3887,181 @@ var AutomaticHeros = class extends CarteAutomatic {
       <button class="bouton" @click=${() => naviguer("/config/devices/dashboard")}><ha-icon icon="mdi:sofa-outline"></ha-icon>${w.rangerTout}</button>
       <button class="bouton second" @click=${() => naviguer("/config/areas/dashboard")}><ha-icon icon="mdi:plus"></ha-icon>${w.creerPiece}</button></div>`;
 		return this.enveloppe(hass, gauche, droite);
+	}
+};
+// src/donnees/favoris.ts
+var CLE = "automatic_dashboard_favoris";
+/** Les favoris choisis par la personne connectée ([] si elle n'en a pas choisi). */
+async function lireFavorisPerso(hass) {
+	try {
+		const r = await hass.callWS({
+			type: "frontend/get_user_data",
+			key: CLE
+		});
+		return Array.isArray(r?.value) ? r.value.filter((x) => typeof x === "string") : [];
+	} catch {
+		return [];
+	}
+}
+async function ecrireFavorisPerso(hass, ids) {
+	await hass.callWS({
+		type: "frontend/set_user_data",
+		key: CLE,
+		value: ids.length ? [...new Set(ids)] : null
+	});
+}
+// src/editeur/reglages.ts
+/** Retire les réglages vides ou égaux au défaut. */
+function nettoyer(config) {
+	const propre = { ...config };
+	if (!propre.mode || propre.mode === "auto") delete propre.mode;
+	for (const cle of ["favoris", "masquer"]) {
+		const liste = [...new Set(propre[cle] ?? [])].filter(Boolean);
+		if (liste.length) propre[cle] = liste;
+		else delete propre[cle];
+	}
+	if (propre.completer !== false) delete propre.completer;
+	const noms = Object.fromEntries(Object.entries(propre.noms ?? {}).filter(([, nom]) => typeof nom === "string" && nom.trim()));
+	if (Object.keys(noms).length) propre.noms = noms;
+	else delete propre.noms;
+	if (!propre.style || propre.style === "automatic") delete propre.style;
+	if (propre.pieces !== "mosaique") delete propre.pieces;
+	if (propre.tuiles !== "home_assistant") delete propre.tuiles;
+	for (const cle of [
+		"ciel",
+		"conseils",
+		"bilan"
+	]) if (propre[cle] !== false) delete propre[cle];
+	const tab = Object.fromEntries(Object.entries(propre.tablette ?? {}).filter(([, v]) => v !== void 0 && v !== null && v !== ""));
+	if (tab.debut_nuit === 23) delete tab.debut_nuit;
+	if (tab.fin_nuit === 6) delete tab.fin_nuit;
+	if (Object.keys(tab).length) propre.tablette = tab;
+	else delete propre.tablette;
+	return propre;
+}
+/** Déplace un élément d'une liste (glisser-déposer). */
+function deplacer(liste, de, vers) {
+	const copie = [...liste];
+	const [element] = copie.splice(de, 1);
+	if (element === void 0) return liste;
+	copie.splice(Math.max(0, Math.min(vers, copie.length)), 0, element);
+	return copie;
+}
+/** Épingle en favori : à la fin des épinglés ; une entité épinglée n'est plus masquée. */
+var epingler = (c, id) => nettoyer({
+	...c,
+	favoris: [...(c.favoris ?? []).filter((x) => x !== id), id],
+	masquer: (c.masquer ?? []).filter((x) => x !== id)
+});
+var desepingler = (c, id) => nettoyer({
+	...c,
+	favoris: (c.favoris ?? []).filter((x) => x !== id)
+});
+/** Masque partout : l'entité sort aussi des favoris épinglés. */
+var masquer = (c, id) => nettoyer({
+	...c,
+	masquer: [...c.masquer ?? [], id],
+	favoris: (c.favoris ?? []).filter((x) => x !== id)
+});
+var demasquer = (c, id) => nettoyer({
+	...c,
+	masquer: (c.masquer ?? []).filter((x) => x !== id)
+});
+/** Renomme ; un nom vide rend celui de Home Assistant. */
+function renommer(c, id, nom) {
+	const noms = { ...c.noms ?? {} };
+	if (nom.trim()) noms[id] = nom;
+	else delete noms[id];
+	return nettoyer({
+		...c,
+		noms
+	});
+}
+// src/cartes/mes-favoris.ts
+var AutomaticMesFavoris = class extends CarteAutomatic {
+	static {
+		this.properties = { _favoris: { state: true } };
+	}
+	constructor() {
+		super();
+		this._demande = false;
+		this.terminer = () => {
+			naviguer("accueil");
+			window.setTimeout(() => location.reload(), 50);
+		};
+		this._favoris = null;
+	}
+	static {
+		this.styles = [STYLE_COMMUN, i$5`
+    ha-card{padding:16px 20px 18px;display:grid;gap:18px}
+    h2{margin:0;font-size:16px;font-weight:650;color:var(--primary-text-color)}
+    .aide{margin:4px 0 0;font-size:13.5px;color:var(--secondary-text-color)}
+    ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+    .ligne{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;min-height:46px;padding:4px 6px 4px 10px;border-radius:12px;
+      background:var(--secondary-background-color)}
+    .ligne ha-state-icon{--mdc-icon-size:20px;color:var(--secondary-text-color)}
+    .nom{font-size:14px;font-weight:600;color:var(--primary-text-color)}
+    .nom small{display:block;font-size:12px;font-weight:500;color:var(--secondary-text-color)}
+    .boutons{display:flex;gap:2px}
+    .rond{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:var(--secondary-text-color)}
+    .rond:hover{background:var(--card-background-color, #fff);color:var(--primary-text-color)}
+    .rond:disabled{opacity:.3;cursor:default}
+    .rond ha-icon{--mdc-icon-size:19px}
+    .piece{font-size:11.5px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--secondary-text-color);margin:6px 0 2px}
+    .choix{display:flex;flex-wrap:wrap;gap:6px}
+    .choix button{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 13px 0 9px;border-radius:18px;font-size:13.5px;
+      background:var(--secondary-background-color);color:var(--primary-text-color)}
+    .choix button.pris{background:color-mix(in srgb, var(--primary-color) 16%, transparent);color:var(--primary-color);font-weight:600}
+    .choix ha-icon{--mdc-icon-size:17px}
+    .bas{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center;padding-top:6px;border-top:1px solid var(--divider-color)}
+    .lien{font-size:13.5px;font-weight:600;color:var(--secondary-text-color)}
+    .fini{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 18px;border-radius:20px;font-size:14px;font-weight:650;
+      background:var(--primary-color);color:var(--text-primary-color, #fff)}
+  `];
+	}
+	getGridOptions() {
+		return {
+			columns: "full",
+			rows: "auto"
+		};
+	}
+	rendu(hass, m) {
+		const tx = t$1(hass);
+		if (!this._demande) {
+			this._demande = true;
+			lireFavorisPerso(hass).then((ids) => this._favoris = ids);
+		}
+		if (this._favoris === null) return b`<ha-card><span class="attente" style="height:120px"></span></ha-card>`;
+		const mes = this._favoris.filter((id) => hass.states[id]);
+		const candidats = m.gardees.filter((e) => e.role === "commande" && !e.secondaire || e.domaine === "scene" || e.domaine === "script");
+		const parPiece = [...m.pieces.map((p) => [p.name, candidats.filter((e) => e.piece === p.area_id)]), [tx.sansPieceTitre, candidats.filter((e) => !e.piece)]].filter(([, l]) => l.length);
+		const piece = (id) => m.pieces.find((p) => p.area_id === m.toutes.find((e) => e.id === id)?.piece)?.name ?? "";
+		return b`<ha-card>
+      <div><h2>${tx.mesFavorisListe}</h2>
+        <p class="aide">${mes.length ? tx.mesFavorisOrdre : tx.mesFavorisVide}</p></div>
+      ${mes.length ? b`<ol>${mes.map((id, i) => b`<li class="ligne">
+        <ha-state-icon .hass=${hass} .stateObj=${hass.states[id]}></ha-state-icon>
+        <span class="nom">${nomCourt(hass, id, m.noms)}<small>${piece(id)}</small></span>
+        <span class="boutons">
+          <button class="rond" ?disabled=${i === 0} title=${tx.monter} aria-label=${tx.monter} @click=${() => this.enregistrer(deplacer(mes, i, i - 1))}><ha-icon icon="mdi:arrow-up"></ha-icon></button>
+          <button class="rond" ?disabled=${i === mes.length - 1} title=${tx.descendre} aria-label=${tx.descendre} @click=${() => this.enregistrer(deplacer(mes, i, i + 1))}><ha-icon icon="mdi:arrow-down"></ha-icon></button>
+          <button class="rond" title=${tx.retirerFavori} aria-label=${tx.retirerFavori} @click=${() => this.enregistrer(mes.filter((x) => x !== id))}><ha-icon icon="mdi:close"></ha-icon></button>
+        </span></li>`)}</ol>` : A}
+      <div>${parPiece.map(([nom, liste]) => b`<div class="piece">${nom}</div><div class="choix">${liste.map((e) => {
+			const pris = mes.includes(e.id);
+			return b`<button class=${pris ? "pris" : ""} aria-pressed=${pris ? "true" : "false"}
+          @click=${() => this.enregistrer(pris ? mes.filter((x) => x !== e.id) : [...mes, e.id])}>
+          <ha-icon icon=${pris ? "mdi:star" : "mdi:star-outline"}></ha-icon>${nomCourt(hass, e.id, m.noms)}</button>`;
+		})}</div>`)}</div>
+      <div class="bas">
+        ${mes.length ? b`<button class="lien" @click=${() => this.enregistrer([])}>${tx.favorisDuTableau}</button>` : b`<span></span>`}
+        <button class="fini" @click=${this.terminer}>${tx.termine}</button>
+      </div>
+    </ha-card>`;
+	}
+	async enregistrer(ids) {
+		this._favoris = ids;
+		await ecrireFavorisPerso(this.hass, ids);
 	}
 };
 // src/moteur/meteo-france.ts
@@ -3182,12 +4155,12 @@ var AutomaticMeteoFrance = class extends CarteAutomatic {
     .barre i.i3{background:var(--primary-color)}
     .axe{display:flex;justify-content:space-between;margin-top:5px;font-size:11.5px;color:var(--secondary-text-color)}
     button.vert{display:flex;align-items:center;gap:9px;font-size:13.5px;color:var(--secondary-text-color);border-radius:8px}
-    .pastille{width:9px;height:9px;border-radius:50%;background:var(--automatic-dashboard-vert);flex:none}
+    .pastille{width:9px;height:9px;border-radius:50%;background:var(--automatic-dashboard-vert, var(--success-color, #1E6B47));flex:none}
     .vigilance{display:grid;grid-template-columns:auto 1fr;gap:12px;padding:13px 14px;border-radius:14px}
     .vigilance .ico{width:38px;height:38px}
     .n1{background:rgba(232,194,26,.16)} .n1 .ico{background:#E8C21A;color:#3A3000}
     .n2{background:rgba(233,140,40,.16)} .n2 .ico{background:#E98C28;color:#fff}
-    .n3{background:var(--automatic-dashboard-alerte-pale)} .n3 .ico{background:var(--automatic-dashboard-alerte);color:#fff}
+    .n3{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent))} .n3 .ico{background:var(--automatic-dashboard-alerte, var(--error-color, #B42318));color:#fff}
     .titre{font-size:15px;font-weight:700;color:var(--primary-text-color)}
     .phenomenes{font-size:13.5px;font-weight:600;color:var(--primary-text-color);margin-top:2px}
     .conseil{margin:6px 0 0;font-size:13px;line-height:1.4;color:var(--secondary-text-color)}
@@ -3406,99 +4379,13 @@ var AutomaticMoment = class extends CarteAutomatic {
 		this.hass?.callService?.("media_player", "media_pause", { entity_id: id });
 	}
 };
-var NOMS_FR = [
-	[/^(chambre|cuisine|salle|buanderie|cave|mezzanine|v(é|e)randa|terrasse|piscine|fen(ê|e)tre|porte|baie|lucarne|trappe)\b/i, "la "],
-	[/^(salon|bureau|s(é|e)jour|couloir|garage|grenier|cellier|dressing|hall|palier|jardin|balcon|patio|velux|portail|volet|garde-manger|wc)\b/i, "le "],
-	[/^(entr(é|e)e|(é|e)tage|atelier|abri|escalier)\b/i, "l'"]
-];
-var NOMS_EN = /^(bedroom|kitchen|living|bathroom|office|hall|hallway|garage|attic|basement|cellar|laundry|dining|nursery|guest|master|kids?|window|door|patio|garden|terrace|balcony)\b/i;
-/**
-* « la chambre de Léa », « l'entrée », « the bedroom » ; null si le nom n'est pas un nom
-* commun connu (« Atelier Paul » oui, « Chez Léa » non) : la phrase s'écrit alors sans article.
-*/
-function avecArticle(nom, fr) {
-	const minuscule = (s) => s.charAt(0).toLowerCase() + s.slice(1);
-	if (!fr) return NOMS_EN.test(nom) ? `the ${minuscule(nom)}` : null;
-	const trouve = NOMS_FR.find(([motif]) => motif.test(nom));
-	return trouve ? `${trouve[1]}${minuscule(nom)}` : null;
-}
-/** Le chauffage tourne-t-il ? L'action en cours si l'appareil la donne, sinon son mode. */
-function chauffe(etat) {
-	if (!etat || [
-		"off",
-		"unavailable",
-		"unknown"
-	].includes(etat.state)) return false;
-	const action = etat.attributes.hvac_action;
-	if (action) return action === "heating" || action === "preheating";
-	return [
-		"heat",
-		"heat_cool",
-		"auto"
-	].includes(etat.state);
-}
-/** Les conseils du moment, et les ouvertures qu'ils remplacent (pas deux points pour la même fenêtre). */
-function conseils(hass, m) {
-	const fr = estFrancais(hass);
-	const tx = t$1(hass);
-	const etat = (id) => hass.states[id];
-	const points = [];
-	const remplaces = /* @__PURE__ */ new Set();
-	const chauffages = m.climats.filter((e) => e.domaine === "climate" && chauffe(etat(e.id)));
-	const central = chauffages.some((e) => !e.piece);
-	for (const o of m.ouvrants) {
-		if (etat(o.id)?.state !== "on") continue;
-		if (!central && !chauffages.some((c) => c.piece && c.piece === o.piece)) continue;
-		const nom = nomCourt(hass, o.id, m.noms);
-		const article = avecArticle(nom, fr);
-		points.push({
-			cle: `ouvrant:${o.id}`,
-			niveau: 2,
-			icone: "mdi:radiator",
-			conseil: true,
-			securite: true,
-			titre: article ? tx.fermer(article) : `${tx.fermerSans} : ${nom}`,
-			detail: tx.chauffageOuvert,
-			entite: o.id
-		});
-		remplaces.add(o.id);
-	}
-	for (const p of m.pieces.filter((x) => !x.exterieur)) {
-		const mesure = (classe) => p.entites.filter((e) => e.role === "mesure" && e.classe === classe).map((e) => [e.id, Number.parseFloat(etat(e.id)?.state ?? "")]).filter(([, v]) => !Number.isNaN(v)).sort((a, b) => b[1] - a[1])[0];
-		const article = avecArticle(p.name, fr);
-		const aerer = article ? tx.aerer(article) : `${tx.aererSans} : ${p.name}`;
-		const co2 = mesure("carbon_dioxide");
-		if (co2 && co2[1] >= 1e3) {
-			points.push({
-				cle: `air:${p.area_id}`,
-				niveau: co2[1] >= 1500 ? 2 : 1,
-				icone: "mdi:molecule-co2",
-				conseil: true,
-				titre: aerer,
-				detail: tx.co2(nombre(hass, co2[1], 0)),
-				entite: co2[0]
-			});
-			continue;
-		}
-		const humidite = mesure("humidity");
-		if (humidite && humidite[1] >= 80) points.push({
-			cle: `air:${p.area_id}`,
-			niveau: 1,
-			icone: "mdi:water-percent",
-			conseil: true,
-			titre: aerer,
-			detail: tx.humidite(nombre(hass, humidite[1], 0)),
-			entite: humidite[0]
-		});
-	}
-	return {
-		points,
-		remplaces
-	};
-}
 // src/moteur/absence.ts
-/** Tout le monde est parti : au moins une personne suivie, et aucune à la maison. */
+/**
+* Tout le monde est parti : l'alarme est armée en mode absence (ou vacances), ou bien au moins
+* une personne est suivie et aucune n'est à la maison.
+*/
 function estAbsent(hass, m) {
+	if (m.securite.some((e) => e.domaine === "alarm_control_panel" && ["armed_away", "armed_vacation"].includes(hass.states[e.id]?.state ?? ""))) return true;
 	const suivies = m.personnes.map((id) => hass.states[id]).filter((s) => s && Array.isArray(s.attributes.device_trackers) && s.attributes.device_trackers.length > 0);
 	return suivies.length > 0 && suivies.every((s) => s.state !== "home" && s.state !== "unknown" && s.state !== "unavailable");
 }
@@ -3603,7 +4490,10 @@ function pointsARegarder(hass, m) {
 			entite: m.vigilance
 		});
 	}
-	const avis = conseils(hass, m);
+	const avis = m.reglages.conseils === false ? {
+		points: [],
+		remplaces: /* @__PURE__ */ new Set()
+	} : conseils(hass, m);
 	points.push(...avis.points);
 	for (const e of m.ouvrants) {
 		if (avis.remplaces.has(e.id)) continue;
@@ -3670,14 +4560,31 @@ function pointsARegarder(hass, m) {
 			chemin: "/config/backup"
 		});
 	}
-	if ((/* @__PURE__ */ new Date()).getDay() === 1 && aUnBilan(hass, m)) points.push({
-		cle: "bilan",
+	const charge = m.vehicules.find((e) => e.classe === "battery_charging");
+	const batterie = m.vehicules.find((e) => e.classe === "battery" && e.domaine === "sensor");
+	const sc = charge ? etat(charge.id) : void 0;
+	const niveauBatterie = batterie ? Number.parseFloat(etat(batterie.id)?.state ?? "") : NaN;
+	if (sc?.state === "off" && sc.last_changed && Date.now() - new Date(sc.last_changed).getTime() < 36e5 && niveauBatterie >= 80) points.push({
+		cle: "vehicule-charge",
 		niveau: 1,
-		icone: "mdi:calendar-week",
-		titre: tx.bilanPret,
-		detail: tx.bilanPretDetail,
-		chemin: "bilan"
+		icone: "mdi:car-electric-outline",
+		titre: tx.voitureChargee,
+		detail: tx.vehiculeBatterie(nombre(hass, niveauBatterie, 0), false),
+		entite: batterie.id,
+		chemin: "vehicule"
 	});
+	const aujourdhui = /* @__PURE__ */ new Date();
+	if (m.reglages.bilan !== false && (aujourdhui.getDay() === 1 || aujourdhui.getDate() === 1) && aUnBilan(hass, m)) {
+		const mois = aujourdhui.getDate() === 1;
+		points.push({
+			cle: mois ? "bilan-mois" : "bilan",
+			niveau: 1,
+			icone: mois ? "mdi:calendar-month" : "mdi:calendar-week",
+			titre: mois ? tx.bilanPretMois : tx.bilanPret,
+			detail: tx.bilanPretDetail,
+			chemin: "bilan"
+		});
+	}
 	if (estAbsent(hass, m)) {
 		points.push(...pointsAbsence(hass, m));
 		const rang = (p) => p.niveau === 3 ? 0 : p.securite ? 1 : 2;
@@ -3687,19 +4594,41 @@ function pointsARegarder(hass, m) {
 }
 /** Un point grave ne s'ignore jamais. */
 var ignorable = (p) => p.niveau < 3;
-/** Les points à regarder, sans ceux que l'utilisateur a ignorés aujourd'hui. */
+/**
+* Ce qui doit changer pour qu'un point ignoré revienne : pour une ouverture, une serrure ou un
+* service, son état et l'heure de son dernier changement (refermée puis rouverte, elle revient) ;
+* pour un compte (mises à jour, lumières), le texte ; pour le reste, son niveau et son titre
+* (une pile qui passe sous 10 %, un conseil qui devient pressant).
+*/
+function signature(hass, p) {
+	const genre = p.cle.split(":")[0];
+	const etat = p.entite ? hass.states[p.entite] : void 0;
+	if (etat && [
+		"ouvrant",
+		"serrure",
+		"alarme-desarmee",
+		"service"
+	].includes(genre)) return `${etat.state}|${etat.last_changed ?? ""}`;
+	if ([
+		"lumieres-absence",
+		"majs",
+		"vigilance"
+	].includes(genre)) return `${p.titre}|${p.detail}`;
+	return `${p.niveau}|${p.titre}`;
+}
+/** Les points à regarder, sans ceux que l'utilisateur a ignorés tant qu'ils ne changent pas. */
 function pointsVisibles(hass, m) {
 	const tous = pointsARegarder(hass, m);
-	const ignores = tous.filter((p) => ignorable(p) && estIgnore(p.cle));
+	const ignores = tous.filter((p) => ignorable(p) && estIgnore(p.cle, signature(hass, p)));
 	return {
 		visibles: tous.filter((p) => !ignores.includes(p)),
 		ignores
 	};
 }
 // src/phrases.ts
-var VERT = "var(--automatic-dashboard-vert)";
+var VERT = "var(--automatic-dashboard-vert, var(--success-color, #1E6B47))";
 var ORANGE = "var(--warning-color)";
-var ROUGE = "var(--automatic-dashboard-alerte)";
+var ROUGE = "var(--automatic-dashboard-alerte, var(--error-color, #B42318))";
 var BLEU = "var(--primary-color)";
 /**
 * La phrase de l'accueil (et de la tablette murale) : une alerte grave d'abord, puis ce qui
@@ -3867,6 +4796,34 @@ function phraseSujet(hass, m, sujet) {
 		point: BLEU
 	};
 }
+/** « L'air est bon partout. », ou le conseil le plus pressant. */
+function phraseAir(hass, m) {
+	const tx = t$1(hass);
+	const avis = conseils(hass, m).points.filter((p) => p.cle.startsWith("air:")).sort((a, b) => b.niveau - a.niveau);
+	return avis.length ? {
+		phrase: `${avis[0].titre} : ${avis[0].detail}`,
+		point: avis[0].niveau >= 2 ? ORANGE : BLEU
+	} : {
+		phrase: tx.airBon,
+		point: VERT
+	};
+}
+/** « Batterie à 80 %, en charge. » */
+function phraseVehicule(hass, m) {
+	const tx = t$1(hass);
+	const batterie = m.vehicules.find((e) => e.classe === "battery" && e.domaine === "sensor");
+	const charge = m.vehicules.find((e) => e.classe === "battery_charging" || e.domaine === "binary_sensor" && e.classe === "plug");
+	const v = batterie ? Number.parseFloat(hass.states[batterie.id]?.state ?? "") : NaN;
+	const enCharge = charge ? hass.states[charge.id]?.state === "on" : false;
+	if (Number.isNaN(v)) return {
+		phrase: tx.vehiculeSansBatterie,
+		point: BLEU
+	};
+	return {
+		phrase: tx.vehiculeBatterie(nombre(hass, v, 0), enCharge),
+		point: v < 20 ? ORANGE : VERT
+	};
+}
 // src/cartes/ciel.ts
 var CYCLE = 29.530588853;
 /** Le style du ciel, partagé par l'en-tête de l'accueil et la tablette murale. */
@@ -3958,18 +4915,16 @@ var AutomaticOuverture = class extends CarteAutomatic {
     .sur::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--primary-color)}
     h1{margin:10px 0 6px;font-family:var(--ha-font-family-heading, Inter, sans-serif);font-size:34px;line-height:1.08;font-weight:700;letter-spacing:-.025em;color:var(--primary-text-color)}
     .phrase{display:flex;align-items:baseline;gap:9px;font-size:16.5px;line-height:1.4;color:var(--primary-text-color);max-width:62ch}
-    .phrase::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;transform:translateY(-1px);background:var(--point, var(--automatic-dashboard-vert))}
+    .phrase::before{content:"";flex:none;width:9px;height:9px;border-radius:50%;transform:translateY(-1px);background:var(--point, var(--automatic-dashboard-vert, var(--success-color, #1E6B47)))}
     @container (max-width: 420px){ h1{font-size:28px} .phrase{font-size:15.5px} }
     .tete{display:flex;align-items:flex-end;justify-content:space-between;gap:20px}
     .tete .bloc{flex:1;min-width:0}
-    /* Téléphone : le ciel passe sous la phrase, en bandeau, avec la légende à droite. */
-    @container (max-width: 560px){
-      .tete{flex-direction:column;align-items:stretch;gap:2px}
-      .ciel{display:grid;grid-template-columns:1fr auto;align-items:end;gap:10px}
-      .ciel .rond{display:none}
-      .ciel .bandeau{display:block}
-      .ciel figcaption{font-size:11px}
-    }
+    /* Le ciel passe sous la phrase, en bandeau aligné sur le texte, la légende à droite. */
+    .tete{flex-direction:column;align-items:stretch;gap:4px}
+    .tete .ciel{display:grid;grid-template-columns:minmax(0,520px) auto;justify-content:start;align-items:end;gap:14px;margin-top:2px}
+    .tete .ciel .rond{display:none}
+    .tete .ciel .bandeau{display:block;max-height:58px}
+    @container (max-width: 560px){ .tete .ciel{grid-template-columns:1fr auto;gap:10px} .tete .ciel figcaption{font-size:11px} }
   `
 		];
 	}
@@ -4005,22 +4960,34 @@ var AutomaticOuverture = class extends CarteAutomatic {
 			month: "long"
 		}).format(maintenant));
 		let sur = `${date} · ${hass.config.location_name || ""}`;
-		let titre = "", phrase = "", point = "var(--automatic-dashboard-vert)";
+		let titre = "", phrase = "", point = "var(--automatic-dashboard-vert, var(--success-color, #1E6B47))";
 		if (page === "accueil") {
 			const h = this._heure;
 			const prenom = (hass.user?.name || "").replace(/\s*\(.*\)\s*$/, "").split(" ")[0];
 			titre = `${h < 5 ? tx.nuit : h < 12 ? tx.bonjour : h < 18 ? tx.apresmidi : tx.bonsoir}${prenom ? `, ${prenom}` : ""}`;
 			({phrase, point} = phraseAccueil(hass, m));
+		} else if (page === "air" || page === "vehicule" || page === "exterieur") {
+			titre = {
+				air: tx.air,
+				vehicule: tx.vehicule,
+				exterieur: tx.exterieur
+			}[page];
+			sur = date;
+			({phrase, point} = page === "air" ? phraseAir(hass, m) : page === "vehicule" ? phraseVehicule(hass, m) : phraseMeteo(hass, m));
+		} else if (page === "mes-favoris") {
+			titre = tx.mesFavoris;
+			sur = date;
+			phrase = tx.mesFavorisPhrase;
+			point = "var(--primary-color)";
+		} else if (page === "depart") {
+			titre = tx.jePars;
+			sur = date;
+			phrase = tx.departPhrase;
+			point = "var(--primary-color)";
 		} else if (page === "bilan") {
-			const { debut, fin } = semainePassee(maintenant);
-			const jour = new Intl.DateTimeFormat(langue(hass), {
-				weekday: "long",
-				day: "numeric",
-				month: "long"
-			});
 			titre = tx.bilan;
 			sur = date;
-			phrase = tx.bilanPhrase(jour.format(debut), jour.format(/* @__PURE__ */ new Date(fin.getTime() - 432e5)));
+			phrase = tx.bilanEntete;
 			point = "var(--primary-color)";
 		} else if (this._config?.piece) {
 			const p = m.pieces.find((x) => x.area_id === this._config?.piece);
@@ -4042,7 +5009,7 @@ var AutomaticOuverture = class extends CarteAutomatic {
 		}
 		const bloc = b`<div class="bloc" style=${o({ "--point": point })}><div class="sur">${sur}</div><h1>${titre}</h1>
       ${phrase ? b`<div class="phrase">${phrase}</div>` : A}</div>`;
-		return page === "accueil" ? b`<div class="tete">${bloc}${ciel(hass, maintenant)}</div>` : bloc;
+		return page === "accueil" && m.reglages.ciel !== false ? b`<div class="tete">${bloc}${ciel(hass, maintenant)}</div>` : bloc;
 	}
 };
 // src/cartes/pastille.ts
@@ -4055,9 +5022,15 @@ var AutomaticPastille = class extends CarteAutomatic {
     button:hover{border-color:var(--primary-color)}
     ha-icon{--mdc-icon-size:18px;color:var(--secondary-text-color)}
     .valeur{font-weight:500;color:var(--secondary-text-color)}
-    .actif{background:var(--automatic-dashboard-accent-pale)} .actif ha-icon{color:var(--state-light-active-color)}
+    .court{display:none}
+    @media (max-width: 600px){
+      .long{display:none} .court{display:inline}
+      button{height:34px;gap:6px;padding:0 11px 0 9px;font-size:13.5px}
+    }
+    .actif{background:var(--automatic-dashboard-accent-pale, color-mix(in srgb, var(--primary-color) 12%, transparent))} .actif ha-icon{color:var(--state-light-active-color)}
     .attention{background:rgba(233,162,59,.14)} .attention ha-icon{color:var(--warning-color)}
-    .alerte{background:var(--automatic-dashboard-alerte-pale)} .alerte ha-icon{color:var(--automatic-dashboard-alerte)}
+    .action{border-color:color-mix(in srgb, var(--primary-color) 45%, var(--divider-color))} .action ha-icon{color:var(--primary-color)}
+    .alerte{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent))} .alerte ha-icon{color:var(--automatic-dashboard-alerte, var(--error-color, #B42318))}
   `];
 	}
 	suivies(m) {
@@ -4069,6 +5042,17 @@ var AutomaticPastille = class extends CarteAutomatic {
 		if (s === "energie") return definis([m.puissanceReseau]);
 		if (s === "systeme") return m.majs.map((e) => e.id);
 		if (s === "soleil") return ["sun.sun"];
+		if (s === "air") return m.air.map((e) => e.id);
+		if (s === "vehicule") return m.vehicules.map((e) => e.id);
+		if (s === "depart") return [
+			...m.ouvrants,
+			...m.lumieres,
+			...m.gardees.filter((e) => [
+				"lock",
+				"cover",
+				"alarm_control_panel"
+			].includes(e.domaine))
+		].map((e) => e.id);
 		if (s === "piece") return m.pieces.find((p) => p.area_id === this._config?.piece)?.temperatures ?? [];
 		return [];
 	}
@@ -4077,12 +5061,14 @@ var AutomaticPastille = class extends CarteAutomatic {
 		const s = this._config?.sujet;
 		const etat = (id) => id ? hass.states[id] : void 0;
 		let icone = "mdi:circle-small", libelle = "", valeur = "", ton = "";
+		let court = null;
 		if (s === "meteo") {
 			const w = etat(m.meteo);
 			if (!valide(w)) return null;
 			({icone} = conditionMeteo(hass, w));
 			libelle = degres(hass, w.attributes.temperature);
 			valeur = conditionMeteo(hass, w).texte;
+			court = "";
 		} else if (s === "climat") {
 			const d = moyenneInterieure(hass, m);
 			if (d === null) return null;
@@ -4094,6 +5080,7 @@ var AutomaticPastille = class extends CarteAutomatic {
 			icone = "mdi:lightbulb-group-outline";
 			libelle = tx.lumieres;
 			valeur = tx.allumees(n);
+			court = String(n);
 			ton = n ? "actif" : "";
 		} else if (s === "securite") {
 			const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on").length;
@@ -4102,6 +5089,7 @@ var AutomaticPastille = class extends CarteAutomatic {
 			libelle = tx.securite;
 			valeur = alertes ? tx.fuite : ouverts ? tx.ouverts(ouverts) : tx.toutFerme;
 			ton = alertes ? "alerte" : ouverts ? "attention" : "";
+			court = alertes ? "!" : ouverts ? String(ouverts) : "";
 		} else if (s === "energie") {
 			const reseau = etat(m.puissanceReseau);
 			const w = Number.parseFloat(reseau?.state ?? "");
@@ -4109,11 +5097,13 @@ var AutomaticPastille = class extends CarteAutomatic {
 			icone = "mdi:lightning-bolt-outline";
 			libelle = `${nombre(hass, w, 0)} ${reseau.attributes.unit_of_measurement || "W"}`;
 			valeur = tx.enCeMoment;
+			court = "";
 		} else if (s === "systeme") {
 			const n = m.majs.filter((e) => etat(e.id)?.state === "on").length;
 			icone = "mdi:server-outline";
 			libelle = tx.systeme;
 			valeur = n ? tx.majs(n) : tx.aJour;
+			court = n ? String(n) : "";
 			ton = n ? "attention" : "";
 		} else if (s === "a-ranger") {
 			if (!m.aRanger.length) return null;
@@ -4127,6 +5117,32 @@ var AutomaticPastille = class extends CarteAutomatic {
 			icone = p.icon;
 			libelle = p.name;
 			valeur = v !== null ? degres(hass, v) : "";
+		} else if (s === "air") {
+			const co2 = m.air.filter((e) => e.classe === "carbon_dioxide").map((e) => Number.parseFloat(etat(e.id)?.state ?? "")).filter((v) => !Number.isNaN(v));
+			icone = "mdi:air-filter";
+			libelle = tx.air;
+			if (co2.length) {
+				const pire = Math.max(...co2);
+				valeur = `${nombre(hass, pire, 0)} ppm`;
+				ton = pire >= 1e3 ? "attention" : "";
+			}
+		} else if (s === "vehicule") {
+			const batterie = m.vehicules.find((e) => e.classe === "battery" && e.domaine === "sensor");
+			const v = batterie ? Number.parseFloat(etat(batterie.id)?.state ?? "") : NaN;
+			icone = "mdi:car-electric-outline";
+			libelle = tx.vehicule;
+			valeur = Number.isNaN(v) ? "" : `${nombre(hass, v, 0)} %`;
+		} else if (s === "exterieur") {
+			icone = "mdi:tree-outline";
+			libelle = tx.exterieur;
+		} else if (s === "depart") {
+			const a = avantDePartir(hass, m);
+			const n = a.lumieres.length + a.serrures.length + a.volets.length + a.alarmes.length + a.ouvertures.length;
+			icone = "mdi:exit-run";
+			libelle = tx.jePars;
+			valeur = n ? tx.aFaire(n) : "";
+			court = n ? String(n) : "";
+			ton = "action";
 		} else if (s === "soleil") {
 			const soleil = etat("sun.sun");
 			if (!soleil) return null;
@@ -4135,7 +5151,8 @@ var AutomaticPastille = class extends CarteAutomatic {
 			libelle = leve ? tx.coucher : tx.lever;
 			valeur = heure(hass, new Date(leve ? soleil.attributes.next_setting : soleil.attributes.next_rising));
 		}
-		return b`<button class=${ton} @click=${this._clic}><ha-icon icon=${icone}></ha-icon>${libelle}${valeur ? b`<span class="valeur">${valeur}</span>` : A}</button>`;
+		const valeurs = court === null || court === valeur ? valeur ? b`<span class="valeur">${valeur}</span>` : A : b`${valeur ? b`<span class="valeur long">${valeur}</span>` : A}${court ? b`<span class="valeur court">${court}</span>` : A}`;
+		return b`<button class=${ton} title=${[libelle, valeur].filter(Boolean).join(" ")} @click=${this._clic}><ha-icon icon=${icone}></ha-icon>${libelle}${valeurs}</button>`;
 	}
 	_clic() {
 		const s = this._config?.sujet;
@@ -4235,11 +5252,11 @@ var AutomaticPiece = class extends CarteAutomatic {
 // src/cartes/plan.ts
 /** Du froid au chaud : les paliers de couleur d'une pièce. */
 var PALIERS = [
-	[17, "#4F8FD9"],
-	[19, "#5FB3D6"],
-	[22, "#5DB88A"],
+	[17, "#3E6FB0"],
+	[19, "#7BA7D1"],
+	[22, "#CDBB8F"],
 	[24, "#E9A23B"],
-	[Infinity, "#D9614F"]
+	[Infinity, "#C8613A"]
 ];
 var couleurTemperature = (t) => t === null ? null : PALIERS.find(([seuil]) => t < seuil)[1];
 var AutomaticPlan = class extends CarteAutomatic {
@@ -4249,21 +5266,20 @@ var AutomaticPlan = class extends CarteAutomatic {
     .etage{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:stretch}
     .etage > .sur{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:10.5px;padding:4px 0}
     .sans-etage{grid-template-columns:1fr}
-    /* Une mosaïque : les grandes pièces prennent deux colonnes (et deux rangées pour les plus grandes), les petites comblent les trous. */
-    .pieces{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));grid-auto-rows:84px;grid-auto-flow:dense;gap:6px}
-    .piece{display:flex;flex-direction:column;justify-content:space-between;min-width:0;padding:10px 12px;border-radius:12px;
-      box-sizing:border-box;text-align:left;background:color-mix(in srgb, var(--c, #888) 26%, var(--card-background-color, #fff));
-      border:1px solid color-mix(in srgb, var(--c, #888) 45%, transparent);transition:transform .12s}
+    .pieces{display:flex;flex-wrap:wrap;gap:6px}
+    .piece{display:flex;flex-direction:column;justify-content:space-between;min-width:86px;height:84px;padding:10px 12px;border-radius:12px;
+      box-sizing:border-box;text-align:left;background:color-mix(in srgb, var(--c, #888) 30%, var(--card-background-color, #fff));
+      border:1px solid color-mix(in srgb, var(--c, #888) 50%, transparent);transition:transform .12s}
     .piece:hover{transform:translateY(-1px)}
     .piece.inconnue{--c:var(--secondary-text-color);background:transparent;border-style:dashed}
     .piece.dehors{background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--c, #888) 18%, transparent) 0 6px, transparent 6px 12px);border-style:dashed}
     .nom{font-size:13px;font-weight:650;color:var(--primary-text-color);line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .bas{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
-    .temp{font-size:22px;font-weight:700;letter-spacing:-.02em;color:color-mix(in srgb, var(--c, #888) 70%, var(--primary-text-color))}
+    .temp{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--primary-text-color)}
     .hum{font-size:12px;font-weight:600;color:var(--secondary-text-color)}
     .legende{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--secondary-text-color);font-variant-numeric:tabular-nums}
     .legende span.degrade{flex:1;max-width:220px;height:6px;border-radius:3px;
-      background:linear-gradient(90deg, #4F8FD9, #5FB3D6 30%, #5DB88A 55%, #E9A23B 78%, #D9614F)}
+      background:linear-gradient(90deg, #3E6FB0, #7BA7D1 25%, #CDBB8F 50%, #E9A23B 75%, #C8613A)}
     @media (prefers-reduced-motion: reduce){ .piece{transition:none} }
   `];
 	}
@@ -4293,13 +5309,12 @@ var AutomaticPlan = class extends CarteAutomatic {
 		const t = premiereValeur(hass, p.temperatures);
 		const h = premiereValeur(hass, p.humidites);
 		const couleur = couleurTemperature(t);
-		const colonnes = p.utiles >= 5 ? 2 : 1;
-		const rangees = p.utiles >= 12 ? 2 : 1;
+		const poids = 1 + Math.min(1, p.utiles / 8);
 		return b`<button class=${[
 			"piece",
 			couleur ? "" : "inconnue",
 			p.exterieur ? "dehors" : ""
-		].join(" ")} style=${`grid-column:span ${colonnes};grid-row:span ${rangees};${couleur ? `--c:${couleur}` : ""}`}
+		].join(" ")} style=${`flex:${poids} 1 ${Math.round(86 * poids)}px;${couleur ? `--c:${couleur}` : ""}`}
       title=${p.name} @click=${() => p.entites.length && naviguer(p.area_id)}>
       <span class="nom">${p.name}</span>
       <span class="bas"><span class="temp chiffre">${t === null ? "—" : degres(hass, t)}</span>
@@ -4359,17 +5374,40 @@ var TEXTES = {
 var idAutomatisme = (sujet) => `automatic_dashboard_${sujet}`;
 /** Cet automatisme existe-t-il déjà (créé ici, ou gardé après modification) ? */
 var automatismeExiste = (hass, sujet) => Object.values(hass.states).some((s) => s.entity_id.startsWith("automation.") && s.attributes.id === idAutomatisme(sujet));
-/** Les téléphones de l'application Home Assistant, plus la notification dans Home Assistant. */
-function prevenir(hass, titre, message, sujet) {
-	const telephones = Object.keys(hass.services?.notify ?? {}).filter((s) => s.startsWith("mobile_app_")).sort();
-	return [{
+var SUJETS = [
+	"fuite",
+	"fumee",
+	"pile",
+	"sauvegarde"
+];
+var enSlug = (s) => s.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+/** Les téléphones qui ont l'application Home Assistant : le service de notification et le nom de l'appareil. */
+function telephones(hass) {
+	const services = Object.keys(hass.services?.notify ?? {}).filter((s) => s.startsWith("mobile_app_")).sort();
+	const appareils = Object.values(hass.devices ?? {});
+	return services.map((service) => {
+		const slug = service.slice(11);
+		const appareil = appareils.find((a) => enSlug(a.name_by_user || a.name || "") === slug || enSlug(a.name || "") === slug);
+		return {
+			service,
+			nom: appareil?.name_by_user || appareil?.name || slug.replace(/_/g, " ").replace(/^./, (c) => c.toUpperCase())
+		};
+	});
+}
+/** Par défaut : tous les téléphones, et la notification dans Home Assistant. */
+var tousLesDestinataires = (hass) => ({
+	telephones: telephones(hass).map((t) => t.service),
+	homeAssistant: true
+});
+function prevenir(titre, message, sujet, d) {
+	return [...d.homeAssistant ? [{
 		action: "persistent_notification.create",
 		data: {
 			title: titre,
 			message,
 			notification_id: idAutomatisme(sujet)
 		}
-	}, ...telephones.map((s) => ({
+	}] : [], ...d.telephones.map((s) => ({
 		action: `notify.${s}`,
 		data: {
 			title: titre,
@@ -4377,8 +5415,17 @@ function prevenir(hass, titre, message, sujet) {
 		}
 	}))];
 }
+/** Les destinataires d'un automatisme existant, lus dans ses actions. */
+function destinatairesDe(config) {
+	if (!config) return null;
+	const actions = (config.actions ?? []).map((a) => a.action ?? a.service ?? "");
+	return {
+		telephones: actions.filter((a) => a.startsWith("notify.mobile_app_")).map((a) => a.slice(7)),
+		homeAssistant: actions.includes("persistent_notification.create")
+	};
+}
 /** L'automatisme d'un sujet, ou null si la maison n'a rien à surveiller pour lui. */
-function automatisme(hass, m, sujet) {
+function automatisme(hass, m, sujet, destinataires = tousLesDestinataires(hass)) {
 	const tx = estFrancais(hass) ? TEXTES.fr : TEXTES.en;
 	let triggers = [];
 	let conditions = [];
@@ -4429,45 +5476,73 @@ function automatisme(hass, m, sujet) {
 			mode: "queued",
 			triggers,
 			conditions,
-			actions: prevenir(hass, tx.titre[sujet], tx.message[sujet], sujet)
+			actions: prevenir(tx.titre[sujet], tx.message[sujet], sujet, destinataires)
 		}
 	};
 }
 /** Crée l'automatisme dans Home Assistant (administrateur seulement), comme l'éditeur d'automatisations. */
 async function creerAutomatisme(hass, a) {
-	const api = hass.callApi;
-	if (!api) throw new Error("callApi indisponible");
-	await api("POST", `config/automation/config/${a.id}`, a.config);
+	await api(hass)("POST", `config/automation/config/${a.id}`, a.config);
+}
+var api = (hass) => {
+	const appel = hass.callApi;
+	if (!appel) throw new Error("callApi indisponible");
+	return appel;
+};
+/** La configuration d'un automatisme créé ici, ou null s'il n'existe pas (ou plus). */
+async function lireAutomatisme(hass, sujet) {
+	if (!automatismeExiste(hass, sujet)) return null;
+	try {
+		return await api(hass)("GET", `config/automation/config/${idAutomatisme(sujet)}`);
+	} catch {
+		return null;
+	}
+}
+/** Ne plus être prévenu : l'automatisme est supprimé. */
+async function supprimerAutomatisme(hass, sujet) {
+	await api(hass)("DELETE", `config/automation/config/${idAutomatisme(sujet)}`);
 }
 // src/cartes/points.ts
 var AutomaticPoints = class extends CarteAutomatic {
 	static {
+		this.properties = { _ouvert: { state: true } };
+	}
+	constructor() {
+		super();
+		this._ouvert = null;
+	}
+	static {
 		this.styles = [STYLE_COMMUN, i$5`
     ha-card{padding:6px 16px}
-    ha-card.grave{background:var(--automatic-dashboard-alerte-pale);border-color:transparent}
-    ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;column-gap:28px}
+    ha-card.grave{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));border-color:transparent}
+    ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;column-gap:28px;align-items:start}
     @container (min-width: 640px){ ul{grid-template-columns:1fr 1fr} }
     li{border-top:1px solid var(--divider-color)}
     li:first-child{border-top:0}
     @container (min-width: 640px){ li:nth-child(2){border-top:0} }
-    li{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px}
-    .actions{display:flex;align-items:center;gap:2px}
-    .action.fait{color:var(--success-color, #2e7d32);opacity:1}
-    li .ouvrir{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:13px;width:100%;min-height:58px;padding:9px 0;text-align:left}
-    .action{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--secondary-text-color);opacity:.75}
-    .action:hover,.action:focus-visible{opacity:1;background:var(--secondary-background-color);color:var(--primary-text-color)}
-    .action ha-icon{--mdc-icon-size:19px}
-    .ignores{display:flex;align-items:center;gap:8px;padding:9px 0 11px;font-size:13px;color:var(--secondary-text-color);border-top:1px solid var(--divider-color)}
+    .ligne{display:grid;grid-template-columns:1fr auto;align-items:center;gap:4px}
+    .ouvrir{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:13px;width:100%;min-height:58px;padding:9px 0;text-align:left}
+    .plus-actions{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;color:var(--secondary-text-color)}
+    .plus-actions:hover,.plus-actions:focus-visible,.plus-actions[aria-expanded="true"]{background:var(--secondary-background-color);color:var(--primary-text-color)}
+    .plus-actions ha-icon{--mdc-icon-size:20px}
+    .menu{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 12px 53px}
+    .menu button{display:inline-flex;align-items:center;gap:7px;min-height:36px;padding:0 14px 0 11px;border-radius:18px;font-size:13.5px;font-weight:600;
+      background:var(--secondary-background-color);color:var(--primary-text-color)}
+    .menu button:hover{background:color-mix(in srgb, var(--primary-color) 12%, var(--secondary-background-color))}
+    .menu button.fait{color:var(--success-color, #2e7d32)}
+    .menu ha-icon{--mdc-icon-size:18px}
+    .menu .note{font-size:12.5px;line-height:1.4;color:var(--secondary-text-color);flex-basis:100%}
+    .ignores{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:9px 0 11px;font-size:13px;color:var(--secondary-text-color);border-top:1px solid var(--divider-color)}
     ul:empty + .ignores{border-top:0}
     .ignores ha-icon{--mdc-icon-size:17px}
     .ignores button{font-weight:650;color:var(--primary-color)}
-    .n3 .ico{background:var(--automatic-dashboard-alerte-pale);color:var(--automatic-dashboard-alerte)}
+    .n3 .ico{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));color:var(--automatic-dashboard-alerte, var(--error-color, #B42318))}
     .n2 .ico{background:rgba(233,162,59,.16);color:var(--warning-color)}
-    .n1 .ico{background:var(--automatic-dashboard-accent-pale);color:var(--primary-color)}
+    .n1 .ico{background:var(--automatic-dashboard-accent-pale, color-mix(in srgb, var(--primary-color) 12%, transparent));color:var(--primary-color)}
     .nom{font-weight:650;font-size:14.5px;line-height:1.25;color:var(--primary-text-color)}
     .nom small{display:block;font-weight:500;font-size:13px;color:var(--secondary-text-color);margin-top:2px}
-    .fleche{--mdc-icon-size:18px;color:var(--secondary-text-color)}
     .plus{display:block;padding:8px 0 10px;font-size:13px;color:var(--secondary-text-color)}
+    @container (max-width: 420px){ .menu{padding-left:0} }
   `];
 	}
 	getGridOptions() {
@@ -4477,42 +5552,69 @@ var AutomaticPoints = class extends CarteAutomatic {
 		};
 	}
 	suivies(m) {
-		return definis([m.vigilance, ...[
-			...m.alertes,
-			...m.ouvrants,
-			...m.piles,
-			...m.majs,
-			...m.systeme
-		].map((e) => e.id)]);
+		return definis([
+			m.vigilance,
+			...m.personnes,
+			...[
+				...m.alertes,
+				...m.ouvrants,
+				...m.piles,
+				...m.majs,
+				...m.systeme,
+				...m.securite,
+				...m.lumieres
+			].map((e) => e.id),
+			...m.pieces.flatMap((p) => [...p.temperatures, ...p.humidites])
+		]);
 	}
 	rendu(hass, m) {
 		const tx = t$1(hass);
 		const { visibles: points, ignores } = pointsVisibles(hass, m);
 		if (!points.length && !ignores.length) return null;
-		const plafond = m.mode === "complet" ? 4 : m.mode === "maison" ? 4 : 3;
+		const plafond = m.mode === "decouverte" ? 3 : 4;
 		const montres = points.slice(0, plafond);
 		const reste = points.length - montres.length;
-		return b`<ha-card class=${points.some((p) => p.niveau === 3) ? "grave" : ""}><ul>${montres.map((p) => b`<li class="n${p.niveau}">
-      <button class="ouvrir" @click=${() => this.ouvrir(p)}>
-        <span class="ico"><ha-icon icon=${p.icone}></ha-icon></span>
-        <span class="nom">${p.titre}<small>${p.detail}</small></span>
-        ${ignorable(p) ? A : b`<ha-icon class="fleche" icon="mdi:chevron-right"></ha-icon>`}</button>
-      <span class="actions">${this.prevenir(hass, m, p)}
-      ${ignorable(p) ? b`<button class="action" title=${tx.ignorer} aria-label=${`${tx.ignorer} : ${p.titre}`} @click=${() => ignorer(hass, [p.cle], true)}>
-            <ha-icon icon="mdi:eye-off-outline"></ha-icon></button>` : A}</span></li>`)}</ul>
+		return b`<ha-card class=${points.some((p) => p.niveau === 3) ? "grave" : ""}><ul>${montres.map((p) => {
+			const actions = this.actions(hass, m, p);
+			const ouvert = this._ouvert === p.cle;
+			return b`<li class="n${p.niveau}">
+        <div class="ligne">
+          <button class="ouvrir" @click=${() => this.ouvrir(p)}>
+            <span class="ico"><ha-icon icon=${p.icone}></ha-icon></span>
+            <span class="nom">${p.titre}<small>${p.detail}</small></span></button>
+          ${actions.length ? b`<button class="plus-actions" aria-expanded=${ouvert ? "true" : "false"} title=${tx.actions} aria-label=${`${tx.actions} ${p.titre}`}
+                @click=${() => this._ouvert = ouvert ? null : p.cle}><ha-icon icon="mdi:dots-horizontal"></ha-icon></button>` : A}
+        </div>
+        ${ouvert ? b`<div class="menu">${actions}</div>` : A}</li>`;
+		})}</ul>
       ${reste > 0 ? b`<span class="plus">${majuscule(tx.autres(reste))}</span>` : A}
       ${ignores.length ? b`<div class="ignores"><ha-icon icon="mdi:eye-off-outline"></ha-icon><span>${tx.ignores(ignores.length)}</span>
-            <button @click=${() => ignorer(hass, ignores.map((p) => p.cle), false)}>${tx.remontrer}</button></div>` : A}</ha-card>`;
+            <button @click=${() => ignorer(hass, ignores.map((p) => ({
+			cle: p.cle,
+			signature: signature(hass, p)
+		})), false)}>${tx.remontrer}</button></div>` : A}</ha-card>`;
 	}
-	prevenir(hass, m, p) {
-		if (!p.prevenir || !hass.user?.is_admin) return A;
+	/** Les actions d'un point, en toutes lettres : ignorer, être prévenu. */
+	actions(hass, m, p) {
 		const tx = t$1(hass);
-		if (automatismeExiste(hass, p.prevenir)) return b`<button class="action fait" title=${tx.prevenu} aria-label=${tx.prevenu}
-        @click=${() => naviguer(`/config/automation/edit/${idAutomatisme(p.prevenir)}`)}><ha-icon icon="mdi:bell-check-outline"></ha-icon></button>`;
-		const a = automatisme(hass, m, p.prevenir);
-		if (!a) return A;
-		return b`<button class="action" title=${tx.prevenir} aria-label=${`${tx.prevenir} : ${p.titre}`}
-      @click=${() => this.creer(a)}><ha-icon icon="mdi:bell-plus-outline"></ha-icon></button>`;
+		const actions = [];
+		if (ignorable(p)) actions.push(b`<button @click=${() => {
+			this._ouvert = null;
+			ignorer(hass, [{
+				cle: p.cle,
+				signature: signature(hass, p)
+			}], true);
+		}}>
+        <ha-icon icon="mdi:eye-off-outline"></ha-icon>${tx.ignorer}</button>`);
+		if (p.prevenir) {
+			if (automatismeExiste(hass, p.prevenir)) actions.push(b`<button class="fait" @click=${() => naviguer(`/config/automation/edit/${idAutomatisme(p.prevenir)}`)}>
+          <ha-icon icon="mdi:bell-check-outline"></ha-icon>${tx.prevenu}</button>`);
+			else if (hass.user?.is_admin) {
+				const a = automatisme(hass, m, p.prevenir);
+				if (a) actions.push(b`<button @click=${() => this.creer(a)}><ha-icon icon="mdi:bell-plus-outline"></ha-icon>${tx.prevenir}</button>`);
+			} else actions.push(b`<span class="note">${tx.prevenirAdmin}</span>`);
+		}
+		return actions;
 	}
 	async creer(a) {
 		const tx = t$1(this.hass);
@@ -4526,6 +5628,7 @@ var AutomaticPoints = class extends CarteAutomatic {
 		}));
 		try {
 			await creerAutomatisme(this.hass, a);
+			this._ouvert = null;
 			annoncer(tx.automatismeCree(String(a.config.alias)), {
 				text: tx.voir,
 				action: () => naviguer(`/config/automation/edit/${a.id}`)
@@ -4555,7 +5658,7 @@ var AutomaticPremiersPas = class extends CarteAutomatic {
     li{border-top:1px solid var(--divider-color)}
     li button{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;font-size:14.5px;font-weight:550;color:var(--primary-text-color)}
     .coche{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;flex:none;border:2px solid var(--divider-color)}
-    .fait .coche{background:var(--automatic-dashboard-vert);border-color:var(--automatic-dashboard-vert);color:#fff}
+    .fait .coche{background:var(--automatic-dashboard-vert, var(--success-color, #1E6B47));border-color:var(--automatic-dashboard-vert, var(--success-color, #1E6B47));color:#fff}
     .fait .coche ha-icon{--mdc-icon-size:16px}
     .fait span.texte{color:var(--secondary-text-color);text-decoration:line-through;text-decoration-color:var(--divider-color)}
     .texte{flex:1}
@@ -4634,398 +5737,6 @@ var AutomaticPremiersPas = class extends CarteAutomatic {
 		else naviguer(e.lien);
 	}
 };
-// src/cartes/tablette.ts
-/** La nuit de l'écran de veille : de 23 h à 6 h. */
-var estNuit = (d) => d.getHours() >= 23 || d.getHours() < 6;
-var VEILLE_APRES = 6e4;
-var AutomaticTablette = class extends CarteAutomatic {
-	static {
-		this.properties = {
-			_veille: { state: true },
-			_minute: { state: true }
-		};
-	}
-	constructor() {
-		super();
-		this._dernierGeste = Date.now();
-		this._reveil = (ev) => {
-			this._dernierGeste = Date.now();
-			if (this._veille) {
-				ev.preventDefault();
-				ev.stopPropagation();
-				this._veille = false;
-			}
-		};
-		this._veille = false;
-		this._minute = -1;
-	}
-	static {
-		this.styles = [
-			STYLE_COMMUN,
-			STYLE_CIEL,
-			i$5`
-    :host{height:100%}
-    .ecran{box-sizing:border-box;min-height:calc(100vh - var(--header-height, 56px) - 16px);display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);
-      gap:clamp(20px,4vw,64px);padding:clamp(20px,4vw,56px);align-items:center}
-    .heure{font-size:clamp(84px,14vw,200px);font-weight:700;letter-spacing:-.05em;line-height:.9;color:var(--primary-text-color);font-variant-numeric:tabular-nums}
-    .date{margin-top:14px;font-size:clamp(20px,2.4vw,30px);font-weight:600;color:var(--secondary-text-color)}
-    .phrase{display:flex;align-items:baseline;gap:14px;margin-top:clamp(20px,3vw,40px);font-size:clamp(20px,2.3vw,30px);line-height:1.35;
-      color:var(--primary-text-color);max-width:28ch}
-    .phrase::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;background:var(--point);transform:translateY(-2px)}
-    .chiffres{display:flex;flex-wrap:wrap;gap:clamp(18px,3vw,44px);margin-top:clamp(24px,3vw,44px)}
-    .chiffre-tab{display:flex;flex-direction:column;gap:4px}
-    .chiffre-tab b{font-size:clamp(28px,3.4vw,46px);font-weight:680;letter-spacing:-.02em;color:var(--primary-text-color);font-variant-numeric:tabular-nums}
-    .chiffre-tab span{font-size:15px;font-weight:600;color:var(--secondary-text-color);display:flex;align-items:center;gap:6px}
-    .chiffre-tab ha-icon{--mdc-icon-size:18px}
-    .droite{display:grid;gap:18px;align-content:center}
-    .ciel{align-self:start}
-    .ciel .rond{width:min(100%,320px);height:auto}
-    .ciel figcaption{font-size:14px}
-    ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-    li button{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;width:100%;padding:16px 18px;border-radius:18px;
-      background:var(--ha-card-background, var(--card-background-color));border:1px solid var(--divider-color)}
-    li .ico{width:48px;height:48px;border-radius:14px}
-    li .ico ha-icon{--mdc-icon-size:26px}
-    .n3 .ico{background:var(--automatic-dashboard-alerte-pale);color:var(--automatic-dashboard-alerte)}
-    .n2 .ico{background:rgba(233,162,59,.16);color:var(--warning-color)}
-    .n1 .ico{background:var(--automatic-dashboard-accent-pale);color:var(--primary-color)}
-    .titre{font-size:19px;font-weight:650;color:var(--primary-text-color);line-height:1.25}
-    .titre small{display:block;font-size:15px;font-weight:500;color:var(--secondary-text-color);margin-top:3px}
-    .calme{font-size:20px;color:var(--secondary-text-color);display:flex;align-items:center;gap:12px}
-    .calme ha-icon{--mdc-icon-size:30px;color:var(--automatic-dashboard-vert)}
-    .veille{position:fixed;inset:0;z-index:100;background:#000;cursor:none;display:block}
-    .veille .heure{position:absolute;color:#fff;opacity:.32;font-size:clamp(64px,10vw,140px);transition:left 2s, top 2s}
-    @container (max-width: 760px){ .ecran{grid-template-columns:1fr;align-items:start} }
-    @media (prefers-reduced-motion: reduce){ .veille .heure{transition:none} }
-  `
-		];
-	}
-	getGridOptions() {
-		return {
-			columns: "full",
-			rows: "auto"
-		};
-	}
-	suivies(m) {
-		return definis([
-			"sun.sun",
-			m.meteo,
-			m.puissanceReseau,
-			...m.personnes,
-			...m.temperaturesInterieures.flat(),
-			...m.securite.map((e) => e.id),
-			...m.alertes.map((e) => e.id),
-			...m.piles.map((e) => e.id),
-			...m.majs.map((e) => e.id),
-			...m.lumieres.map((e) => e.id)
-		]);
-	}
-	connectedCallback() {
-		super.connectedCallback();
-		this._horloge = window.setInterval(() => {
-			const maintenant = /* @__PURE__ */ new Date();
-			if (maintenant.getMinutes() !== this._minute) this._minute = maintenant.getMinutes();
-			const veille = estNuit(maintenant) && Date.now() - this._dernierGeste > VEILLE_APRES;
-			if (veille !== this._veille) this._veille = veille;
-		}, 1e3);
-		for (const geste of [
-			"pointerdown",
-			"keydown",
-			"touchstart"
-		]) window.addEventListener(geste, this._reveil, { capture: true });
-	}
-	disconnectedCallback() {
-		super.disconnectedCallback();
-		window.clearInterval(this._horloge);
-		for (const geste of [
-			"pointerdown",
-			"keydown",
-			"touchstart"
-		]) window.removeEventListener(geste, this._reveil, { capture: true });
-	}
-	rendu(hass, m) {
-		const tx = t$1(hass);
-		const maintenant = /* @__PURE__ */ new Date();
-		const heure = new Intl.DateTimeFormat(langue(hass), {
-			hour: "2-digit",
-			minute: "2-digit"
-		}).format(maintenant);
-		if (this._veille) {
-			const graine = maintenant.getHours() * 60 + maintenant.getMinutes();
-			const x = 8 + graine * 37 % 50;
-			const y = 10 + graine * 53 % 60;
-			return b`<div class="veille" role="button" aria-label=${tx.reveiller}><span class="heure" style=${`left:${x}%;top:${y}%`}>${heure}</span></div>`;
-		}
-		const date = majuscule(new Intl.DateTimeFormat(langue(hass), {
-			weekday: "long",
-			day: "numeric",
-			month: "long"
-		}).format(maintenant));
-		const { phrase, point } = phraseAccueil(hass, m);
-		const dedans = moyenneInterieure(hass, m);
-		const dehors = temperatureDehors(hass, m);
-		const meteo = m.meteo ? hass.states[m.meteo] : void 0;
-		const puissance = m.puissanceReseau ? Number.parseFloat(hass.states[m.puissanceReseau]?.state ?? "") : NaN;
-		const points = pointsVisibles(hass, m).visibles.slice(0, 4);
-		return b`<div class="ecran">
-      <div>
-        <div class="heure">${heure}</div>
-        <div class="date">${date}</div>
-        <div class="phrase" style=${`--point:${point}`}>${phrase}</div>
-        <div class="chiffres">
-          ${dehors !== null ? b`<div class="chiffre-tab"><b>${degres(hass, dehors)}</b>
-            <span><ha-icon icon=${conditionMeteo(hass, meteo).icone}></ha-icon>${tx.dehors}</span></div>` : A}
-          ${dedans !== null ? b`<div class="chiffre-tab"><b>${degres(hass, dedans)}</b><span><ha-icon icon="mdi:home-thermometer-outline"></ha-icon>${majuscule(tx.dedans)}</span></div>` : A}
-          ${!Number.isNaN(puissance) ? b`<div class="chiffre-tab"><b>${nombre(hass, puissance, 0)} W</b>
-            <span><ha-icon icon="mdi:lightning-bolt-outline"></ha-icon>${tx.energie}</span></div>` : A}
-        </div>
-      </div>
-      <div class="droite">
-        ${ciel(hass, maintenant)}
-        ${points.length ? b`<ul>${points.map((p) => b`<li class="n${p.niveau}"><button @click=${() => p.entite && plusDInfos(this, p.entite)}>
-              <span class="ico"><ha-icon icon=${p.icone}></ha-icon></span><span class="titre">${p.titre}<small>${p.detail}</small></span></button></li>`)}</ul>` : b`<div class="calme"><ha-icon icon="mdi:check-circle-outline"></ha-icon>${tx.toutVaBien}</div>`}
-      </div>
-    </div>`;
-	}
-};
-/** Le formulaire de ticket « Le tableau range mal un appareil ». */
-var TICKET_CLASSEMENT = "https://github.com/Automatic-Dashboard/automatic-dashboard/issues/new?template=1-classement.yml";
-/** Les mots que les règles lisent dans un nom : on les garde, et rien d'autre. */
-var MOTS_CLES = [
-	NOM_TECHNIQUE,
-	PIECES_EXTERIEURES,
-	PIECES_ANNEXES,
-	...ICONES_PIECES.map(([motif]) => motif),
-	/linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home|total|index/i,
-	/humid|co2|co₂/i
-].map((m) => new RegExp(m.source, "gi"));
-/** Suffixes d'identifiant que le moteur reconnaît (Météo-France). */
-var SUFFIXES = ["_next_rain", "_weather_alert"];
-/** Identifiants qui ne disent rien de la maison. */
-var IDS_PUBLICS = /* @__PURE__ */ new Set(["sun.sun", "zone.home"]);
-/** Attributs gardés tels quels : ils décident du tri, pas d'une valeur. */
-var ATTRIBUTS = [
-	"device_class",
-	"unit_of_measurement",
-	"state_class",
-	"supported_features",
-	"icon",
-	"hvac_modes",
-	"restored"
-];
-var COULEURS_VIGILANCE = /* @__PURE__ */ new Set([
-	"Vert",
-	"Jaune",
-	"Orange",
-	"Rouge"
-]);
-/** Ne garde d'un nom que les mots-clés des règles ; `vide` s'il n'en contient aucun. */
-function anonymiserNom(nom, vide) {
-	if (!nom) return vide;
-	const trouves = [];
-	for (const motif of MOTS_CLES) for (const m of nom.matchAll(motif)) trouves.push([m.index ?? 0, m[0].toLowerCase()]);
-	const mots = [...new Set(trouves.sort((a, b) => a[0] - b[0]).map(([, mot]) => mot))];
-	return mots.length ? mots.join(" ") : vide;
-}
-/** Un état sans valeur : les énumérations (on, heat, open…) restent, les nombres deviennent 0, le reste « unknown ». */
-function anonymiserEtat(domaine, etat) {
-	if (["person", "device_tracker"].includes(domaine)) return "unknown";
-	if (/^-?\d+([.,]\d+)?$/.test(etat)) return "0";
-	if (/^[a-z_]{1,30}$/.test(etat) || COULEURS_VIGILANCE.has(etat)) return etat;
-	return "unknown";
-}
-/** Le verdict du tri pour une entité, avec les identifiants de la maison décrite. */
-function verdict(e, aRanger, piece) {
-	return {
-		ecart: e ? e.ecart : "absente",
-		role: e?.role ?? null,
-		section: e?.section ?? null,
-		piece: piece(e?.piece ?? null),
-		aRanger: Boolean(e && aRanger.has(e.id))
-	};
-}
-/**
-* Décrit la maison sans noms ni valeurs.
-* `cibles` : les entités que l'utilisateur signale (mal rangées, absentes, en trop).
-*/
-function diagnostiquer(hass, reglages = {}, cibles = []) {
-	const numero = /* @__PURE__ */ new Map();
-	const compteur = (prefixe) => {
-		const n = (numero.get(prefixe) ?? 0) + 1;
-		numero.set(prefixe, n);
-		return n;
-	};
-	const table = (prefixe) => {
-		const t = /* @__PURE__ */ new Map();
-		return (id) => {
-			if (!id) return null;
-			if (!t.has(id)) t.set(id, `${prefixe}${compteur(prefixe)}`);
-			return t.get(id);
-		};
-	};
-	const pieceId = table("p");
-	const etageId = table("e");
-	const appareilId = table("a");
-	const etiquetteBrute = table("l");
-	const etiquette = (id) => id.startsWith("automatic_dashboard_") ? id : etiquetteBrute(id);
-	const entites = /* @__PURE__ */ new Map();
-	const entiteId = (id) => {
-		if (!id) return null;
-		if (IDS_PUBLICS.has(id)) return id;
-		if (!entites.has(id)) {
-			const [domaine] = id.split(".");
-			const suffixe = SUFFIXES.find((s) => id.endsWith(s)) ?? "";
-			entites.set(id, `${domaine}.n${compteur(`n.${domaine}`)}${suffixe}`);
-		}
-		return entites.get(id);
-	};
-	const floors = {};
-	for (const f of Object.values(hass.floors ?? {})) {
-		const id = etageId(f.floor_id);
-		floors[id] = {
-			floor_id: id,
-			name: `Étage ${id.slice(1)}`,
-			level: f.level ?? null,
-			icon: f.icon ?? null
-		};
-	}
-	const areas = {};
-	for (const a of Object.values(hass.areas ?? {})) {
-		const id = pieceId(a.area_id);
-		areas[id] = {
-			area_id: id,
-			name: anonymiserNom(a.name, `Pièce ${id.slice(1)}`),
-			icon: a.icon ?? null,
-			floor_id: etageId(a.floor_id),
-			temperature_entity_id: entiteId(a.temperature_entity_id),
-			humidity_entity_id: entiteId(a.humidity_entity_id),
-			labels: (a.labels ?? []).map(etiquette),
-			aliases: []
-		};
-	}
-	const devices = {};
-	for (const d of Object.values(hass.devices ?? {})) {
-		const id = appareilId(d.id);
-		devices[id] = {
-			id,
-			name: anonymiserNom(d.name, "appareil"),
-			name_by_user: d.name_by_user ? anonymiserNom(d.name_by_user, "appareil") : null,
-			area_id: pieceId(d.area_id),
-			parent_device_id: appareilId(d.parent_device_id),
-			entry_type: d.entry_type ?? null,
-			manufacturer: d.manufacturer ?? null,
-			model: d.model ?? null,
-			labels: (d.labels ?? []).map(etiquette)
-		};
-	}
-	const entities = {};
-	for (const en of Object.values(hass.entities ?? {})) {
-		const id = entiteId(en.entity_id);
-		entities[id] = {
-			entity_id: id,
-			platform: en.platform,
-			name: en.name ? anonymiserNom(en.name, "nom") : en.name ?? null,
-			device_id: appareilId(en.device_id),
-			area_id: pieceId(en.area_id),
-			hidden: en.hidden ?? false,
-			entity_category: en.entity_category ?? null,
-			translation_key: en.translation_key ?? null,
-			labels: (en.labels ?? []).map(etiquette),
-			icon: en.icon ?? null
-		};
-	}
-	const states = {};
-	for (const s of Object.values(hass.states)) {
-		const id = entiteId(s.entity_id);
-		const [domaine] = s.entity_id.split(".");
-		const attributes = {};
-		for (const cle of ATTRIBUTS) if (s.attributes[cle] !== void 0) attributes[cle] = s.attributes[cle];
-		if (s.attributes.friendly_name !== void 0) attributes.friendly_name = anonymiserNom(String(s.attributes.friendly_name), "nom");
-		if (Array.isArray(s.attributes.entity_id)) attributes.entity_id = s.attributes.entity_id.map((x) => entiteId(x));
-		if (s.attributes["1_hour_forecast"] !== void 0) attributes["1_hour_forecast"] = {};
-		states[id] = {
-			entity_id: id,
-			state: anonymiserEtat(domaine, s.state),
-			attributes
-		};
-	}
-	const m = analyser(hass, reglages);
-	const parId = new Map(m.toutes.map((e) => [e.id, e]));
-	const aRanger = new Set(m.aRanger.map((e) => e.id));
-	const ids = (liste) => liste?.filter((id) => hass.states[id]).map((id) => entiteId(id));
-	return {
-		diagnostic: 1,
-		version: "2026.12.0",
-		home_assistant: hass.config?.version ?? null,
-		langue: (hass.locale?.language || hass.language || "").slice(0, 2),
-		reglages: {
-			...reglages.mode ? { mode: reglages.mode } : {},
-			...reglages.completer === false ? { completer: false } : {},
-			...reglages.masquer?.length ? { masquer: ids(reglages.masquer) } : {},
-			...reglages.favoris?.length ? { favoris: ids(reglages.favoris) } : {}
-		},
-		resultat: {
-			mode: m.mode,
-			...m.compteurs,
-			pieces: m.pieces.length,
-			aRanger: m.aRanger.length
-		},
-		signalement: cibles.filter((id) => hass.states[id] || hass.entities[id]).map((id) => ({
-			entite: entiteId(id),
-			domaine: id.split(".")[0],
-			plateforme: hass.entities[id]?.platform ?? "",
-			verdict: verdict(parId.get(id), aRanger, pieceId)
-		})),
-		maison: {
-			states,
-			entities,
-			devices,
-			areas,
-			floors,
-			config: {
-				version: hass.config?.version ?? null,
-				components: [...hass.config?.components ?? []].sort(),
-				latitude: 0,
-				longitude: 0
-			}
-		}
-	};
-}
-/** Le texte à joindre au ticket : du JSON lisible, pour que chacun voie ce qu'il envoie. */
-var texteDiagnostic = (d) => `${JSON.stringify(d, null, 1)}\n`;
-/** Copie un texte, même hors HTTPS (Home Assistant est souvent servi en http sur le réseau local). */
-async function copier(texte, racine = document.body) {
-	try {
-		await navigator.clipboard.writeText(texte);
-		return true;
-	} catch {
-		const zone = document.createElement("textarea");
-		zone.value = texte;
-		zone.setAttribute("readonly", "");
-		zone.style.cssText = "position:fixed;top:0;left:0;opacity:0";
-		racine.appendChild(zone);
-		zone.select();
-		let ok = false;
-		try {
-			ok = document.execCommand("copy");
-		} catch {
-			ok = false;
-		}
-		zone.remove();
-		return ok;
-	}
-}
-/** Enregistre le diagnostic dans un fichier, à joindre au ticket. */
-function telecharger(texte) {
-	const url = URL.createObjectURL(new Blob([texte], { type: "application/json" }));
-	const lien = document.createElement("a");
-	lien.href = url;
-	lien.download = `automatic-dashboard-diagnostic-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
-	document.body.appendChild(lien);
-	lien.click();
-	lien.remove();
-	setTimeout(() => URL.revokeObjectURL(url), 1e3);
-}
 // src/mise-en-page/rangees.ts
 /**
 * Largeur de chacune des `n` cartes d'un groupe.
@@ -5113,7 +5824,7 @@ function vue({ path, title, icon, ouverture, badges = [], scene, cote = [], subv
 		header: {
 			layout: "start",
 			badges_position: "bottom",
-			badges_wrap: "scroll",
+			badges_wrap: "wrap",
 			card: ouverture
 		},
 		badges,
@@ -5155,19 +5866,28 @@ var aFonction = (c) => Array.isArray(c.features) && c.features.length > 0;
 // src/strategie/accueil.ts
 /** Les commandes habituelles prédites par Home Assistant, sinon une lumière par pièce de vie, puis les thermostats. */
 async function favorisAutomatiques(hass, m) {
+	const commandes = new Set(m.gardees.filter((e) => e.role === "commande").map((e) => e.id));
+	const garder = (ids) => ids.filter((id) => hass.states[id] && commandes.has(id));
 	let favoris = [];
 	try {
-		favoris = (await hass.callWS({ type: "usage_prediction/common_control" }))?.entities ?? [];
+		favoris = garder((await hass.callWS({ type: "usage_prediction/common_control" }))?.entities ?? []);
 	} catch {}
-	if (!favoris.length) favoris = [...m.pieces.filter((p) => !p.exterieur && !p.annexe).map((p) => p.entites.find((e) => e.domaine === "light" && e.principale) ?? p.entites.find((e) => e.domaine === "light")).filter((e) => e !== void 0).map((e) => e.id), ...m.climats.filter((e) => e.piece).map((e) => e.id)];
-	const gardees = new Set(m.gardees.map((e) => e.id));
-	return favoris.filter((id) => hass.states[id] && gardees.has(id));
+	if (!favoris.length) favoris = garder([...m.pieces.filter((p) => !p.exterieur && !p.annexe).map((p) => p.entites.find((e) => e.domaine === "light" && e.principale) ?? p.entites.find((e) => e.domaine === "light")).filter((e) => e !== void 0).map((e) => e.id), ...m.climats.filter((e) => e.piece).map((e) => e.id)]);
+	return favoris;
 }
 /**
 * Favoris : les épinglés d'abord, dans l'ordre de l'utilisateur, puis (sauf si on
 * l'a refusé) les commandes habituelles, pour remplir les rangées : 4 ou 8 tuiles.
 * Au-delà de 8 épinglés, on les montre tous, sans rien ajouter.
 */
+/** Les favoris de la personne connectée : les siens s'il en a choisi, sinon ceux épinglés dans le tableau. */
+async function favorisDeLaPersonne(hass, m, reglages = {}) {
+	const perso = await lireFavorisPerso(hass);
+	return choisirFavoris(hass, m, perso.length ? {
+		...reglages,
+		favoris: perso
+	} : reglages);
+}
 async function choisirFavoris(hass, m, reglages = {}) {
 	const epingles = [.../* @__PURE__ */ new Set([...reglages.favoris ?? [], ...m.favorisEtiquette])].filter((id) => hass.states[id]);
 	if (m.mode === "decouverte") return [];
@@ -5249,10 +5969,23 @@ function accueilMaison(hass, m, avecReglages, pastilles, favoris) {
 		piece: id
 	});
 	const scene = [section([avecReglages({ type: "custom:automatic-dashboard-points" })])];
-	if (favoris.length) scene.push(section([titre(tx.favoris), ...favoris.map((id) => ({
+	const favori = (id) => m.reglages.tuiles === "home_assistant" ? {
 		type: "tile",
 		entity: id
-	}))]));
+	} : avecReglages({
+		type: "custom:automatic-dashboard-favori",
+		entity: id
+	});
+	const mesFavoris = { badges: [{
+		type: "button",
+		text: tx.modifierFavoris,
+		icon: "mdi:star-cog-outline",
+		tap_action: {
+			action: "navigate",
+			navigation_path: "mes-favoris"
+		}
+	}] };
+	if (favoris.length) scene.push(section([titre(tx.favoris, mesFavoris), ...favoris.map(favori)]));
 	const pieces = m.pieces.filter((p) => p.utiles > 0);
 	if (m.mode === "complet" && m.etages.length > 1) {
 		for (const etage of m.etages) {
@@ -5372,59 +6105,548 @@ function accueilDecouverte(hass, m, avecReglages, pastilles) {
 		coteApres: 1
 	});
 }
-// src/editeur/reglages.ts
-/** Retire les réglages vides ou égaux au défaut. */
-function nettoyer(config) {
-	const propre = { ...config };
-	if (!propre.mode || propre.mode === "auto") delete propre.mode;
-	for (const cle of ["favoris", "masquer"]) {
-		const liste = [...new Set(propre[cle] ?? [])].filter(Boolean);
-		if (liste.length) propre[cle] = liste;
-		else delete propre[cle];
+// src/cartes/tablette.ts
+/** La nuit de l'écran de veille : de 23 h à 6 h par défaut, ou les heures choisies (elle peut ne pas passer minuit). */
+var estNuit = (d, debut = 23, fin = 6) => {
+	const h = d.getHours();
+	if (debut === fin) return false;
+	return debut > fin ? h >= debut || h < fin : h >= debut && h < fin;
+};
+var VEILLE_APRES = 6e4;
+var KIOSQUE = "automatic_dashboard_kiosque";
+var BASCULE = /* @__PURE__ */ new Set([
+	"light",
+	"switch",
+	"fan",
+	"input_boolean",
+	"cover",
+	"siren"
+]);
+/** Cherche un élément dans tous les arbres fantômes. */
+function trouver(racine, selecteur) {
+	const trouve = racine.querySelector(selecteur);
+	if (trouve) return trouve;
+	for (const el of racine.querySelectorAll("*")) if (el.shadowRoot) {
+		const x = trouver(el.shadowRoot, selecteur);
+		if (x) return x;
 	}
-	if (propre.completer !== false) delete propre.completer;
-	const noms = Object.fromEntries(Object.entries(propre.noms ?? {}).filter(([, nom]) => typeof nom === "string" && nom.trim()));
-	if (Object.keys(noms).length) propre.noms = noms;
-	else delete propre.noms;
-	return propre;
+	return null;
 }
-/** Déplace un élément d'une liste (glisser-déposer). */
-function deplacer(liste, de, vers) {
-	const copie = [...liste];
-	const [element] = copie.splice(de, 1);
-	if (element === void 0) return liste;
-	copie.splice(Math.max(0, Math.min(vers, copie.length)), 0, element);
-	return copie;
+var AutomaticTablette = class extends CarteAutomatic {
+	static {
+		this.properties = {
+			_veille: { state: true },
+			_minute: { state: true },
+			_favoris: { state: true },
+			_kiosque: { state: true }
+		};
+	}
+	constructor() {
+		super();
+		this._dernierGeste = Date.now();
+		this._demandeFavoris = false;
+		this._echap = (ev) => {
+			if (ev.key === "Escape" && this._kiosque) this.basculerKiosque(false);
+		};
+		this._reveil = (ev) => {
+			this._dernierGeste = Date.now();
+			if (this._veille) {
+				ev.preventDefault();
+				ev.stopPropagation();
+				this._veille = false;
+			}
+		};
+		this._veille = false;
+		this._minute = -1;
+		this._favoris = [];
+		this._kiosque = localStorage.getItem(KIOSQUE) === "1";
+	}
+	get reglagesTablette() {
+		const r = (this._config?.reglages ?? {}).tablette ?? {};
+		return {
+			debut: r.debut_nuit ?? 23,
+			fin: r.fin_nuit ?? 6,
+			reveil: r.reveil
+		};
+	}
+	appliquerKiosque(oui) {
+		const racine = trouver(document, "hui-root")?.shadowRoot;
+		const style = racine?.getElementById("automatic-dashboard-kiosque");
+		if (oui && racine && !style) {
+			const s = document.createElement("style");
+			s.id = "automatic-dashboard-kiosque";
+			s.textContent = ".header{display:none!important}#view{padding-top:0!important;min-height:100vh}";
+			racine.appendChild(s);
+		} else if (!oui) style?.remove();
+		this.dispatchEvent(new CustomEvent("hass-dock-sidebar", {
+			detail: { dock: oui ? "always_hidden" : "docked" },
+			bubbles: true,
+			composed: true
+		}));
+	}
+	basculerKiosque(oui) {
+		this._kiosque = oui;
+		localStorage.setItem(KIOSQUE, oui ? "1" : "0");
+		this.appliquerKiosque(oui);
+		if (oui) document.documentElement.requestFullscreen?.().catch(() => void 0);
+		else if (document.fullscreenElement) document.exitFullscreen?.().catch(() => void 0);
+	}
+	static {
+		this.styles = [
+			STYLE_COMMUN,
+			STYLE_CIEL,
+			i$5`
+    :host{height:100%}
+    .ecran{position:relative;box-sizing:border-box;min-height:calc(100vh - var(--header-height, 56px) - 16px);display:grid;
+      grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(20px,4vw,64px);padding:clamp(20px,4vw,56px);align-items:center}
+    .heure{user-select:none;-webkit-user-select:none;cursor:default}
+    .plein{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px 0 10px;border-radius:18px;
+      font-size:13.5px;font-weight:600;color:var(--secondary-text-color);background:var(--secondary-background-color)}
+    .plein ha-icon{--mdc-icon-size:20px}
+    .commandes{grid-column:1 / -1;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+    .commande{display:flex;align-items:center;gap:14px;min-height:72px;padding:12px 18px;border-radius:20px;font-size:17px;font-weight:650;
+      color:var(--primary-text-color);background:var(--ha-card-background, var(--card-background-color));border:1px solid var(--divider-color)}
+    .commande ha-state-icon{--mdc-icon-size:28px;color:var(--secondary-text-color)}
+    .commande.actif{background:color-mix(in srgb, var(--state-light-active-color, #E9A23B) 16%, var(--ha-card-background, var(--card-background-color)))}
+    .commande.actif ha-state-icon{color:var(--state-light-active-color, #E9A23B)}
+    .commande span{text-align:left;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .heure{font-size:clamp(84px,14vw,200px);font-weight:700;letter-spacing:-.05em;line-height:.9;color:var(--primary-text-color);font-variant-numeric:tabular-nums}
+    .date{margin-top:14px;font-size:clamp(20px,2.4vw,30px);font-weight:600;color:var(--secondary-text-color)}
+    .phrase{display:flex;align-items:baseline;gap:14px;margin-top:clamp(20px,3vw,40px);font-size:clamp(20px,2.3vw,30px);line-height:1.35;
+      color:var(--primary-text-color);max-width:28ch}
+    .phrase::before{content:"";flex:none;width:14px;height:14px;border-radius:50%;background:var(--point);transform:translateY(-2px)}
+    .chiffres{display:flex;flex-wrap:wrap;gap:clamp(18px,3vw,44px);margin-top:clamp(24px,3vw,44px)}
+    .chiffre-tab{display:flex;flex-direction:column;gap:4px}
+    .chiffre-tab b{font-size:clamp(28px,3.4vw,46px);font-weight:680;letter-spacing:-.02em;color:var(--primary-text-color);font-variant-numeric:tabular-nums}
+    .chiffre-tab span{font-size:15px;font-weight:600;color:var(--secondary-text-color);display:flex;align-items:center;gap:6px}
+    .chiffre-tab ha-icon{--mdc-icon-size:18px}
+    .droite{display:grid;gap:18px;align-content:center}
+    .ciel{align-self:start}
+    .ciel .rond{width:min(100%,320px);height:auto}
+    .ciel figcaption{font-size:14px}
+    ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+    li button{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;width:100%;padding:16px 18px;border-radius:18px;
+      background:var(--ha-card-background, var(--card-background-color));border:1px solid var(--divider-color)}
+    li .ico{width:48px;height:48px;border-radius:14px}
+    li .ico ha-icon{--mdc-icon-size:26px}
+    .n3 .ico{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));color:var(--automatic-dashboard-alerte, var(--error-color, #B42318))}
+    .n2 .ico{background:rgba(233,162,59,.16);color:var(--warning-color)}
+    .n1 .ico{background:var(--automatic-dashboard-accent-pale, color-mix(in srgb, var(--primary-color) 12%, transparent));color:var(--primary-color)}
+    .titre{font-size:19px;font-weight:650;color:var(--primary-text-color);line-height:1.25}
+    .titre small{display:block;font-size:15px;font-weight:500;color:var(--secondary-text-color);margin-top:3px}
+    .calme{font-size:20px;color:var(--secondary-text-color);display:flex;align-items:center;gap:12px}
+    .calme ha-icon{--mdc-icon-size:30px;color:var(--automatic-dashboard-vert, var(--success-color, #1E6B47))}
+    .veille{position:fixed;inset:0;z-index:100;background:#000;cursor:none;display:block}
+    .veille .heure{position:absolute;color:#fff;opacity:.32;font-size:clamp(64px,10vw,140px);transition:left 2s, top 2s}
+    @container (max-width: 760px){ .ecran{grid-template-columns:1fr;align-items:start} }
+    @media (prefers-reduced-motion: reduce){ .veille .heure{transition:none} }
+  `
+		];
+	}
+	getGridOptions() {
+		return {
+			columns: "full",
+			rows: "auto"
+		};
+	}
+	suivies(m) {
+		return definis([
+			"sun.sun",
+			m.meteo,
+			m.puissanceReseau,
+			...m.personnes,
+			...m.temperaturesInterieures.flat(),
+			...m.securite.map((e) => e.id),
+			...m.alertes.map((e) => e.id),
+			...m.piles.map((e) => e.id),
+			...m.majs.map((e) => e.id),
+			...m.lumieres.map((e) => e.id)
+		]);
+	}
+	connectedCallback() {
+		super.connectedCallback();
+		this._horloge = window.setInterval(() => {
+			const maintenant = /* @__PURE__ */ new Date();
+			if (maintenant.getMinutes() !== this._minute) this._minute = maintenant.getMinutes();
+			const { debut, fin, reveil } = this.reglagesTablette;
+			if (reveil && this.hass?.states[reveil]?.state === "on") this._dernierGeste = Date.now();
+			const veille = estNuit(maintenant, debut, fin) && Date.now() - this._dernierGeste > VEILLE_APRES;
+			if (veille !== this._veille) this._veille = veille;
+		}, 1e3);
+		for (const geste of [
+			"pointerdown",
+			"keydown",
+			"touchstart"
+		]) window.addEventListener(geste, this._reveil, { capture: true });
+		window.addEventListener("keydown", this._echap);
+		if (this._kiosque) window.setTimeout(() => this.appliquerKiosque(true), 300);
+	}
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		window.clearInterval(this._horloge);
+		for (const geste of [
+			"pointerdown",
+			"keydown",
+			"touchstart"
+		]) window.removeEventListener(geste, this._reveil, { capture: true });
+		window.removeEventListener("keydown", this._echap);
+		if (this._kiosque) this.appliquerKiosque(false);
+	}
+	rendu(hass, m) {
+		const tx = t$1(hass);
+		const maintenant = /* @__PURE__ */ new Date();
+		const heure = new Intl.DateTimeFormat(langue(hass), {
+			hour: "2-digit",
+			minute: "2-digit"
+		}).format(maintenant);
+		if (this._veille) {
+			const graine = maintenant.getHours() * 60 + maintenant.getMinutes();
+			const x = 8 + graine * 37 % 50;
+			const y = 10 + graine * 53 % 60;
+			return b`<div class="veille" role="button" aria-label=${tx.reveiller}><span class="heure" style=${`left:${x}%;top:${y}%`}>${heure}</span></div>`;
+		}
+		const date = majuscule(new Intl.DateTimeFormat(langue(hass), {
+			weekday: "long",
+			day: "numeric",
+			month: "long"
+		}).format(maintenant));
+		const { phrase, point } = phraseAccueil(hass, m);
+		const dedans = moyenneInterieure(hass, m);
+		const dehors = temperatureDehors(hass, m);
+		const meteo = m.meteo ? hass.states[m.meteo] : void 0;
+		const puissance = m.puissanceReseau ? Number.parseFloat(hass.states[m.puissanceReseau]?.state ?? "") : NaN;
+		const points = pointsVisibles(hass, m).visibles.slice(0, 4);
+		if (!this._demandeFavoris) {
+			this._demandeFavoris = true;
+			favorisDeLaPersonne(hass, m, m.reglages).then((ids) => this._favoris = ids.slice(0, 6));
+		}
+		const favoris = this._favoris.filter((id) => hass.states[id]);
+		return b`<div class="ecran">
+      ${this._kiosque ? A : b`<button class="plein" title=${tx.pleinEcran} @click=${() => this.basculerKiosque(true)}>
+        <ha-icon icon="mdi:fullscreen"></ha-icon>${tx.pleinEcran}</button>`}
+      <div>
+        <div class="heure" title=${this._kiosque ? tx.sortirPleinEcran : ""}
+          @pointerdown=${() => {
+			this._appuiHeure = window.setTimeout(() => this.basculerKiosque(false), 1e3);
+		}}
+          @pointerup=${() => window.clearTimeout(this._appuiHeure)} @pointerleave=${() => window.clearTimeout(this._appuiHeure)}>${heure}</div>
+        <div class="date">${date}</div>
+        <div class="phrase" style=${`--point:${point}`}>${phrase}</div>
+        <div class="chiffres">
+          ${dehors !== null ? b`<div class="chiffre-tab"><b>${degres(hass, dehors)}</b>
+            <span><ha-icon icon=${conditionMeteo(hass, meteo).icone}></ha-icon>${tx.dehors}</span></div>` : A}
+          ${dedans !== null ? b`<div class="chiffre-tab"><b>${degres(hass, dedans)}</b><span><ha-icon icon="mdi:home-thermometer-outline"></ha-icon>${majuscule(tx.dedans)}</span></div>` : A}
+          ${!Number.isNaN(puissance) ? b`<div class="chiffre-tab"><b>${nombre(hass, puissance, 0)} W</b>
+            <span><ha-icon icon="mdi:lightning-bolt-outline"></ha-icon>${tx.energie}</span></div>` : A}
+        </div>
+      </div>
+      <div class="droite">
+        ${ciel(hass, maintenant)}
+        ${points.length ? b`<ul>${points.map((p) => b`<li class="n${p.niveau}"><button @click=${() => p.entite && plusDInfos(this, p.entite)}>
+              <span class="ico"><ha-icon icon=${p.icone}></ha-icon></span><span class="titre">${p.titre}<small>${p.detail}</small></span></button></li>`)}</ul>` : b`<div class="calme"><ha-icon icon="mdi:check-circle-outline"></ha-icon>${tx.toutVaBien}</div>`}
+      </div>
+      ${favoris.length ? b`<div class="commandes">${favoris.map((id) => this.commande(hass, m, id))}</div>` : A}
+    </div>`;
+	}
+	/** Un favori en grand bouton : un toucher allume ou éteint, sinon ouvre l'appareil. */
+	commande(hass, m, id) {
+		const etat = hass.states[id];
+		const domaine = id.split(".")[0];
+		const actif = [
+			"on",
+			"open",
+			"playing",
+			"heat",
+			"cool",
+			"auto",
+			"heat_cool"
+		].includes(etat.state);
+		const agir = () => {
+			if (BASCULE.has(domaine) && hass.callService) hass.callService(domaine, "toggle", { entity_id: id });
+			else if ((domaine === "scene" || domaine === "script") && hass.callService) hass.callService(domaine, "turn_on", { entity_id: id });
+			else plusDInfos(this, id);
+		};
+		return b`<button class=${actif ? "commande actif" : "commande"} @click=${agir}>
+      <ha-state-icon .hass=${hass} .stateObj=${etat}></ha-state-icon>
+      <span>${m.noms[id] || nomCourt(hass, id, m.noms)}</span></button>`;
+	}
+};
+/** Le formulaire de ticket « Le tableau range mal un appareil ». */
+var TICKET_CLASSEMENT = "https://github.com/Automatic-Dashboard/automatic-dashboard/issues/new?template=1-classement.yml";
+/** Les mots que les règles lisent dans un nom : on les garde, et rien d'autre. */
+var MOTS_CLES = [
+	NOM_TECHNIQUE,
+	PIECES_EXTERIEURES,
+	PIECES_ANNEXES,
+	...ICONES_PIECES.map(([motif]) => motif),
+	/linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home|total|index/i,
+	/humid|co2|co₂/i
+].map((m) => new RegExp(m.source, "gi"));
+/** Suffixes d'identifiant que le moteur reconnaît (Météo-France). */
+var SUFFIXES = ["_next_rain", "_weather_alert"];
+/** Identifiants qui ne disent rien de la maison. */
+var IDS_PUBLICS = /* @__PURE__ */ new Set(["sun.sun", "zone.home"]);
+/** Attributs gardés tels quels : ils décident du tri, pas d'une valeur. */
+var ATTRIBUTS = [
+	"device_class",
+	"unit_of_measurement",
+	"state_class",
+	"supported_features",
+	"icon",
+	"hvac_modes",
+	"restored"
+];
+var COULEURS_VIGILANCE = /* @__PURE__ */ new Set([
+	"Vert",
+	"Jaune",
+	"Orange",
+	"Rouge"
+]);
+/** Ne garde d'un nom que les mots-clés des règles ; `vide` s'il n'en contient aucun. */
+function anonymiserNom(nom, vide) {
+	if (!nom) return vide;
+	const trouves = [];
+	for (const motif of MOTS_CLES) for (const m of nom.matchAll(motif)) trouves.push([m.index ?? 0, m[0].toLowerCase()]);
+	const mots = [...new Set(trouves.sort((a, b) => a[0] - b[0]).map(([, mot]) => mot))];
+	return mots.length ? mots.join(" ") : vide;
 }
-/** Épingle en favori : à la fin des épinglés ; une entité épinglée n'est plus masquée. */
-var epingler = (c, id) => nettoyer({
-	...c,
-	favoris: [...(c.favoris ?? []).filter((x) => x !== id), id],
-	masquer: (c.masquer ?? []).filter((x) => x !== id)
-});
-var desepingler = (c, id) => nettoyer({
-	...c,
-	favoris: (c.favoris ?? []).filter((x) => x !== id)
-});
-/** Masque partout : l'entité sort aussi des favoris épinglés. */
-var masquer = (c, id) => nettoyer({
-	...c,
-	masquer: [...c.masquer ?? [], id],
-	favoris: (c.favoris ?? []).filter((x) => x !== id)
-});
-var demasquer = (c, id) => nettoyer({
-	...c,
-	masquer: (c.masquer ?? []).filter((x) => x !== id)
-});
-/** Renomme ; un nom vide rend celui de Home Assistant. */
-function renommer(c, id, nom) {
-	const noms = { ...c.noms ?? {} };
-	if (nom.trim()) noms[id] = nom;
-	else delete noms[id];
-	return nettoyer({
-		...c,
-		noms
-	});
+/** Un état sans valeur : les énumérations (on, heat, open…) restent, les nombres deviennent 0, le reste « unknown ». */
+function anonymiserEtat(domaine, etat) {
+	if (["person", "device_tracker"].includes(domaine)) return "unknown";
+	if (/^-?\d+([.,]\d+)?$/.test(etat)) return "0";
+	if (/^[a-z_]{1,30}$/.test(etat) || COULEURS_VIGILANCE.has(etat)) return etat;
+	return "unknown";
+}
+/** Le verdict du tri pour une entité, avec les identifiants de la maison décrite. */
+function verdict(e, aRanger, piece) {
+	return {
+		ecart: e ? e.ecart : "absente",
+		role: e?.role ?? null,
+		section: e?.section ?? null,
+		piece: piece(e?.piece ?? null),
+		aRanger: Boolean(e && aRanger.has(e.id))
+	};
+}
+/**
+* Décrit la maison sans noms ni valeurs.
+* `cibles` : les entités que l'utilisateur signale (mal rangées, absentes, en trop).
+*/
+function diagnostiquer(hass, reglages = {}, cibles = [], attentes = {}) {
+	const numero = /* @__PURE__ */ new Map();
+	const compteur = (prefixe) => {
+		const n = (numero.get(prefixe) ?? 0) + 1;
+		numero.set(prefixe, n);
+		return n;
+	};
+	const table = (prefixe) => {
+		const t = /* @__PURE__ */ new Map();
+		return (id) => {
+			if (!id) return null;
+			if (!t.has(id)) t.set(id, `${prefixe}${compteur(prefixe)}`);
+			return t.get(id);
+		};
+	};
+	const pieceId = table("p");
+	const etageId = table("e");
+	const appareilId = table("a");
+	const etiquetteBrute = table("l");
+	const etiquette = (id) => id.startsWith("automatic_dashboard_") ? id : etiquetteBrute(id);
+	const entites = /* @__PURE__ */ new Map();
+	const entiteId = (id) => {
+		if (!id) return null;
+		if (IDS_PUBLICS.has(id)) return id;
+		if (!entites.has(id)) {
+			const [domaine] = id.split(".");
+			const suffixe = SUFFIXES.find((s) => id.endsWith(s)) ?? "";
+			entites.set(id, `${domaine}.n${compteur(`n.${domaine}`)}${suffixe}`);
+		}
+		return entites.get(id);
+	};
+	const floors = {};
+	for (const f of Object.values(hass.floors ?? {})) {
+		const id = etageId(f.floor_id);
+		floors[id] = {
+			floor_id: id,
+			name: `Étage ${id.slice(1)}`,
+			level: f.level ?? null,
+			icon: f.icon ?? null
+		};
+	}
+	const areas = {};
+	for (const a of Object.values(hass.areas ?? {})) {
+		const id = pieceId(a.area_id);
+		areas[id] = {
+			area_id: id,
+			name: anonymiserNom(a.name, `Pièce ${id.slice(1)}`),
+			icon: a.icon ?? null,
+			floor_id: etageId(a.floor_id),
+			temperature_entity_id: entiteId(a.temperature_entity_id),
+			humidity_entity_id: entiteId(a.humidity_entity_id),
+			labels: (a.labels ?? []).map(etiquette),
+			aliases: []
+		};
+	}
+	const devices = {};
+	for (const d of Object.values(hass.devices ?? {})) {
+		const id = appareilId(d.id);
+		devices[id] = {
+			id,
+			name: anonymiserNom(d.name, "appareil"),
+			name_by_user: d.name_by_user ? anonymiserNom(d.name_by_user, "appareil") : null,
+			area_id: pieceId(d.area_id),
+			parent_device_id: appareilId(d.parent_device_id),
+			entry_type: d.entry_type ?? null,
+			manufacturer: d.manufacturer ?? null,
+			model: d.model ?? null,
+			labels: (d.labels ?? []).map(etiquette)
+		};
+	}
+	const entities = {};
+	for (const en of Object.values(hass.entities ?? {})) {
+		const id = entiteId(en.entity_id);
+		entities[id] = {
+			entity_id: id,
+			platform: en.platform,
+			name: en.name ? anonymiserNom(en.name, "nom") : en.name ?? null,
+			device_id: appareilId(en.device_id),
+			area_id: pieceId(en.area_id),
+			hidden: en.hidden ?? false,
+			entity_category: en.entity_category ?? null,
+			translation_key: en.translation_key ?? null,
+			labels: (en.labels ?? []).map(etiquette),
+			icon: en.icon ?? null
+		};
+	}
+	const states = {};
+	for (const s of Object.values(hass.states)) {
+		const id = entiteId(s.entity_id);
+		const [domaine] = s.entity_id.split(".");
+		const attributes = {};
+		for (const cle of ATTRIBUTS) if (s.attributes[cle] !== void 0) attributes[cle] = s.attributes[cle];
+		if (s.attributes.friendly_name !== void 0) attributes.friendly_name = anonymiserNom(String(s.attributes.friendly_name), "nom");
+		if (Array.isArray(s.attributes.entity_id)) attributes.entity_id = s.attributes.entity_id.map((x) => entiteId(x));
+		if (s.attributes["1_hour_forecast"] !== void 0) attributes["1_hour_forecast"] = {};
+		states[id] = {
+			entity_id: id,
+			state: anonymiserEtat(domaine, s.state),
+			attributes
+		};
+	}
+	const m = analyser(hass, reglages);
+	const parId = new Map(m.toutes.map((e) => [e.id, e]));
+	const aRanger = new Set(m.aRanger.map((e) => e.id));
+	const ids = (liste) => liste?.filter((id) => hass.states[id]).map((id) => entiteId(id));
+	const attendu = {};
+	for (const id of cibles) {
+		const a = attentes[id];
+		if (!a || !entites.has(id)) continue;
+		if (a === "cache") attendu[entiteId(id)] = { ecartee: true };
+		else if (a === "visible") attendu[entiteId(id)] = { ecart: null };
+		else if (a.startsWith("piece:")) attendu[entiteId(id)] = {
+			ecart: null,
+			piece: pieceId(a.slice(6))
+		};
+		else if (a.startsWith("section:")) attendu[entiteId(id)] = {
+			ecart: null,
+			section: a.slice(8)
+		};
+	}
+	return {
+		diagnostic: 1,
+		titre: "",
+		ticket: null,
+		attendu: { entites: attendu },
+		version: "2026.12.0",
+		home_assistant: hass.config?.version ?? null,
+		langue: (hass.locale?.language || hass.language || "").slice(0, 2),
+		reglages: {
+			...reglages.mode ? { mode: reglages.mode } : {},
+			...reglages.completer === false ? { completer: false } : {},
+			...reglages.masquer?.length ? { masquer: ids(reglages.masquer) } : {},
+			...reglages.favoris?.length ? { favoris: ids(reglages.favoris) } : {}
+		},
+		resultat: {
+			mode: m.mode,
+			...m.compteurs,
+			pieces: m.pieces.length,
+			aRanger: m.aRanger.length
+		},
+		signalement: cibles.filter((id) => hass.states[id] || hass.entities[id]).map((id) => ({
+			entite: entiteId(id),
+			domaine: id.split(".")[0],
+			plateforme: hass.entities[id]?.platform ?? "",
+			verdict: verdict(parId.get(id), aRanger, pieceId)
+		})),
+		maison: {
+			states,
+			entities,
+			devices,
+			areas,
+			floors,
+			config: {
+				version: hass.config?.version ?? null,
+				components: [...hass.config?.components ?? []].sort(),
+				latitude: 0,
+				longitude: 0
+			}
+		}
+	};
+}
+/**
+* Le texte à joindre au ticket : du JSON, compact pour tenir dans un ticket. La maison perd
+* ce qui ne dit rien (valeurs nulles ou fausses, listes vides, noms de remplacement).
+*/
+function texteDiagnostic(d) {
+	const alleger = (valeur) => {
+		if (Array.isArray(valeur)) return valeur.map((v) => alleger(v));
+		if (valeur && typeof valeur === "object") {
+			const propre = {};
+			for (const [k, v] of Object.entries(valeur)) {
+				if (v === null || v === void 0 || v === false || Array.isArray(v) && !v.length) continue;
+				if (k === "friendly_name" && v === "nom") continue;
+				propre[k] = alleger(v);
+			}
+			return propre;
+		}
+		return valeur;
+	};
+	return `${JSON.stringify({
+		...d,
+		maison: alleger(d.maison)
+	})}\n`;
+}
+/** Copie un texte, même hors HTTPS (Home Assistant est souvent servi en http sur le réseau local). */
+async function copier(texte, racine = document.body) {
+	try {
+		await navigator.clipboard.writeText(texte);
+		return true;
+	} catch {
+		const zone = document.createElement("textarea");
+		zone.value = texte;
+		zone.setAttribute("readonly", "");
+		zone.style.cssText = "position:fixed;top:0;left:0;opacity:0";
+		racine.appendChild(zone);
+		zone.select();
+		let ok = false;
+		try {
+			ok = document.execCommand("copy");
+		} catch {
+			ok = false;
+		}
+		zone.remove();
+		return ok;
+	}
+}
+/** Enregistre le diagnostic dans un fichier, à joindre au ticket. */
+function telecharger(texte) {
+	const url = URL.createObjectURL(new Blob([texte], { type: "application/json" }));
+	const lien = document.createElement("a");
+	lien.href = url;
+	lien.download = `automatic-dashboard-diagnostic-${(/* @__PURE__ */ new Date()).toISOString().slice(0, 10)}.json`;
+	document.body.appendChild(lien);
+	lien.click();
+	lien.remove();
+	setTimeout(() => URL.revokeObjectURL(url), 1e3);
 }
 // src/editeur/editeur.ts
 var MODES = [
@@ -5461,6 +6683,9 @@ var AutomaticEditeur = class extends i$2 {
 			_enCours: { state: true },
 			_pret: { state: true },
 			_signales: { state: true },
+			_attentes: { state: true },
+			_destinataires: { state: true },
+			_occupe: { state: true },
 			_copie: { state: true }
 		};
 	}
@@ -5490,7 +6715,10 @@ var AutomaticEditeur = class extends i$2 {
 		this._enCours = [];
 		this._pret = false;
 		this._signales = [];
+		this._attentes = {};
 		this._copie = "";
+		this._destinataires = null;
+		this._occupe = false;
 	}
 	setConfig(config) {
 		this._config = config ?? {};
@@ -5541,7 +6769,7 @@ var AutomaticEditeur = class extends i$2 {
 	}
 	render() {
 		if (!this.hass || !this._config) return A;
-		return b`<div class="editeur">${this.mode()}${this.favoris()}${this.masques()}${this.noms()}${this.pieces()}${this.tablette()}${this.signaler()}</div>`;
+		return b`<div class="editeur">${this.mode()}${this.apparence()}${this.favoris()}${this.masques()}${this.noms()}${this.pieces()}${this.prevenir()}${this.tablette()}${this.signaler()}</div>`;
 	}
 	mode() {
 		const tx = this.tx;
@@ -5563,6 +6791,72 @@ var AutomaticEditeur = class extends i$2 {
             <span class="description">${description}</span></button>`;
 		})}
       </div></section>`;
+	}
+	apparence() {
+		const tx = this.tx;
+		const c = this._config;
+		const style = c.style ?? "automatic";
+		const STYLES = [
+			["automatic", [
+				"#0277BD",
+				"#E9A23B",
+				"#F5F8FB"
+			]],
+			["doux", [
+				"#2E7D74",
+				"#B5652E",
+				"#F7F4EF"
+			]],
+			["contraste", [
+				"#000000",
+				"#004A80",
+				"#FFFFFF"
+			]],
+			["home_assistant", [
+				"var(--primary-color)",
+				"var(--accent-color)",
+				"var(--primary-background-color)"
+			]]
+		];
+		const choix = (valeur, options, changer) => b`<div class="segments" role="radiogroup">
+      ${options.map(([v, libelle]) => b`<button role="radio" aria-checked=${valeur === v ? "true" : "false"} class=${valeur === v ? "choisi" : ""}
+        @click=${() => changer(v)}>${libelle}</button>`)}</div>`;
+		const interrupteur = (cle, libelle, aide) => b`<label class="interrupteur">
+      <ha-switch .checked=${c[cle] !== false} @change=${(ev) => this.changer({
+			...c,
+			[cle]: ev.target.checked
+		})}></ha-switch>
+      <span>${libelle}<small>${aide}</small></span></label>`;
+		return b`<section>
+      <h3>${tx.apparence}</h3>
+      <p class="aide">${tx.apparenceAide}</p>
+      <div class="modes styles" role="radiogroup" aria-label=${tx.style}>
+        ${STYLES.map(([s, couleurs]) => {
+			const [titre, description] = tx.styles[s];
+			return b`<button role="radio" aria-checked=${style === s ? "true" : "false"} class=${style === s ? "choisi" : ""}
+            @click=${() => this.changer({
+				...c,
+				style: s
+			})}>
+            <span class="pastilles">${couleurs.map((couleur) => b`<i style=${`background:${couleur}`}></i>`)}</span>
+            <span class="titre"><span class="rond"></span>${titre}</span>
+            <span class="description">${description}</span></button>`;
+		})}
+      </div>
+      <div class="rangee"><span>${tx.piecesClimat}</span>
+        ${choix(c.pieces ?? "barres", [["barres", tx.barres], ["mosaique", tx.mosaique]], (v) => this.changer({
+			...c,
+			pieces: v
+		}))}</div>
+      <div class="rangee"><span>${tx.tuiles}</span>
+        ${choix(c.tuiles ?? "automatic", [["automatic", tx.tuilesAutomatic], ["home_assistant", tx.tuilesHA]], (v) => this.changer({
+			...c,
+			tuiles: v
+		}))}</div>
+      ${interrupteur("ciel", tx.ciel, tx.cielAide)}
+      ${interrupteur("conseils", tx.conseils, tx.conseilsAide)}
+      ${interrupteur("bilan", tx.bilanPage, tx.bilanPageAide)}
+    </section>`;
 	}
 	favoris() {
 		const tx = this.tx;
@@ -5678,13 +6972,108 @@ var AutomaticEditeur = class extends i$2 {
       <button class="lien" ?disabled=${modifie} @click=${this.ouvrirPieces}>${tx.changerOrdre}<ha-icon icon="mdi:arrow-right"></ha-icon></button>
     </section>`;
 	}
+	prevenir() {
+		const tx = this.tx;
+		const hass = this.hass;
+		const m = this.maison;
+		if (this._destinataires === null) this.chargerDestinataires();
+		const dest = this._destinataires ?? tousLesDestinataires(hass);
+		const phones = telephones(hass);
+		return b`<section>
+      <h3>${tx.prevenirTitre}</h3>
+      <p class="aide">${tx.prevenirAide}</p>
+      ${SUJETS.map((sujet) => {
+			const a = automatisme(hass, m, sujet, dest);
+			const surveilles = a ? a.config.triggers.reduce((n, d) => n + (Array.isArray(d.entity_id) ? d.entity_id.length : d.entity_id ? 1 : 0), 0) : 0;
+			const actif = automatismeExiste(hass, sujet);
+			return b`<label class=${a || actif ? "interrupteur" : "interrupteur inactif"}>
+          <ha-switch .checked=${actif} .disabled=${!a && !actif || this._occupe}
+            @change=${(ev) => this.basculerPrevenir(sujet, ev.target.checked)}></ha-switch>
+          <span>${tx.sujets[sujet]}<small>${a ? sujet === "sauvegarde" ? tx.surveilleSauvegarde : tx.surveille(surveilles) : tx.rienASurveiller[sujet]}</small></span>
+        </label>`;
+		})}
+      <h4>${tx.quiPrevenir}</h4>
+      <div class="destinataires">
+        ${phones.map((p) => b`<label class="case"><input type="checkbox" .checked=${dest.telephones.includes(p.service)} ?disabled=${this._occupe}
+          @change=${(ev) => this.changerDestinataires({
+			...dest,
+			telephones: ev.target.checked ? [...dest.telephones, p.service] : dest.telephones.filter((s) => s !== p.service)
+		})}>
+          <ha-icon icon="mdi:cellphone"></ha-icon>${p.nom}</label>`)}
+        <label class="case"><input type="checkbox" .checked=${dest.homeAssistant} ?disabled=${this._occupe}
+          @change=${(ev) => this.changerDestinataires({
+			...dest,
+			homeAssistant: ev.target.checked
+		})}>
+          <ha-icon icon="mdi:bell-outline"></ha-icon>${tx.notificationHA}</label>
+      </div>
+      ${phones.length ? A : b`<p class="note"><ha-icon icon="mdi:information-outline"></ha-icon>${tx.aucunTelephone}</p>`}
+    </section>`;
+	}
+	chargerDestinataires() {
+		this._chargement ??= (async () => {
+			for (const sujet of SUJETS) {
+				const d = destinatairesDe(await lireAutomatisme(this.hass, sujet));
+				if (d) {
+					this._destinataires = d;
+					return;
+				}
+			}
+			this._destinataires = tousLesDestinataires(this.hass);
+		})();
+	}
+	async basculerPrevenir(sujet, oui) {
+		this._occupe = true;
+		try {
+			if (oui) {
+				const a = automatisme(this.hass, this.maison, sujet, this._destinataires ?? tousLesDestinataires(this.hass));
+				if (a) await creerAutomatisme(this.hass, a);
+			} else await supprimerAutomatisme(this.hass, sujet);
+		} finally {
+			this._occupe = false;
+		}
+	}
+	async changerDestinataires(dest) {
+		this._destinataires = dest;
+		this._occupe = true;
+		try {
+			for (const sujet of SUJETS.filter((s) => automatismeExiste(this.hass, s))) {
+				const a = automatisme(this.hass, this.maison, sujet, dest);
+				if (a) await creerAutomatisme(this.hass, a);
+			}
+		} finally {
+			this._occupe = false;
+		}
+	}
 	tablette() {
 		const tx = this.tx;
+		const c = this._config;
+		const hass = this.hass;
 		const modifie = this.modifie;
 		const page = `${location.pathname.split("/")[1]}/tablette`;
-		return b`<section class="pieces">
-      <div><h3>${tx.tablette}</h3><p class="aide">${modifie ? tx.enregistrerDabord : tx.tabletteAide(`/${page}`)}</p></div>
-      <button class="lien" ?disabled=${modifie} @click=${() => this.ouvrir(`/${page}`)}>${tx.ouvrirTablette}<ha-icon icon="mdi:arrow-right"></ha-icon></button>
+		const reglage = c.tablette ?? {};
+		const changer = (cle, valeur) => this.changer({
+			...c,
+			tablette: {
+				...reglage,
+				[cle]: valeur
+			}
+		});
+		const heures = (valeur, cle) => b`<select .value=${String(valeur)}
+      @change=${(ev) => changer(cle, Number(ev.target.value))}>
+      ${Array.from({ length: 24 }, (_, h) => b`<option value=${String(h)} ?selected=${h === valeur}>${tx.heureCourte(h)}</option>`)}</select>`;
+		return b`<section>
+      <div class="pieces"><div><h3>${tx.tablette}</h3><p class="aide">${modifie ? tx.enregistrerDabord : tx.tabletteAide(`/${page}`)}</p></div>
+        <button class="lien" ?disabled=${modifie} @click=${() => this.ouvrir(`/${page}`)}>${tx.ouvrirTablette}<ha-icon icon="mdi:arrow-right"></ha-icon></button></div>
+      <div class="rangee"><span>${tx.nuit}</span><span class="heures">${heures(reglage.debut_nuit ?? 23, "debut_nuit")}<span>${tx.a}</span>${heures(reglage.fin_nuit ?? 6, "fin_nuit")}</span></div>
+      <div class="rangee"><span>${tx.reveil}<small class="sous">${tx.reveilAide}</small></span>
+        ${reglage.reveil && hass.states[reglage.reveil] ? b`<span class="puce"><ha-state-icon .hass=${hass} .stateObj=${hass.states[reglage.reveil]}></ha-state-icon>${nomCourt(hass, reglage.reveil)}
+              <button class="rond-bouton" title=${tx.retirer} @click=${() => changer("reveil", void 0)}><ha-icon icon="mdi:close"></ha-icon></button></span>` : this._pret && customElements.get("ha-entity-picker") ? b`<ha-entity-picker class="ajout" .hass=${hass} .addButton=${true} .addButtonLabel=${tx.choisirDetecteur} .includeDomains=${["binary_sensor"]}
+                @value-changed=${(ev) => {
+			ev.stopPropagation();
+			if (ev.detail.value) changer("reveil", ev.detail.value);
+		}}></ha-entity-picker>` : A}
+      </div>
     </section>`;
 	}
 	ouvrir(chemin) {
@@ -5712,14 +7101,34 @@ var AutomaticEditeur = class extends i$2 {
 		return b`<section class="signaler">
       <h3>${tx.signaler}</h3>
       <p class="aide">${tx.signalerAide}</p>
-      ${ids.length ? b`<div class="puces">${ids.map((id) => b`<span class="puce">
-            <ha-state-icon .hass=${hass} .stateObj=${hass.states[id]}></ha-state-icon>${nomCourt(hass, id)}
+      ${ids.length ? b`<div class="signales">${ids.map((id) => b`<div class="signale">
+            <span class="icone"><ha-state-icon .hass=${hass} .stateObj=${hass.states[id]}></ha-state-icon></span>
+            <span class="nom-signale">${nomCourt(hass, id)}</span>
+            <select aria-label=${tx.devraitEtre} .value=${this._attentes[id] ?? ""}
+              @change=${(ev) => {
+			this._attentes = {
+				...this._attentes,
+				[id]: ev.target.value
+			};
+			this._copie = "";
+		}}>
+              <option value="">${tx.devraitEtre}</option>
+              <option value="cache">${tx.attenteCache}</option>
+              <option value="visible">${tx.attenteVisible}</option>
+              <optgroup label=${tx.dansLaPiece}>${this.maison.pieces.map((p) => b`<option value=${`piece:${p.area_id}`}>${p.name}</option>`)}</optgroup>
+              <optgroup label=${tx.dansLaPage}>${[
+			"securite",
+			"climat",
+			"energie",
+			"systeme"
+		].map((s) => b`<option value=${`section:${s}`}>${tx.pages[s]}</option>`)}</optgroup>
+            </select>
             <button class="rond-bouton" title=${tx.retirer} aria-label=${`${tx.retirer} ${nomCourt(hass, id)}`}
               @click=${() => {
 			this._signales = this._signales.filter((x) => x !== id);
 			this._copie = "";
 		}}>
-              <ha-icon icon="mdi:close"></ha-icon></button></span>`)}</div>` : A}
+              <ha-icon icon="mdi:close"></ha-icon></button></div>`)}</div>` : A}
       ${this.choix(tx.signalerChoisir, ids, (id) => {
 			this._signales = [...this._signales, id];
 			this._copie = "";
@@ -5739,7 +7148,7 @@ var AutomaticEditeur = class extends i$2 {
 			masquer: c.masquer,
 			favoris: c.favoris,
 			completer: c.completer
-		}, this._signales));
+		}, this._signales, this._attentes));
 	}
 	/** Le bouton « Ajouter » natif : choisir une entité dans la liste, avec recherche. */
 	choix(libelle, exclues, ajouter) {
@@ -5777,6 +7186,12 @@ var AutomaticEditeur = class extends i$2 {
     .modes .rond{width:14px;height:14px;border-radius:50%;box-sizing:border-box;border:2px solid var(--secondary-text-color);flex:none}
     .modes .choisi .rond{border:4px solid var(--primary-color)}
     .modes .description{font-size:12.5px;line-height:1.35;color:var(--secondary-text-color)}
+    .styles .pastilles{display:flex;gap:4px;margin-bottom:2px}
+    .styles .pastilles i{width:18px;height:18px;border-radius:6px;border:1px solid var(--divider-color)}
+    .rangee{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:14px;color:var(--primary-text-color);margin-top:4px}
+    .segments{display:inline-flex;padding:3px;border-radius:12px;background:var(--secondary-background-color);gap:2px}
+    .segments button{padding:7px 14px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--secondary-text-color)}
+    .segments button.choisi{background:var(--card-background-color, #fff);color:var(--primary-text-color);box-shadow:0 1px 3px rgba(0,0,0,.12)}
 
     .tuiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
     .tuile{display:flex;align-items:center;gap:8px;min-height:58px;padding:0 4px 0 6px;border-radius:12px;box-sizing:border-box;
@@ -5800,6 +7215,13 @@ var AutomaticEditeur = class extends i$2 {
     .interrupteur{display:flex;align-items:flex-start;gap:12px;margin-top:6px;font-size:14px;color:var(--primary-text-color);cursor:pointer}
     .interrupteur ha-switch{flex:none;margin-top:1px}
     .interrupteur small{display:block;margin-top:2px;font-size:12.5px;color:var(--secondary-text-color)}
+    .interrupteur.inactif{opacity:.55;cursor:default}
+    h4{margin:12px 0 0;font-size:14px;font-weight:600;color:var(--primary-text-color)}
+    .destinataires{display:flex;flex-wrap:wrap;gap:8px}
+    .case{display:inline-flex;align-items:center;gap:8px;height:38px;padding:0 14px 0 10px;border-radius:19px;font-size:13.5px;cursor:pointer;
+      background:var(--secondary-background-color);color:var(--primary-text-color)}
+    .case input{width:17px;height:17px;margin:0;accent-color:var(--primary-color)}
+    .case ha-icon{--mdc-icon-size:18px;color:var(--secondary-text-color)}
 
     .puces{display:flex;flex-wrap:wrap;gap:8px}
     .puce{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 2px 0 10px;border-radius:18px;font-size:13.5px;
@@ -5817,6 +7239,17 @@ var AutomaticEditeur = class extends i$2 {
     .lien ha-icon{--mdc-icon-size:18px}
     .ajout{display:block;align-self:flex-start}
     .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+    .signales{display:grid;gap:8px}
+    .heures{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;color:var(--secondary-text-color)}
+    .heures select{height:36px;padding:0 8px;border-radius:10px;font:inherit;font-size:13.5px;color:var(--primary-text-color);
+      background:var(--card-background-color, #fff);border:1px solid var(--divider-color)}
+    .rangee small.sous{display:block;font-size:12.5px;color:var(--secondary-text-color);margin-top:2px}
+    .signale{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(0,auto) auto;align-items:center;gap:10px;padding:6px 6px 6px 8px;
+      border-radius:14px;background:var(--secondary-background-color)}
+    .nom-signale{font-size:14px;font-weight:600;color:var(--primary-text-color);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .signale select{max-width:240px;height:36px;padding:0 8px;border-radius:10px;font:inherit;font-size:13.5px;color:var(--primary-text-color);
+      background:var(--card-background-color, #fff);border:1px solid var(--divider-color)}
+    @container (max-width: 460px){ .signale{grid-template-columns:auto minmax(0,1fr) auto} .signale select{grid-column:1 / -1;max-width:none} }
     a.lien{text-decoration:none}
     .retour{margin:0;font-size:13px;color:var(--secondary-text-color)}
 
@@ -5856,10 +7289,67 @@ function chargerPolices() {
       size-adjust:107%;ascent-override:90%;descent-override:22.5%;line-gap-override:0%}`;
 	document.head.appendChild(style);
 }
+// src/premier-tableau.ts
+var URL_TABLEAU = "automatic-dashboard";
+/** Attend que Home Assistant ait chargé l'utilisateur (une minute au plus). */
+async function attendreHass() {
+	for (let i = 0; i < 120; i++) {
+		const hass = document.querySelector("home-assistant")?.hass;
+		if (hass?.user && hass.connection) return hass;
+		await new Promise((r) => setTimeout(r, 500));
+	}
+	return null;
+}
+async function preparerPremierTableau() {
+	const hass = await attendreHass();
+	if (!hass?.user?.is_admin) return;
+	const afaire = await hass.callWS({ type: "automatic_dashboard/a_faire" }).catch(() => null);
+	if (!afaire?.creer) return;
+	if (!(await hass.callWS({ type: "lovelace/dashboards/list" }).catch(() => [])).some((t) => t.url_path === "automatic-dashboard")) {
+		await hass.callWS({
+			type: "lovelace/dashboards/create",
+			url_path: URL_TABLEAU,
+			title: "Automatic Dashboard",
+			icon: "mdi:home-roof",
+			show_in_sidebar: true,
+			require_admin: false
+		});
+		await hass.callWS({
+			type: "lovelace/config/save",
+			url_path: URL_TABLEAU,
+			config: { strategy: { type: "custom:automatic-dashboard" } }
+		});
+	}
+	if (afaire.par_defaut) {
+		const systeme = hass.systemData ?? {};
+		await hass.callWS({
+			type: "frontend/set_system_data",
+			key: "core",
+			value: {
+				...systeme,
+				default_panel: URL_TABLEAU
+			}
+		}).catch(() => void 0);
+	}
+	await hass.callWS({ type: "automatic_dashboard/fait" });
+	const fr = estFrancais(hass);
+	document.querySelector("home-assistant")?.dispatchEvent(new CustomEvent("hass-notification", {
+		detail: {
+			message: fr ? "Votre tableau Automatic Dashboard est prêt." : "Your Automatic Dashboard dashboard is ready.",
+			duration: 15e3,
+			action: {
+				text: fr ? "Ouvrir" : "Open",
+				action: () => naviguer(`/${URL_TABLEAU}`)
+			}
+		},
+		bubbles: true,
+		composed: true
+	}));
+}
 // src/strategie/sous-vues.ts
 /** Les intégrations qui décrivent la machine de Home Assistant elle-même. */
 var MACHINE = /* @__PURE__ */ new Set(["systemmonitor", "hassio"]);
-function sousVues(hass, m, avecReglages) {
+function sousVues(hass, m, avecReglages, reglages = {}) {
 	const tx = t$1(hass);
 	const fr = estFrancais(hass);
 	const vues = [];
@@ -5959,8 +7449,8 @@ function sousVues(hass, m, avecReglages) {
 	}
 	const piecesTemp = m.pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length);
 	if (piecesTemp.length || m.climats.length) {
-		const scene = [section([heros("climat"), ...piecesTemp.length >= 2 ? [titre(fr ? "Pièce par pièce" : "Room by room"), avecReglages({ type: "custom:automatic-dashboard-confort" })] : []])];
-		if (piecesTemp.length >= 2) scene.push(section([titre(fr ? "La maison en plan" : "Floor plan"), avecReglages({ type: "custom:automatic-dashboard-plan" })]));
+		const parPiece = reglages.pieces === "mosaique" ? "custom:automatic-dashboard-plan" : "custom:automatic-dashboard-confort";
+		const scene = [section([heros("climat"), ...piecesTemp.length >= 2 ? [titre(fr ? "Pièce par pièce" : "Room by room"), avecReglages({ type: parPiece })] : []])];
 		const thermostats = m.climats.filter((e) => e.domaine === "climate");
 		if (thermostats.length) {
 			if (m.mode === "complet") scene.push(section([titre(tx.thermostats), ...avecLargeurs(thermostats.map((e) => tuile(e, "maison")), 6, "fin", 2)]));
@@ -5990,6 +7480,7 @@ function sousVues(hass, m, avecReglages) {
 			forecast_type: "daily",
 			show_current: true,
 			show_forecast: true,
+			...hass.config.location_name ? { name: hass.config.location_name } : {},
 			grid_options: {
 				columns: 12,
 				rows: 4
@@ -5999,18 +7490,12 @@ function sousVues(hass, m, avecReglages) {
 			columns: 12,
 			rows: 2
 		}));
-		const pastilles = piecesTemp.slice(0, 12).map((p) => avecReglages({
-			type: "custom:automatic-dashboard-pastille",
-			sujet: "piece",
-			piece: p.area_id
-		}));
 		vues.push(vue({
 			path: "climat",
 			title: tx.climat,
 			icon: "mdi:thermometer",
 			subview: true,
 			ouverture: ouverture("climat"),
-			badges: pastilles,
 			scene,
 			cote,
 			coteApres: 1
@@ -6023,9 +7508,8 @@ function sousVues(hass, m, avecReglages) {
 		if (appareils.length) scene.push(section([titre(tx.appareils), ...avecLargeurs(appareils.map((e) => tuile(e, "maison")), 6, "fin", 2)]));
 		if (compteurs.length && m.mode !== "decouverte") scene.push(section([titre(fr ? "Compteurs" : "Meters"), ...avecLargeurs(compteurs.map((e) => tuile(e, "complet")), 6, "fin", 1)]));
 		const cote = [];
-		if (appareils.length >= 2) cote.push({
+		if (appareils.length >= 2) cote.push(titre(fr ? "Répartition" : "Breakdown"), {
 			type: "distribution",
-			title: fr ? "Répartition" : "Breakdown",
 			entities: appareils.map((e) => e.id),
 			grid_options: {
 				columns: 12,
@@ -6034,9 +7518,8 @@ function sousVues(hass, m, avecReglages) {
 		});
 		const maison = energiesMaison(hass, m);
 		if (maison.length) {
-			cote.push({
+			cote.push(titre(fr ? "7 derniers jours" : "Last 7 days"), {
 				type: "statistics-graph",
-				title: fr ? "7 derniers jours" : "Last 7 days",
 				entities: maison,
 				period: "day",
 				days_to_show: 7,
@@ -6078,11 +7561,10 @@ function sousVues(hass, m, avecReglages) {
 			...m.alertes,
 			...m.gardees.filter((e) => e.domaine === "lock" || e.domaine === "alarm_control_panel")
 		].map((e) => e.id);
-		const cote = suivies.length ? [{
+		const cote = suivies.length ? [titre(fr ? "Activité" : "Activity"), {
 			type: "logbook",
 			target: { entity_id: suivies },
 			hours_to_show: 24,
-			title: fr ? "Activité" : "Activity",
 			grid_options: {
 				columns: 12,
 				rows: 6
@@ -6135,12 +7617,11 @@ function sousVues(hass, m, avecReglages) {
 		}] : [],
 		coteApres: 1
 	}));
-	if (aUnBilan(hass, m)) {
+	if (reglages.bilan !== false && aUnBilan(hass, m)) {
 		const energies = energiesMaison(hass, m);
 		const temperatures = m.temperaturesInterieures.map((c) => c[0]).slice(0, 6);
-		const cote = [...energies.length ? [{
+		const cote = [...energies.length ? [titre(fr ? "8 dernières semaines" : "Last 8 weeks"), {
 			type: "statistics-graph",
-			title: fr ? "8 dernières semaines" : "Last 8 weeks",
 			entities: energies,
 			period: "week",
 			days_to_show: 56,
@@ -6150,9 +7631,8 @@ function sousVues(hass, m, avecReglages) {
 				columns: 12,
 				rows: 4
 			}
-		}] : [], ...temperatures.length ? [{
+		}] : [], ...temperatures.length ? [titre(fr ? "Températures, 7 jours" : "Temperatures, 7 days"), {
 			type: "history-graph",
-			title: fr ? "Températures, 7 jours" : "Temperatures, 7 days",
 			entities: temperatures,
 			hours_to_show: 168,
 			grid_options: {
@@ -6179,6 +7659,97 @@ function sousVues(hass, m, avecReglages) {
 		ouverture: ouverture("a-ranger"),
 		scene: [section([heros("a-ranger"), avecReglages({ type: "custom:automatic-dashboard-a-ranger" })])]
 	}));
+	if (m.air.length) {
+		const parPiece = [...m.pieces.map((p) => [p.name, m.air.filter((e) => e.piece === p.area_id)]), [fr ? "Sans pièce" : "Without area", m.air.filter((e) => !e.piece)]];
+		const co2 = m.air.filter((e) => e.classe === "carbon_dioxide").map((e) => e.id).slice(0, 8);
+		vues.push(vue({
+			path: "air",
+			title: tx.air,
+			icon: "mdi:air-filter",
+			subview: true,
+			ouverture: ouverture("air"),
+			scene: parPiece.map(([nom, l]) => groupe(nom, l, "maison")).filter((s) => s !== null),
+			cote: co2.length ? [titre(fr ? "CO₂, 24 heures" : "CO₂, 24 hours"), {
+				type: "history-graph",
+				entities: co2,
+				hours_to_show: 24,
+				grid_options: {
+					columns: 12,
+					rows: 4
+				}
+			}] : [],
+			coteApres: 1
+		}));
+	}
+	if (m.vehicules.length) {
+		const parAppareil = /* @__PURE__ */ new Map();
+		for (const e of m.vehicules) {
+			const cle = e.appareil ?? e.id;
+			if (!parAppareil.has(cle)) parAppareil.set(cle, []);
+			parAppareil.get(cle).push(e);
+		}
+		const scene = [...parAppareil].map(([id, l]) => groupe(hass.devices[id]?.name_by_user || hass.devices[id]?.name || tx.vehicule, l.filter((e) => !e.secondaire || e.role === "mesure").slice(0, 12), "maison")).filter((s) => s !== null);
+		vues.push(vue({
+			path: "vehicule",
+			title: tx.vehicule,
+			icon: "mdi:car-electric-outline",
+			subview: true,
+			ouverture: ouverture("vehicule"),
+			scene
+		}));
+	}
+	if (m.exterieur.length >= 3) {
+		const pris = /* @__PURE__ */ new Set();
+		const prendre = (f) => m.exterieur.filter((e) => !pris.has(e.id) && f(e)).map((e) => (pris.add(e.id), e));
+		const portail = prendre((e) => e.domaine === "cover" && ["gate", "garage"].includes(e.classe ?? ""));
+		const tondeuse = prendre((e) => e.domaine === "lawn_mower");
+		const eau = prendre((e) => e.domaine === "valve" || /arrosage|irrigation|sprinkler|piscine|pool|bassin/i.test(`${e.nomPropre} ${e.etat.attributes.friendly_name ?? ""}`));
+		const jardin = prendre(() => true);
+		const scene = [
+			groupe(fr ? "Le jardin" : "The garden", jardin, "maison"),
+			groupe(fr ? "Portail et garage" : "Gate and garage", portail, "maison"),
+			groupe(fr ? "Arrosage et piscine" : "Watering and pool", eau, "maison"),
+			groupe(fr ? "Tondeuse" : "Mower", tondeuse, "maison")
+		].filter((s) => s !== null);
+		const cote = m.meteo ? [{
+			type: "weather-forecast",
+			entity: m.meteo,
+			forecast_type: "hourly",
+			show_current: true,
+			show_forecast: true,
+			...hass.config.location_name ? { name: hass.config.location_name } : {},
+			grid_options: {
+				columns: 12,
+				rows: 4
+			}
+		}] : [];
+		vues.push(vue({
+			path: "exterieur",
+			title: tx.exterieur,
+			icon: "mdi:tree-outline",
+			subview: true,
+			ouverture: ouverture("exterieur"),
+			scene,
+			cote,
+			coteApres: 1
+		}));
+	}
+	if (m.mode !== "decouverte") vues.push(vue({
+		path: "mes-favoris",
+		title: tx.mesFavoris,
+		icon: "mdi:star-outline",
+		subview: true,
+		ouverture: ouverture("mes-favoris"),
+		scene: [section([avecReglages({ type: "custom:automatic-dashboard-mes-favoris" })])]
+	}));
+	if (m.mode !== "decouverte" && (m.lumieres.length || m.securite.length)) vues.push(vue({
+		path: "depart",
+		title: tx.jePars,
+		icon: "mdi:exit-run",
+		subview: true,
+		ouverture: ouverture("depart"),
+		scene: [section([avecReglages({ type: "custom:automatic-dashboard-depart" })])]
+	}));
 	vues.push({
 		path: "tablette",
 		title: fr ? "Tablette murale" : "Wall tablet",
@@ -6201,12 +7772,32 @@ function lireReglages(config) {
 		"complet"
 	];
 	const noms = config.noms && typeof config.noms === "object" && !Array.isArray(config.noms) ? Object.fromEntries(Object.entries(config.noms).filter(([, v]) => typeof v === "string" && v.trim())) : void 0;
+	const parmi = (v, permis) => permis.includes(v) ? v : void 0;
+	const heureValide = (v) => typeof v === "number" && Number.isInteger(v) && v >= 0 && v <= 23 ? v : void 0;
+	const t = config.tablette && typeof config.tablette === "object" ? config.tablette : void 0;
+	const tablette = t ? {
+		debut_nuit: heureValide(t.debut_nuit),
+		fin_nuit: heureValide(t.fin_nuit),
+		reveil: typeof t.reveil === "string" && t.reveil.includes(".") ? t.reveil : void 0
+	} : void 0;
 	return {
 		mode: modes.includes(config.mode) ? config.mode : void 0,
 		masquer: liste(config.masquer),
 		favoris: liste(config.favoris),
 		completer: config.completer === false ? false : void 0,
-		noms
+		noms,
+		style: parmi(config.style, [
+			"automatic",
+			"doux",
+			"contraste",
+			"home_assistant"
+		]),
+		pieces: parmi(config.pieces, ["barres", "mosaique"]),
+		tuiles: parmi(config.tuiles, ["automatic", "home_assistant"]),
+		ciel: config.ciel === false ? false : void 0,
+		conseils: config.conseils === false ? false : void 0,
+		bilan: config.bilan === false ? false : void 0,
+		tablette: tablette && Object.values(tablette).some((v) => v !== void 0) ? tablette : void 0
 	};
 }
 /** Les noms choisis dans les réglages, posés sur les cartes natives (tuiles, thermostats) qui n'en ont pas. */
@@ -6219,6 +7810,7 @@ function nommer(carte, noms) {
 }
 async function genererTableau(config, hass) {
 	const reglages = lireReglages(config);
+	await chargerReglagesEnergie(hass);
 	const m = analyserMemo(hass, reglages);
 	const avecReglages = (c) => ({
 		...c,
@@ -6232,12 +7824,16 @@ async function genererTableau(config, hass) {
 		m.puissanceReseau && "energie",
 		m.mode === "decouverte" && "soleil",
 		"systeme",
-		m.aRanger.length > 0 && "a-ranger"
+		m.air.length > 0 && "air",
+		m.vehicules.length > 0 && "vehicule",
+		m.exterieur.length >= 3 && "exterieur",
+		m.aRanger.length > 0 && "a-ranger",
+		m.mode !== "decouverte" && (m.lumieres.length > 0 || m.securite.length > 0) && "depart"
 	].filter((s) => typeof s === "string").map((sujet) => avecReglages({
 		type: "custom:automatic-dashboard-pastille",
 		sujet
 	}));
-	let views = [m.mode === "decouverte" ? accueilDecouverte(hass, m, avecReglages, pastilles) : accueilMaison(hass, m, avecReglages, pastilles, await choisirFavoris(hass, m, reglages)), ...sousVues(hass, m, avecReglages)];
+	let views = [m.mode === "decouverte" ? accueilDecouverte(hass, m, avecReglages, pastilles) : accueilMaison(hass, m, avecReglages, pastilles, await favorisDeLaPersonne(hass, m, reglages)), ...sousVues(hass, m, avecReglages, reglages)];
 	if (Object.keys(m.noms).length) views = views.map((v) => ({
 		...v,
 		...v.sections ? { sections: v.sections.map((s) => ({
@@ -6252,6 +7848,16 @@ async function genererTableau(config, hass) {
 			}))
 		} } : {}
 	}));
+	const theme = {
+		automatic: THEME,
+		doux: `${THEME} Soft`,
+		contraste: `${THEME} Contrast`,
+		home_assistant: void 0
+	}[reglages.style ?? "automatic"];
+	views = views.map(({ theme: _ancien, ...v }) => theme ? {
+		...v,
+		theme
+	} : v);
 	return {
 		title: config.title || "Automatic Dashboard",
 		views
@@ -6291,10 +7897,17 @@ var elements = [
 	["automatic-dashboard-bilan", AutomaticBilan],
 	["automatic-dashboard-plan", AutomaticPlan],
 	["automatic-dashboard-tablette", AutomaticTablette],
+	["automatic-dashboard-favori", AutomaticFavori],
+	["automatic-dashboard-depart", AutomaticDepart],
+	["automatic-dashboard-mes-favoris", AutomaticMesFavoris],
 	["automatic-dashboard-editeur", AutomaticEditeur]
 ];
 for (const [balise, classe] of elements) if (!customElements.get(balise)) customElements.define(balise, classe);
 chargerPolices();
+if (!window.__automaticDashboardPremier) {
+	window.__automaticDashboardPremier = true;
+	preparerPremierTableau().catch(() => void 0);
+}
 window.customStrategies = window.customStrategies || [];
 if (!window.customStrategies.some((s) => s.type === "automatic_dashboard")) window.customStrategies.push({
 	type: "automatic_dashboard",

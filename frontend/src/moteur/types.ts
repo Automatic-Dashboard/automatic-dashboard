@@ -19,7 +19,23 @@ export interface Reglages {
   completer?: boolean;
   /** Noms affichés dans Automatic Dashboard, sans toucher à Home Assistant. */
   noms?: Record<string, string>;
+  /** Le style : celui d'Automatic Dashboard (défaut), doux, contrasté, ou le thème choisi dans Home Assistant. */
+  style?: Style;
+  /** Climat : les pièces en barres (défaut) ou en mosaïque colorée. */
+  pieces?: "barres" | "mosaique";
+  /** Les favoris en tuiles Automatic Dashboard (nom sur deux lignes, défaut) ou en tuiles de Home Assistant. */
+  tuiles?: "automatic" | "home_assistant";
+  /** Le ciel du jour en tête de l'accueil (oui par défaut). */
+  ciel?: boolean;
+  /** Les conseils dans les points à regarder (oui par défaut). */
+  conseils?: boolean;
+  /** La page du bilan (oui par défaut). */
+  bilan?: boolean;
+  /** La page tablette murale : heures de nuit et capteur de présence qui rallume l'écran. */
+  tablette?: { debut_nuit?: number; fin_nuit?: number; reveil?: string };
 }
+
+export type Style = "automatic" | "doux" | "contraste" | "home_assistant";
 
 /** Une entité, telle que le moteur la juge. */
 export interface Entite {
@@ -110,6 +126,14 @@ export interface Maison {
   enMarche: string[];
   /** La liste de courses. */
   courses: string | null;
+  /** Capteurs de l'air intérieur (CO₂, particules, COV…). */
+  air: Entite[];
+  /** Voitures et bornes de recharge. */
+  vehicules: Entite[];
+  /** Ce qui est dehors : pièces extérieures, portail, garage, arrosage, piscine, tondeuse. */
+  exterieur: Entite[];
+  /** Les réglages du tableau qui ont servi au tri (et aux choix d'affichage des cartes). */
+  reglages: Reglages;
   /** Favoris posés par l'étiquette « favori » (entités, ou fonction principale des appareils). */
   favorisEtiquette: string[];
   /** Noms choisis dans les réglages, par entité. */

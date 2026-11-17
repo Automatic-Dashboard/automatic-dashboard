@@ -12,15 +12,32 @@ import logging
 import shutil
 from pathlib import Path
 
+from homeassistant.components import websocket_api
 from homeassistant.components.frontend import add_extra_js_url, remove_extra_js_url
 from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers import label_registry as lr
 from homeassistant.loader import async_get_integration
 
-from .const import DOMAIN, ETIQUETTES, ISSUE_THEMES, JS_FILE, THEME_FILE, THEME_NAME, URL_BASE
+from .const import (
+    CONF_CREER_TABLEAU,
+    CONF_PAR_DEFAUT,
+    DOMAIN,
+    ETIQUETTES,
+    ISSUE_THEMES,
+    JS_FILE,
+    TABLEAU_CREE,
+    THEME_FILE,
+    THEME_NAME,
+    URL_BASE,
+)
+
+try:  # Home Assistant 2026 a remplacé voluptuous par probatio.
+    import probatio as vol
+except ImportError:  # pragma: no cover
+    import voluptuous as vol
 
 _LOGGER = logging.getLogger(__name__)
 _ICI = Path(__file__).parent
@@ -45,7 +62,41 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await _installer_theme(hass)
     _creer_etiquettes(hass, entry)
+    if not donnees.get("commandes"):
+        websocket_api.async_register_command(hass, ws_a_faire)
+        websocket_api.async_register_command(hass, ws_fait)
+        donnees["commandes"] = True
     return True
+
+
+def _entree(hass: HomeAssistant) -> ConfigEntry | None:
+    return next(iter(hass.config_entries.async_entries(DOMAIN)), None)
+
+
+@websocket_api.websocket_command({vol.Required("type"): "automatic_dashboard/a_faire"})
+@websocket_api.require_admin
+@callback
+def ws_a_faire(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    """Le premier tableau reste-t-il à créer ? (L'interface le crée au premier chargement d'un administrateur.)"""
+    entree = _entree(hass)
+    donnees = entree.data if entree else {}
+    connection.send_result(
+        msg["id"],
+        {
+            "creer": bool(donnees.get(CONF_CREER_TABLEAU)) and not donnees.get(TABLEAU_CREE),
+            "par_defaut": bool(donnees.get(CONF_PAR_DEFAUT)),
+        },
+    )
+
+
+@websocket_api.websocket_command({vol.Required("type"): "automatic_dashboard/fait"})
+@websocket_api.require_admin
+@callback
+def ws_fait(hass: HomeAssistant, connection: websocket_api.ActiveConnection, msg: dict) -> None:
+    """Le premier tableau est créé : on ne le recrée plus, même s'il est supprimé ensuite."""
+    if entree := _entree(hass):
+        hass.config_entries.async_update_entry(entree, data={**entree.data, TABLEAU_CREE: True})
+    connection.send_result(msg["id"])
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

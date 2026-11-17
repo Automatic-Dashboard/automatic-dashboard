@@ -16,6 +16,16 @@ export function nettoyer(config: ConfigStrategie): ConfigStrategie {
   const noms = Object.fromEntries(Object.entries(propre.noms ?? {}).filter(([, nom]) => typeof nom === "string" && nom.trim()));
   if (Object.keys(noms).length) propre.noms = noms;
   else delete propre.noms;
+  // Les choix d'apparence : seulement ce qui s'écarte du défaut.
+  if (!propre.style || propre.style === "automatic") delete propre.style;
+  if (propre.pieces !== "mosaique") delete propre.pieces;
+  if (propre.tuiles !== "home_assistant") delete propre.tuiles;
+  for (const cle of ["ciel", "conseils", "bilan"] as const) if (propre[cle] !== false) delete propre[cle];
+  const tab = Object.fromEntries(Object.entries(propre.tablette ?? {}).filter(([, v]) => v !== undefined && v !== null && v !== ""));
+  if (tab.debut_nuit === 23) delete tab.debut_nuit;
+  if (tab.fin_nuit === 6) delete tab.fin_nuit;
+  if (Object.keys(tab).length) propre.tablette = tab;
+  else delete propre.tablette;
   return propre;
 }
 

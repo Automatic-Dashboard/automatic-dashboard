@@ -4,7 +4,7 @@
 import { aUnBilan } from "../donnees/bilan";
 import type { HomeAssistant } from "../ha";
 import { avecLargeurs } from "../mise-en-page/rangees";
-import type { Entite, Maison, Mode } from "../moteur/types";
+import type { Entite, Maison, Mode, Reglages } from "../moteur/types";
 import { energiesMaison } from "../moteur/valeurs";
 import { estFrancais, nomIntegration, t } from "../outils";
 import { aFonction, type CarteConfig, type SectionConfig, section, THEME, titre, tuile, vue, type VueConfig } from "./configs";
@@ -14,7 +14,7 @@ type AvecReglages = (c: CarteConfig) => CarteConfig;
 /** Les intégrations qui décrivent la machine de Home Assistant elle-même. */
 const MACHINE = new Set(["systemmonitor", "hassio"]);
 
-export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecReglages): VueConfig[] {
+export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecReglages, reglages: Reglages = {}): VueConfig[] {
   const tx = t(hass);
   const fr = estFrancais(hass);
   const vues: VueConfig[] = [];
@@ -62,10 +62,10 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
   // Climat : Héros, confort pièce par pièce, thermostats en grand par deux (en Moyen en mode Complet).
   const piecesTemp = m.pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length);
   if (piecesTemp.length || m.climats.length) {
+    // Les pièces une seule fois : en barres (l'écart au confort) ou en mosaïque colorée, au choix dans les réglages.
+    const parPiece = reglages.pieces === "mosaique" ? "custom:automatic-dashboard-plan" : "custom:automatic-dashboard-confort";
     const scene = [section([heros("climat"),
-      ...(piecesTemp.length >= 2 ? [titre(fr ? "Pièce par pièce" : "Room by room"), avecReglages({ type: "custom:automatic-dashboard-confort" })] : [])])];
-    // La maison en plan, chaque pièce colorée par sa température.
-    if (piecesTemp.length >= 2) scene.push(section([titre(fr ? "La maison en plan" : "Floor plan"), avecReglages({ type: "custom:automatic-dashboard-plan" })]));
+      ...(piecesTemp.length >= 2 ? [titre(fr ? "Pièce par pièce" : "Room by room"), avecReglages({ type: parPiece })] : [])])];
     const thermostats = m.climats.filter((e) => e.domaine === "climate");
     if (thermostats.length) {
       if (m.mode === "complet") {
@@ -82,12 +82,11 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
     const cote: CarteConfig[] = [];
     if (m.meteo) {
       cote.push({ type: "weather-forecast", entity: m.meteo, forecast_type: "daily", show_current: true, show_forecast: true,
-        grid_options: { columns: 12, rows: 4 } });
+        ...(hass.config.location_name ? { name: hass.config.location_name } : {}), grid_options: { columns: 12, rows: 4 } });
     }
     if (m.pieces.some((p) => !p.exterieur && p.humidites.length)) cote.push(apercu("humidite", { columns: 12, rows: 2 }));
-    const pastilles = piecesTemp.slice(0, 12).map((p) => avecReglages({ type: "custom:automatic-dashboard-pastille", sujet: "piece", piece: p.area_id }));
     vues.push(vue({ path: "climat", title: tx.climat, icon: "mdi:thermometer", subview: true, ouverture: ouverture("climat"),
-      badges: pastilles, scene, cote, coteApres: 1 }));
+      scene, cote, coteApres: 1 }));
   }
 
   // Énergie : Héros, appareils avec leur courbe, compteurs ; sur le côté, la répartition et les 7 derniers jours.
@@ -101,11 +100,11 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
     }
     const cote: CarteConfig[] = [];
     if (appareils.length >= 2) {
-      cote.push({ type: "distribution", title: fr ? "Répartition" : "Breakdown", entities: appareils.map((e) => e.id), grid_options: { columns: 12, rows: "auto" } });
+      cote.push(titre(fr ? "Répartition" : "Breakdown"), { type: "distribution", entities: appareils.map((e) => e.id), grid_options: { columns: 12, rows: "auto" } });
     }
     const maison = energiesMaison(hass, m);
     if (maison.length) {
-      cote.push({ type: "statistics-graph", title: fr ? "7 derniers jours" : "Last 7 days", entities: maison, period: "day", days_to_show: 7,
+      cote.push(titre(fr ? "7 derniers jours" : "Last 7 days"), { type: "statistics-graph", entities: maison, period: "day", days_to_show: 7,
         chart_type: "bar", stat_types: ["change"], grid_options: { columns: 12, rows: 4 } });
       cote.push(titre(tx.bilan, bouton(fr ? "Voir" : "See", "mdi:calendar-week", { action: "navigate", navigation_path: "bilan" })));
     }
@@ -125,7 +124,7 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
     ].filter((s): s is SectionConfig => s !== null);
     const suivies = [...m.ouvrants, ...m.alertes, ...m.gardees.filter((e) => e.domaine === "lock" || e.domaine === "alarm_control_panel")].map((e) => e.id);
     const cote: CarteConfig[] = suivies.length
-      ? [{ type: "logbook", target: { entity_id: suivies }, hours_to_show: 24, title: fr ? "Activité" : "Activity", grid_options: { columns: 12, rows: 6 } }] : [];
+      ? [titre(fr ? "Activité" : "Activity"), { type: "logbook", target: { entity_id: suivies }, hours_to_show: 24, grid_options: { columns: 12, rows: 6 } }] : [];
     vues.push(vue({ path: "securite", title: tx.securite, icon: "mdi:shield-home-outline", subview: true, ouverture: ouverture("securite"), scene, cote, coteApres: 1 }));
   }
 
@@ -152,14 +151,14 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
     coteApres: 1 }));
 
   // Le bilan de la semaine : une page à part, annoncée le lundi par un point à regarder.
-  if (aUnBilan(hass, m)) {
+  if (reglages.bilan !== false && aUnBilan(hass, m)) {
     // Sur le côté, le temps long : l'énergie des huit dernières semaines, les températures des sept derniers jours.
     const energies = energiesMaison(hass, m);
     const temperatures = m.temperaturesInterieures.map((c) => c[0]).slice(0, 6);
     const cote: CarteConfig[] = [
-      ...(energies.length ? [{ type: "statistics-graph", title: fr ? "8 dernières semaines" : "Last 8 weeks", entities: energies, period: "week",
+      ...(energies.length ? [titre(fr ? "8 dernières semaines" : "Last 8 weeks"), { type: "statistics-graph", entities: energies, period: "week",
         days_to_show: 56, chart_type: "bar", stat_types: ["change"], grid_options: { columns: 12, rows: 4 } }] : []),
-      ...(temperatures.length ? [{ type: "history-graph", title: fr ? "Températures, 7 jours" : "Temperatures, 7 days", entities: temperatures,
+      ...(temperatures.length ? [titre(fr ? "Températures, 7 jours" : "Temperatures, 7 days"), { type: "history-graph", entities: temperatures,
         hours_to_show: 168, grid_options: { columns: 12, rows: 4 } }] : []),
     ];
     vues.push(vue({ path: "bilan", title: tx.bilan, icon: "mdi:calendar-week", subview: true, ouverture: ouverture("bilan"),
@@ -171,6 +170,61 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
     vues.push(vue({ path: "a-ranger", title: tx.aRanger, icon: "mdi:tray-arrow-down", subview: true, ouverture: ouverture("a-ranger"),
       scene: [section([heros("a-ranger"), avecReglages({ type: "custom:automatic-dashboard-a-ranger" })])] }));
   }
+  // Air : les capteurs de l'air, pièce par pièce, et le CO₂ des dernières 24 heures.
+  if (m.air.length) {
+    const parPiece = [...m.pieces.map((p): [string, Entite[]] => [p.name, m.air.filter((e) => e.piece === p.area_id)]),
+      [fr ? "Sans pièce" : "Without area", m.air.filter((e) => !e.piece)] as [string, Entite[]]];
+    const co2 = m.air.filter((e) => e.classe === "carbon_dioxide").map((e) => e.id).slice(0, 8);
+    vues.push(vue({ path: "air", title: tx.air, icon: "mdi:air-filter", subview: true, ouverture: ouverture("air"),
+      scene: parPiece.map(([nom, l]) => groupe(nom, l, "maison")).filter((s): s is SectionConfig => s !== null),
+      cote: co2.length ? [titre(fr ? "CO₂, 24 heures" : "CO₂, 24 hours"), { type: "history-graph", entities: co2, hours_to_show: 24,
+        grid_options: { columns: 12, rows: 4 } }] : [], coteApres: 1 }));
+  }
+
+  // Véhicule : chaque voiture et chaque borne, avec ses mesures.
+  if (m.vehicules.length) {
+    const parAppareil = new Map<string, Entite[]>();
+    for (const e of m.vehicules) {
+      const cle = e.appareil ?? e.id;
+      if (!parAppareil.has(cle)) parAppareil.set(cle, []);
+      parAppareil.get(cle)!.push(e);
+    }
+    const scene = [...parAppareil].map(([id, l]) => groupe(hass.devices[id]?.name_by_user || hass.devices[id]?.name || tx.vehicule,
+      l.filter((e) => !e.secondaire || e.role === "mesure").slice(0, 12), "maison")).filter((s): s is SectionConfig => s !== null);
+    vues.push(vue({ path: "vehicule", title: tx.vehicule, icon: "mdi:car-electric-outline", subview: true, ouverture: ouverture("vehicule"), scene }));
+  }
+
+  // Extérieur : les pièces du dehors, le portail et le garage, l'arrosage et la piscine, la tondeuse.
+  if (m.exterieur.length >= 3) {
+    const pris = new Set<string>();
+    const prendre = (f: (e: Entite) => boolean) => m.exterieur.filter((e) => !pris.has(e.id) && f(e)).map((e) => (pris.add(e.id), e));
+    const portail = prendre((e) => e.domaine === "cover" && ["gate", "garage"].includes(e.classe ?? ""));
+    const tondeuse = prendre((e) => e.domaine === "lawn_mower");
+    const eau = prendre((e) => e.domaine === "valve" || /arrosage|irrigation|sprinkler|piscine|pool|bassin/i.test(`${e.nomPropre} ${e.etat.attributes.friendly_name ?? ""}`));
+    const jardin = prendre(() => true);
+    const scene = [
+      groupe(fr ? "Le jardin" : "The garden", jardin, "maison"),
+      groupe(fr ? "Portail et garage" : "Gate and garage", portail, "maison"),
+      groupe(fr ? "Arrosage et piscine" : "Watering and pool", eau, "maison"),
+      groupe(fr ? "Tondeuse" : "Mower", tondeuse, "maison"),
+    ].filter((s): s is SectionConfig => s !== null);
+    const cote: CarteConfig[] = m.meteo ? [{ type: "weather-forecast", entity: m.meteo, forecast_type: "hourly", show_current: true, show_forecast: true,
+      ...(hass.config.location_name ? { name: hass.config.location_name } : {}), grid_options: { columns: 12, rows: 4 } }] : [];
+    vues.push(vue({ path: "exterieur", title: tx.exterieur, icon: "mdi:tree-outline", subview: true, ouverture: ouverture("exterieur"), scene, cote, coteApres: 1 }));
+  }
+
+  // Mes favoris : chacun choisit les siens (hors des onglets, ouverte depuis la rangée des favoris).
+  if (m.mode !== "decouverte") {
+    vues.push(vue({ path: "mes-favoris", title: tx.mesFavoris, icon: "mdi:star-outline", subview: true, ouverture: ouverture("mes-favoris"),
+      scene: [section([avecReglages({ type: "custom:automatic-dashboard-mes-favoris" })])] }));
+  }
+
+  // Je pars : ce qui reste ouvert, allumé ou déverrouillé, avec un bouton par geste.
+  if (m.mode !== "decouverte" && (m.lumieres.length || m.securite.length)) {
+    vues.push(vue({ path: "depart", title: tx.jePars, icon: "mdi:exit-run", subview: true, ouverture: ouverture("depart"),
+      scene: [section([avecReglages({ type: "custom:automatic-dashboard-depart" })])] }));
+  }
+
   // La tablette murale : une page pleine (vue « panel »), hors des onglets, à ouvrir sur la tablette.
   vues.push({ path: "tablette", title: fr ? "Tablette murale" : "Wall tablet", icon: "mdi:tablet-dashboard", type: "panel", subview: true,
     theme: THEME, cards: [avecReglages({ type: "custom:automatic-dashboard-tablette" })] } as unknown as VueConfig);

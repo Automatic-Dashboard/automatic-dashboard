@@ -3,6 +3,7 @@
 
 import type { HomeAssistant } from "./ha";
 import { bilanAbsence, estAbsent } from "./moteur/absence";
+import { conseils } from "./moteur/conseils";
 import { pointsVisibles } from "./moteur/points";
 import type { Maison, Piece } from "./moteur/types";
 import { lirePluie } from "./moteur/meteo-france";
@@ -15,9 +16,9 @@ export interface Phrase {
   point: string;
 }
 
-const VERT = "var(--automatic-dashboard-vert)";
+const VERT = "var(--automatic-dashboard-vert, var(--success-color, #1E6B47))";
 const ORANGE = "var(--warning-color)";
-const ROUGE = "var(--automatic-dashboard-alerte)";
+const ROUGE = "var(--automatic-dashboard-alerte, var(--error-color, #B42318))";
 const BLEU = "var(--primary-color)";
 
 /**
@@ -153,4 +154,22 @@ export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phra
     };
   }
   return { phrase: "", point: BLEU };
+}
+
+/** « L'air est bon partout. », ou le conseil le plus pressant. */
+export function phraseAir(hass: HomeAssistant, m: Maison): Phrase {
+  const tx = t(hass);
+  const avis = conseils(hass, m).points.filter((p) => p.cle.startsWith("air:")).sort((a, b) => b.niveau - a.niveau);
+  return avis.length ? { phrase: `${avis[0].titre} : ${avis[0].detail}`, point: avis[0].niveau >= 2 ? ORANGE : BLEU } : { phrase: tx.airBon, point: VERT };
+}
+
+/** « Batterie à 80 %, en charge. » */
+export function phraseVehicule(hass: HomeAssistant, m: Maison): Phrase {
+  const tx = t(hass);
+  const batterie = m.vehicules.find((e) => e.classe === "battery" && e.domaine === "sensor");
+  const charge = m.vehicules.find((e) => e.classe === "battery_charging" || (e.domaine === "binary_sensor" && e.classe === "plug"));
+  const v = batterie ? Number.parseFloat(hass.states[batterie.id]?.state ?? "") : Number.NaN;
+  const enCharge = charge ? hass.states[charge.id]?.state === "on" : false;
+  if (Number.isNaN(v)) return { phrase: tx.vehiculeSansBatterie, point: BLEU };
+  return { phrase: tx.vehiculeBatterie(nombre(hass, v, 0), enCharge), point: v < 20 ? ORANGE : VERT };
 }

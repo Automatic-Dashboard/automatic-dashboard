@@ -12,11 +12,13 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 from homeassistant.core import HomeAssistant, ServiceCall
+from homeassistant.exceptions import Unauthorized
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers import label_registry as lr
 from homeassistant.loader import async_get_integration
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 
+from custom_components.automatic_dashboard import ws_a_faire, ws_fait
 from custom_components.automatic_dashboard.const import (
     DOMAIN,
     ETIQUETTES,
@@ -188,3 +190,39 @@ async def test_une_etiquette_du_meme_nom_nest_pas_dupliquee(maison: HomeAssistan
     await installer(maison)
     noms = [e.name for e in lr.async_get(maison).async_list_labels()]
     assert noms.count("Automatic Dashboard: hide") == 1
+
+
+def commande(hass: HomeAssistant, fonction, admin: bool = True) -> MagicMock:
+    """Appelle une commande WebSocket de l'intégration, comme le ferait l'interface."""
+    connexion = MagicMock(user=MagicMock(is_admin=admin))
+    fonction(hass, connexion, {"id": 1, "type": "automatic_dashboard/essai"})
+    return connexion
+
+
+async def test_le_premier_tableau_est_cree_une_seule_fois(maison: HomeAssistant) -> None:
+    themes_lus(maison, avec_la_ligne=True)
+    entree = MockConfigEntry(
+        domain=DOMAIN, title="Automatic Dashboard", data={"creer_tableau": True, "par_defaut": True}
+    )
+    entree.add_to_hass(maison)
+    with patch("custom_components.automatic_dashboard.add_extra_js_url"):
+        assert await maison.config_entries.async_setup(entree.entry_id)
+        await maison.async_block_till_done()
+
+    commande(maison, ws_a_faire).send_result.assert_called_once_with(1, {"creer": True, "par_defaut": True})
+    commande(maison, ws_fait).send_result.assert_called_once_with(1)
+    commande(maison, ws_a_faire).send_result.assert_called_once_with(1, {"creer": False, "par_defaut": True})
+    assert entree.data["tableau_cree"] is True
+
+
+async def test_sans_la_case_rien_n_est_cree(maison: HomeAssistant) -> None:
+    themes_lus(maison, avec_la_ligne=True)
+    await installer(maison)
+    commande(maison, ws_a_faire).send_result.assert_called_once_with(1, {"creer": False, "par_defaut": False})
+
+
+async def test_seul_un_administrateur_peut_creer_le_tableau(maison: HomeAssistant) -> None:
+    themes_lus(maison, avec_la_ligne=True)
+    await installer(maison)
+    with pytest.raises(Unauthorized):
+        commande(maison, ws_a_faire, admin=False)

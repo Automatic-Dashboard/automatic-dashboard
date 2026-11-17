@@ -60,8 +60,19 @@ export interface Signalement {
   verdict: { ecart: string | null; role: string | null; section: string | null; piece: string | null; aRanger: boolean };
 }
 
+/** Ce que l'utilisateur attendait, choisi dans l'éditeur : « Il devrait être… ». */
+export type Attente = "" | "cache" | "visible" | `piece:${string}` | `section:${string}`;
+
+/** Ce qu'un cas de test vérifie pour une entité (tests/cas). */
+export type AttenduEntite = Partial<{ ecart: string | null; ecartee: boolean; role: string | null; section: string | null; piece: string | null; aRanger: boolean }>;
+
 export interface Diagnostic {
   diagnostic: number;
+  /** Le titre du cas de test, à compléter : ce qui était faux. */
+  titre: string;
+  ticket: string | null;
+  /** Ce que l'utilisateur attendait : avec lui, le diagnostic est déjà un cas de test. */
+  attendu: { entites: Record<string, AttenduEntite> };
   version: string;
   home_assistant: string | null;
   langue: string;
@@ -83,7 +94,7 @@ export function verdict(e: Entite | undefined, aRanger: Set<string>, piece: (id:
  * Décrit la maison sans noms ni valeurs.
  * `cibles` : les entités que l'utilisateur signale (mal rangées, absentes, en trop).
  */
-export function diagnostiquer(hass: HomeAssistant, reglages: Reglages = {}, cibles: string[] = []): Diagnostic {
+export function diagnostiquer(hass: HomeAssistant, reglages: Reglages = {}, cibles: string[] = [], attentes: Record<string, Attente> = {}): Diagnostic {
   const numero = new Map<string, number>();
   const compteur = (prefixe: string) => {
     const n = (numero.get(prefixe) ?? 0) + 1;
@@ -166,8 +177,21 @@ export function diagnostiquer(hass: HomeAssistant, reglages: Reglages = {}, cibl
   const parId = new Map(m.toutes.map((e) => [e.id, e]));
   const aRanger = new Set(m.aRanger.map((e) => e.id));
   const ids = (liste?: string[]) => liste?.filter((id) => hass.states[id]).map((id) => entiteId(id)!);
+  // « Il devrait être… », traduit en ce que le cas de test vérifiera.
+  const attendu: Record<string, AttenduEntite> = {};
+  for (const id of cibles) {
+    const a = attentes[id];
+    if (!a || !entites.has(id)) continue;
+    if (a === "cache") attendu[entiteId(id)!] = { ecartee: true };
+    else if (a === "visible") attendu[entiteId(id)!] = { ecart: null };
+    else if (a.startsWith("piece:")) attendu[entiteId(id)!] = { ecart: null, piece: pieceId(a.slice(6)) };
+    else if (a.startsWith("section:")) attendu[entiteId(id)!] = { ecart: null, section: a.slice(8) };
+  }
   return {
     diagnostic: FORMAT_DIAGNOSTIC,
+    titre: "",
+    ticket: null,
+    attendu: { entites: attendu },
     version: __VERSION__,
     home_assistant: hass.config?.version ?? null,
     langue: (hass.locale?.language || hass.language || "").slice(0, 2),
@@ -189,8 +213,27 @@ export function diagnostiquer(hass: HomeAssistant, reglages: Reglages = {}, cibl
   };
 }
 
-/** Le texte à joindre au ticket : du JSON lisible, pour que chacun voie ce qu'il envoie. */
-export const texteDiagnostic = (d: Diagnostic): string => `${JSON.stringify(d, null, 1)}\n`;
+/**
+ * Le texte à joindre au ticket : du JSON, compact pour tenir dans un ticket. La maison perd
+ * ce qui ne dit rien (valeurs nulles ou fausses, listes vides, noms de remplacement).
+ */
+export function texteDiagnostic(d: Diagnostic): string {
+  const alleger = (valeur: unknown): unknown => {
+    if (Array.isArray(valeur)) return valeur.map((v) => alleger(v));
+    if (valeur && typeof valeur === "object") {
+      const propre: Record<string, unknown> = {};
+      for (const [k, v] of Object.entries(valeur)) {
+        if (v === null || v === undefined || v === false || (Array.isArray(v) && !v.length)) continue;
+        // « nom » remplace un nom d'habitant : les règles n'y lisent rien.
+        if (k === "friendly_name" && v === "nom") continue;
+        propre[k] = alleger(v);
+      }
+      return propre;
+    }
+    return valeur;
+  };
+  return `${JSON.stringify({ ...d, maison: alleger(d.maison) })}\n`;
+}
 
 /** Copie un texte, même hors HTTPS (Home Assistant est souvent servi en http sur le réseau local). */
 export async function copier(texte: string, racine: Node = document.body): Promise<boolean> {

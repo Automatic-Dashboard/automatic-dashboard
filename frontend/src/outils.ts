@@ -11,8 +11,11 @@ export const mh = (hass?: HomeAssistant) => (estFrancais(hass) ? MOTS_HEROS.fr :
 export const nombre = (hass: HomeAssistant | undefined, v: number, chiffres = 1): string =>
   new Intl.NumberFormat(hass?.locale?.language || "fr", { maximumFractionDigits: chiffres, minimumFractionDigits: chiffres }).format(v);
 export const degres = (hass: HomeAssistant | undefined, v: number): string => `${nombre(hass, v, 1)}°`;
+/** « 7 h 34 » en français, « 7:34 AM » ou « 07:34 » selon la langue anglaise choisie. */
 export const heure = (hass: HomeAssistant | undefined, date: Date): string =>
-  new Intl.DateTimeFormat(hass?.locale?.language || "fr", { hour: "2-digit", minute: "2-digit" }).format(date);
+  estFrancais(hass)
+    ? `${date.getHours()} h ${String(date.getMinutes()).padStart(2, "0")}`
+    : new Intl.DateTimeFormat(hass?.locale?.language || "en", { hour: "numeric", minute: "2-digit" }).format(date);
 export const majuscule = (s: string): string => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 export const valide = (etat?: EtatHA): etat is EtatHA => Boolean(etat) && !["unknown", "unavailable"].includes(etat!.state);
 

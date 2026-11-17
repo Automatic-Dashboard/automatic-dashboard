@@ -151,3 +151,30 @@ describe("les noms dans les cartes Automatic Dashboard", () => {
     expect(nomCourt(h, "light.kitchen_lights", m.noms)).not.toBe("");
   });
 });
+
+describe("les favoris proposés par Home Assistant", () => {
+  it("ne gardent que ce qui se commande : ni la météo, ni un capteur", async () => {
+    const { favorisAutomatiques } = await import("../src/strategie/accueil");
+    const { analyser } = await import("../src/moteur/analyser");
+    const h = structuredClone(famille) as any;
+    const meteo = Object.keys(h.states).find((id: string) => id.startsWith("weather."))!;
+    const lampe = Object.keys(h.states).find((id: string) => id.startsWith("light."))!;
+    const capteur = Object.keys(h.entities).find((id: string) => id.startsWith("sensor.") && h.states[id])!;
+    h.callWS = async () => ({ entities: [meteo, capteur, lampe] });
+    expect(await favorisAutomatiques(h, analyser(h))).toEqual([lampe]);
+  });
+});
+
+describe("quand la prédiction ne propose rien qui se commande", () => {
+  it("une lumière par pièce de vie la remplace, plutôt qu'une rangée vide", async () => {
+    const { favorisAutomatiques } = await import("../src/strategie/accueil");
+    const { analyser } = await import("../src/moteur/analyser");
+    const h = structuredClone(famille) as any;
+    const meteo = Object.keys(h.states).find((id: string) => id.startsWith("weather."))!;
+    h.callWS = async () => ({ entities: [meteo] });
+    const favoris = await favorisAutomatiques(h, analyser(h));
+    expect(favoris.length).toBeGreaterThan(0);
+    expect(favoris.every((id: string) => /^(light|climate|water_heater|humidifier)\./.test(id))).toBe(true);
+  });
+});
+

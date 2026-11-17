@@ -153,8 +153,11 @@ async def main() -> None:
             f"{BASE}/api/config/config_entries/flow", json={"handler": "automatic_dashboard"}, headers=entetes
         ) as r:
             flux = await r.json()
+        # Le tableau d'essai est créé plus bas, à son adresse : l'intégration n'en crée pas d'autre.
         async with session.post(
-            f"{BASE}/api/config/config_entries/flow/{flux['flow_id']}", json={}, headers=entetes
+            f"{BASE}/api/config/config_entries/flow/{flux['flow_id']}",
+            json={"creer_tableau": False, "par_defaut": False},
+            headers=entetes,
         ) as r:
             fin = await r.json()
 

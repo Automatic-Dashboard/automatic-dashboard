@@ -3,7 +3,15 @@
     "step": {
       "user": {
         "title": "Automatic Dashboard",
-        "description": "Adds Automatic Dashboard and its theme. Next: Settings, Dashboards, Add dashboard, Automatic Dashboard."
+        "description": "Adds Automatic Dashboard and its theme. The dashboard builds itself from your devices, rooms and floors.",
+        "data": {
+          "creer_tableau": "Create the Automatic Dashboard dashboard",
+          "par_defaut": "Make it the default dashboard for everyone"
+        },
+        "data_description": {
+          "creer_tableau": "It appears in the sidebar as soon as Home Assistant is reloaded.",
+          "par_defaut": "Everyone lands on it when opening Home Assistant. You can change it later in Settings, Dashboards."
+        }
       }
     },
     "abort": {

@@ -1,6 +1,7 @@
-// La maison en plan : chaque pièce est un bloc coloré par sa température, étage par étage
-// (le plus haut en haut, comme sur un plan en coupe). La taille d'un bloc suit le nombre
-// d'appareils de la pièce ; un clic ouvre sa page.
+// Les pièces en mosaïque : chaque pièce est un bloc coloré par sa température, étage par
+// étage (le plus haut en haut). Les rangées sont toujours pleines : les blocs s'étirent, les
+// grandes pièces un peu plus. Du bleu au sable puis à l'orange, lisible par les daltoniens,
+// et le chiffre est toujours écrit. Un clic ouvre la pièce.
 
 import { css, html, nothing, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
@@ -11,7 +12,7 @@ import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
 /** Du froid au chaud : les paliers de couleur d'une pièce. */
-export const PALIERS: [number, string][] = [[17, "#4F8FD9"], [19, "#5FB3D6"], [22, "#5DB88A"], [24, "#E9A23B"], [Infinity, "#D9614F"]];
+export const PALIERS: [number, string][] = [[17, "#3E6FB0"], [19, "#7BA7D1"], [22, "#CDBB8F"], [24, "#E9A23B"], [Infinity, "#C8613A"]];
 export const couleurTemperature = (t: number | null): string | null => (t === null ? null : PALIERS.find(([seuil]) => t < seuil)![1]);
 
 export class AutomaticPlan extends CarteAutomatic {
@@ -20,21 +21,20 @@ export class AutomaticPlan extends CarteAutomatic {
     .etage{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:stretch}
     .etage > .sur{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:10.5px;padding:4px 0}
     .sans-etage{grid-template-columns:1fr}
-    /* Une mosaïque : les grandes pièces prennent deux colonnes (et deux rangées pour les plus grandes), les petites comblent les trous. */
-    .pieces{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));grid-auto-rows:84px;grid-auto-flow:dense;gap:6px}
-    .piece{display:flex;flex-direction:column;justify-content:space-between;min-width:0;padding:10px 12px;border-radius:12px;
-      box-sizing:border-box;text-align:left;background:color-mix(in srgb, var(--c, #888) 26%, var(--card-background-color, #fff));
-      border:1px solid color-mix(in srgb, var(--c, #888) 45%, transparent);transition:transform .12s}
+    .pieces{display:flex;flex-wrap:wrap;gap:6px}
+    .piece{display:flex;flex-direction:column;justify-content:space-between;min-width:86px;height:84px;padding:10px 12px;border-radius:12px;
+      box-sizing:border-box;text-align:left;background:color-mix(in srgb, var(--c, #888) 30%, var(--card-background-color, #fff));
+      border:1px solid color-mix(in srgb, var(--c, #888) 50%, transparent);transition:transform .12s}
     .piece:hover{transform:translateY(-1px)}
     .piece.inconnue{--c:var(--secondary-text-color);background:transparent;border-style:dashed}
     .piece.dehors{background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--c, #888) 18%, transparent) 0 6px, transparent 6px 12px);border-style:dashed}
     .nom{font-size:13px;font-weight:650;color:var(--primary-text-color);line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
     .bas{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
-    .temp{font-size:22px;font-weight:700;letter-spacing:-.02em;color:color-mix(in srgb, var(--c, #888) 70%, var(--primary-text-color))}
+    .temp{font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--primary-text-color)}
     .hum{font-size:12px;font-weight:600;color:var(--secondary-text-color)}
     .legende{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--secondary-text-color);font-variant-numeric:tabular-nums}
     .legende span.degrade{flex:1;max-width:220px;height:6px;border-radius:3px;
-      background:linear-gradient(90deg, #4F8FD9, #5FB3D6 30%, #5DB88A 55%, #E9A23B 78%, #D9614F)}
+      background:linear-gradient(90deg, #3E6FB0, #7BA7D1 25%, #CDBB8F 50%, #E9A23B 75%, #C8613A)}
     @media (prefers-reduced-motion: reduce){ .piece{transition:none} }
   `];
 
@@ -68,10 +68,9 @@ export class AutomaticPlan extends CarteAutomatic {
     const h = premiereValeur(hass, p.humidites);
     const couleur = couleurTemperature(t);
     // Une pièce pèse selon ses appareils : le salon est plus grand que les toilettes.
-    const colonnes = p.utiles >= 5 ? 2 : 1;
-    const rangees = p.utiles >= 12 ? 2 : 1;
+    const poids = 1 + Math.min(1, p.utiles / 8);
     const classes = ["piece", couleur ? "" : "inconnue", p.exterieur ? "dehors" : ""].join(" ");
-    return html`<button class=${classes} style=${`grid-column:span ${colonnes};grid-row:span ${rangees};${couleur ? `--c:${couleur}` : ""}`}
+    return html`<button class=${classes} style=${`flex:${poids} 1 ${Math.round(86 * poids)}px;${couleur ? `--c:${couleur}` : ""}`}
       title=${p.name} @click=${() => p.entites.length && naviguer(p.area_id)}>
       <span class="nom">${p.name}</span>
       <span class="bas"><span class="temp chiffre">${t === null ? "—" : degres(hass, t)}</span>

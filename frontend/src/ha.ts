@@ -81,6 +81,7 @@ export interface HomeAssistant extends Instantane {
   themes?: { darkMode?: boolean; theme?: string };
   panels?: Record<string, unknown>;
   callWS<T = any>(message: Record<string, unknown>): Promise<T>;
+  connection?: unknown;
   callService?: (domaine: string, service: string, donnees?: Record<string, unknown>) => Promise<unknown>;
   localize?: (cle: string) => string;
   formatEntityState?: (etat: EtatHA) => string;

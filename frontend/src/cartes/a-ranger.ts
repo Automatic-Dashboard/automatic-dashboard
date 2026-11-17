@@ -62,6 +62,8 @@ export class AutomaticARanger extends CarteAutomatic {
     .proposer:disabled{opacity:.5;cursor:default}
     .proposer ha-icon{--mdc-icon-size:18px}
     .choisir.discret{font-weight:600;color:var(--secondary-text-color)}
+    .indice{font-size:13.5px;font-weight:600;color:var(--secondary-text-color);padding:0 4px}
+    .note{margin:6px 0 4px;padding-top:10px;border-top:1px solid var(--divider-color);font-size:13px;color:var(--secondary-text-color)}
     .range{display:flex;align-items:center;gap:10px;margin:8px 0 2px;padding:10px 12px;border-radius:12px;font-size:14px;
       background:color-mix(in srgb, var(--success-color, #2e7d32) 11%, transparent);color:var(--primary-text-color)}
     .range > ha-icon{--mdc-icon-size:20px;color:var(--success-color, #2e7d32);flex:none}
@@ -90,6 +92,7 @@ export class AutomaticARanger extends CarteAutomatic {
     }
     const nbEntites = (deviceId: string) => Object.values(hass.entities).filter((x) => x.device_id === deviceId && !x.hidden).length;
     const contenu: TemplateResult[] = [];
+    let proposeesSansDroit = 0;
     for (const [plateforme, liste] of groupes) {
       const titre = nomIntegration(hass, plateforme);
       contenu.push(html`<div class="groupe">${titre}</div>`);
@@ -98,17 +101,19 @@ export class AutomaticARanger extends CarteAutomatic {
         const nom = m.noms[e.id] || appareil?.name_by_user || appareil?.name || e.etat.attributes.friendly_name;
         const n = appareil ? nbEntites(e.appareil!) : 1;
         const detail = appareil ? (fr ? `${n} entité${n > 1 ? "s" : ""}` : `${n} entit${n > 1 ? "ies" : "y"}`) : (fr ? "sans appareil" : "no device");
-        // Seul un administrateur peut changer la pièce d'un appareil.
-        const proposee = admin ? m.pieces.find((p) => p.area_id === m.propositions[e.id]) : undefined;
+        // Seul un administrateur peut changer la pièce d'un appareil ; les autres voient la proposition.
+        const proposee = m.pieces.find((p) => p.area_id === m.propositions[e.id]);
+        if (proposee && !admin) proposeesSansDroit++;
         contenu.push(html`<div class="ligne"><span class="ico"><ha-icon icon=${ICONES_DOMAINES[e.domaine] || "mdi:devices"}></ha-icon></span>
           <span class="nom">${nom}<small>${detail}</small></span>
           <span class="actions">
-            ${proposee
+            ${proposee && !admin ? html`<span class="indice">${proposee.name} ?</span>` : nothing}
+            ${proposee && admin
               ? html`<button class="proposer" ?disabled=${this._enCours === e.id} @click=${() => this.ranger(e, String(nom), proposee.area_id)}
                   title=${fr ? `Ranger dans ${proposee.name}` : `Put in ${proposee.name}`}><ha-icon icon=${proposee.icon}></ha-icon>${proposee.name} ?</button>`
               : nothing}
-            <button class=${proposee ? "choisir discret" : "choisir"} @click=${() => this.choisir(e)}>
-              ${proposee ? (fr ? "Autre" : "Other") : fr ? "Choisir" : "Choose"}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
+            <button class=${proposee && admin ? "choisir discret" : "choisir"} @click=${() => this.choisir(e)}>
+              ${proposee && admin ? (fr ? "Autre" : "Other") : fr ? "Choisir" : "Choose"}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
           </span></div>`);
       }
     }
@@ -118,7 +123,10 @@ export class AutomaticARanger extends CarteAutomatic {
         <span>${fr ? `${r.nom} : rangé dans ${piece}.` : `${r.nom}: put in ${piece}.`}</span>
         <button @click=${() => this.annuler(r)}>${fr ? "Annuler" : "Undo"}</button></div>`;
     });
-    return html`<ha-card>${confirmations}${contenu}</ha-card>`;
+    const note = proposeesSansDroit
+      ? html`<p class="note">${fr ? "Un administrateur peut ranger ces appareils en un clic, dans la pièce proposée." : "An administrator can put these devices in the suggested room in one click."}</p>`
+      : nothing;
+    return html`<ha-card>${confirmations}${contenu}${note}</ha-card>`;
   }
 
   /** Range l'appareil (ou l'entité seule) dans la pièce proposée. */

@@ -3,7 +3,8 @@
 // dépasse un seuil de bon sens (CO₂, humidité). Chaque conseil est un point à regarder.
 
 import type { HomeAssistant } from "../ha";
-import { estFrancais, nombre, nomCourt, t } from "../outils";
+import { degres, estFrancais, majuscule, nombre, nomCourt, t } from "../outils";
+import { premiereValeur, temperatureDehors } from "./valeurs";
 import type { Point } from "./points";
 import type { Entite, Maison } from "./types";
 
@@ -15,11 +16,19 @@ export const HUMIDITE_AERER = 80;
 
 // Le nom commun en tête du nom donne l'article : « Chambre de Léa » → « la chambre de Léa ».
 const NOMS_FR: [RegExp, string][] = [
-  [/^(chambre|cuisine|salle|buanderie|cave|mezzanine|v(é|e)randa|terrasse|piscine|fen(ê|e)tre|porte|baie|lucarne|trappe)\b/i, "la "],
-  [/^(salon|bureau|s(é|e)jour|couloir|garage|grenier|cellier|dressing|hall|palier|jardin|balcon|patio|velux|portail|volet|garde-manger|wc)\b/i, "le "],
+  [/^(chambre|cuisine|salle|buanderie|cave|mezzanine|v(é|e)randa|terrasse|piscine|fen(ê|e)tre|porte|baie|lucarne|trappe|machine)\b/i, "la "],
+  [/^(salon|bureau|s(é|e)jour|couloir|garage|grenier|cellier|dressing|hall|palier|jardin|balcon|patio|velux|portail|volet|garde-manger|wc|lave-linge|lave-vaisselle|s(è|e)che-linge|four)\b/i, "le "],
   [/^(entr(é|e)e|(é|e)tage|atelier|abri|escalier)\b/i, "l'"],
 ];
-const NOMS_EN = /^(bedroom|kitchen|living|bathroom|office|hall|hallway|garage|attic|basement|cellar|laundry|dining|nursery|guest|master|kids?|window|door|patio|garden|terrace|balcony)\b/i;
+const NOMS_EN = /^(bedroom|kitchen|living|bathroom|office|hall|hallway|garage|attic|basement|cellar|laundry|dining|nursery|guest|master|kids?|window|door|patio|garden|terrace|balcony|washer|washing|dryer|dishwasher|oven)\b/i;
+
+/** Ce qui ressemble à une machine dont on attend la fin. */
+const MACHINES = /lave-linge|lave-vaisselle|s(è|e)che-linge|machine (à|a) laver|washer|washing machine|dryer|dishwasher/i;
+/** Au-delà, une machine finie n'est plus une nouvelle. */
+const MACHINE_FINIE_DEPUIS = 2 * 3600000;
+/** Il fait chaud : au-delà, dehors et dedans, on garde la fraîcheur. */
+export const CHAUD_DEHORS = 25;
+export const CHAUD_DEDANS = 24;
 
 /**
  * « la chambre de Léa », « l'entrée », « the bedroom » ; null si le nom n'est pas un nom
@@ -81,6 +90,44 @@ export function conseils(hass: HomeAssistant, m: Maison): { points: Point[]; rem
       points.push({ cle: `air:${p.area_id}`, niveau: 1, icone: "mdi:water-percent", conseil: true,
         titre: aerer, detail: tx.humidite(nombre(hass, humidite[1], 0)), entite: humidite[0] });
     }
+  }
+  // 3. Selon la saison : fermer les volets quand il fait chaud dehors, ouvrir quand il fait plus frais dehors.
+  const dehors = temperatureDehors(hass, m);
+  const soleilLeve = hass.states["sun.sun"]?.state === "above_horizon";
+  const heureNow = new Date().getHours();
+  let fraicheurProposee = false;
+  for (const p of m.pieces.filter((x) => !x.exterieur && !x.annexe)) {
+    const dedans = premiereValeur(hass, p.temperatures);
+    if (dehors === null || dedans === null) continue;
+    const voletsOuverts = p.entites.filter((e) => e.domaine === "cover" && !["garage", "gate", "door"].includes(e.classe ?? "")
+      && etat(e.id)?.state === "open");
+    const article = avecArticle(p.name, fr);
+    if (soleilLeve && dehors >= CHAUD_DEHORS && dedans >= CHAUD_DEDANS && voletsOuverts.length) {
+      points.push({ cle: `volets:${p.area_id}`, niveau: 1, icone: "mdi:weather-sunny-alert", conseil: true,
+        titre: article ? tx.fermerVolets(article) : `${tx.fermerVoletsSans} : ${p.name}`,
+        detail: tx.chaleur(degres(hass, dehors), degres(hass, dedans)), entite: voletsOuverts[0].id });
+    } else if (!fraicheurProposee && dedans >= CHAUD_DEDANS && dehors <= dedans - 2 && (heureNow >= 18 || heureNow < 10)
+      && !m.ouvrants.some((o) => o.piece === p.area_id && etat(o.id)?.state === "on")) {
+      fraicheurProposee = true;
+      points.push({ cle: "fraicheur", niveau: 1, icone: "mdi:weather-windy", conseil: true, titre: tx.ouvrirFrais,
+        detail: tx.fraisDehors(degres(hass, dehors), degres(hass, dedans)) });
+    }
+  }
+
+  // 4. Une machine qui vient de finir : « Le lave-linge est fini depuis 20 min ».
+  const maintenant = Date.now();
+  for (const e of m.gardees.filter((x) => x.domaine === "binary_sensor" && x.classe === "running")) {
+    const s = etat(e.id);
+    const nom = nomCourt(hass, e.id, m.noms);
+    const appareil = e.appareil ? hass.devices[e.appareil] : undefined;
+    const nomAppareil = appareil?.name_by_user || appareil?.name || nom;
+    if (s?.state !== "off" || !s.last_changed || !MACHINES.test(`${nom} ${nomAppareil}`)) continue;
+    const depuis = maintenant - new Date(s.last_changed).getTime();
+    if (depuis < 0 || depuis > MACHINE_FINIE_DEPUIS) continue;
+    const article = avecArticle(nomAppareil, fr);
+    points.push({ cle: `machine:${e.id}`, niveau: 1, icone: "mdi:washing-machine", conseil: true,
+      titre: article ? tx.machineFinie(majuscule(article)) : `${tx.machineFinieSans} : ${nomAppareil}`,
+      detail: tx.depuis(Math.max(1, Math.round(depuis / 60000))), entite: e.id });
   }
   return { points, remplaces };
 }

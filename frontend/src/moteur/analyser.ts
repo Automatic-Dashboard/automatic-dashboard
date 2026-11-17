@@ -3,8 +3,9 @@
 // fictives ; la version mémorisée ne recalcule que si un registre a changé.
 
 import type { Instantane } from "../ha";
+import { reglagesEnergie } from "../donnees/energie";
 import { proposerPiece } from "./ranger";
-import { PIECES_ANNEXES, PIECES_EXTERIEURES, PLATEFORMES_OFFICE, classeDe, iconePiece, juger, porte } from "./regles";
+import { AIR, NOM_EXTERIEUR, PIECES_ANNEXES, PIECES_EXTERIEURES, PLATEFORMES_OFFICE, PLATEFORMES_VEHICULE, classeDe, iconePiece, juger, porte } from "./regles";
 import type { Entite, Maison, Mode, Piece, Reglages } from "./types";
 
 const ROLES_UTILES = new Set(["commande", "ouvrant", "alerte", "camera", "mesure", "energie"]);
@@ -145,8 +146,16 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
   });
   const energie = parRole("energie");
 
+  // Les pages Air, Véhicule et Extérieur : seulement si la maison a de quoi les remplir.
+  const air = gardees.filter((e) => e.domaine === "sensor" && e.classe && AIR.has(e.classe));
+  const vehicules = gardees.filter((e) => PLATEFORMES_VEHICULE.has(e.plateforme) && e.role !== null && e.role !== "maintenance");
+  const piecesDehors = new Set(pieces.filter((p) => p.exterieur).map((p) => p.area_id));
+  const exterieur = gardees.filter((e) => e.role !== null && e.role !== "maintenance" && e.role !== "systeme" && e.role !== "meteo"
+    && ((e.piece && piecesDehors.has(e.piece)) || ["lawn_mower", "valve"].includes(e.domaine)
+      || (e.domaine === "cover" && ["gate", "garage"].includes(e.classe ?? ""))
+      || NOM_EXTERIEUR.test(`${e.nomPropre} ${e.etat.attributes.friendly_name ?? ""}`)));
   return {
-    toutes, gardees, utiles, pieces, etages, mode, compteurs: { U, D, P, T }, favorisEtiquette,
+    toutes, gardees, utiles, pieces, etages, mode, compteurs: { U, D, P, T }, favorisEtiquette, reglages, air, vehicules, exterieur,
     meteo: meteos[0]?.id ?? null,
     // Repérés par leur identifiant, pas par leur état : un capteur indisponible au moment du tri doit rester choisi.
     // La pluie est un capteur d'horodatage, écarté du tri comme technique : on la cherche dans toutes les entités.
@@ -186,6 +195,9 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
 
 /** Puissance de toute la maison : celle du compteur, jamais la somme des prises (double compte). */
 export function choisirReseau(energie: Entite[]): string | null {
+  // La puissance déclarée dans les réglages Énergie de Home Assistant l'emporte.
+  const declaree = reglagesEnergie()?.puissance.find((id) => energie.some((e) => e.id === id));
+  if (declaree) return declaree;
   const puissances = energie.filter((e) => e.classe === "power" || e.classe === "apparent_power");
   const compteur = puissances.find((e) => e.classe === "apparent_power"
     || /linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home/i.test(e.etat.attributes.friendly_name ?? ""));
@@ -196,8 +208,7 @@ let memoire: { cle: unknown[]; resultat: Maison } | null = null;
 
 /** Version mémorisée : ne recalcule que si un registre ou un réglage a changé (les états ne changent pas le tri). */
 export function analyserMemo(maison: Instantane, reglages: Reglages = {}): Maison {
-  const cle = [maison.entities, maison.devices, maison.areas, maison.floors, reglages.mode, (reglages.masquer ?? []).join(),
-    JSON.stringify(reglages.noms ?? {})];
+  const cle = [maison.entities, maison.devices, maison.areas, maison.floors, JSON.stringify(reglages)];
   if (memoire && cle.every((v, i) => v === memoire!.cle[i])) return memoire.resultat;
   const resultat = analyser(maison, reglages);
   memoire = { cle, resultat };

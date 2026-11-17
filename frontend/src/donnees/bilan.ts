@@ -1,8 +1,10 @@
-// Le bilan de la semaine : l'énergie jour par jour (et la semaine d'avant), les températures
-// dedans et dehors, et ce qui s'est ouvert. Calculé sur la dernière semaine entière, du lundi
-// au dimanche, par les statistiques et l'historique de Home Assistant. Gardé une heure.
+// Le bilan de la semaine ou du mois : l'énergie jour par jour (comparée à la période d'avant,
+// et son coût si les réglages Énergie de Home Assistant ont un prix), les températures dedans
+// et dehors, et ce qui s'est ouvert. Calculé sur la dernière période entière (du lundi au
+// dimanche, ou le mois civil), par les statistiques et l'historique. Gardé une heure.
 
 import type { HomeAssistant } from "../ha";
+import { reglagesEnergie } from "./energie";
 import type { Maison } from "../moteur/types";
 import { energiesMaison } from "../moteur/valeurs";
 
@@ -14,11 +16,14 @@ export interface Plage {
   max: number;
 }
 
+export type Periode = "semaine" | "mois";
+
 export interface Bilan {
+  periode: Periode;
   debut: Date;
-  /** Le lundi suivant, à minuit (exclu). */
+  /** Le début de la période suivante, à minuit (exclu). */
   fin: Date;
-  energie: { jours: (number | null)[]; total: number; precedent: number | null } | null;
+  energie: { jours: (number | null)[]; total: number; precedent: number | null; cout: number | null; coutPrecedent: number | null } | null;
   dedans: Plage | null;
   dehors: Plage | null;
   ouvertures: { total: number; parEntite: [string, number][] } | null;
@@ -37,6 +42,19 @@ export function semainePassee(maintenant = new Date()): { debut: Date; fin: Date
 }
 
 const ms = (t: number | string) => (typeof t === "string" ? Date.parse(t) : t > 1e12 ? t : t * 1000);
+
+/** Le dernier mois civil entier, et le mois d'avant pour comparer. */
+export function moisPasse(maintenant = new Date()): { debut: Date; fin: Date; avant: Date } {
+  const fin = new Date(maintenant.getFullYear(), maintenant.getMonth(), 1);
+  const debut = new Date(maintenant.getFullYear(), maintenant.getMonth() - 1, 1);
+  const avant = new Date(maintenant.getFullYear(), maintenant.getMonth() - 2, 1);
+  return { debut, fin, avant };
+}
+
+/** La période passée : la dernière semaine ou le dernier mois entier. */
+export const periodePassee = (periode: Periode, maintenant = new Date()) => (periode === "mois" ? moisPasse(maintenant) : semainePassee(maintenant));
+
+const jours = (de: Date, a: Date) => Math.round((a.getTime() - de.getTime()) / JOUR);
 
 /** Somme, jour par jour depuis `debut`, des variations de plusieurs compteurs. */
 export function sommeParJour(stats: Record<string, { start: number | string; change?: number | null }[]>, debut: Date, jours: number): (number | null)[] {
@@ -76,13 +94,14 @@ export const aUnBilan = (hass: HomeAssistant, m: Maison): boolean =>
 
 const memoire = new Map<string, { quand: number; promesse: Promise<Bilan> }>();
 
-export function chargerBilan(hass: HomeAssistant, m: Maison, maintenant = new Date()): Promise<Bilan> {
-  const { debut, fin, avant } = semainePassee(maintenant);
+export function chargerBilan(hass: HomeAssistant, m: Maison, maintenant = new Date(), periode: Periode = "semaine"): Promise<Bilan> {
+  const { debut, fin, avant } = periodePassee(periode, maintenant);
+  const couts = reglagesEnergie()?.couts ?? [];
   const energies = energiesMaison(hass, m);
   const dedans = m.temperaturesInterieures.map((c) => c[0]).filter(Boolean);
   const dehors = m.temperaturesExterieures.slice(0, 1);
   const ouvrants = m.ouvrants.slice(0, 40).map((e) => e.id);
-  const cle = [debut.getTime(), energies, dedans, dehors, ouvrants].join("|");
+  const cle = [periode, debut.getTime(), energies, couts, dedans, dehors, ouvrants].join("|");
   const deja = memoire.get(cle);
   if (deja && Date.now() - deja.quand < 3600000) return deja.promesse;
 
@@ -93,6 +112,7 @@ export function chargerBilan(hass: HomeAssistant, m: Maison, maintenant = new Da
 
   const promesse = Promise.all([
     statistiques<{ start: number; change?: number | null }>(energies, avant, ["change"]),
+    statistiques<{ start: number; change?: number | null }>(couts, avant, ["change"]),
     statistiques<{ mean?: number | null; min?: number | null; max?: number | null }>(dedans, debut, ["mean", "min", "max"]),
     statistiques<{ mean?: number | null; min?: number | null; max?: number | null }>(dehors, debut, ["mean", "min", "max"]),
     ouvrants.length
@@ -100,15 +120,20 @@ export function chargerBilan(hass: HomeAssistant, m: Maison, maintenant = new Da
         end_time: fin.toISOString(), entity_ids: ouvrants, minimal_response: true, no_attributes: true, significant_changes_only: false })
         .catch(() => null)
       : Promise.resolve(null),
-  ]).then(([stEnergie, stDedans, stDehors, histoire]): Bilan => {
-    const quatorze = sommeParJour(stEnergie, avant, 14);
-    const semaine = quatorze.slice(7);
+  ]).then(([stEnergie, stCouts, stDedans, stDehors, histoire]): Bilan => {
+    const avantN = jours(avant, debut);
+    const n = jours(debut, fin);
     const somme = (l: (number | null)[]) => (l.some((v) => v !== null) ? l.reduce<number>((a, b) => a + (b ?? 0), 0) : null);
-    const total = somme(semaine);
+    const energie = sommeParJour(stEnergie, avant, avantN + n);
+    const cout = sommeParJour(stCouts, avant, avantN + n);
+    const total = somme(energie.slice(avantN));
     const parEntite = histoire ? compterOuvertures(histoire) : [];
     return {
-      debut, fin,
-      energie: total === null ? null : { jours: semaine, total, precedent: somme(quatorze.slice(0, 7)) },
+      periode, debut, fin,
+      energie: total === null ? null : {
+        jours: energie.slice(avantN), total, precedent: somme(energie.slice(0, avantN)),
+        cout: somme(cout.slice(avantN)), coutPrecedent: somme(cout.slice(0, avantN)),
+      },
       dedans: resumerTemperatures(stDedans),
       dehors: resumerTemperatures(stDehors),
       ouvertures: histoire ? { total: parEntite.reduce((a, [, n]) => a + n, 0), parEntite } : null,

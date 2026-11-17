@@ -4,7 +4,7 @@
 import { describe, expect, it } from "vitest";
 import type { HomeAssistant, Instantane } from "../src/ha";
 import { analyser } from "../src/moteur/analyser";
-import { automatisme, automatismeExiste } from "../src/moteur/automatismes";
+import { automatisme, automatismeExiste, destinatairesDe, telephones } from "../src/moteur/automatismes";
 import { pointsARegarder } from "../src/moteur/points";
 import famille from "./fixtures/famille.json";
 
@@ -77,5 +77,26 @@ describe("déjà créé", () => {
     });
     expect(automatismeExiste(h, "fuite")).toBe(true);
     expect(automatismeExiste(h, "pile")).toBe(false);
+  });
+});
+
+describe("qui prévenir", () => {
+  it("les téléphones portent le nom de leur appareil", () => {
+    const { h } = maison((x) => {
+      x.devices["telephone"] = { id: "telephone", name: "Pixel 7", area_id: null };
+    });
+    expect(telephones(h)).toEqual([{ service: "mobile_app_ipad", nom: "Ipad" }, { service: "mobile_app_pixel", nom: "Pixel" }]);
+    const { h: h2 } = maison((x) => {
+      (x as any).services.notify = { mobile_app_pixel_7: {} };
+      x.devices["telephone"] = { id: "telephone", name: "Pixel 7", area_id: null };
+    });
+    expect(telephones(h2)).toEqual([{ service: "mobile_app_pixel_7", nom: "Pixel 7" }]);
+  });
+
+  it("seulement les destinataires choisis, et ils se relisent dans l'automatisme", () => {
+    const { h, m } = maison();
+    const a = automatisme(h, m, "pile", { telephones: ["mobile_app_pixel"], homeAssistant: false })!;
+    expect((a.config.actions as { action: string }[]).map((x) => x.action)).toEqual(["notify.mobile_app_pixel"]);
+    expect(destinatairesDe(a.config as any)).toEqual({ telephones: ["mobile_app_pixel"], homeAssistant: false });
   });
 });

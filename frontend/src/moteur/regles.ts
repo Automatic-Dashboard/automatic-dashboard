@@ -17,6 +17,17 @@ export const PLATEFORMES_OFFICE = new Set(["sun", "backup", "met", "person", "sh
   "local_todo", "workday", "season"]);
 const CLASSES_TECHNIQUES = new Set(["signal_strength", "timestamp", "date", "duration", "data_rate", "data_size", "enum"]);
 const UNITES_TECHNIQUES = new Set(["lqi", "dBm", "dB", "ms", "B", "kB", "MB", "GB", "bit/s", "kbit/s", "Mbit/s"]);
+/** Les voitures et leurs bornes de recharge : leur batterie n'est pas une pile à changer. */
+export const PLATEFORMES_VEHICULE = new Set(["tesla_fleet", "teslemetry", "tessie", "tesla_wall_connector", "renault", "bmw_connected_drive",
+  "volvo", "kia_uvo", "hyundai_kia_connect", "mbapi2020", "mercedes_me", "polestar", "audiconnect", "volkswagencarnet", "volkswagen_we_connect_id",
+  "myskoda", "skodaconnect", "toyota", "nissan_leaf", "stellantis_vehicles", "psa_car_controller", "fordpass", "smartcar",
+  "easee", "wallbox", "ocpp", "zaptec", "ohme", "myenergi", "goecharger", "go_echarger", "evcc_intg", "peblar", "v2c", "ev_smart_charging"]);
+/** L'air intérieur : ce que la page Air montre. */
+export const AIR = new Set(["carbon_dioxide", "pm25", "pm10", "pm1", "volatile_organic_compounds", "volatile_organic_compounds_parts", "aqi",
+  "nitrogen_dioxide", "ozone", "carbon_monoxide"]);
+/** Ce qui se passe dehors sans être une pièce : arrosage, piscine, tondeuse. */
+export const NOM_EXTERIEUR = /arrosage|irrigation|sprinkler|piscine|pool|bassin|tondeuse|mower|portail|gate/i;
+
 export const MESURES = new Set(["temperature", "humidity", "carbon_dioxide", "pm25", "pm10", "pm1", "volatile_organic_compounds",
   "aqi", "nitrogen_dioxide", "ozone", "carbon_monoxide"]);
 const MESURES_SECONDAIRES = new Set(["illuminance", "atmospheric_pressure", "pressure", "sound_pressure", "moisture", "distance",
@@ -81,6 +92,10 @@ export function juger(e: Entite, en: EntiteHA, masquer: Set<string>): void {
   if (DOMAINES_TECHNIQUES.has(domaine)) { e.ecart = "domaine_technique"; return; }
   // Mises à jour, piles et plateformes système vont en Système, même rangées en « diagnostic ».
   if (domaine === "update") { e.role = "maintenance"; e.section = "systeme"; return; }
+  // La batterie d'une voiture est une mesure, pas une pile à changer.
+  if (classe === "battery" && PLATEFORMES_VEHICULE.has(e.plateforme)) {
+    e.role = "mesure"; e.section = "pieces"; e.secondaire = domaine === "binary_sensor"; return;
+  }
   if ((domaine === "sensor" || domaine === "binary_sensor") && classe === "battery") {
     if (e.mobile) { e.ecart = "pile_telephone"; return; }
     e.role = "maintenance"; e.section = "systeme"; return;

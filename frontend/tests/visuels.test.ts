@@ -42,7 +42,7 @@ describe("le ciel du jour", () => {
 });
 
 describe("la maison en plan", () => {
-  it.each([[15.5, "#4F8FD9"], [18, "#5FB3D6"], [20.5, "#5DB88A"], [23, "#E9A23B"], [26, "#D9614F"], [null, null]])("%s° → %s", (t, c) => {
+  it.each([[15.5, "#3E6FB0"], [18, "#7BA7D1"], [20.5, "#CDBB8F"], [23, "#E9A23B"], [26, "#C8613A"], [null, null]])("%s° → %s", (t, c) => {
     expect(couleurTemperature(t)).toBe(c);
   });
 });
@@ -50,5 +50,12 @@ describe("la maison en plan", () => {
 describe("la tablette murale", () => {
   it.each([["23:10", true], ["02:00", true], ["05:59", true], ["06:00", false], ["14:00", false], ["22:59", false]])("%s : nuit = %s", (h, nuit) => {
     expect(estNuit(new Date(`2026-11-17T${h}:00`))).toBe(nuit);
+  });
+
+  it("les heures de nuit se règlent, avec ou sans minuit au milieu", () => {
+    const a = (h: string) => new Date(`2026-11-17T${h}:00`);
+    expect([estNuit(a("21:30"), 21, 7), estNuit(a("07:30"), 21, 7), estNuit(a("13:00"), 13, 15), estNuit(a("15:00"), 13, 15)])
+      .toEqual([true, false, true, false]);
+    expect(estNuit(a("03:00"), 0, 0)).toBe(false); // mêmes heures : jamais de veille
   });
 });
