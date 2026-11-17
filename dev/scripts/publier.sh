@@ -58,17 +58,22 @@ if [ "$(git -C "$SITE" branch --show-current)" != "main" ]; then
 fi
 
 echo; echo "2. Le dépôt de l'intégration"
-faire gh repo create "$ORG/automatic-dashboard" --public --description "$DESCRIPTION" \
-  --homepage "https://automatic-dashboard.github.io" --source "$DEPOT" --remote origin --push
+# La description et les sujets d'abord : la validation HACS les vérifie dès le premier envoi.
+faire gh repo create "$ORG/automatic-dashboard" --public --description "$DESCRIPTION" --homepage "https://automatic-dashboard.github.io"
 faire gh repo edit "$ORG/automatic-dashboard" --enable-discussions --enable-issues --enable-wiki=false \
   $(printf -- "--add-topic %s " "${SUJETS[@]}")
 faire gh api -X PUT "repos/$ORG/automatic-dashboard/private-vulnerability-reporting"
+git -C "$DEPOT" remote get-url origin >/dev/null 2>&1 || faire git -C "$DEPOT" remote add origin "https://github.com/$ORG/automatic-dashboard.git"
+faire git -C "$DEPOT" push -u origin main
 
 echo; echo "3. Le site"
 faire gh repo create "$ORG/automatic-dashboard.github.io" --public \
   --description "Le site d'Automatic Dashboard : présentation, démo et documentation, en français et en anglais." \
-  --homepage "https://automatic-dashboard.github.io" --source "$SITE" --remote origin --push
+  --homepage "https://automatic-dashboard.github.io"
+# Pages par GitHub Actions, avant l'envoi : le flux « Publier le site » met le site en ligne dès le premier envoi.
 faire gh api -X POST "repos/$ORG/automatic-dashboard.github.io/pages" -f build_type=workflow
+git -C "$SITE" remote get-url origin >/dev/null 2>&1 || faire git -C "$SITE" remote add origin "https://github.com/$ORG/automatic-dashboard.github.io.git"
+faire git -C "$SITE" push -u origin main
 
 echo; echo "4. Les vérifications, puis la version"
 if ! $ESSAI; then
