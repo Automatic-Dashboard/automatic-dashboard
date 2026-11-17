@@ -1,4 +1,4 @@
-# Vérifications à chaque modification : tableau (types, tests, construction), code Python,
+# Vérifications à chaque modification : tableau (types, tests, construction), code Python (analyse, tests),
 # validation HACS et hassfest (l'outil de vérification des intégrations de Home Assistant).
 name: Vérifier
 
@@ -32,7 +32,7 @@ jobs:
       - run: npm test
       - run: npm run build
       - name: Le fichier construit est à jour dans le dépôt
-        run: git diff --exit-code -- ../custom_components/centralhome/frontend/centralhome.js
+        run: git diff --exit-code -- ../custom_components/automatic_dashboard/frontend/automatic-dashboard.js
 
   python:
     name: Intégration (Python)
@@ -41,6 +41,13 @@ jobs:
       - uses: actions/checkout@v5
       - uses: astral-sh/ruff-action@v3
       - run: ruff format --check
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+          cache: pip
+          cache-dependency-path: requirements_test.txt
+      - run: pip install -r requirements_test.txt
+      - run: pytest
 
   hassfest:
     name: hassfest

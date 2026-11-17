@@ -14,8 +14,29 @@ export interface ConfigStrategie extends Reglages {
   title?: string;
 }
 
+/** Les réglages lus dans la configuration du tableau, en ignorant ce qui n'a pas la bonne forme (YAML tapé à la main). */
+export function lireReglages(config: ConfigStrategie): Reglages {
+  const liste = (v: unknown): string[] | undefined => (Array.isArray(v) ? v.filter((x): x is string => typeof x === "string") : undefined);
+  const modes = ["auto", "decouverte", "maison", "complet"];
+  const noms = config.noms && typeof config.noms === "object" && !Array.isArray(config.noms)
+    ? Object.fromEntries(Object.entries(config.noms).filter(([, v]) => typeof v === "string" && v.trim())) : undefined;
+  return {
+    mode: modes.includes(config.mode as string) ? config.mode : undefined,
+    masquer: liste(config.masquer),
+    favoris: liste(config.favoris),
+    completer: config.completer === false ? false : undefined,
+    noms,
+  };
+}
+
+/** Les noms choisis dans les réglages, posés sur les cartes natives (tuiles, thermostats) qui n'en ont pas. */
+function nommer(carte: CarteConfig, noms: Record<string, string>): CarteConfig {
+  const id = typeof carte.entity === "string" ? carte.entity : "";
+  return noms[id] && carte.name === undefined ? { ...carte, name: noms[id] } : carte;
+}
+
 export async function genererTableau(config: ConfigStrategie, hass: HomeAssistant): Promise<{ title: string; views: VueConfig[] }> {
-  const reglages: Reglages = { mode: config.mode, masquer: config.masquer };
+  const reglages = lireReglages(config);
   const m = analyserMemo(hass, reglages);
   // Chaque carte reçoit les réglages, pour trier la maison comme la stratégie.
   const avecReglages = (c: CarteConfig): CarteConfig => ({ ...c, reglages });
@@ -30,10 +51,18 @@ export async function genererTableau(config: ConfigStrategie, hass: HomeAssistan
     "systeme",
     m.aRanger.length > 0 && "a-ranger",
   ].filter((s): s is string => typeof s === "string");
-  const pastilles = sujets.map((sujet) => avecReglages({ type: "custom:centralhome-pastille", sujet }));
+  const pastilles = sujets.map((sujet) => avecReglages({ type: "custom:automatic-dashboard-pastille", sujet }));
 
   const accueil = m.mode === "decouverte"
     ? accueilDecouverte(hass, m, avecReglages, pastilles)
-    : accueilMaison(hass, m, avecReglages, pastilles, await choisirFavoris(hass, m, config.favoris));
-  return { title: config.title || "CentralHome", views: [accueil, ...sousVues(hass, m, avecReglages)] };
+    : accueilMaison(hass, m, avecReglages, pastilles, await choisirFavoris(hass, m, reglages));
+  let views = [accueil, ...sousVues(hass, m, avecReglages)];
+  if (Object.keys(m.noms).length) {
+    views = views.map((v) => ({
+      ...v,
+      ...(v.sections ? { sections: v.sections.map((s) => ({ ...s, cards: s.cards.map((c) => nommer(c, m.noms)) })) } : {}),
+      ...(v.sidebar ? { sidebar: { ...v.sidebar, sections: v.sidebar.sections.map((s) => ({ ...s, cards: s.cards.map((c) => nommer(c, m.noms)) })) } } : {}),
+    }));
+  }
+  return { title: config.title || "Automatic Dashboard", views };
 }

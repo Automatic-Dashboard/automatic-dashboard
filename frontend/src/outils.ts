@@ -42,10 +42,27 @@ export function plusDInfos(element: HTMLElement, entityId: string): void {
   element.dispatchEvent(new CustomEvent("hass-more-info", { detail: { entityId }, bubbles: true, composed: true }));
 }
 
-/** Nom d'affichage court : celui de l'appareil quand l'entité en a un. */
-export function nomCourt(hass: HomeAssistant, entityId: string): string {
+/** Nom d'affichage court : celui choisi dans les réglages, sinon celui de l'appareil quand l'entité en a un. */
+export function nomCourt(hass: HomeAssistant, entityId: string, noms: Record<string, string> = {}): string {
+  if (noms[entityId]) return noms[entityId];
   const appareil = hass.devices?.[hass.entities[entityId]?.device_id ?? ""];
   return appareil?.name_by_user || appareil?.name || hass.states[entityId]?.attributes.friendly_name || entityId;
+}
+
+/** Noms d'intégrations quand Home Assistant ne fournit pas leur traduction (elle n'est chargée qu'à la demande). */
+const NOMS_INTEGRATIONS: Record<string, [string, string]> = {
+  demo: ["Démonstration", "Demo"], mqtt: ["MQTT", "MQTT"], template: ["Modèles", "Templates"], zha: ["Zigbee (ZHA)", "Zigbee (ZHA)"],
+  matter: ["Matter", "Matter"], hue: ["Philips Hue", "Philips Hue"], esphome: ["ESPHome", "ESPHome"],
+  systemmonitor: ["Moniteur système", "System monitor"], hassio: ["Supervisor", "Supervisor"], glances: ["Glances", "Glances"],
+  uptime_kuma: ["Uptime Kuma", "Uptime Kuma"], adguard: ["AdGuard Home", "AdGuard Home"], pi_hole: ["Pi-hole", "Pi-hole"],
+  speedtestdotnet: ["Speedtest", "Speedtest"], proxmoxve: ["Proxmox VE", "Proxmox VE"], synology_dsm: ["Synology DSM", "Synology DSM"],
+  unifi: ["UniFi Network", "UniFi Network"], truenas: ["TrueNAS", "TrueNAS"], fritz: ["FRITZ!Box", "FRITZ!Box"], netdata: ["Netdata", "Netdata"],
+};
+
+/** Le nom d'une intégration, dans la langue de l'utilisateur. */
+export function nomIntegration(hass: HomeAssistant, plateforme: string): string {
+  const connu = NOMS_INTEGRATIONS[plateforme];
+  return hass.localize?.(`component.${plateforme}.title`) || (connu ? connu[estFrancais(hass) ? 0 : 1] : majuscule(plateforme.replace(/_/g, " ")));
 }
 
 /** La trame de la marque : petits carrés de 2,8 px tous les 22 px, en image CSS. */

@@ -1,8 +1,8 @@
 {
-  "name": "centralhome-frontend",
+  "name": "automatic-dashboard-frontend",
   "private": true,
-  "version": "2026.11.0",
-  "description": "Le tableau de bord CentralHome pour Home Assistant : moteur de tri, stratégie et cartes.",
+  "version": "2026.12.0",
+  "description": "Automatic Dashboard, le tableau de bord pour Home Assistant : moteur de tri, stratégie et cartes.",
   "license": "Apache-2.0",
   "type": "module",
   "scripts": {

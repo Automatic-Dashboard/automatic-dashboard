@@ -1,8 +1,9 @@
-// La base des cartes CentralHome : configuration, accès à la maison triée, rendu
+// La base des cartes Automatic Dashboard : configuration, accès à la maison triée, rendu
 // économe (on ne redessine que si ce que la carte montre a changé) et masquage de
 // la carte quand elle n'a rien à dire.
 
 import { type CSSResultGroup, LitElement, nothing, type PropertyDeclarations, type PropertyValues, type TemplateResult } from "lit";
+import { EVENEMENT, suivreIgnores } from "../donnees/ignores";
 import type { HomeAssistant } from "../ha";
 import { analyserMemo } from "../moteur/analyser";
 import type { Maison, Reglages } from "../moteur/types";
@@ -38,7 +39,7 @@ export interface OptionsGrille {
 /** Garde les identifiants présents d'une liste qui peut contenir des trous. */
 export const definis = (ids: (string | null | undefined)[]): string[] => ids.filter((id): id is string => Boolean(id));
 
-export class CarteCentralHome extends LitElement {
+export class CarteAutomatic extends LitElement {
   static override properties: PropertyDeclarations = {
     hass: { attribute: false },
     _config: { state: true },
@@ -56,6 +57,19 @@ export class CarteCentralHome extends LitElement {
 
   setConfig(config: ConfigCarte): void {
     this._config = config ?? {};
+  }
+
+  // Un point ignoré (ou remontré) sur un écran change la phrase et les points de tous les autres.
+  private _surIgnores = () => this.requestUpdate();
+
+  override connectedCallback(): void {
+    super.connectedCallback();
+    window.addEventListener(EVENEMENT, this._surIgnores);
+  }
+
+  override disconnectedCallback(): void {
+    super.disconnectedCallback();
+    window.removeEventListener(EVENEMENT, this._surIgnores);
   }
 
   getCardSize(): number {
@@ -100,6 +114,7 @@ export class CarteCentralHome extends LitElement {
 
   protected override render(): TemplateResult | typeof nothing {
     if (!this.hass || !this._config) return nothing;
+    suivreIgnores(this.hass);
     const contenu = this.rendu(this.hass, this.maison);
     this._vide = contenu === null;
     return contenu ?? nothing;

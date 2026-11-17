@@ -7,12 +7,12 @@ import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
 import { premiereValeur } from "../moteur/valeurs";
 import { degres, naviguer, nombre } from "../outils";
-import { CarteCentralHome, type OptionsGrille } from "./base";
+import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
 const MIN = 14, MAX = 28, BAS = 19, HAUT = 22;
 
-export class CentralHomeConfort extends CarteCentralHome {
+export class AutomaticConfort extends CarteAutomatic {
   static override styles = [STYLE_COMMUN, css`
     ha-card{padding:8px 18px}
     .ligne{display:grid;grid-template-columns:minmax(90px,1.1fr) 62px minmax(90px,2.4fr) 48px 22px;align-items:center;gap:12px;min-height:44px;
@@ -20,8 +20,8 @@ export class CentralHomeConfort extends CarteCentralHome {
     .ligne:first-child{border-top:0}
     .nom{font-weight:600;font-size:14.5px;color:var(--primary-text-color);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .temp{font-size:16px;font-weight:650;text-align:right;color:var(--primary-text-color)}
-    .echelle{position:relative;height:8px;border-radius:999px;background:var(--centralhome-fond-alt)}
-    .zone{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--centralhome-vert-pale);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--centralhome-vert) 30%, transparent)}
+    .echelle{position:relative;height:8px;border-radius:999px;background:var(--automatic-dashboard-fond-alt)}
+    .zone{position:absolute;top:0;bottom:0;border-radius:999px;background:var(--automatic-dashboard-vert-pale);box-shadow:inset 0 0 0 1px color-mix(in srgb, var(--automatic-dashboard-vert) 30%, transparent)}
     .point{position:absolute;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;border:2px solid var(--ha-card-background);background:var(--primary-color)}
     .point.froid{background:var(--state-climate-cool-color)} .point.chaud{background:var(--state-climate-heat-color)}
     .hum{font-size:12.5px;text-align:right}

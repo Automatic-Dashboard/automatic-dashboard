@@ -1,4 +1,4 @@
-// Les types de Home Assistant dont CentralHome se sert. Home Assistant ne publie pas
+// Les types de Home Assistant dont Automatic Dashboard se sert. Home Assistant ne publie pas
 // les types de son interface : on décrit ici seulement ce qu'on lit dans l'objet `hass`.
 
 export interface EtatHA {
@@ -34,6 +34,7 @@ export interface AppareilHA {
   entry_type?: string | null;
   manufacturer?: string | null;
   model?: string | null;
+  labels?: string[];
 }
 
 export interface PieceHA {
@@ -43,6 +44,8 @@ export interface PieceHA {
   floor_id?: string | null;
   temperature_entity_id?: string | null;
   humidity_entity_id?: string | null;
+  labels?: string[];
+  aliases?: string[];
 }
 
 export interface EtageHA {
@@ -78,6 +81,7 @@ export interface HomeAssistant extends Instantane {
   themes?: { darkMode?: boolean; theme?: string };
   panels?: Record<string, unknown>;
   callWS<T = any>(message: Record<string, unknown>): Promise<T>;
+  callService?: (domaine: string, service: string, donnees?: Record<string, unknown>) => Promise<unknown>;
   localize?: (cle: string) => string;
   formatEntityState?: (etat: EtatHA) => string;
 }

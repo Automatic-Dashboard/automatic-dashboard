@@ -27,9 +27,9 @@ const ENERGIE_SECONDAIRE = new Set(["current", "voltage", "power_factor", "react
 export const OUVRANTS = new Set(["door", "window", "garage_door", "opening"]);
 export const ALERTES = new Set(["moisture", "smoke", "gas", "carbon_monoxide", "safety", "tamper", "glass_break", "heat", "cold"]);
 const PRESENCES = new Set(["motion", "occupancy", "presence"]);
-const NOM_TECHNIQUE = /signal|rssi|lqi|qualit(é|e) du lien|link ?quality|uptime|derni(è|e)re vue|last seen|adresse ip|ip address|wi-?fi|micrologiciel|firmware/i;
+export const NOM_TECHNIQUE = /signal|rssi|lqi|qualit(é|e) du lien|link ?quality|uptime|derni(è|e)re vue|last seen|adresse ip|ip address|wi-?fi|micrologiciel|firmware/i;
 
-const ICONES_PIECES: [RegExp, string][] = [
+export const ICONES_PIECES: [RegExp, string][] = [
   [/salle (à|a) manger|dining/i, "mdi:silverware-fork-knife"], [/salle de bain|bathroom|douche|sdb/i, "mdi:shower"],
   [/salon|s(é|e)jour|living|lounge/i, "mdi:sofa-outline"], [/cuisine|kitchen/i, "mdi:stove"],
   [/enfant|b(é|e)b(é|e)|kid|nursery/i, "mdi:teddy-bear"], [/chambre|bedroom/i, "mdi:bed-outline"],
@@ -43,6 +43,19 @@ const ICONES_PIECES: [RegExp, string][] = [
 export const iconePiece = (nom: string): string => ICONES_PIECES.find(([motif]) => motif.test(nom))?.[1] ?? "mdi:home-outline";
 export const PIECES_EXTERIEURES = /jardin|terrasse|balcon|cour\b|garden|terrace|patio|ext(é|e)rieur|outside|piscine|pool/i;
 export const PIECES_ANNEXES = /garage|cave|cellier|grenier|combles|abri|cellar|basement|attic|shed/i;
+
+/**
+ * Les étiquettes de réglage en masse, créées par l'intégration dans la langue de Home Assistant :
+ * l'identifiant vient du nom à la création, les deux langues sont reconnues.
+ */
+export const ETIQUETTES = {
+  masquer: ["automatic_dashboard_masquer", "automatic_dashboard_hide"],
+  favori: ["automatic_dashboard_favori", "automatic_dashboard_favorite"],
+  exterieur: ["automatic_dashboard_exterieur", "automatic_dashboard_outdoor"],
+} as const;
+/** L'une de ces étiquettes est-elle posée ? */
+export const porte = (etiquettes: readonly string[] | undefined | null, cle: keyof typeof ETIQUETTES): boolean =>
+  Boolean(etiquettes?.some((l) => (ETIQUETTES[cle] as readonly string[]).includes(l)));
 
 /** Classe d'un capteur, déduite de son unité quand l'intégration n'en donne pas. */
 export function classeDe(etat: EtatHA | undefined): string | undefined {

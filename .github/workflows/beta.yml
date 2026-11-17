@@ -1,0 +1,83 @@
+# Chaque semaine, le tableau est essayé sur la bêta de Home Assistant et sur sa version de
+# développement : une casse se voit avant la sortie, donc avant les utilisateurs.
+# - « Intégration » : les tests Python sur le Home Assistant de test le plus récent ;
+# - « Tableau » : une maison neuve montée sur l'image bêta (ou dev), puis la sonde ouvre
+#   chaque page dans un vrai navigateur, en français et en anglais, avec l'éditeur.
+# Si la bêta casse quelque chose, un ticket « bêta » est ouvert (ou complété) tout seul.
+name: Bêta de Home Assistant
+
+on:
+  schedule:
+    - cron: "0 5 * * 4" # chaque jeudi : les bêtas sortent le mercredi
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  integration:
+    name: Intégration (Home Assistant le plus récent)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - run: pip install --upgrade --pre pytest-homeassistant-custom-component
+      - run: pip show homeassistant | head -2
+      - run: pytest
+
+  tableau:
+    name: Tableau sur l'image ${{ matrix.canal }}
+    runs-on: ubuntu-latest
+    # La version de développement change chaque nuit : une casse y est un signal, pas une alerte.
+    continue-on-error: ${{ matrix.canal == 'dev' }}
+    strategy:
+      fail-fast: false
+      matrix:
+        canal: [beta, dev]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.14"
+      - run: pip install aiohttp playwright
+      - run: python -m playwright install --with-deps chromium
+      - name: Maison neuve sur Home Assistant ${{ matrix.canal }}
+        run: dev/scripts/maison_neuve.sh ghcr.io/home-assistant/home-assistant:${{ matrix.canal }} 8123 "$RUNNER_TEMP/maison"
+      - name: Sonde
+        env:
+          AUTOMATIC_HA: http://127.0.0.1:8123
+          AUTOMATIC_SECRETS: ${{ runner.temp }}/maison/secrets.json
+        run: python dev/scripts/sonde.py "$RUNNER_TEMP/sonde"
+      - name: Journal de Home Assistant
+        if: failure()
+        run: docker logs automatic-sonde-8123 2>&1 | tail -200
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: sonde-${{ matrix.canal }}
+          path: ${{ runner.temp }}/sonde
+          if-no-files-found: ignore
+
+  signaler:
+    name: Ouvrir un ticket si la bêta casse
+    needs: [integration, tableau]
+    if: failure() && github.event_name == 'schedule'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          LIEN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh label create beta --color FBCA04 --description "Casse sur la bêta de Home Assistant" 2>/dev/null || true
+          numero=$(gh issue list --label beta --state open --json number --jq '.[0].number')
+          if [ -n "$numero" ]; then
+            gh issue comment "$numero" --body "Toujours en échec : $LIEN"
+          else
+            gh issue create --label beta --title "La bêta de Home Assistant casse le tableau" \
+              --body "Le flux hebdomadaire a échoué sur la bêta de Home Assistant : $LIEN. À corriger avant la sortie de la version."
+          fi

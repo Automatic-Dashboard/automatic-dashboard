@@ -9,8 +9,9 @@ import complete from "./fixtures/complete.json";
 import debutant from "./fixtures/debutant.json";
 import famille from "./fixtures/famille.json";
 
-const BALISES = ["centralhome-ouverture", "centralhome-pastille", "centralhome-points", "centralhome-piece", "centralhome-apercu",
-  "centralhome-premiers-pas", "centralhome-heros", "centralhome-confort", "centralhome-a-ranger"];
+const BALISES = ["automatic-dashboard-ouverture", "automatic-dashboard-pastille", "automatic-dashboard-points", "automatic-dashboard-piece", "automatic-dashboard-apercu",
+  "automatic-dashboard-premiers-pas", "automatic-dashboard-heros", "automatic-dashboard-confort", "automatic-dashboard-a-ranger",
+  "automatic-dashboard-meteo-france", "automatic-dashboard-moment", "automatic-dashboard-bilan", "automatic-dashboard-plan"];
 
 function hass(fixture: unknown): HomeAssistant {
   const f = fixture as HomeAssistant;
@@ -49,7 +50,7 @@ describe("chaque maison a ses pages", () => {
   it("maison complète : une page par pièce, et les pièces vides n'en ont pas", () => {
     const p = chemins(tableaux.complete.views);
     expect(p).toEqual(expect.arrayContaining(["climat", "energie", "securite", "systeme"]));
-    expect(p.filter((x) => !["accueil", "climat", "energie", "securite", "systeme", "a-ranger"].includes(x)).length).toBe(13);
+    expect(p.filter((x) => !["accueil", "climat", "energie", "securite", "systeme", "a-ranger", "bilan", "tablette"].includes(x)).length).toBe(13);
   });
 });
 
@@ -58,13 +59,13 @@ describe("l'accueil suit le mode", () => {
 
   it("Découverte : météo en grand et premiers pas, pas de liste de pièces", () => {
     const types = cartes(accueil("debutant")).map((c) => c.type);
-    expect(types).toContain("custom:centralhome-premiers-pas");
-    expect(types).not.toContain("custom:centralhome-piece");
+    expect(types).toContain("custom:automatic-dashboard-premiers-pas");
+    expect(types).not.toContain("custom:automatic-dashboard-piece");
     expect(accueil("debutant").sections[0].cards[0]).toMatchObject({ type: "weather-forecast", grid_options: { columns: "full" } });
   });
 
   it("Maison : une tuile par pièce équipée, la plus équipée en double largeur", () => {
-    const pieces = cartes(accueil("famille")).filter((c) => c.type === "custom:centralhome-piece");
+    const pieces = cartes(accueil("famille")).filter((c) => c.type === "custom:automatic-dashboard-piece");
     expect(pieces.length).toBe(7);
     expect(pieces[0].grid_options?.columns).toBe(12);
   });
@@ -72,7 +73,7 @@ describe("l'accueil suit le mode", () => {
   it("Complet : les pièces regroupées par étage, en petit format", () => {
     const titres = accueil("complete").sections.flatMap((s) => s.cards).filter((c) => c.type === "heading").map((c) => c.heading);
     expect(titres).toEqual(expect.arrayContaining(["Rez-de-chaussée", "Étage"]));
-    const largeurs = cartes(accueil("complete")).filter((c) => c.type === "custom:centralhome-piece").map((c) => c.grid_options?.columns);
+    const largeurs = cartes(accueil("complete")).filter((c) => c.type === "custom:automatic-dashboard-piece").map((c) => c.grid_options?.columns);
     expect(largeurs).toContain(4);
   });
 });
@@ -80,16 +81,16 @@ describe("l'accueil suit le mode", () => {
 describe("la mise en page", () => {
   for (const [nom, tableau] of Object.entries(tableaux)) {
     it(`${nom} : aucune page en colonne étroite`, () => {
-      for (const v of tableau.views) {
+      for (const v of tableau.views.filter((x) => x.type === "sections")) {
         expect(v.type).toBe("sections");
-        expect(v.theme).toBe("CentralHome");
+        expect(v.theme).toBe("Automatic Dashboard");
         expect(v.max_columns).toBe(3);
         for (const s of v.sections) expect(s.column_span, `${v.path}`).toBe(2);
       }
     });
 
     it(`${nom} : des largeurs qui gardent les rangées pleines (4, 6, 12 ou pleine largeur)`, () => {
-      for (const v of tableau.views) {
+      for (const v of tableau.views.filter((x) => x.type === "sections")) {
         for (const c of cartes(v)) {
           const l = c.grid_options?.columns;
           if (l !== undefined) expect([4, 6, 12, "full"], `${v.path} : ${c.type}`).toContain(l);
@@ -97,12 +98,38 @@ describe("la mise en page", () => {
       }
     });
 
-    it(`${nom} : seules des cartes CentralHome connues sont utilisées`, () => {
-      for (const v of tableau.views) {
+    it(`${nom} : seules des cartes Automatic Dashboard connues sont utilisées`, () => {
+      for (const v of tableau.views.filter((x) => x.type === "sections")) {
         for (const c of cartes(v).filter((x) => x.type.startsWith("custom:"))) {
           expect(BALISES).toContain(c.type.slice("custom:".length));
         }
       }
     });
   }
+});
+
+describe("pluie, vigilance et « en ce moment » sur l'accueil", () => {
+  const accueil = (nom: keyof typeof tableaux) => tableaux[nom].views[0];
+  const cote = (v: VueConfig) => v.sidebar?.sections.flatMap((s) => s.cards).map((c) => c.type) ?? [];
+
+  it("Découverte : la pluie et la vigilance sous la grande météo, plus de tuile de vigilance native", () => {
+    const premiere = accueil("debutant").sections[0].cards.map((c) => c.type);
+    expect(premiere).toEqual(["weather-forecast", "custom:automatic-dashboard-meteo-france"]);
+    expect(cartes(accueil("debutant")).some((c) => c.type === "tile" && String(c.entity).endsWith("_weather_alert"))).toBe(false);
+  });
+
+  it("Maison : Météo-France juste sous la météo, « en ce moment » avant l'éphéméride", () => {
+    const c = cote(accueil("famille"));
+    expect(c.indexOf("custom:automatic-dashboard-meteo-france")).toBe(c.indexOf("weather-forecast") + 1);
+    expect(c.indexOf("custom:automatic-dashboard-moment")).toBe(c.length - 2);
+  });
+
+  it("sans Météo-France, pas de carte Météo-France", () => {
+    expect(cartes(accueil("complete")).some((c) => c.type === "custom:automatic-dashboard-meteo-france")).toBe(false);
+  });
+
+  it("la carte météo porte le nom de la maison, pas celui de l'intégration", () => {
+    const meteo = cartes(accueil("famille")).find((c) => c.type === "weather-forecast");
+    expect(meteo?.name).toBe("Appartement d'essai");
+  });
 });

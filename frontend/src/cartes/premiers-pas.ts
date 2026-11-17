@@ -6,7 +6,7 @@ import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
 import type { Textes } from "../textes";
 import { naviguer, t, valide } from "../outils";
-import { CarteCentralHome, type OptionsGrille } from "./base";
+import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
 interface Etape {
@@ -18,7 +18,7 @@ interface Etape {
 /** L'emplacement par défaut d'un Home Assistant neuf (Amsterdam) : la maison n'est pas encore placée. */
 const AMSTERDAM = { latitude: 52.3731339, longitude: 4.8903147 };
 
-export class CentralHomePremiersPas extends CarteCentralHome {
+export class AutomaticPremiersPas extends CarteAutomatic {
   static override styles = [STYLE_COMMUN, css`
     ha-card{padding:16px 18px 10px}
     .titre{font-size:17px;font-weight:700;color:var(--primary-text-color)}
@@ -27,7 +27,7 @@ export class CentralHomePremiersPas extends CarteCentralHome {
     li{border-top:1px solid var(--divider-color)}
     li button{display:flex;align-items:center;gap:12px;width:100%;min-height:48px;font-size:14.5px;font-weight:550;color:var(--primary-text-color)}
     .coche{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;flex:none;border:2px solid var(--divider-color)}
-    .fait .coche{background:var(--centralhome-vert);border-color:var(--centralhome-vert);color:#fff}
+    .fait .coche{background:var(--automatic-dashboard-vert);border-color:var(--automatic-dashboard-vert);color:#fff}
     .fait .coche ha-icon{--mdc-icon-size:16px}
     .fait span.texte{color:var(--secondary-text-color);text-decoration:line-through;text-decoration-color:var(--divider-color)}
     .texte{flex:1}

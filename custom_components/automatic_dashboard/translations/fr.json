@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Automatic Dashboard",
+        "description": "Ajoute Automatic Dashboard et son thème. Ensuite : Paramètres, Tableaux de bord, Ajouter un tableau de bord, Automatic Dashboard."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Automatic Dashboard est déjà installé."
+    }
+  },
+  "issues": {
+    "themes_non_charges": {
+      "title": "Le thème Automatic Dashboard n'a pas pu être chargé",
+      "description": "Automatic Dashboard fonctionne, mais sans ses couleurs. Pour les retrouver, ajoutez ces deux lignes dans configuration.yaml, puis redémarrez Home Assistant :\n\n```yaml\nfrontend:\n  themes: !include_dir_merge_named themes\n```"
+    }
+  }
+}

@@ -8,11 +8,17 @@ export type Role =
 
 export type Section = "pieces" | "climat" | "energie" | "securite" | "systeme" | "medias" | "accueil";
 
-/** Réglages de la stratégie, saisis par l'utilisateur. */
+/** Réglages de la stratégie, saisis dans l'éditeur visuel (ou en YAML). */
 export interface Reglages {
   mode?: Mode | "auto";
+  /** Entités qu'Automatic Dashboard ne montre nulle part. */
   masquer?: string[];
+  /** Favoris épinglés, dans l'ordre de l'utilisateur. */
   favoris?: string[];
+  /** Compléter les favoris épinglés par les commandes habituelles (oui par défaut). */
+  completer?: boolean;
+  /** Noms affichés dans Automatic Dashboard, sans toucher à Home Assistant. */
+  noms?: Record<string, string>;
 }
 
 /** Une entité, telle que le moteur la juge. */
@@ -92,4 +98,20 @@ export interface Maison {
   piles: Entite[];
   systeme: Entite[];
   aRanger: Entite[];
+  /** Pour les entités à ranger : la pièce que leur nom désigne (« Lampe du salon » → salon). */
+  propositions: Record<string, string>;
+  /** Lecteurs multimédias, sans les groupes. */
+  medias: Entite[];
+  /** Personnes ; la carte ne garde que celles qui ont un traceur (c'est un attribut d'état, pas du registre). */
+  personnes: string[];
+  /** Agendas, sans les jours fériés ni les jours ouvrés. */
+  agendas: string[];
+  /** Ce qui peut « tourner » : aspirateurs, tondeuses, machines (classe running), minuteurs. */
+  enMarche: string[];
+  /** La liste de courses. */
+  courses: string | null;
+  /** Favoris posés par l'étiquette « favori » (entités, ou fonction principale des appareils). */
+  favorisEtiquette: string[];
+  /** Noms choisis dans les réglages, par entité. */
+  noms: Record<string, string>;
 }

@@ -1,0 +1,19 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Automatic Dashboard",
+        "description": "Adds Automatic Dashboard and its theme. Next: Settings, Dashboards, Add dashboard, Automatic Dashboard."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Automatic Dashboard is already installed."
+    }
+  },
+  "issues": {
+    "themes_non_charges": {
+      "title": "The Automatic Dashboard theme could not be loaded",
+      "description": "Automatic Dashboard works, but without its colors. To get them back, add these two lines to configuration.yaml, then restart Home Assistant:\n\n```yaml\nfrontend:\n  themes: !include_dir_merge_named themes\n```"
+    }
+  }
+}

@@ -1,8 +1,8 @@
-"""Prépare le Home Assistant d'essai de CentralHome, sans clic.
+"""Prépare le Home Assistant d'essai d'Automatic Dashboard, sans clic.
 
 - crée le compte propriétaire (administrateur) et un compte « famille » sans droits d'administration ;
 - règle la France (langue, pays, fuseau, euro, système métrique) ;
-- ajoute l'intégration CentralHome ;
+- ajoute l'intégration Automatic Dashboard et le tableau d'essai (/automatic-essai) ;
 - écrit les identifiants et les jetons dans dev/.secrets/identifiants.json (mode 600),
   sans jamais les afficher.
 
@@ -20,12 +20,13 @@ from pathlib import Path
 import aiohttp
 
 # Par défaut, la maison « famille » (port 8123). Pour la maison « débutant » :
-# CENTRALHOME_HA=http://127.0.0.1:8124 CENTRALHOME_SECRETS=dev/.secrets/debutant.json
-BASE = os.environ.get("CENTRALHOME_HA", "http://127.0.0.1:8123")
+# AUTOMATIC_HA=http://127.0.0.1:8124 AUTOMATIC_SECRETS=dev/.secrets/debutant.json
+TABLEAU = "automatic-essai"
+BASE = os.environ.get("AUTOMATIC_HA", "http://127.0.0.1:8123")
 CLIENT_ID = f"{BASE}/"
 SECRETS = Path(
     os.environ.get(
-        "CENTRALHOME_SECRETS",
+        "AUTOMATIC_SECRETS",
         Path(__file__).resolve().parent.parent / ".secrets" / "identifiants.json",
     )
 ).resolve()
@@ -126,7 +127,7 @@ async def main() -> None:
                 location_name="Maison d'essai",
             )
             proprietaire["jeton"] = (
-                await ws.appel("auth/long_lived_access_token", client_name="Essais CentralHome", lifespan=365)
+                await ws.appel("auth/long_lived_access_token", client_name="Essais Automatic Dashboard", lifespan=365)
             )["result"]
 
             # 4. Compte famille, sans droits d'administration
@@ -143,19 +144,32 @@ async def main() -> None:
         jeton_famille = await connexion(session, famille["utilisateur"], famille["mot_de_passe"])
         async with WS(session, jeton_famille) as ws:
             famille["jeton"] = (
-                await ws.appel("auth/long_lived_access_token", client_name="Essais CentralHome", lifespan=365)
+                await ws.appel("auth/long_lived_access_token", client_name="Essais Automatic Dashboard", lifespan=365)
             )["result"]
 
-        # 5. Intégration CentralHome, ajoutée comme le ferait un utilisateur
+        # 5. Intégration Automatic Dashboard, ajoutée comme le ferait un utilisateur
         entetes = {"Authorization": f"Bearer {proprietaire['jeton']}"}
         async with session.post(
-            f"{BASE}/api/config/config_entries/flow", json={"handler": "centralhome"}, headers=entetes
+            f"{BASE}/api/config/config_entries/flow", json={"handler": "automatic_dashboard"}, headers=entetes
         ) as r:
             flux = await r.json()
         async with session.post(
             f"{BASE}/api/config/config_entries/flow/{flux['flow_id']}", json={}, headers=entetes
         ) as r:
             fin = await r.json()
+
+        # 6. Le tableau d'essai, comme l'utilisateur le crée (Tableaux de bord, Ajouter, Automatic Dashboard)
+        async with WS(session, proprietaire["jeton"]) as ws:
+            await ws.appel(
+                "lovelace/dashboards/create",
+                url_path=TABLEAU,
+                title="Automatic Dashboard",
+                icon="mdi:home-roof",
+                show_in_sidebar=True,
+                require_admin=False,
+            )
+            strategie = {"strategy": {"type": "custom:automatic-dashboard"}}
+            await ws.appel("lovelace/config/save", url_path=TABLEAU, config=strategie)
 
     SECRETS.parent.mkdir(mode=0o700, exist_ok=True)
     SECRETS.write_text(json.dumps({"proprietaire": proprietaire, "famille": famille}, indent=2))
@@ -164,7 +178,7 @@ async def main() -> None:
         f"Comptes créés : {proprietaire['utilisateur']} (administrateur), "
         f"{famille['utilisateur']} (famille). Identifiants dans {SECRETS}."
     )
-    print(f"Intégration CentralHome : {fin.get('type')} ({fin.get('title', fin.get('reason'))})")
+    print(f"Intégration Automatic Dashboard : {fin.get('type')} ({fin.get('title', fin.get('reason'))})")
 
 
 if __name__ == "__main__":

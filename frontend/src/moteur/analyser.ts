@@ -3,11 +3,15 @@
 // fictives ; la version mémorisée ne recalcule que si un registre a changé.
 
 import type { Instantane } from "../ha";
-import { PIECES_ANNEXES, PIECES_EXTERIEURES, PLATEFORMES_OFFICE, classeDe, iconePiece, juger } from "./regles";
+import { proposerPiece } from "./ranger";
+import { PIECES_ANNEXES, PIECES_EXTERIEURES, PLATEFORMES_OFFICE, classeDe, iconePiece, juger, porte } from "./regles";
 import type { Entite, Maison, Mode, Piece, Reglages } from "./types";
 
 const ROLES_UTILES = new Set(["commande", "ouvrant", "alerte", "camera", "mesure", "energie"]);
 const ORDRE_METEO = ["meteo_france", "met", "open_meteo"];
+const AGENDAS_ECARTES = new Set(["holiday", "workday", "demo"]);
+/** Écartée du tri pour une raison technique, mais pas masquée par l'utilisateur. */
+const visible = (e: Entite) => e.ecart !== "masquee" && e.ecart !== "masquee_reglage";
 
 /** Le mode, d'après les compteurs structurels (jamais d'après une valeur du moment). */
 export function choisirMode(U: number, D: number, P: number, T: number): Mode {
@@ -26,6 +30,7 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
     return a.area_id || (a.parent_device_id ? appareils[a.parent_device_id]?.area_id || null : null);
   };
   const racine = (id: string) => appareils[id]?.parent_device_id || id;
+  const zones = maison.areas ?? {};
 
   const toutes: Entite[] = [];
   for (const en of Object.values(maison.entities ?? {})) {
@@ -51,10 +56,26 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
       section: null,
       secondaire: false,
     };
+    // L'étiquette « masquer » se pose sur l'entité, son appareil ou sa pièce : des dizaines d'un coup.
+    if (porte(en.labels, "masquer") || porte(appareil?.labels, "masquer") || porte(e.piece ? zones[e.piece]?.labels : null, "masquer")) {
+      masquer.add(e.id);
+    }
     juger(e, en, masquer);
     toutes.push(e);
   }
   const gardees = toutes.filter((e) => !e.ecart);
+
+  // Les favoris posés par étiquette : l'entité elle-même, ou la fonction principale de l'appareil.
+  const favorisEtiquette: string[] = [];
+  for (const e of gardees) {
+    if (porte(maison.entities[e.id]?.labels, "favori")) favorisEtiquette.push(e.id);
+  }
+  for (const [id, appareil] of Object.entries(appareils)) {
+    if (!porte(appareil.labels, "favori")) continue;
+    const siennes = gardees.filter((e) => e.appareil === id);
+    const choisie = siennes.find((e) => e.principale) ?? siennes.find((e) => e.role === "commande") ?? siennes[0];
+    if (choisie && !favorisEtiquette.includes(choisie.id)) favorisEtiquette.push(choisie.id);
+  }
 
   // Appareil dédié à la mesure : toutes ses entités gardées (hors maintenance) sont des mesures.
   const parAppareil = new Map<string, Entite[]>();
@@ -86,7 +107,7 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
   // Les pièces, dans l'ordre choisi par l'utilisateur, étage par étage.
   const etages = Object.values(maison.floors ?? {}).sort((a, b) => (a.level ?? 0) - (b.level ?? 0));
   const ordreEtage = new Map(etages.map((f, i) => [f.floor_id, i]));
-  const pieces: Piece[] = Object.values(maison.areas ?? {}).map((a, ordre) => {
+  const pieces: Piece[] = Object.values(zones).filter((a) => !porte(a.labels, "masquer")).map((a, ordre) => {
     const entites = gardees.filter((e) => e.piece === a.area_id && e.role !== "maintenance" && e.role !== "systeme" && e.role !== "meteo");
     // Représentant d'une mesure : celui choisi dans la pièce, puis un thermomètre dédié, puis un capteur seul, puis le reste.
     const rang = (e: Entite) => (a.temperature_entity_id === e.id || a.humidity_entity_id === e.id ? 0
@@ -97,7 +118,7 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
       ...a,
       ordre,
       icon: a.icon || iconePiece(a.name),
-      exterieur: PIECES_EXTERIEURES.test(a.name),
+      exterieur: PIECES_EXTERIEURES.test(a.name) || porte(a.labels, "exterieur"),
       annexe: PIECES_ANNEXES.test(a.name),
       etage: a.floor_id && ordreEtage.has(a.floor_id) ? a.floor_id : null,
       entites,
@@ -108,6 +129,16 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
   }).sort((a, b) => (ordreEtage.get(a.etage ?? "") ?? 99) - (ordreEtage.get(b.etage ?? "") ?? 99) || a.ordre - b.ordre);
 
   const parRole = (role: Entite["role"]) => gardees.filter((e) => e.role === role);
+  const aRanger = gardees.filter((e) => !e.piece && !e.service && !PLATEFORMES_OFFICE.has(e.plateforme)
+    && e.role !== null && ["commande", "ouvrant", "alerte", "mesure", "presence", "camera"].includes(e.role) && (e.principale || !e.appareil));
+  // La pièce proposée pour chaque appareil à ranger, d'après son nom (celui de l'utilisateur d'abord).
+  const propositions: Record<string, string> = {};
+  for (const e of aRanger) {
+    const appareil = e.appareil ? appareils[e.appareil] : undefined;
+    const piece = proposerPiece(appareil?.name_by_user, pieces) ?? proposerPiece(appareil?.name, pieces)
+      ?? proposerPiece(String(e.etat.attributes.friendly_name ?? ""), pieces);
+    if (piece) propositions[e.id] = piece;
+  }
   const meteos = gardees.filter((e) => e.domaine === "weather").sort((a, b) => {
     const rang = (x: Entite) => (ORDRE_METEO.includes(x.plateforme) ? ORDRE_METEO.indexOf(x.plateforme) : ORDRE_METEO.length);
     return rang(a) - rang(b);
@@ -115,10 +146,12 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
   const energie = parRole("energie");
 
   return {
-    toutes, gardees, utiles, pieces, etages, mode, compteurs: { U, D, P, T },
+    toutes, gardees, utiles, pieces, etages, mode, compteurs: { U, D, P, T }, favorisEtiquette,
     meteo: meteos[0]?.id ?? null,
     // Repérés par leur identifiant, pas par leur état : un capteur indisponible au moment du tri doit rester choisi.
-    meteoFrance: gardees.find((e) => e.plateforme === "meteo_france" && (e.id.endsWith("_next_rain") || e.etat.attributes["1_hour_forecast"]))?.id ?? null,
+    // La pluie est un capteur d'horodatage, écarté du tri comme technique : on la cherche dans toutes les entités.
+    meteoFrance: toutes.find((e) => e.plateforme === "meteo_france" && visible(e)
+      && (e.id.endsWith("_next_rain") || e.etat.attributes["1_hour_forecast"]))?.id ?? null,
     vigilance: gardees.find((e) => e.plateforme === "meteo_france"
       && (e.id.endsWith("_weather_alert") || ["Vert", "Jaune", "Orange", "Rouge"].includes(e.etat.state)))?.id ?? null,
     ferie: gardees.find((e) => e.domaine === "calendar" && e.plateforme === "holiday")?.id ?? null,
@@ -135,8 +168,19 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
     majs: toutes.filter((e) => e.domaine === "update" && !e.ecart),
     piles: toutes.filter((e) => e.role === "maintenance" && e.classe === "battery"),
     systeme: parRole("systeme"),
-    aRanger: gardees.filter((e) => !e.piece && !e.service && !PLATEFORMES_OFFICE.has(e.plateforme)
-      && e.role !== null && ["commande", "ouvrant", "alerte", "mesure", "presence", "camera"].includes(e.role) && (e.principale || !e.appareil)),
+    aRanger,
+    propositions,
+    medias: gardees.filter((e) => e.domaine === "media_player" && !Array.isArray(e.etat.attributes.entity_id)),
+    // Personnes et minuteurs sont écartés du tri (domaine technique, aide sans pièce), mais « En ce moment » en parle.
+    personnes: toutes.filter((e) => e.domaine === "person" && visible(e)).map((e) => e.id),
+    agendas: gardees.filter((e) => e.domaine === "calendar" && !AGENDAS_ECARTES.has(e.plateforme)).map((e) => e.id),
+    enMarche: [
+      ...gardees.filter((e) => ["vacuum", "lawn_mower"].includes(e.domaine) || (e.domaine === "binary_sensor" && e.classe === "running")),
+      ...toutes.filter((e) => e.domaine === "timer" && visible(e)),
+    ].map((e) => e.id),
+    courses: toutes.find((e) => e.domaine === "todo" && e.plateforme === "shopping_list" && visible(e))?.id ?? null,
+    noms: Object.fromEntries(Object.entries(reglages.noms ?? {}).filter(([, nom]) => typeof nom === "string" && nom.trim())
+      .map(([id, nom]) => [id, nom.trim()])),
   };
 }
 
@@ -152,7 +196,8 @@ let memoire: { cle: unknown[]; resultat: Maison } | null = null;
 
 /** Version mémorisée : ne recalcule que si un registre ou un réglage a changé (les états ne changent pas le tri). */
 export function analyserMemo(maison: Instantane, reglages: Reglages = {}): Maison {
-  const cle = [maison.entities, maison.devices, maison.areas, maison.floors, reglages.mode, (reglages.masquer ?? []).join()];
+  const cle = [maison.entities, maison.devices, maison.areas, maison.floors, reglages.mode, (reglages.masquer ?? []).join(),
+    JSON.stringify(reglages.noms ?? {})];
   if (memoire && cle.every((v, i) => v === memoire!.cle[i])) return memoire.resultat;
   const resultat = analyser(maison, reglages);
   memoire = { cle, resultat };

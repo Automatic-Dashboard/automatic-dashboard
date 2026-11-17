@@ -2,12 +2,12 @@
 // proportions (pas de saut de mise en page pendant le chargement). Les @font-face
 // doivent vivre dans le document : déclarées dans un shadow DOM, elles sont ignorées.
 
-const BASE = "/centralhome_static";
+const BASE = "/automatic_dashboard_static";
 
 export function chargerPolices(): void {
-  if (document.getElementById("centralhome-polices")) return;
+  if (document.getElementById("automatic-dashboard-polices")) return;
   const style = document.createElement("style");
-  style.id = "centralhome-polices";
+  style.id = "automatic-dashboard-polices";
   style.textContent = `
     @font-face{font-family:"Inter";font-style:normal;font-weight:100 900;font-display:swap;
       src:url("${BASE}/inter-latin.woff2") format("woff2");

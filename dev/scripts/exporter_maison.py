@@ -3,7 +3,7 @@
 
 Usage :
   python3 dev/scripts/exporter_maison.py famille
-  CENTRALHOME_HA=http://127.0.0.1:8124 CENTRALHOME_SECRETS=$PWD/dev/.secrets/debutant.json \
+  AUTOMATIC_HA=http://127.0.0.1:8124 AUTOMATIC_SECRETS=$PWD/dev/.secrets/debutant.json \
     python3 dev/scripts/exporter_maison.py debutant
 
 Écrit frontend/tests/fixtures/<nom>.json. Aucun jeton ni mot de passe n'y est copié.
@@ -57,7 +57,13 @@ CHAMPS_PIECE = (
     "aliases",
 )
 CHAMPS_ETAGE = ("floor_id", "name", "level", "icon")
-ATTRIBUTS_PRIVES = {"entity_picture", "access_token"}  # jetons d'accès aux images : jamais exportés
+# Jamais exportés : les jetons d'accès aux images et les positions des personnes.
+ATTRIBUTS_PRIVES = {"entity_picture", "entity_picture_local", "access_token", "latitude", "longitude", "gps_accuracy"}
+
+
+def public(cle: str, valeur: object) -> bool:
+    """Un attribut qu'on peut verser dans le dépôt : ni privé, ni adresse qui porte un jeton."""
+    return cle not in ATTRIBUTS_PRIVES and not (isinstance(valeur, str) and "token=" in valeur)
 
 
 async def exporter(nom: str) -> Path:
@@ -102,7 +108,7 @@ async def exporter(nom: str) -> Path:
             s["entity_id"]: {
                 "entity_id": s["entity_id"],
                 "state": s["state"],
-                "attributes": {k: v for k, v in s["attributes"].items() if k not in ATTRIBUTS_PRIVES},
+                "attributes": {k: v for k, v in s["attributes"].items() if public(k, v)},
             }
             for s in etats
         },

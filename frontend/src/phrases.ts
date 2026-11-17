@@ -2,7 +2,10 @@
 // et la couleur du point qui la précède (vert : tout va bien, orange : à regarder…).
 
 import type { HomeAssistant } from "./ha";
+import { bilanAbsence, estAbsent } from "./moteur/absence";
+import { pointsVisibles } from "./moteur/points";
 import type { Maison, Piece } from "./moteur/types";
+import { lirePluie } from "./moteur/meteo-france";
 import { premiereValeur, temperatureDehors } from "./moteur/valeurs";
 import { conditionMeteo, degres, estFrancais, ilYa, majuscule, nombre, nomCourt, t, valide } from "./outils";
 
@@ -12,10 +15,33 @@ export interface Phrase {
   point: string;
 }
 
-const VERT = "var(--centralhome-vert)";
+const VERT = "var(--automatic-dashboard-vert)";
 const ORANGE = "var(--warning-color)";
-const ROUGE = "var(--centralhome-alerte)";
+const ROUGE = "var(--automatic-dashboard-alerte)";
 const BLEU = "var(--primary-color)";
+
+/**
+ * La phrase de l'accueil (et de la tablette murale) : une alerte grave d'abord, puis ce qui
+ * reste quand personne n'est là, la météo en mode Découverte, les points, ou « tout va bien ».
+ */
+export function phraseAccueil(hass: HomeAssistant, m: Maison): Phrase {
+  const tx = t(hass);
+  const points = pointsVisibles(hass, m).visibles;
+  const graves = points.filter((p) => p.niveau === 3);
+  if (graves.length) return { phrase: tx.alerteGrave(`${graves[0].titre} : ${graves[0].detail}`), point: ROUGE };
+  if (estAbsent(hass, m)) {
+    // Personne à la maison : ce qui est resté ouvert, allumé ou déverrouillé.
+    const b = bilanAbsence(hass, m);
+    const reste = [
+      b.ouverts.length ? tx.absOuverts(b.ouverts.length) : "", b.serrures.length ? tx.absSerrures(b.serrures.length) : "",
+      b.lumieres.length ? tx.absLumieres(b.lumieres.length) : "", b.alarmes.length ? tx.absAlarme : "",
+    ].filter(Boolean);
+    return reste.length ? { phrase: tx.absenceReste(reste.join(", ")), point: ORANGE } : { phrase: tx.absenceCalme, point: VERT };
+  }
+  if (m.mode === "decouverte") return phraseMeteo(hass, m);
+  if (points.length) return { phrase: tx.points(points.length), point: ORANGE };
+  return { phrase: tx.toutVaBien, point: VERT };
+}
 
 /** « Éclaircies, 12,4°. Pas de pluie dans l'heure. » */
 export function phraseMeteo(hass: HomeAssistant, m: Maison): Phrase {
@@ -24,12 +50,8 @@ export function phraseMeteo(hass: HomeAssistant, m: Maison): Phrase {
   if (!valide(meteo)) return { phrase: "", point: BLEU };
   const cond = conditionMeteo(hass, meteo).texte;
   let phrase = tx.phraseMeteo(cond, degres(hass, meteo.attributes.temperature));
-  const pluie = m.meteoFrance ? hass.states[m.meteoFrance] : undefined;
-  if (pluie) {
-    const prevision = Object.values(pluie.attributes["1_hour_forecast"] ?? {});
-    const premiere = prevision.findIndex((v) => v && v !== "Temps sec");
-    phrase += " " + (premiere < 0 ? tx.pasDePluie : premiere === 0 ? tx.pluieEnCours : tx.pluieDans(premiere * 5));
-  }
+  const pluie = lirePluie(m.meteoFrance ? hass.states[m.meteoFrance] : undefined);
+  if (pluie) phrase += " " + (pluie.dans === null ? tx.pasDePluie : pluie.dans === 0 ? tx.pluieEnCours : tx.pluieDansPhrase(pluie.dans));
   return { phrase, point: BLEU };
 }
 
@@ -56,7 +78,7 @@ export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phra
   const tx = t(hass);
   const fr = estFrancais(hass);
   const etat = (id: string | null | undefined) => (id ? hass.states[id] : undefined);
-  const nom = (e: { id: string }) => nomCourt(hass, e.id);
+  const nom = (e: { id: string }) => nomCourt(hass, e.id, m.noms);
 
   if (sujet === "climat") {
     // « Il fait bon partout, sauf dans la chambre (17,9°). 6 chauffages en marche. »

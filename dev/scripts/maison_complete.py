@@ -3,7 +3,7 @@ ferait Zigbee2MQTT, avec leurs entités techniques (pile, qualité du lien, tens
 réglages, micrologiciel…), sur deux étages.
 
 Usage, depuis le Mac :  python3 dev/scripts/maison_complete.py
-Le script se relance lui-même dans le conteneur centralhome-complet (qui a paho-mqtt)
+Le script se relance lui-même dans le conteneur automatic-complet (qui a paho-mqtt)
 pour publier, puis crée les étages par l'API de Home Assistant.
 """
 
@@ -638,7 +638,7 @@ def construire() -> None:
 def publier() -> None:
     import paho.mqtt.client as mqtt  # disponible dans l'image de Home Assistant
 
-    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, client_id="simulateur-centralhome")
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2, client_id="simulateur-automatic")
     client.connect("mosquitto", 1883)
     client.loop_start()
     # D'abord toutes les configurations, puis les états, retenus par le courtier.
@@ -692,7 +692,7 @@ if __name__ == "__main__":
     else:
         source = Path(__file__).read_text(encoding="utf-8")
         subprocess.run(
-            ["docker", "exec", "-i", "centralhome-complet", "python3", "-", "--publier"],
+            ["docker", "exec", "-i", "automatic-complet", "python3", "-", "--publier"],
             input=source,
             text=True,
             check=True,
@@ -700,9 +700,9 @@ if __name__ == "__main__":
         import os
         import time
 
-        os.environ.setdefault("CENTRALHOME_HA", "http://127.0.0.1:8125")
+        os.environ.setdefault("AUTOMATIC_HA", "http://127.0.0.1:8125")
         os.environ.setdefault(
-            "CENTRALHOME_SECRETS", str(Path(__file__).resolve().parent.parent / ".secrets" / "complet.json")
+            "AUTOMATIC_SECRETS", str(Path(__file__).resolve().parent.parent / ".secrets" / "complet.json")
         )
         time.sleep(8)  # laisser Home Assistant créer les appareils et les pièces suggérées
         etages()

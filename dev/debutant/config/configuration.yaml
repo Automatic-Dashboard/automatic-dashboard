@@ -16,4 +16,4 @@ scene: !include scenes.yaml
 logger:
   default: warning
   logs:
-    custom_components.centralhome: info
+    custom_components.automatic_dashboard: info

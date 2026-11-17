@@ -10,16 +10,16 @@ import { courbes } from "../mise-en-page/courbes";
 import type { Maison } from "../moteur/types";
 import { energiesMaison, moyenneInterieure, premiereValeur, temperatureDehors } from "../moteur/valeurs";
 import { ilYa, mh, naviguer, nombre, nomCourt, plusDInfos, t, trame } from "../outils";
-import { CarteCentralHome, definis, type OptionsGrille } from "./base";
+import { CarteAutomatic, definis, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
-export class CentralHomeHeros extends CarteCentralHome {
+export class AutomaticHeros extends CarteAutomatic {
   static override properties: PropertyDeclarations = {
     _donnees: { state: true },
   };
 
   static override styles = [STYLE_COMMUN, css`
-    ha-card{position:relative;padding:22px 26px;border-radius:28px;box-shadow:var(--centralhome-ombre, var(--ha-card-box-shadow))}
+    ha-card{position:relative;padding:22px 26px;border-radius:28px;box-shadow:var(--automatic-dashboard-ombre, var(--ha-card-box-shadow))}
     .trame{position:absolute;inset:0 0 auto auto;width:55%;height:100%;background-size:22px 22px;pointer-events:none;
       -webkit-mask-image:linear-gradient(225deg,#000 0%,transparent 65%);mask-image:linear-gradient(225deg,#000 0%,transparent 65%)}
     .contenu{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px 36px;height:100%;align-items:center}
@@ -43,12 +43,12 @@ export class CentralHomeHeros extends CarteCentralHome {
     .bouton ha-icon{--mdc-icon-size:18px}
     .boutons{display:flex;flex-wrap:wrap;gap:10px}
     .liste{display:grid;gap:8px;align-content:center}
-    .item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--centralhome-fond-alt);font-size:14px;font-weight:550;color:var(--primary-text-color)}
+    .item{display:flex;align-items:center;gap:10px;padding:9px 12px;border-radius:12px;background:var(--automatic-dashboard-fond-alt);font-size:14px;font-weight:550;color:var(--primary-text-color)}
     .item ha-icon{--mdc-icon-size:18px;color:var(--warning-color)}
-    .item.ok ha-icon{color:var(--centralhome-vert)}
-    .alerte{background:var(--centralhome-alerte-pale)} .alerte .ico{background:var(--centralhome-alerte);color:#fff}
-    .barre{height:12px;border-radius:999px;background:var(--centralhome-fond-alt);overflow:hidden;margin:12px 0 6px}
-    .barre span{display:block;height:100%;border-radius:999px;background:var(--centralhome-vert)}
+    .item.ok ha-icon{color:var(--automatic-dashboard-vert)}
+    .alerte{background:var(--automatic-dashboard-alerte-pale)} .alerte .ico{background:var(--automatic-dashboard-alerte);color:#fff}
+    .barre{height:12px;border-radius:999px;background:var(--automatic-dashboard-fond-alt);overflow:hidden;margin:12px 0 6px}
+    .barre span{display:block;height:100%;border-radius:999px;background:var(--automatic-dashboard-vert)}
     .legende{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:var(--secondary-text-color)}
     .colonne{display:flex;flex-direction:column;gap:16px;justify-content:center;height:100%}
   `];
@@ -97,9 +97,26 @@ export class CentralHomeHeros extends CarteCentralHome {
   private charger(cle: string, demande: () => Promise<unknown[]>): void {
     if (this._charge === cle) return;
     this._charge = cle;
+    this._donnees = undefined;
     demande().then((d) => {
-      this._donnees = d;
+      // Une réponse arrivée après une autre demande (pièces changées entre-temps) est ignorée.
+      if (this._charge === cle) this._donnees = d;
     });
+  }
+
+  /** Les données sont-elles encore en route ? */
+  private get enAttente(): boolean {
+    return this._donnees === undefined;
+  }
+
+  /** La place de la courbe, le temps qu'elle arrive. */
+  private courbeEnAttente(): TemplateResult {
+    return html`<div class="visuel" aria-busy="true"><span class="attente graphe"></span><div class="axe"><span class="attente" style="width:120px;height:11px"></span></div></div>`;
+  }
+
+  /** Un chiffre dont la valeur n'est pas encore arrivée : sa légende, et une forme à la place du nombre. */
+  private chiffreEnAttente(legende: string): TemplateResult {
+    return html`<div aria-busy="true"><div class="v"><span class="attente" style="width:96px;height:36px"></span></div><div class="l">${legende}</div></div>`;
   }
 
   private climat(hass: HomeAssistant, m: Maison): TemplateResult | null {
@@ -122,6 +139,7 @@ export class CentralHomeHeros extends CarteCentralHome {
       ids.length ? historique(hass, "climat", ids) : Promise.resolve([]),
       dehorsId ? historique(hass, `dehors|${dehorsId}`, [dehorsId]) : Promise.resolve([]),
     ]));
+    if (this.enAttente) return this.enveloppe(hass, html`<div class="chiffres">${chiffres}</div>`, this.courbeEnAttente());
     const [dedansV = [], dehorsV = []] = (this._donnees ?? []) as Serie[];
     const graphe = courbes([{ valeurs: dedansV, couleur: "var(--primary-color)" }, { valeurs: dehorsV, couleur: "var(--secondary-text-color)" }]);
     return this.enveloppe(hass, html`<div class="chiffres">${chiffres}</div>`,
@@ -141,8 +159,10 @@ export class CentralHomeHeros extends CarteCentralHome {
       compteurs.length ? variationJour(hass, compteurs, -1) : Promise.resolve(null),
     ]));
     const [courbeP = [], jour = null, veille = null] = (this._donnees ?? []) as [Serie?, (number | null)?, (number | null)?];
+    const attente = this.enAttente;
     const chiffres: TemplateResult[] = [];
     if (!Number.isNaN(puissance)) chiffres.push(this.chiffre(nombre(hass, puissance, 0), ent!.attributes.unit_of_measurement || "W", w.maintenant));
+    if (attente && compteurs.length) chiffres.push(this.chiffreEnAttente(w.aujourdhui));
     if (jour !== null) chiffres.push(this.chiffre(nombre(hass, jour, jour < 10 ? 2 : 1), "kWh", w.aujourdhui));
     if (veille !== null && veille > 0) chiffres.push(this.chiffre(nombre(hass, veille, veille < 10 ? 2 : 1), "kWh", w.hier));
     if (solaire && m.mode === "complet") {
@@ -150,6 +170,7 @@ export class CentralHomeHeros extends CarteCentralHome {
       if (!Number.isNaN(s)) chiffres.push(this.chiffre(nombre(hass, s, 0), "W", w.production));
     }
     if (!chiffres.length) return null;
+    if (attente && reseau) return this.enveloppe(hass, html`<div class="chiffres">${chiffres}</div>`, this.courbeEnAttente());
     const graphe = courbes([{ valeurs: courbeP, couleur: "var(--primary-color)" }]);
     return this.enveloppe(hass, html`<div class="chiffres">${chiffres}</div>`,
       html`<div class="visuel">${graphe}${graphe !== nothing ? html`<div class="axe"><span>${w.puissance}, ${w.legende24}</span><span>${w.maintenant}</span></div>` : nothing}</div>`);
@@ -159,7 +180,7 @@ export class CentralHomeHeros extends CarteCentralHome {
     const w = mh(hass);
     const tx = t(hass);
     const etat = (id: string) => hass.states[id];
-    const nom = (e: { id: string }) => nomCourt(hass, e.id);
+    const nom = (e: { id: string }) => nomCourt(hass, e.id, m.noms);
     const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on");
     const serrures = m.gardees.filter((e) => e.domaine === "lock");
     const ouvertes = serrures.filter((e) => etat(e.id)?.state === "unlocked");
@@ -203,7 +224,7 @@ export class CentralHomeHeros extends CarteCentralHome {
       ${majs ? html`<button class="bouton" @click=${() => naviguer("/config/updates")}>${w.voir}</button>` : nothing}</div>`;
     let droite: TemplateResult;
     if (!ok(dReussie) && !ok(dProchaine)) {
-      droite = html`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--centralhome-alerte-pale);color:var(--centralhome-alerte)"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
+      droite = html`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--automatic-dashboard-alerte-pale);color:var(--automatic-dashboard-alerte)"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
         <span>${w.sansSauvegarde}<div class="detail">${w.sansSauvegardeDetail}</div></span></div>
         <div class="boutons"><button class="bouton" @click=${() => naviguer("/config/backup")}>${w.regler}</button></div></div>`;
     } else {

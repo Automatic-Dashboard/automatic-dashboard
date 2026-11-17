@@ -1,43 +1,61 @@
 // Point d'entrée : charge la police, enregistre la stratégie de tableau et les cartes
-// CentralHome auprès de Home Assistant. Ce fichier est servi par l'intégration.
+// Automatic Dashboard auprès de Home Assistant. Ce fichier est servi par l'intégration.
 
-import { CentralHomeApercu } from "./cartes/apercu";
-import { CentralHomeARanger } from "./cartes/a-ranger";
-import { CentralHomeConfort } from "./cartes/confort";
-import { CentralHomeHeros } from "./cartes/heros";
-import { CentralHomeOuverture } from "./cartes/ouverture";
-import { CentralHomePastille } from "./cartes/pastille";
-import { CentralHomePiece } from "./cartes/piece";
-import { CentralHomePoints } from "./cartes/points";
-import { CentralHomePremiersPas } from "./cartes/premiers-pas";
+import { AutomaticApercu } from "./cartes/apercu";
+import { AutomaticARanger } from "./cartes/a-ranger";
+import { AutomaticBilan } from "./cartes/bilan";
+import { AutomaticConfort } from "./cartes/confort";
+import { AutomaticHeros } from "./cartes/heros";
+import { AutomaticMeteoFrance } from "./cartes/meteo-france";
+import { AutomaticMoment } from "./cartes/moment";
+import { AutomaticOuverture } from "./cartes/ouverture";
+import { AutomaticPastille } from "./cartes/pastille";
+import { AutomaticPiece } from "./cartes/piece";
+import { AutomaticPlan } from "./cartes/plan";
+import { AutomaticPoints } from "./cartes/points";
+import { AutomaticPremiersPas } from "./cartes/premiers-pas";
+import { AutomaticTablette } from "./cartes/tablette";
+import { AutomaticEditeur } from "./editeur/editeur";
 import type { HomeAssistant } from "./ha";
 import { analyserMemo } from "./moteur/analyser";
 import { chargerPolices } from "./polices";
 import { type ConfigStrategie, genererTableau } from "./strategie/strategie";
 
-const VERSION = "2026.11.0";
+/** Numéro de version, lu dans package.json à la construction. */
+const VERSION = __VERSION__;
 
-class CentralHomeStrategie extends HTMLElement {
+class AutomaticStrategie extends HTMLElement {
   static getCreateSuggestions() {
-    return { title: "CentralHome", icon: "mdi:home-roof" };
+    return { title: "Automatic Dashboard", icon: "mdi:home-roof" };
   }
 
   static async generate(config: ConfigStrategie, hass: HomeAssistant) {
     return genererTableau(config, hass);
   }
+
+  /** L'éditeur visuel, ouvert par « Modifier le tableau de bord ». */
+  static async getConfigElement() {
+    return document.createElement("automatic-dashboard-editeur");
+  }
 }
 
 const elements: [string, CustomElementConstructor][] = [
-  ["ll-strategy-dashboard-centralhome", CentralHomeStrategie],
-  ["centralhome-ouverture", CentralHomeOuverture],
-  ["centralhome-pastille", CentralHomePastille],
-  ["centralhome-points", CentralHomePoints],
-  ["centralhome-piece", CentralHomePiece],
-  ["centralhome-apercu", CentralHomeApercu],
-  ["centralhome-premiers-pas", CentralHomePremiersPas],
-  ["centralhome-heros", CentralHomeHeros],
-  ["centralhome-confort", CentralHomeConfort],
-  ["centralhome-a-ranger", CentralHomeARanger],
+  ["ll-strategy-dashboard-automatic-dashboard", AutomaticStrategie],
+  ["automatic-dashboard-ouverture", AutomaticOuverture],
+  ["automatic-dashboard-pastille", AutomaticPastille],
+  ["automatic-dashboard-points", AutomaticPoints],
+  ["automatic-dashboard-piece", AutomaticPiece],
+  ["automatic-dashboard-apercu", AutomaticApercu],
+  ["automatic-dashboard-premiers-pas", AutomaticPremiersPas],
+  ["automatic-dashboard-heros", AutomaticHeros],
+  ["automatic-dashboard-confort", AutomaticConfort],
+  ["automatic-dashboard-a-ranger", AutomaticARanger],
+  ["automatic-dashboard-meteo-france", AutomaticMeteoFrance],
+  ["automatic-dashboard-moment", AutomaticMoment],
+  ["automatic-dashboard-bilan", AutomaticBilan],
+  ["automatic-dashboard-plan", AutomaticPlan],
+  ["automatic-dashboard-tablette", AutomaticTablette],
+  ["automatic-dashboard-editeur", AutomaticEditeur],
 ];
 // Le fichier peut être chargé deux fois (ancienne et nouvelle version en mémoire) : on ne redéfinit rien.
 for (const [balise, classe] of elements) {
@@ -50,29 +68,29 @@ declare global {
   interface Window {
     customStrategies?: Record<string, unknown>[];
     customCards?: Record<string, unknown>[];
-    __centralhome?: Record<string, unknown>;
+    __automaticDashboard?: Record<string, unknown>;
   }
 }
 
 // Visible dans « Ajouter un tableau de bord », rubrique « Tableaux de bord communautaires » (Home Assistant 2026.5 et plus).
 window.customStrategies = window.customStrategies || [];
-if (!window.customStrategies.some((s) => s.type === "centralhome")) {
+if (!window.customStrategies.some((s) => s.type === "automatic_dashboard")) {
   window.customStrategies.push({
-    type: "centralhome",
+    type: "automatic_dashboard",
     strategyType: "dashboard",
-    name: "CentralHome",
+    name: "Automatic Dashboard",
     description: "Un tableau de bord complet, construit tout seul à partir de vos appareils.",
-    documentationURL: "https://github.com/CentralHome-HA/centralhome",
+    documentationURL: "https://automatic-dashboard.github.io/documentation/",
   });
 }
 // Deux cartes utiles seules, proposées dans le choix des cartes de n'importe quel tableau.
 window.customCards = window.customCards || [];
-if (!window.customCards.some((c) => c.type === "centralhome-points")) {
+if (!window.customCards.some((c) => c.type === "automatic-dashboard-points")) {
   window.customCards.push(
-    { type: "centralhome-points", name: "CentralHome : points à regarder", description: "Ce qu'il faut regarder dans la maison, ou rien." },
-    { type: "centralhome-piece", name: "CentralHome : pièce", description: "Une pièce, sa température et ce qui est allumé." },
+    { type: "automatic-dashboard-points", name: "Automatic Dashboard : points à regarder", description: "Ce qu'il faut regarder dans la maison, ou rien." },
+    { type: "automatic-dashboard-piece", name: "Automatic Dashboard : pièce", description: "Une pièce, sa température et ce qui est allumé." },
   );
 }
 
-window.__centralhome = { version: VERSION, analyser: analyserMemo };
-console.info(`CentralHome ${VERSION}`);
+window.__automaticDashboard = { version: VERSION, analyser: analyserMemo };
+console.info(`Automatic Dashboard ${VERSION}`);

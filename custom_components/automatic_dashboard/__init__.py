@@ -1,8 +1,9 @@
-"""CentralHome : un tableau de bord complet, construit tout seul à partir des appareils.
+"""Automatic Dashboard : un tableau de bord complet, construit tout seul à partir des appareils.
 
 L'intégration ne crée aucune entité. Elle sert le fichier JavaScript du tableau (la
-stratégie de tableau et les cartes CentralHome), le charge dans l'interface et installe
-le thème CentralHome. Aucune donnée ne quitte Home Assistant.
+stratégie de tableau et les cartes Automatic Dashboard), le charge dans l'interface, installe
+le thème Automatic Dashboard et crée, une fois, les étiquettes de réglage en masse. Aucune
+donnée ne quitte Home Assistant.
 """
 
 from __future__ import annotations
@@ -16,9 +17,10 @@ from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import issue_registry as ir
+from homeassistant.helpers import label_registry as lr
 from homeassistant.loader import async_get_integration
 
-from .const import DOMAIN, ISSUE_THEMES, JS_FILE, THEME_FILE, THEME_NAME, URL_BASE
+from .const import DOMAIN, ETIQUETTES, ISSUE_THEMES, JS_FILE, THEME_FILE, THEME_NAME, URL_BASE
 
 _LOGGER = logging.getLogger(__name__)
 _ICI = Path(__file__).parent
@@ -42,6 +44,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     donnees["url"] = url
 
     await _installer_theme(hass)
+    _creer_etiquettes(hass, entry)
     return True
 
 
@@ -51,6 +54,26 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         remove_extra_js_url(hass, url)
     ir.async_delete_issue(hass, DOMAIN, ISSUE_THEMES)
     return True
+
+
+def _creer_etiquettes(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Crée les étiquettes de réglage en masse, dans la langue de Home Assistant, une seule fois.
+
+    Une étiquette supprimée par l'utilisateur n'est pas recréée au démarrage suivant. Elles
+    restent après la désinstallation, comme le thème : retirer l'intégration ne doit pas
+    effacer des étiquettes posées sur des dizaines d'entités.
+    """
+    if entry.data.get("etiquettes"):
+        return
+    registre = lr.async_get(hass)
+    langue = "fr" if (hass.config.language or "").startswith("fr") else "en"
+    connues = {e.label_id for e in registre.async_list_labels()}
+    for etiquette in ETIQUETTES.values():
+        nom = etiquette[langue]
+        if connues.intersection(etiquette["ids"]) or registre.async_get_label_by_name(nom):
+            continue
+        registre.async_create(nom, icon=etiquette["icon"], description=etiquette["description"][langue])
+    hass.config_entries.async_update_entry(entry, data={**entry.data, "etiquettes": True})
 
 
 async def _installer_theme(hass: HomeAssistant) -> None:

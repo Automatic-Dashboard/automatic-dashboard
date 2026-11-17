@@ -8,10 +8,10 @@ import { courbe } from "../mise-en-page/courbes";
 import type { Maison } from "../moteur/types";
 import { moyenneInterieure, temperatureDehors } from "../moteur/valeurs";
 import { degres, estFrancais, heure, langue, naviguer, nombre, phaseLune, plusDInfos, t, valide } from "../outils";
-import { CarteCentralHome, definis, type OptionsGrille } from "./base";
+import { CarteAutomatic, definis, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
-export class CentralHomeApercu extends CarteCentralHome {
+export class AutomaticApercu extends CarteAutomatic {
   static override properties: PropertyDeclarations = {
     _courbe: { state: true },
   };
@@ -85,7 +85,7 @@ export class CentralHomeApercu extends CarteCentralHome {
     }
     if (s === "a-ranger") {
       if (!m.aRanger.length) return null;
-      const noms = m.aRanger.slice(0, 3).map((e) => e.etat.attributes.friendly_name).join(", ");
+      const noms = m.aRanger.slice(0, 3).map((e) => m.noms[e.id] || e.etat.attributes.friendly_name).join(", ");
       return this.gabarit("mdi:tray-arrow-down", tx.aRanger, tx.sansPiece(m.aRanger.length), `${noms} · ${tx.choisirPieces} ›`);
     }
     if (s === "ephemeride") {
@@ -123,7 +123,9 @@ export class CentralHomeApercu extends CarteCentralHome {
     const valeurs = this._courbe ?? [];
     return html`<ha-card><button class="carte" @click=${this._clic}><span class="tete"><span class="sur">${sur}</span><ha-icon icon=${icone}></ha-icon></span>
       <span><span class="valeur chiffre">${valeur}</span><span class="detail doux" style="display:block">${detail}</span></span>
-      ${valeurs.length ? html`<span class="bas">${courbe(valeurs, 200, 30)}</span>` : nothing}</button></ha-card>`;
+      ${valeurs.length ? html`<span class="bas">${courbe(valeurs, 200, 30)}</span>`
+        : this._demande && this._courbe === undefined ? html`<span class="bas" aria-busy="true"><span class="attente" style="height:22px;margin:0 15px 8px"></span></span>` : nothing}
+      </button></ha-card>`;
   }
 
   // Une seule demande par carte : l'historique arrive plus tard et redessine la carte.

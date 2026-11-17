@@ -1,16 +1,16 @@
-# Home Assistant d'essai pour CentralHome, sur le Mac (Colima).
+# Home Assistant d'essai pour Automatic Dashboard, sur le Mac (Colima).
 # Lancer : docker compose -f dev/compose.yaml up -d
 # Effacer : scripts/effacer.sh (supprime le conteneur ET la configuration générée)
 services:
   homeassistant:
-    container_name: centralhome-essai
+    container_name: automatic-essai
     image: ghcr.io/home-assistant/home-assistant:2026.11.1
     environment:
       TZ: Europe/Paris
     volumes:
       - ./config:/config
       # L'intégration du dépôt, construite par « npm run build » dans frontend/
-      - ../custom_components/centralhome:/config/custom_components/centralhome:ro
+      - ../custom_components/automatic_dashboard:/config/custom_components/automatic_dashboard:ro
     ports:
       - "127.0.0.1:8123:8123"
     restart: "no"

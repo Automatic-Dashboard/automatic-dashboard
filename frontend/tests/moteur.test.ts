@@ -147,3 +147,48 @@ describe("à ranger", () => {
     expect(analyser(maisons.debutant).aRanger.map((e) => e.id)).toEqual(["switch.prise_connectee"]);
   });
 });
+
+describe("Météo-France", () => {
+  it.each(["debutant", "famille"])("maison %s : la pluie et la vigilance sont trouvées, même la pluie qui est un capteur d'horodatage", (nom) => {
+    const m = analyser(maisons[nom]);
+    expect(m.meteoFrance).toMatch(/_next_rain$/);
+    expect(m.vigilance).toMatch(/_weather_alert$/);
+    expect(m.meteo).toMatch(/^weather\.meteo_france/);
+  });
+
+  it("ses capteurs ne comptent pas comme des appareils et ne vont jamais « à ranger »", () => {
+    const m = analyser(maisons.debutant);
+    expect(m.mode).toBe("decouverte");
+    expect(m.utiles.some((e) => e.plateforme === "meteo_france")).toBe(false);
+    expect(m.aRanger.some((e) => e.plateforme === "meteo_france")).toBe(false);
+  });
+
+  it("maison complète, sans Météo-France : rien n'est inventé", () => {
+    const m = analyser(maisons.complete);
+    expect(m.meteoFrance).toBeNull();
+    expect(m.vigilance).toBeNull();
+  });
+});
+
+describe("en ce moment", () => {
+  const m = analyser(maisons.famille);
+
+  it("les lecteurs rangés, sans les groupes", () => {
+    expect(m.medias.map((e) => e.id)).toEqual(["media_player.enceinte_du_salon"]);
+  });
+
+  it("les personnes, même écartées du tri (la carte garde celles qui ont un traceur)", () => {
+    expect(m.personnes).toEqual(expect.arrayContaining(["person.antonin_essai", "person.camille"]));
+  });
+
+  it("l'agenda de la maison, jamais celui des jours fériés", () => {
+    expect(m.agendas).toContain("calendar.maison");
+    for (const id of m.agendas) expect(m.toutes.find((e) => e.id === id)?.plateforme).not.toBe("holiday");
+  });
+
+  it("les machines qui peuvent tourner et la liste de courses", () => {
+    expect(m.enMarche).toEqual(expect.arrayContaining(["binary_sensor.lave_linge", "vacuum.demo_vacuum_0_ground_floor"]));
+    expect(m.enMarche).not.toContain("vacuum.demo_vacuum_1_first_floor"); // masqué par l'utilisateur
+    expect(m.courses).toBe("todo.shopping_list");
+  });
+});

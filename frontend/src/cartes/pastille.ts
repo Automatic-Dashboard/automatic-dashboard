@@ -5,10 +5,10 @@ import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
 import { moyenneInterieure, premiereValeur } from "../moteur/valeurs";
 import { conditionMeteo, degres, heure, naviguer, nombre, plusDInfos, t, valide } from "../outils";
-import { CarteCentralHome, definis } from "./base";
+import { CarteAutomatic, definis } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
-export class CentralHomePastille extends CarteCentralHome {
+export class AutomaticPastille extends CarteAutomatic {
   static override styles = [STYLE_COMMUN, css`
     :host{display:inline-block;height:auto;container-type:normal}
     button{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 13px 0 10px;border-radius:999px;white-space:nowrap;
@@ -16,9 +16,9 @@ export class CentralHomePastille extends CarteCentralHome {
     button:hover{border-color:var(--primary-color)}
     ha-icon{--mdc-icon-size:18px;color:var(--secondary-text-color)}
     .valeur{font-weight:500;color:var(--secondary-text-color)}
-    .actif{background:var(--centralhome-accent-pale)} .actif ha-icon{color:var(--state-light-active-color)}
+    .actif{background:var(--automatic-dashboard-accent-pale)} .actif ha-icon{color:var(--state-light-active-color)}
     .attention{background:rgba(233,162,59,.14)} .attention ha-icon{color:var(--warning-color)}
-    .alerte{background:var(--centralhome-alerte-pale)} .alerte ha-icon{color:var(--centralhome-alerte)}
+    .alerte{background:var(--automatic-dashboard-alerte-pale)} .alerte ha-icon{color:var(--automatic-dashboard-alerte)}
   `];
 
   override suivies(m: Maison): string[] {

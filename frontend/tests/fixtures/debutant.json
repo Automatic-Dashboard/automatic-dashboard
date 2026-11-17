@@ -53,7 +53,7 @@
    "brands",
    "button",
    "camera",
-   "centralhome",
+   "automatic_dashboard",
    "climate",
    "cloud",
    "cloud.tts",
@@ -119,6 +119,9 @@
    "media_source",
    "met",
    "met.weather",
+   "meteo_france",
+   "meteo_france.sensor",
+   "meteo_france.weather",
    "mobile_app",
    "mobile_app.notify",
    "moisture",
@@ -241,6 +244,19 @@
    "parent_device_id": null,
    "via_device_id": null
   },
+  "75ce15a7d770bcd57a2509b737e143a4": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "75ce15a7d770bcd57a2509b737e143a4",
+   "labels": [],
+   "manufacturer": "Météo-France",
+   "model": "Météo-France mobile API",
+   "name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
   "7ce7d8e25c95991d513da6f0e774c1f2": {
    "area_id": null,
    "disabled_by": null,
@@ -346,6 +362,88 @@
    "next_name_part": "device",
    "platform": "backup",
    "translation_key": "next_scheduled_automatic_backup"
+  },
+  "sensor.meteo_france_alert_for_department_13_13_weather_alert": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_alert_for_department_13_13_weather_alert",
+   "hidden": false,
+   "labels": [],
+   "name": "13 Weather alert",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Cloud cover",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "display_precision": 0,
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Daily precipitation",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Freeze chance",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Humidity",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Rain chance",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Snow chance",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille UV",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Next rain",
+   "next_name_part": "device",
+   "platform": "meteo_france"
   },
   "sensor.sun_next_dawn": {
    "device_id": "4977b4b174b3759f0fd93b3077a9f72a",
@@ -453,6 +551,15 @@
    "labels": [],
    "next_name_part": "device",
    "platform": "met"
+  },
+  "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille": {
+   "device_id": "75ce15a7d770bcd57a2509b737e143a4",
+   "entity_id": "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille",
+   "next_name_part": "device",
+   "platform": "meteo_france"
   }
  },
  "floors": {},
@@ -567,13 +674,121 @@
    "entity_id": "sensor.backup_next_scheduled_automatic_backup",
    "state": "unknown"
   },
+  "sensor.meteo_france_alert_for_department_13_13_weather_alert": {
+   "attributes": {
+    "Grand-froid": "Vert",
+    "Inondation": "Vert",
+    "Neige-verglas": "Vert",
+    "Orages": "Vert",
+    "Pluie-inondation": "Vert",
+    "Vagues-submersion": "Vert",
+    "Vent violent": "Vert",
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR 13 Weather alert",
+    "icon": "mdi:weather-cloudy-alert"
+   },
+   "entity_id": "sensor.meteo_france_alert_for_department_13_13_weather_alert",
+   "state": "Vert"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Cloud cover",
+    "icon": "mdi:weather-partly-cloudy",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover",
+   "state": "30"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "device_class": "precipitation",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Daily precipitation",
+    "unit_of_measurement": "mm"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Freeze chance",
+    "icon": "mdi:snowflake",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "device_class": "humidity",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Humidity",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity",
+   "state": "75"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Rain chance",
+    "icon": "mdi:weather-rainy",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Snow chance",
+    "icon": "mdi:weather-snowy",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille UV",
+    "icon": "mdi:sunglasses",
+    "unit_of_measurement": "UV index"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv",
+   "state": "1"
+  },
+  "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain": {
+   "attributes": {
+    "1_hour_forecast": {
+     "0 min": "Temps sec",
+     "10 min": "Temps sec",
+     "15 min": "Temps sec",
+     "20 min": "Temps sec",
+     "25 min": "Temps sec",
+     "35 min": "Temps sec",
+     "45 min": "Temps sec",
+     "5 min": "Temps sec",
+     "55 min": "Temps sec"
+    },
+    "attribution": "Data provided by Météo-France",
+    "device_class": "timestamp",
+    "forecast_time_ref": "2026-11-16T20:25:00+00:00",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Next rain"
+   },
+   "entity_id": "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain",
+   "state": "unknown"
+  },
   "sensor.sun_next_dawn": {
    "attributes": {
     "device_class": "timestamp",
     "friendly_name": "Sun Prochaine aube"
    },
    "entity_id": "sensor.sun_next_dawn",
-   "state": "2026-11-16T06:00:56+00:00"
+   "state": "2026-11-17T06:02:08+00:00"
   },
   "sensor.sun_next_dusk": {
    "attributes": {
@@ -581,7 +796,7 @@
     "friendly_name": "Sun Prochain crépuscule"
    },
    "entity_id": "sensor.sun_next_dusk",
-   "state": "2026-11-16T16:45:06+00:00"
+   "state": "2026-11-17T16:44:18+00:00"
   },
   "sensor.sun_next_midnight": {
    "attributes": {
@@ -589,7 +804,7 @@
     "friendly_name": "Sun Prochain minuit"
    },
    "entity_id": "sensor.sun_next_midnight",
-   "state": "2026-11-15T23:23:16+00:00"
+   "state": "2026-11-16T23:23:27+00:00"
   },
   "sensor.sun_next_noon": {
    "attributes": {
@@ -597,7 +812,7 @@
     "friendly_name": "Sun Prochain midi"
    },
    "entity_id": "sensor.sun_next_noon",
-   "state": "2026-11-16T11:23:09+00:00"
+   "state": "2026-11-17T11:23:20+00:00"
   },
   "sensor.sun_next_rising": {
    "attributes": {
@@ -605,7 +820,7 @@
     "friendly_name": "Sun Prochain lever"
    },
    "entity_id": "sensor.sun_next_rising",
-   "state": "2026-11-16T06:32:13+00:00"
+   "state": "2026-11-17T06:33:29+00:00"
   },
   "sensor.sun_next_setting": {
    "attributes": {
@@ -613,7 +828,7 @@
     "friendly_name": "Sun Prochain coucher"
    },
    "entity_id": "sensor.sun_next_setting",
-   "state": "2026-11-16T16:13:50+00:00"
+   "state": "2026-11-17T16:12:58+00:00"
   },
   "sensor.thermometre_du_salon": {
    "attributes": {
@@ -627,15 +842,15 @@
   },
   "sun.sun": {
    "attributes": {
-    "azimuth": 281.54,
-    "elevation": -39.1,
+    "azimuth": 286.28,
+    "elevation": -43.46,
     "friendly_name": "Sun",
-    "next_dawn": "2026-11-16T06:00:56.626550+00:00",
-    "next_dusk": "2026-11-16T16:45:06.405134+00:00",
-    "next_midnight": "2026-11-15T23:23:16+00:00",
-    "next_noon": "2026-11-16T11:23:09+00:00",
-    "next_rising": "2026-11-16T06:32:13.444998+00:00",
-    "next_setting": "2026-11-16T16:13:50.789610+00:00",
+    "next_dawn": "2026-11-17T06:02:08.076088+00:00",
+    "next_dusk": "2026-11-17T16:44:18.800559+00:00",
+    "next_midnight": "2026-11-16T23:23:27+00:00",
+    "next_noon": "2026-11-17T11:23:20+00:00",
+    "next_rising": "2026-11-17T06:33:29.703119+00:00",
+    "next_setting": "2026-11-17T16:12:58.335049+00:00",
     "rising": false
    },
    "entity_id": "sun.sun",
@@ -666,24 +881,45 @@
   "weather.met_no_43_2965_5_3698": {
    "attributes": {
     "attribution": "Weather forecast from met.no, delivered by the Norwegian Meteorological Institute.",
-    "cloud_coverage": 100.0,
-    "dew_point": 11.9,
+    "cloud_coverage": 71.1,
+    "dew_point": 11.4,
     "friendly_name": "Met.no (43.2965, 5.3698)",
-    "humidity": 88,
+    "humidity": 84,
     "precipitation_unit": "mm",
-    "pressure": 1015.6,
+    "pressure": 1015.0,
     "pressure_unit": "hPa",
     "supported_features": 3,
-    "temperature": 13.8,
+    "temperature": 13.9,
     "temperature_unit": "°C",
     "uv_index": 0.0,
     "visibility_unit": "km",
-    "wind_bearing": 126.4,
-    "wind_speed": 33.1,
+    "wind_bearing": 64.9,
+    "wind_speed": 10.1,
     "wind_speed_unit": "km/h"
    },
    "entity_id": "weather.met_no_43_2965_5_3698",
-   "state": "cloudy"
+   "state": "partlycloudy"
+  },
+  "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille": {
+   "attributes": {
+    "apparent_temperature": 13.6,
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille",
+    "humidity": 75,
+    "precipitation_unit": "mm",
+    "pressure": 1014.9,
+    "pressure_unit": "hPa",
+    "supported_features": 3,
+    "temperature": 13.6,
+    "temperature_unit": "°C",
+    "visibility_unit": "km",
+    "wind_bearing": 70,
+    "wind_gust_speed": 0.0,
+    "wind_speed": 7.2,
+    "wind_speed_unit": "km/h"
+   },
+   "entity_id": "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille",
+   "state": "partlycloudy"
   },
   "zone.home": {
    "attributes": {
@@ -691,8 +927,6 @@
     "editable": true,
     "friendly_name": "Studio d'essai",
     "icon": "mdi:home",
-    "latitude": 43.2965,
-    "longitude": 5.3698,
     "passive": false,
     "persons": [],
     "radius": 100

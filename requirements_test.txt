@@ -1,0 +1,2 @@
+# Tests de l'intégration : Home Assistant de test (version alignée sur une version publiée de Home Assistant).
+pytest-homeassistant-custom-component==0.13.375

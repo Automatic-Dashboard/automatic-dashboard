@@ -1,22 +1,26 @@
 // Les pages derrière l'accueil : une par pièce, puis Climat, Énergie, Sécurité,
 // Système et À ranger, chacune ouverte par sa carte Héros.
 
+import { aUnBilan } from "../donnees/bilan";
 import type { HomeAssistant } from "../ha";
 import { avecLargeurs } from "../mise-en-page/rangees";
 import type { Entite, Maison, Mode } from "../moteur/types";
 import { energiesMaison } from "../moteur/valeurs";
-import { estFrancais, t } from "../outils";
-import { aFonction, type CarteConfig, type SectionConfig, section, titre, tuile, vue, type VueConfig } from "./configs";
+import { estFrancais, nomIntegration, t } from "../outils";
+import { aFonction, type CarteConfig, type SectionConfig, section, THEME, titre, tuile, vue, type VueConfig } from "./configs";
 
 type AvecReglages = (c: CarteConfig) => CarteConfig;
+
+/** Les intégrations qui décrivent la machine de Home Assistant elle-même. */
+const MACHINE = new Set(["systemmonitor", "hassio"]);
 
 export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecReglages): VueConfig[] {
   const tx = t(hass);
   const fr = estFrancais(hass);
   const vues: VueConfig[] = [];
-  const ouverture = (page: string, extra: Record<string, unknown> = {}) => avecReglages({ type: "custom:centralhome-ouverture", page, ...extra });
-  const heros = (page: string) => avecReglages({ type: "custom:centralhome-heros", page });
-  const apercu = (sorte: string, grid_options: Record<string, unknown>) => avecReglages({ type: "custom:centralhome-apercu", sorte, grid_options });
+  const ouverture = (page: string, extra: Record<string, unknown> = {}) => avecReglages({ type: "custom:automatic-dashboard-ouverture", page, ...extra });
+  const heros = (page: string) => avecReglages({ type: "custom:automatic-dashboard-heros", page });
+  const apercu = (sorte: string, grid_options: Record<string, unknown>) => avecReglages({ type: "custom:automatic-dashboard-apercu", sorte, grid_options });
   const etat = (id: string) => hass.states[id]?.state;
   // Un groupe titré de tuiles, en rangées pleines (la dernière élargie au besoin).
   const groupe = (nom: string, entites: Entite[], mode: Mode, titreExtra: Record<string, unknown> = {}): SectionConfig | null => {
@@ -59,7 +63,9 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
   const piecesTemp = m.pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length);
   if (piecesTemp.length || m.climats.length) {
     const scene = [section([heros("climat"),
-      ...(piecesTemp.length >= 2 ? [titre(fr ? "Pièce par pièce" : "Room by room"), avecReglages({ type: "custom:centralhome-confort" })] : [])])];
+      ...(piecesTemp.length >= 2 ? [titre(fr ? "Pièce par pièce" : "Room by room"), avecReglages({ type: "custom:automatic-dashboard-confort" })] : [])])];
+    // La maison en plan, chaque pièce colorée par sa température.
+    if (piecesTemp.length >= 2) scene.push(section([titre(fr ? "La maison en plan" : "Floor plan"), avecReglages({ type: "custom:automatic-dashboard-plan" })]));
     const thermostats = m.climats.filter((e) => e.domaine === "climate");
     if (thermostats.length) {
       if (m.mode === "complet") {
@@ -79,7 +85,7 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
         grid_options: { columns: 12, rows: 4 } });
     }
     if (m.pieces.some((p) => !p.exterieur && p.humidites.length)) cote.push(apercu("humidite", { columns: 12, rows: 2 }));
-    const pastilles = piecesTemp.slice(0, 12).map((p) => avecReglages({ type: "custom:centralhome-pastille", sujet: "piece", piece: p.area_id }));
+    const pastilles = piecesTemp.slice(0, 12).map((p) => avecReglages({ type: "custom:automatic-dashboard-pastille", sujet: "piece", piece: p.area_id }));
     vues.push(vue({ path: "climat", title: tx.climat, icon: "mdi:thermometer", subview: true, ouverture: ouverture("climat"),
       badges: pastilles, scene, cote, coteApres: 1 }));
   }
@@ -101,6 +107,7 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
     if (maison.length) {
       cote.push({ type: "statistics-graph", title: fr ? "7 derniers jours" : "Last 7 days", entities: maison, period: "day", days_to_show: 7,
         chart_type: "bar", stat_types: ["change"], grid_options: { columns: 12, rows: 4 } });
+      cote.push(titre(tx.bilan, bouton(fr ? "Voir" : "See", "mdi:calendar-week", { action: "navigate", navigation_path: "bilan" })));
     }
     vues.push(vue({ path: "energie", title: tx.energie, icon: "mdi:lightning-bolt-outline", subview: true, ouverture: ouverture("energie"), scene, cote, coteApres: 1 }));
   }
@@ -127,21 +134,45 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
   const piles = [...m.piles].sort((a, b) => valeur(a) - valeur(b));
   const majsDabord = [...m.majs].sort((a, b) => Number(etat(b.id) === "on") - Number(etat(a.id) === "on"));
   const plafond = m.mode === "complet" ? 16 : 8;
+  // La machine de Home Assistant, puis un groupe par service du réseau (Glances, Uptime Kuma, AdGuard, Speedtest…).
+  const affichables = m.systeme.filter((e) => e.plateforme !== "backup" && ["sensor", "binary_sensor", "switch"].includes(e.domaine));
+  const machine = affichables.filter((e) => MACHINE.has(e.plateforme) && e.domaine !== "switch");
+  const services = [...new Set(affichables.map((e) => e.plateforme))].filter((p) => !MACHINE.has(p))
+    .map((p) => groupe(nomIntegration(hass, p), affichables.filter((e) => e.plateforme === p).slice(0, plafond), "maison"));
   const sceneSysteme = [
     section([heros("systeme")]),
     groupe(tx.misesAJour, majsDabord.slice(0, plafond), "complet"),
     groupe(tx.piles, piles.slice(0, plafond), "complet"),
-    groupe(tx.machine, m.systeme.filter((e) => e.plateforme !== "backup" && e.domaine === "sensor").slice(0, 12), "maison"),
+    groupe(tx.machine, machine.slice(0, 12), "maison"),
+    ...services,
   ].filter((s): s is SectionConfig => s !== null);
   vues.push(vue({ path: "systeme", title: tx.systeme, icon: "mdi:server-outline", subview: true, ouverture: ouverture("systeme"), scene: sceneSysteme,
     cote: hass.user?.is_admin
       ? [{ type: "repairs", hide_empty: true, grid_options: { columns: 12 } }, { type: "discovered-devices", hide_empty: true, grid_options: { columns: 12 } }] : [],
     coteApres: 1 }));
 
+  // Le bilan de la semaine : une page à part, annoncée le lundi par un point à regarder.
+  if (aUnBilan(hass, m)) {
+    // Sur le côté, le temps long : l'énergie des huit dernières semaines, les températures des sept derniers jours.
+    const energies = energiesMaison(hass, m);
+    const temperatures = m.temperaturesInterieures.map((c) => c[0]).slice(0, 6);
+    const cote: CarteConfig[] = [
+      ...(energies.length ? [{ type: "statistics-graph", title: fr ? "8 dernières semaines" : "Last 8 weeks", entities: energies, period: "week",
+        days_to_show: 56, chart_type: "bar", stat_types: ["change"], grid_options: { columns: 12, rows: 4 } }] : []),
+      ...(temperatures.length ? [{ type: "history-graph", title: fr ? "Températures, 7 jours" : "Temperatures, 7 days", entities: temperatures,
+        hours_to_show: 168, grid_options: { columns: 12, rows: 4 } }] : []),
+    ];
+    vues.push(vue({ path: "bilan", title: tx.bilan, icon: "mdi:calendar-week", subview: true, ouverture: ouverture("bilan"),
+      scene: [section([avecReglages({ type: "custom:automatic-dashboard-bilan" })])], cote, coteApres: 1 }));
+  }
+
   // À ranger : Héros (progression et boutons), puis la liste des appareils par intégration.
   if (m.aRanger.length) {
     vues.push(vue({ path: "a-ranger", title: tx.aRanger, icon: "mdi:tray-arrow-down", subview: true, ouverture: ouverture("a-ranger"),
-      scene: [section([heros("a-ranger"), avecReglages({ type: "custom:centralhome-a-ranger" })])] }));
+      scene: [section([heros("a-ranger"), avecReglages({ type: "custom:automatic-dashboard-a-ranger" })])] }));
   }
+  // La tablette murale : une page pleine (vue « panel »), hors des onglets, à ouvrir sur la tablette.
+  vues.push({ path: "tablette", title: fr ? "Tablette murale" : "Wall tablet", icon: "mdi:tablet-dashboard", type: "panel", subview: true,
+    theme: THEME, cards: [avecReglages({ type: "custom:automatic-dashboard-tablette" })] } as unknown as VueConfig);
   return vues;
 }

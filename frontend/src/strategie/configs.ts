@@ -33,7 +33,7 @@ export interface VueConfig {
   sidebar?: { visibility: Record<string, unknown>[]; sections: SectionConfig[] };
 }
 
-export const THEME = "CentralHome";
+export const THEME = "Automatic Dashboard";
 
 export const section = (cartes: CarteConfig[], extra: Partial<SectionConfig> = {}): SectionConfig =>
   ({ type: "grid", column_span: 2, cards: cartes, ...extra });

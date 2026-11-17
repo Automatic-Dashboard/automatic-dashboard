@@ -3,19 +3,19 @@
 # Home Assistant sur http://127.0.0.1:8125
 services:
   homeassistant:
-    container_name: centralhome-complet
+    container_name: automatic-complet
     image: ghcr.io/home-assistant/home-assistant:2026.11.1
     environment:
       TZ: Europe/Paris
     volumes:
       - ./config:/config
-      - ../../custom_components/centralhome:/config/custom_components/centralhome:ro
+      - ../../custom_components/automatic_dashboard:/config/custom_components/automatic_dashboard:ro
     ports:
       - "127.0.0.1:8125:8123"
     depends_on: [mosquitto]
     restart: "no"
   mosquitto:
-    container_name: centralhome-mosquitto
+    container_name: automatic-mosquitto
     image: eclipse-mosquitto:2
     volumes:
       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro

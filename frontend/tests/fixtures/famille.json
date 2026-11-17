@@ -94,7 +94,7 @@
    "button",
    "calendar",
    "camera",
-   "centralhome",
+   "automatic_dashboard",
    "climate",
    "cloud",
    "cloud.tts",
@@ -187,6 +187,8 @@
    "lawn_mower",
    "light",
    "llm",
+   "local_calendar",
+   "local_calendar.calendar",
    "lock",
    "logbook",
    "logger",
@@ -199,6 +201,9 @@
    "media_source",
    "met",
    "met.weather",
+   "meteo_france",
+   "meteo_france.sensor",
+   "meteo_france.weather",
    "mobile_app",
    "mobile_app.notify",
    "moisture",
@@ -246,6 +251,7 @@
    "todo",
    "trace",
    "tts",
+   "universal.media_player",
    "update",
    "usage_prediction",
    "usb",
@@ -433,6 +439,19 @@
    "manufacturer": "Google",
    "model": "Google Translate TTS",
    "name": "Google Translate en com",
+   "name_by_user": null,
+   "parent_device_id": null,
+   "via_device_id": null
+  },
+  "312f5bdfcead8fa418f4e251230019f9": {
+   "area_id": null,
+   "disabled_by": null,
+   "entry_type": "service",
+   "id": "312f5bdfcead8fa418f4e251230019f9",
+   "labels": [],
+   "manufacturer": "Météo-France",
+   "model": "Météo-France mobile API",
+   "name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR",
    "name_by_user": null,
    "parent_device_id": null,
    "via_device_id": null
@@ -1153,6 +1172,15 @@
    "next_name_part": "area",
    "platform": "template"
   },
+  "binary_sensor.lave_linge": {
+   "area_id": "salle_de_bain",
+   "entity_id": "binary_sensor.lave_linge",
+   "hidden": false,
+   "labels": [],
+   "name": "Lave-linge",
+   "next_name_part": "area",
+   "platform": "template"
+  },
   "binary_sensor.movement_backyard": {
    "device_id": "edf6865153a6b9c561e9d307a5eb651c",
    "entity_id": "binary_sensor.movement_backyard",
@@ -1196,6 +1224,13 @@
    "labels": [],
    "next_name_part": "device",
    "platform": "demo"
+  },
+  "calendar.maison": {
+   "entity_id": "calendar.maison",
+   "hidden": false,
+   "labels": [],
+   "name": "Maison",
+   "platform": "local_calendar"
   },
   "climate.ecobee": {
    "device_id": "9dcc15dba807309023f92402b82b1d5f",
@@ -1398,6 +1433,15 @@
    "next_name_part": "device",
    "platform": "demo"
   },
+  "media_player.enceinte_du_salon": {
+   "area_id": "salon",
+   "entity_id": "media_player.enceinte_du_salon",
+   "hidden": false,
+   "labels": [],
+   "name": "Enceinte du salon",
+   "next_name_part": "area",
+   "platform": "universal"
+  },
   "notify.notifier": {
    "device_id": "5959683ac4f4d43c01bd5a7e386cb49d",
    "entity_id": "notify.notifier",
@@ -1455,6 +1499,13 @@
    "hidden": false,
    "labels": [],
    "name": "Antonin (essai)",
+   "platform": "person"
+  },
+  "person.camille": {
+   "entity_id": "person.camille",
+   "hidden": false,
+   "labels": [],
+   "name": "Camille",
    "platform": "person"
   },
   "select.speed": {
@@ -1585,6 +1636,88 @@
    "name": "Humidité salon",
    "next_name_part": "area",
    "platform": "template"
+  },
+  "sensor.meteo_france_alert_for_department_13_13_weather_alert": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_alert_for_department_13_13_weather_alert",
+   "hidden": false,
+   "labels": [],
+   "name": "13 Weather alert",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Cloud cover",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "display_precision": 0,
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Daily precipitation",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Freeze chance",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Humidity",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Rain chance",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Snow chance",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille UV",
+   "next_name_part": "device",
+   "platform": "meteo_france"
+  },
+  "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille Next rain",
+   "next_name_part": "device",
+   "platform": "meteo_france"
   },
   "sensor.outside_humidity": {
    "device_id": "b0a1eb2511c52edc5eb0ec59f188163e",
@@ -2081,6 +2214,15 @@
    "labels": [],
    "next_name_part": "device",
    "platform": "met"
+  },
+  "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille": {
+   "device_id": "312f5bdfcead8fa418f4e251230019f9",
+   "entity_id": "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille",
+   "hidden": false,
+   "labels": [],
+   "name": "Marseille",
+   "next_name_part": "device",
+   "platform": "meteo_france"
   }
  },
  "floors": {},
@@ -2161,6 +2303,14 @@
    "entity_id": "binary_sensor.fuite_dans_la_salle_de_bain",
    "state": "off"
   },
+  "binary_sensor.lave_linge": {
+   "attributes": {
+    "device_class": "running",
+    "friendly_name": "Lave-linge"
+   },
+   "entity_id": "binary_sensor.lave_linge",
+   "state": "on"
+  },
   "binary_sensor.movement_backyard": {
    "attributes": {
     "device_class": "motion",
@@ -2204,11 +2354,11 @@
    "attributes": {
     "all_day": false,
     "description": "Future Description",
-    "end_time": "2026-11-15 22:19:42",
+    "end_time": "2026-11-16 22:44:57",
     "friendly_name": "Calendar 1",
     "location": "Future Location",
     "message": "Future Event",
-    "start_time": "2026-11-15 21:19:42"
+    "start_time": "2026-11-16 21:44:57"
    },
    "entity_id": "calendar.calendar_1",
    "state": "off"
@@ -2217,14 +2367,28 @@
    "attributes": {
     "all_day": false,
     "description": "",
-    "end_time": "2026-11-15 21:19:42",
+    "end_time": "2026-11-16 21:44:57",
     "friendly_name": "Calendar 2",
     "location": "",
     "message": "Current Event",
-    "start_time": "2026-11-15 20:19:42"
+    "start_time": "2026-11-16 20:44:57"
    },
    "entity_id": "calendar.calendar_2",
    "state": "on"
+  },
+  "calendar.maison": {
+   "attributes": {
+    "all_day": false,
+    "description": "",
+    "end_time": "2026-11-16 23:30:00",
+    "friendly_name": "Maison",
+    "location": "",
+    "message": "Cours de piano",
+    "start_time": "2026-11-16 22:30:00",
+    "supported_features": 7
+   },
+   "entity_id": "calendar.maison",
+   "state": "off"
   },
   "camera.demo_camera": {
    "attributes": {
@@ -2443,11 +2607,8 @@
   },
   "device_tracker.demo_anne_therese": {
    "attributes": {
-    "battery": 37,
+    "battery": 46,
     "friendly_name": "Anne Therese",
-    "gps_accuracy": 134,
-    "latitude": 43.306380000000004,
-    "longitude": 5.3729,
     "source_type": "gps"
    },
    "entity_id": "device_tracker.demo_anne_therese",
@@ -2457,9 +2618,6 @@
    "attributes": {
     "battery": 53,
     "friendly_name": "Home Boy",
-    "gps_accuracy": 20,
-    "latitude": 43.29648,
-    "longitude": 5.36982,
     "source_type": "gps"
    },
    "entity_id": "device_tracker.demo_home_boy",
@@ -2467,11 +2625,8 @@
   },
   "device_tracker.demo_paulus": {
    "attributes": {
-    "battery": 55,
+    "battery": 17,
     "friendly_name": "Paulus",
-    "gps_accuracy": 63,
-    "latitude": 43.28756,
-    "longitude": 5.3774,
     "source_type": "gps"
    },
    "entity_id": "device_tracker.demo_paulus",
@@ -2584,29 +2739,25 @@
    "entity_id": "fan.preset_only_limited_fan",
    "state": "off"
   },
-  "geo_location.cyclone": {
+  "geo_location.grass_fire": {
    "attributes": {
-    "friendly_name": "Cyclone",
-    "icon": "mdi:weather-tornado",
-    "latitude": 43.20894,
-    "longitude": 5.61147,
+    "friendly_name": "Grass Fire",
+    "icon": "mdi:fire",
     "source": "demo",
     "unit_of_measurement": "km"
    },
-   "entity_id": "geo_location.cyclone",
-   "state": "21.8"
+   "entity_id": "geo_location.grass_fire",
+   "state": "12.4"
   },
-  "geo_location.waterspout": {
+  "geo_location.ice_storm": {
    "attributes": {
-    "friendly_name": "Waterspout",
-    "icon": "mdi:weather-tornado",
-    "latitude": 42.96987,
-    "longitude": 5.33936,
+    "friendly_name": "Ice Storm",
+    "icon": "mdi:snowflake-alert",
     "source": "demo",
     "unit_of_measurement": "km"
    },
-   "entity_id": "geo_location.waterspout",
-   "state": "36.3"
+   "entity_id": "geo_location.ice_storm",
+   "state": "48.7"
   },
   "humidifier.dehumidifier": {
    "attributes": {
@@ -2907,7 +3058,7 @@
     "media_content_type": "movie",
     "media_duration": 360000,
     "media_position": 54000,
-    "media_position_updated_at": "2026-11-15T19:49:42.823642+00:00",
+    "media_position_updated_at": "2026-11-16T20:14:57.082421+00:00",
     "media_title": "Epic sax guy 10 hours",
     "shuffle": false,
     "sound_mode": "Music",
@@ -2931,6 +3082,30 @@
     "volume_level": 1.0
    },
    "entity_id": "media_player.browse",
+   "state": "playing"
+  },
+  "media_player.enceinte_du_salon": {
+   "attributes": {
+    "active_child": "media_player.living_room",
+    "app_name": "YouTube",
+    "friendly_name": "Enceinte du salon",
+    "is_volume_muted": false,
+    "media_content_id": "eyU3bRy2x44",
+    "media_content_type": "movie",
+    "media_duration": 300,
+    "media_position": 45,
+    "media_position_updated_at": "2026-11-16T20:14:57.082417+00:00",
+    "media_title": "♥♥ The Best Fireplace Video (3 hours)",
+    "shuffle": false,
+    "sound_mode": "Music",
+    "sound_mode_list": [
+     "Music",
+     "Movie"
+    ],
+    "supported_features": 119695,
+    "volume_level": 1.0
+   },
+   "entity_id": "media_player.enceinte_du_salon",
    "state": "playing"
   },
   "media_player.group": {
@@ -2984,7 +3159,7 @@
     "media_content_type": "movie",
     "media_duration": 300,
     "media_position": 45,
-    "media_position_updated_at": "2026-11-15T19:49:42.823638+00:00",
+    "media_position_updated_at": "2026-11-16T20:14:57.082417+00:00",
     "media_title": "♥♥ The Best Fireplace Video (3 hours)",
     "shuffle": false,
     "sound_mode": "Music",
@@ -3132,15 +3307,34 @@
   },
   "person.antonin_essai": {
    "attributes": {
-    "device_trackers": [],
+    "device_trackers": [
+     "device_tracker.demo_home_boy"
+    ],
     "editable": true,
     "friendly_name": "Antonin (essai)",
     "id": "antonin_essai",
-    "in_zones": [],
+    "in_zones": [
+     "zone.home"
+    ],
+    "source": "device_tracker.demo_home_boy",
     "user_id": "a4472fec4ebf4631b23bff8e949b9492"
    },
    "entity_id": "person.antonin_essai",
-   "state": "unknown"
+   "state": "home"
+  },
+  "person.camille": {
+   "attributes": {
+    "device_trackers": [
+     "device_tracker.demo_paulus"
+    ],
+    "editable": true,
+    "friendly_name": "Camille",
+    "id": "camille",
+    "in_zones": [],
+    "source": "device_tracker.demo_paulus"
+   },
+   "entity_id": "person.camille",
+   "state": "not_home"
   },
   "remote.remote_one": {
    "attributes": {
@@ -3257,7 +3451,7 @@
     "unit_of_measurement": "W"
    },
    "entity_id": "sensor.consommation_de_la_maison",
-   "state": "650"
+   "state": "562"
   },
   "sensor.energie_de_la_maison": {
    "attributes": {
@@ -3268,7 +3462,7 @@
     "unit_of_measurement": "kWh"
    },
    "entity_id": "sensor.energie_de_la_maison",
-   "state": "0.137"
+   "state": "2.342"
   },
   "sensor.humidite_chambre": {
    "attributes": {
@@ -3288,7 +3482,7 @@
     "unit_of_measurement": "%"
    },
    "entity_id": "sensor.humidite_salle_de_bain",
-   "state": "64"
+   "state": "65"
   },
   "sensor.humidite_salon": {
    "attributes": {
@@ -3298,7 +3492,115 @@
     "unit_of_measurement": "%"
    },
    "entity_id": "sensor.humidite_salon",
-   "state": "45"
+   "state": "48"
+  },
+  "sensor.meteo_france_alert_for_department_13_13_weather_alert": {
+   "attributes": {
+    "Grand-froid": "Vert",
+    "Inondation": "Vert",
+    "Neige-verglas": "Vert",
+    "Orages": "Vert",
+    "Pluie-inondation": "Vert",
+    "Vagues-submersion": "Vert",
+    "Vent violent": "Vert",
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR 13 Weather alert",
+    "icon": "mdi:weather-cloudy-alert"
+   },
+   "entity_id": "sensor.meteo_france_alert_for_department_13_13_weather_alert",
+   "state": "Vert"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Cloud cover",
+    "icon": "mdi:weather-partly-cloudy",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_cloud_cover",
+   "state": "30"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "device_class": "precipitation",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Daily precipitation",
+    "unit_of_measurement": "mm"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_daily_precipitation",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Freeze chance",
+    "icon": "mdi:snowflake",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_freeze_chance",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "device_class": "humidity",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Humidity",
+    "state_class": "measurement",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_humidity",
+   "state": "75"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Rain chance",
+    "icon": "mdi:weather-rainy",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_rain_chance",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Snow chance",
+    "icon": "mdi:weather-snowy",
+    "unit_of_measurement": "%"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_snow_chance",
+   "state": "0"
+  },
+  "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv": {
+   "attributes": {
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille UV",
+    "icon": "mdi:sunglasses",
+    "unit_of_measurement": "UV index"
+   },
+   "entity_id": "sensor.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_uv",
+   "state": "1"
+  },
+  "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain": {
+   "attributes": {
+    "1_hour_forecast": {
+     "0 min": "Temps sec",
+     "10 min": "Temps sec",
+     "15 min": "Temps sec",
+     "20 min": "Temps sec",
+     "25 min": "Temps sec",
+     "35 min": "Temps sec",
+     "45 min": "Temps sec",
+     "5 min": "Temps sec",
+     "55 min": "Temps sec"
+    },
+    "attribution": "Data provided by Météo-France",
+    "device_class": "timestamp",
+    "forecast_time_ref": "2026-11-16T20:25:00+00:00",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille Next rain"
+   },
+   "entity_id": "sensor.meteo_france_rain_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille_next_rain",
+   "state": "unknown"
   },
   "sensor.outside_humidity": {
    "attributes": {
@@ -3378,7 +3680,7 @@
     "unit_of_measurement": "W"
    },
    "entity_id": "sensor.puissance_du_lave_linge",
-   "state": "180"
+   "state": "60"
   },
   "sensor.sun_next_dawn": {
    "attributes": {
@@ -3386,7 +3688,7 @@
     "friendly_name": "Sun Prochaine aube"
    },
    "entity_id": "sensor.sun_next_dawn",
-   "state": "2026-11-16T06:00:56+00:00"
+   "state": "2026-11-17T06:02:08+00:00"
   },
   "sensor.sun_next_dusk": {
    "attributes": {
@@ -3394,7 +3696,7 @@
     "friendly_name": "Sun Prochain crépuscule"
    },
    "entity_id": "sensor.sun_next_dusk",
-   "state": "2026-11-16T16:45:06+00:00"
+   "state": "2026-11-17T16:44:18+00:00"
   },
   "sensor.sun_next_midnight": {
    "attributes": {
@@ -3402,7 +3704,7 @@
     "friendly_name": "Sun Prochain minuit"
    },
    "entity_id": "sensor.sun_next_midnight",
-   "state": "2026-11-15T23:23:16+00:00"
+   "state": "2026-11-16T23:23:27+00:00"
   },
   "sensor.sun_next_noon": {
    "attributes": {
@@ -3410,7 +3712,7 @@
     "friendly_name": "Sun Prochain midi"
    },
    "entity_id": "sensor.sun_next_noon",
-   "state": "2026-11-16T11:23:09+00:00"
+   "state": "2026-11-17T11:23:20+00:00"
   },
   "sensor.sun_next_rising": {
    "attributes": {
@@ -3418,7 +3720,7 @@
     "friendly_name": "Sun Prochain lever"
    },
    "entity_id": "sensor.sun_next_rising",
-   "state": "2026-11-16T06:32:13+00:00"
+   "state": "2026-11-17T06:33:29+00:00"
   },
   "sensor.sun_next_setting": {
    "attributes": {
@@ -3426,7 +3728,7 @@
     "friendly_name": "Sun Prochain coucher"
    },
    "entity_id": "sensor.sun_next_setting",
-   "state": "2026-11-16T16:13:50+00:00"
+   "state": "2026-11-17T16:12:58+00:00"
   },
   "sensor.temperature_bureau": {
    "attributes": {
@@ -3436,7 +3738,7 @@
     "unit_of_measurement": "°C"
    },
    "entity_id": "sensor.temperature_bureau",
-   "state": "19.7"
+   "state": "19.6"
   },
   "sensor.temperature_chambre": {
    "attributes": {
@@ -3446,7 +3748,7 @@
     "unit_of_measurement": "°C"
    },
    "entity_id": "sensor.temperature_chambre",
-   "state": "18.8"
+   "state": "18.6"
   },
   "sensor.temperature_chambre_des_enfants": {
    "attributes": {
@@ -3466,7 +3768,7 @@
     "unit_of_measurement": "°C"
    },
    "entity_id": "sensor.temperature_cuisine",
-   "state": "21.2"
+   "state": "21.1"
   },
   "sensor.temperature_entree": {
    "attributes": {
@@ -3486,7 +3788,7 @@
     "unit_of_measurement": "°C"
    },
    "entity_id": "sensor.temperature_salle_de_bain",
-   "state": "22.2"
+   "state": "22.4"
   },
   "sensor.temperature_salon": {
    "attributes": {
@@ -3496,7 +3798,7 @@
     "unit_of_measurement": "°C"
    },
    "entity_id": "sensor.temperature_salon",
-   "state": "20.4"
+   "state": "20.5"
   },
   "sensor.thermostat": {
    "attributes": {
@@ -3520,7 +3822,7 @@
     "unit_of_measurement": "kWh"
    },
    "entity_id": "sensor.total_energy_kwh",
-   "state": "13.0"
+   "state": "28.5"
   },
   "sensor.total_energy_mwh": {
    "attributes": {
@@ -3530,7 +3832,7 @@
     "unit_of_measurement": "MWh"
    },
    "entity_id": "sensor.total_energy_mwh",
-   "state": "0.0065"
+   "state": "0.01425"
   },
   "sensor.total_gas_ft3": {
    "attributes": {
@@ -3540,7 +3842,7 @@
     "unit_of_measurement": "m³"
    },
    "entity_id": "sensor.total_gas_ft3",
-   "state": "0.736238011392"
+   "state": "1.614060255744"
   },
   "sensor.total_gas_m3": {
    "attributes": {
@@ -3550,7 +3852,7 @@
     "unit_of_measurement": "m³"
    },
    "entity_id": "sensor.total_gas_m3",
-   "state": "0.65"
+   "state": "1.425"
   },
   "siren.siren": {
    "attributes": {
@@ -3581,15 +3883,15 @@
   },
   "sun.sun": {
    "attributes": {
-    "azimuth": 281.54,
-    "elevation": -39.1,
+    "azimuth": 286.56,
+    "elevation": -43.69,
     "friendly_name": "Sun",
-    "next_dawn": "2026-11-16T06:00:56.626550+00:00",
-    "next_dusk": "2026-11-16T16:45:06.405134+00:00",
-    "next_midnight": "2026-11-15T23:23:16+00:00",
-    "next_noon": "2026-11-16T11:23:09+00:00",
-    "next_rising": "2026-11-16T06:32:13.444998+00:00",
-    "next_setting": "2026-11-16T16:13:50.789610+00:00",
+    "next_dawn": "2026-11-17T06:02:08.076088+00:00",
+    "next_dusk": "2026-11-17T16:44:18.800559+00:00",
+    "next_midnight": "2026-11-16T23:23:27+00:00",
+    "next_noon": "2026-11-17T11:23:20+00:00",
+    "next_rising": "2026-11-17T06:33:29.703119+00:00",
+    "next_setting": "2026-11-17T16:12:58.335049+00:00",
     "rising": false
    },
    "entity_id": "sun.sun",
@@ -3668,7 +3970,7 @@
     "supported_features": 15
    },
    "entity_id": "todo.shopping_list",
-   "state": "0"
+   "state": "3"
   },
   "tts.google_translate_en_com": {
    "attributes": {
@@ -3978,24 +4280,45 @@
   "weather.maison_d_essai": {
    "attributes": {
     "attribution": "Weather forecast from met.no, delivered by the Norwegian Meteorological Institute.",
-    "cloud_coverage": 100.0,
-    "dew_point": 11.9,
+    "cloud_coverage": 71.1,
+    "dew_point": 11.4,
     "friendly_name": "Appartement d'essai",
-    "humidity": 88,
+    "humidity": 84,
     "precipitation_unit": "mm",
-    "pressure": 1015.6,
+    "pressure": 1015.0,
     "pressure_unit": "hPa",
     "supported_features": 3,
-    "temperature": 13.8,
+    "temperature": 13.9,
     "temperature_unit": "°C",
     "uv_index": 0.0,
     "visibility_unit": "km",
-    "wind_bearing": 126.4,
-    "wind_speed": 33.1,
+    "wind_bearing": 64.9,
+    "wind_speed": 10.1,
     "wind_speed_unit": "km/h"
    },
    "entity_id": "weather.maison_d_essai",
-   "state": "cloudy"
+   "state": "partlycloudy"
+  },
+  "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille": {
+   "attributes": {
+    "apparent_temperature": 13.6,
+    "attribution": "Data provided by Météo-France",
+    "friendly_name": "Météo-France forecast for city Marseille - Provence-Alpes-Côte d'Azur (13) - FR Marseille",
+    "humidity": 75,
+    "precipitation_unit": "mm",
+    "pressure": 1014.9,
+    "pressure_unit": "hPa",
+    "supported_features": 3,
+    "temperature": 13.6,
+    "temperature_unit": "°C",
+    "visibility_unit": "km",
+    "wind_bearing": 70,
+    "wind_gust_speed": 0.0,
+    "wind_speed": 7.2,
+    "wind_speed_unit": "km/h"
+   },
+   "entity_id": "weather.meteo_france_forecast_for_city_marseille_provence_alpes_cote_d_azur_13_fr_marseille",
+   "state": "partlycloudy"
   },
   "zone.home": {
    "attributes": {
@@ -4003,14 +4326,14 @@
     "editable": true,
     "friendly_name": "Appartement d'essai",
     "icon": "mdi:home",
-    "latitude": 43.2965,
-    "longitude": 5.3698,
     "passive": false,
-    "persons": [],
+    "persons": [
+     "person.antonin_essai"
+    ],
     "radius": 100
    },
    "entity_id": "zone.home",
-   "state": "0"
+   "state": "1"
   }
  }
 }

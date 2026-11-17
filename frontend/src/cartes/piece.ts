@@ -6,10 +6,10 @@ import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
 import { premiereValeur } from "../moteur/valeurs";
 import { degres, naviguer, nombre, t } from "../outils";
-import { CarteCentralHome, type OptionsGrille } from "./base";
+import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
-export class CentralHomePiece extends CarteCentralHome {
+export class AutomaticPiece extends CarteAutomatic {
   static override styles = [STYLE_COMMUN, css`
     button.carte{display:flex;flex-direction:column;justify-content:space-between;width:100%;height:100%;padding:13px 14px 12px;border-radius:var(--ha-card-border-radius)}
     .haut{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}

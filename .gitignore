@@ -28,4 +28,8 @@ dev/**/config/custom_components/
 dev/**/config/.cache/
 dev/**/config/.ha_run.lock
 dev/**/config/known_devices.yaml
+dev/**/config/.shopping_list.json
 dev/complet/mosquitto/data/
+
+# Maisons neuves montées par dev/scripts/maison_neuve.sh
+dev/neuve/

@@ -2,14 +2,14 @@
 # Lancer : docker compose -f dev/debutant/compose.yaml up -d  (http://127.0.0.1:8124)
 services:
   homeassistant:
-    container_name: centralhome-debutant
+    container_name: automatic-debutant
     image: ghcr.io/home-assistant/home-assistant:2026.11.1
     environment:
       TZ: Europe/Paris
     volumes:
       - ./config:/config
       # L'intégration du dépôt, comme pour la maison « famille »
-      - ../../custom_components/centralhome:/config/custom_components/centralhome:ro
+      - ../../custom_components/automatic_dashboard:/config/custom_components/automatic_dashboard:ro
     ports:
       - "127.0.0.1:8124:8123"
     restart: "no"

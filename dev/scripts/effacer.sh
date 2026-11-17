@@ -11,6 +11,6 @@ read -r reponse
 
 docker compose -f "$ICI/compose.yaml" down
 cd "$ICI/config"
-rm -rf .storage .cloud .HA_VERSION home-assistant_v2.db* home-assistant.log* tts deps blueprints themes/centralhome.yaml
+rm -rf .storage .cloud .HA_VERSION home-assistant_v2.db* home-assistant.log* tts deps blueprints themes/automatic_dashboard.yaml
 rm -f "$ICI/.secrets/identifiants.json"
 echo "Home Assistant d'essai effacé."

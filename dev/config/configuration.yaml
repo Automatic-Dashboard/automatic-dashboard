@@ -13,10 +13,10 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
 
-# Appareils fictifs pour les essais de CentralHome
+# Appareils fictifs pour les essais d'Automatic Dashboard
 demo:
 
 logger:
   default: warning
   logs:
-    custom_components.centralhome: info
+    custom_components.automatic_dashboard: info

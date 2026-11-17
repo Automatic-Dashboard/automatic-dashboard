@@ -1,0 +1,32 @@
+name: Quelque chose ne marche pas
+description: Une erreur, une page vide, une carte qui ne s'affiche pas.
+labels: ["problème"]
+body:
+  - type: textarea
+    id: probleme
+    attributes:
+      label: Ce qui se passe
+      description: Une capture d'écran aide beaucoup (pensez à masquer ce qui est privé).
+    validations:
+      required: true
+  - type: textarea
+    id: etapes
+    attributes:
+      label: Pour le reproduire
+      placeholder: |
+        1. Ouvrir le tableau Automatic Dashboard
+        2. Aller dans la page Énergie
+        3. …
+  - type: textarea
+    id: journal
+    attributes:
+      label: Messages d'erreur
+      description: Paramètres, Système, Journaux (filtrer sur « automatic_dashboard »), et la console du navigateur s'il y en a.
+      render: text
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: Home Assistant 2026.12.1, Automatic Dashboard 2026.12.0, navigateur ou application
+    validations:
+      required: true

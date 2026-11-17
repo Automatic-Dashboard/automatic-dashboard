@@ -127,6 +127,11 @@ template:
         unique_id: essai_presence_salon
         device_class: occupancy
         state: "{{ true }}"
+      # Un appareil en marche, pour le bloc « En ce moment »
+      - name: "Lave-linge"
+        unique_id: essai_lave_linge_en_marche
+        device_class: running
+        state: "{{ (now().minute // 20) != 2 }}"
 
 # Énergie de la maison : intégrale de la puissance (kWh qui augmentent au fil du temps)
 sensor:
@@ -137,3 +142,12 @@ sensor:
     unit_prefix: k
     round: 3
     method: left
+
+# Une enceinte du salon en lecture (les lecteurs de démonstration n'ont pas
+# d'identifiant : on ne pourrait pas les ranger dans une pièce).
+media_player:
+  - platform: universal
+    name: "Enceinte du salon"
+    unique_id: essai_enceinte_salon
+    children:
+      - media_player.living_room

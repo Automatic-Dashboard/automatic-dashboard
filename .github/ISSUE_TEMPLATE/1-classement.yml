@@ -1,0 +1,33 @@
+name: Le tableau range mal un appareil
+description: Un appareil manque, apparaît au mauvais endroit, ou une information technique est montrée.
+title: "Classement : "
+labels: ["classement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci ! Le tableau est construit sur des maisons d'essai : chaque vraie maison l'améliore, et votre diagnostic deviendra un cas de test.
+        Thanks! The dashboard is built on test homes: every real home makes it better, and your diagnostic will become a test case. (English welcome.)
+  - type: textarea
+    id: constat
+    attributes:
+      label: Ce que vous voyez, et ce que vous attendiez
+      placeholder: « Le capteur de signal Wi-Fi de ma prise apparaît dans le salon ; il devrait être caché. »
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostic
+    attributes:
+      label: Le diagnostic
+      description: |
+        Sur le tableau : « Modifier le tableau de bord », rubrique « Signaler un problème ». Choisissez l'appareil concerné, puis « Télécharger » et glissez le fichier ici (ou « Copier » et collez, si le texte est court).
+        Il décrit votre maison sans aucun nom ni valeur : vous pouvez le relire avant de l'envoyer.
+        On the dashboard: "Edit dashboard", "Report a problem" section. Pick the device, then "Download" and drop the file here (or "Copy" and paste if it is short).
+    validations:
+      required: true
+  - type: input
+    id: integration
+    attributes:
+      label: L'intégration d'origine
+      description: Dans Paramètres, Appareils et services (Zigbee2MQTT, ZHA, Shelly…).
+      placeholder: Zigbee2MQTT

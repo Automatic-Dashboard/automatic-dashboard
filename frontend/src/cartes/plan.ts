@@ -1,0 +1,81 @@
+// La maison en plan : chaque pièce est un bloc coloré par sa température, étage par étage
+// (le plus haut en haut, comme sur un plan en coupe). La taille d'un bloc suit le nombre
+// d'appareils de la pièce ; un clic ouvre sa page.
+
+import { css, html, nothing, type TemplateResult } from "lit";
+import type { HomeAssistant } from "../ha";
+import type { Maison, Piece } from "../moteur/types";
+import { premiereValeur } from "../moteur/valeurs";
+import { degres, estFrancais, naviguer, nombre } from "../outils";
+import { CarteAutomatic, type OptionsGrille } from "./base";
+import { STYLE_COMMUN } from "./styles";
+
+/** Du froid au chaud : les paliers de couleur d'une pièce. */
+export const PALIERS: [number, string][] = [[17, "#4F8FD9"], [19, "#5FB3D6"], [22, "#5DB88A"], [24, "#E9A23B"], [Infinity, "#D9614F"]];
+export const couleurTemperature = (t: number | null): string | null => (t === null ? null : PALIERS.find(([seuil]) => t < seuil)![1]);
+
+export class AutomaticPlan extends CarteAutomatic {
+  static override styles = [STYLE_COMMUN, css`
+    ha-card{padding:16px 16px 14px;display:grid;gap:12px}
+    .etage{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:stretch}
+    .etage > .sur{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:10.5px;padding:4px 0}
+    .sans-etage{grid-template-columns:1fr}
+    /* Une mosaïque : les grandes pièces prennent deux colonnes (et deux rangées pour les plus grandes), les petites comblent les trous. */
+    .pieces{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));grid-auto-rows:84px;grid-auto-flow:dense;gap:6px}
+    .piece{display:flex;flex-direction:column;justify-content:space-between;min-width:0;padding:10px 12px;border-radius:12px;
+      box-sizing:border-box;text-align:left;background:color-mix(in srgb, var(--c, #888) 26%, var(--card-background-color, #fff));
+      border:1px solid color-mix(in srgb, var(--c, #888) 45%, transparent);transition:transform .12s}
+    .piece:hover{transform:translateY(-1px)}
+    .piece.inconnue{--c:var(--secondary-text-color);background:transparent;border-style:dashed}
+    .piece.dehors{background:repeating-linear-gradient(135deg, color-mix(in srgb, var(--c, #888) 18%, transparent) 0 6px, transparent 6px 12px);border-style:dashed}
+    .nom{font-size:13px;font-weight:650;color:var(--primary-text-color);line-height:1.2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .bas{display:flex;align-items:baseline;justify-content:space-between;gap:6px}
+    .temp{font-size:22px;font-weight:700;letter-spacing:-.02em;color:color-mix(in srgb, var(--c, #888) 70%, var(--primary-text-color))}
+    .hum{font-size:12px;font-weight:600;color:var(--secondary-text-color)}
+    .legende{display:flex;align-items:center;gap:10px;font-size:11.5px;color:var(--secondary-text-color);font-variant-numeric:tabular-nums}
+    .legende span.degrade{flex:1;max-width:220px;height:6px;border-radius:3px;
+      background:linear-gradient(90deg, #4F8FD9, #5FB3D6 30%, #5DB88A 55%, #E9A23B 78%, #D9614F)}
+    @media (prefers-reduced-motion: reduce){ .piece{transition:none} }
+  `];
+
+  getGridOptions(): OptionsGrille {
+    return { columns: "full", rows: "auto" };
+  }
+
+  override suivies(m: Maison): string[] {
+    return m.pieces.flatMap((p) => [...p.temperatures, ...p.humidites]);
+  }
+
+  protected override rendu(hass: HomeAssistant, m: Maison): TemplateResult | null {
+    const pieces = m.pieces.filter((p) => p.entites.length || p.temperatures.length);
+    if (pieces.filter((p) => p.temperatures.length).length < 2) return null;
+    // Le plus haut étage en haut ; les pièces sans étage à la fin.
+    const etages = [...m.etages].sort((a, b) => (b.level ?? 0) - (a.level ?? 0));
+    const groupes: [string | null, Piece[]][] = etages.map((e): [string | null, Piece[]] => [e.name, pieces.filter((p) => p.etage === e.floor_id)])
+      .filter(([, l]) => l.length);
+    const sans = pieces.filter((p) => !p.etage);
+    if (sans.length) groupes.push([groupes.length ? (estFrancais(hass) ? "Autres" : "Other") : null, sans]);
+    return html`<ha-card>
+      ${groupes.map(([nom, liste]) => html`<div class=${nom ? "etage" : "etage sans-etage"}>
+        ${nom ? html`<span class="sur">${nom}</span>` : nothing}
+        <div class="pieces">${liste.map((p) => this.piece(hass, p))}</div></div>`)}
+      <div class="legende"><span>16°</span><span class="degrade"></span><span>26°</span></div>
+    </ha-card>`;
+  }
+
+  private piece(hass: HomeAssistant, p: Piece): TemplateResult {
+    const t = premiereValeur(hass, p.temperatures);
+    const h = premiereValeur(hass, p.humidites);
+    const couleur = couleurTemperature(t);
+    // Une pièce pèse selon ses appareils : le salon est plus grand que les toilettes.
+    const colonnes = p.utiles >= 5 ? 2 : 1;
+    const rangees = p.utiles >= 12 ? 2 : 1;
+    const classes = ["piece", couleur ? "" : "inconnue", p.exterieur ? "dehors" : ""].join(" ");
+    return html`<button class=${classes} style=${`grid-column:span ${colonnes};grid-row:span ${rangees};${couleur ? `--c:${couleur}` : ""}`}
+      title=${p.name} @click=${() => p.entites.length && naviguer(p.area_id)}>
+      <span class="nom">${p.name}</span>
+      <span class="bas"><span class="temp chiffre">${t === null ? "—" : degres(hass, t)}</span>
+        ${h === null ? nothing : html`<span class="hum chiffre">${nombre(hass, h, 0)} %</span>`}</span>
+    </button>`;
+  }
+}

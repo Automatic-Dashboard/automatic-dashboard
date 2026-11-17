@@ -1,0 +1,71 @@
+# Contribuer à Automatic Dashboard
+
+Merci de vouloir aider ! Automatic Dashboard est un projet communautaire et libre, initié par Antonin Chenavaz. Il vit des retours de vraies maisons : chaque ticket sur un appareil mal rangé améliore le tableau pour tout le monde.
+
+*English speakers are welcome: tickets and pull requests can be written in English. The documentation is in French first.*
+
+## Sans écrire de code
+
+- **Signaler un appareil mal rangé** : un capteur technique montré, un appareil absent, une pièce mal comptée. Le modèle « Le tableau range mal un appareil » demande ce qu'il faut pour corriger la règle.
+- **Traduire** : les textes de l'interface sont dans `frontend/src/textes.ts` (un bloc par langue) et `custom_components/automatic_dashboard/translations/`. Ajouter une langue, c'est copier le bloc anglais et le traduire.
+- **Relire** : les textes du tableau, de la documentation et du site, pour qu'ils restent simples et justes.
+
+## Le code
+
+```
+custom_components/automatic_dashboard/   l'intégration (Python) : sert le tableau, installe le thème
+frontend/src/moteur/             le tri des entités, en fonctions pures, sans affichage
+frontend/src/strategie/          la stratégie : les pages et leurs cartes, construites depuis le tri
+frontend/src/cartes/             les cartes Automatic Dashboard (Lit)
+frontend/src/editeur/            l'éditeur des réglages
+frontend/tests/                  les tests du tableau, sur trois maisons exportées de Home Assistant
+tests/                           les tests de l'intégration
+dev/                             trois maisons d'essai dans Docker (mode d'emploi : dev/README.md)
+docs/conception/                 les choix de design, et pourquoi
+```
+
+Avant de proposer un changement important, ouvrez un ticket ou une discussion : on en parle d'abord, pour ne pas perdre votre temps.
+
+### Les principes
+
+1. **Zéro configuration.** Ce qui peut être deviné ne se règle pas. Un réglage de plus doit répondre à un vrai besoin, que la détection ne peut pas couvrir.
+2. **Lire ce que Home Assistant fournit.** Le tableau lit l'objet `hass` (pièces, étages, appareils, entités, états) ; il ne va chercher aucune donnée ailleurs et n'en envoie aucune.
+3. **Cartes natives d'abord.** Une carte Automatic Dashboard seulement quand les cartes de Home Assistant ne suffisent pas ; jamais de carte tierce à installer.
+4. **Une disposition stable.** Les tailles sont fixées à la génération, jamais par l'état du moment.
+5. **Des phrases pour toute la famille.** Pas de jargon : « Fenêtre de la chambre ouverte », pas « binary_sensor on ».
+6. **Ordinateur et téléphone, clair et sombre.** Tout changement d'affichage se vérifie dans les quatre cas.
+
+### Vérifier
+
+Les mêmes vérifications que GitHub Actions :
+
+```sh
+(cd frontend && npm ci && npm run verifier)   # types, tests, construction de automatic-dashboard.js
+uv venv && uv pip install -r requirements_test.txt && .venv/bin/pytest
+ruff check . && ruff format --check .
+```
+
+Le fichier `custom_components/automatic_dashboard/frontend/automatic-dashboard.js` est construit et versionné : pensez à le reconstruire avec `npm run build` et à le joindre à votre changement.
+
+### Un appareil mal rangé
+
+Le tri est dans `frontend/src/moteur/regles.ts`. Le ticket porte un diagnostic (éditeur, « Signaler un problème ») : la maison de la personne, sans noms ni valeurs. Pour corriger une règle :
+
+1. enregistrez le diagnostic dans `frontend/tests/cas/` sous le numéro du ticket, et ajoutez ce qui était attendu (le mode d'emploi est dans `frontend/tests/cas/README.md`) ;
+2. vérifiez que `npm test` échoue sur ce cas ;
+3. corrigez la règle, la plus étroite possible ;
+4. vérifiez que les trois maisons d'essai et les autres cas ne changent pas.
+
+Le cas reste ensuite pour toujours : une maison mal rangée une fois ne l'est plus jamais.
+
+### Les nouvelles versions de Home Assistant
+
+Chaque jeudi, le flux « Bêta de Home Assistant » monte une maison neuve sur la bêta et sur la version de développement, puis la sonde (`dev/scripts/sonde.py`) ouvre chaque page dans un vrai navigateur. Si la bêta casse quelque chose, un ticket « bêta » s'ouvre tout seul.
+
+## Le nom et le logo
+
+Le code est sous licence Apache 2.0. Le nom Automatic Dashboard, son logo et son symbole restent réservés (voir `NOTICE`) : une version modifiée et redistribuée doit porter un autre nom.
+
+## Le comportement
+
+Ce projet suit son [code de conduite](CODE_OF_CONDUCT.md) : bienveillance, patience avec les débutants, et aucune tolérance pour le harcèlement.

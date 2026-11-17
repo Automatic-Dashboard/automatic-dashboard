@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Une question, une idée à discuter
+    url: https://github.com/Automatic-Dashboard/automatic-dashboard/discussions
+    about: Les discussions du projet, pour tout ce qui n'est pas un problème précis.
+  - name: Une faille de sécurité
+    url: https://github.com/Automatic-Dashboard/automatic-dashboard/security/advisories/new
+    about: À signaler en privé, jamais dans un ticket public.

@@ -1,0 +1,964 @@
+{
+ "titre": "Exemple : l'ampoule et le thermomètre de la maison débutant sont rangés dans le salon",
+ "ticket": null,
+ "attendu": {
+  "mode": "decouverte",
+  "entites": {
+   "light.n1": {
+    "ecart": null,
+    "section": "pieces",
+    "piece": "p3"
+   },
+   "sensor.n21": {
+    "ecart": null,
+    "section": "climat",
+    "piece": "p3"
+   }
+  }
+ },
+ "diagnostic": 1,
+ "version": "2026.12.0",
+ "home_assistant": "2026.11.1",
+ "langue": "fr",
+ "reglages": {},
+ "resultat": {
+  "mode": "decouverte",
+  "U": 3,
+  "D": 3,
+  "P": 1,
+  "T": 29,
+  "pieces": 3,
+  "aRanger": 1
+ },
+ "signalement": [
+  {
+   "entite": "light.n1",
+   "domaine": "light",
+   "plateforme": "template",
+   "verdict": {
+    "ecart": null,
+    "role": "commande",
+    "section": "pieces",
+    "piece": "p3",
+    "aRanger": false
+   }
+  },
+  {
+   "entite": "sensor.n21",
+   "domaine": "sensor",
+   "plateforme": "template",
+   "verdict": {
+    "ecart": null,
+    "role": "mesure",
+    "section": "climat",
+    "piece": "p3",
+    "aRanger": false
+   }
+  }
+ ],
+ "maison": {
+  "states": {
+   "conversation.n1": {
+    "entity_id": "conversation.n1",
+    "state": "unknown",
+    "attributes": {
+     "supported_features": 1,
+     "friendly_name": "home"
+    }
+   },
+   "event.n1": {
+    "entity_id": "event.n1",
+    "state": "unknown",
+    "attributes": {
+     "friendly_name": "nom"
+    }
+   },
+   "input_boolean.n1": {
+    "entity_id": "input_boolean.n1",
+    "state": "off",
+    "attributes": {
+     "friendly_name": "nom"
+    }
+   },
+   "input_boolean.n2": {
+    "entity_id": "input_boolean.n2",
+    "state": "off",
+    "attributes": {
+     "friendly_name": "nom"
+    }
+   },
+   "light.n1": {
+    "entity_id": "light.n1",
+    "state": "off",
+    "attributes": {
+     "supported_features": 0,
+     "friendly_name": "salon"
+    }
+   },
+   "person.n1": {
+    "entity_id": "person.n1",
+    "state": "unknown",
+    "attributes": {
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n1": {
+    "entity_id": "sensor.n1",
+    "state": "idle",
+    "attributes": {
+     "device_class": "enum",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n2": {
+    "entity_id": "sensor.n2",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n3": {
+    "entity_id": "sensor.n3",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n4": {
+    "entity_id": "sensor.n4",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "data_size",
+     "unit_of_measurement": "MiB",
+     "state_class": "measurement",
+     "friendly_name": "tic"
+    }
+   },
+   "sensor.n5": {
+    "entity_id": "sensor.n5",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n6_weather_alert": {
+    "entity_id": "sensor.n6_weather_alert",
+    "state": "Vert",
+    "attributes": {
+     "icon": "mdi:weather-cloudy-alert",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n7": {
+    "entity_id": "sensor.n7",
+    "state": "0",
+    "attributes": {
+     "unit_of_measurement": "%",
+     "icon": "mdi:weather-partly-cloudy",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n8": {
+    "entity_id": "sensor.n8",
+    "state": "0",
+    "attributes": {
+     "device_class": "precipitation",
+     "unit_of_measurement": "mm",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n9": {
+    "entity_id": "sensor.n9",
+    "state": "0",
+    "attributes": {
+     "unit_of_measurement": "%",
+     "icon": "mdi:snowflake",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n10": {
+    "entity_id": "sensor.n10",
+    "state": "0",
+    "attributes": {
+     "device_class": "humidity",
+     "unit_of_measurement": "%",
+     "state_class": "measurement",
+     "friendly_name": "humid"
+    }
+   },
+   "sensor.n11": {
+    "entity_id": "sensor.n11",
+    "state": "0",
+    "attributes": {
+     "unit_of_measurement": "%",
+     "icon": "mdi:weather-rainy",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n12": {
+    "entity_id": "sensor.n12",
+    "state": "0",
+    "attributes": {
+     "unit_of_measurement": "%",
+     "icon": "mdi:weather-snowy",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n13": {
+    "entity_id": "sensor.n13",
+    "state": "0",
+    "attributes": {
+     "unit_of_measurement": "UV index",
+     "icon": "mdi:sunglasses",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n14_next_rain": {
+    "entity_id": "sensor.n14_next_rain",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom",
+     "1_hour_forecast": {}
+    }
+   },
+   "sensor.n15": {
+    "entity_id": "sensor.n15",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n16": {
+    "entity_id": "sensor.n16",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n17": {
+    "entity_id": "sensor.n17",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n18": {
+    "entity_id": "sensor.n18",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n19": {
+    "entity_id": "sensor.n19",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n20": {
+    "entity_id": "sensor.n20",
+    "state": "unknown",
+    "attributes": {
+     "device_class": "timestamp",
+     "friendly_name": "nom"
+    }
+   },
+   "sensor.n21": {
+    "entity_id": "sensor.n21",
+    "state": "0",
+    "attributes": {
+     "device_class": "temperature",
+     "unit_of_measurement": "°C",
+     "state_class": "measurement",
+     "friendly_name": "salon"
+    }
+   },
+   "sun.sun": {
+    "entity_id": "sun.sun",
+    "state": "below_horizon",
+    "attributes": {
+     "friendly_name": "nom"
+    }
+   },
+   "switch.n1": {
+    "entity_id": "switch.n1",
+    "state": "off",
+    "attributes": {
+     "friendly_name": "nom"
+    }
+   },
+   "todo.n1": {
+    "entity_id": "todo.n1",
+    "state": "0",
+    "attributes": {
+     "supported_features": 15,
+     "friendly_name": "nom"
+    }
+   },
+   "tts.n1": {
+    "entity_id": "tts.n1",
+    "state": "unknown",
+    "attributes": {
+     "friendly_name": "nom"
+    }
+   },
+   "weather.n1": {
+    "entity_id": "weather.n1",
+    "state": "partlycloudy",
+    "attributes": {
+     "supported_features": 3,
+     "friendly_name": "nom"
+    }
+   },
+   "weather.n2": {
+    "entity_id": "weather.n2",
+    "state": "partlycloudy",
+    "attributes": {
+     "supported_features": 3,
+     "friendly_name": "nom"
+    }
+   },
+   "zone.home": {
+    "entity_id": "zone.home",
+    "state": "0",
+    "attributes": {
+     "icon": "mdi:home",
+     "friendly_name": "nom"
+    }
+   }
+  },
+  "entities": {
+   "event.n1": {
+    "entity_id": "event.n1",
+    "platform": "backup",
+    "name": "nom",
+    "device_id": "a1",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": "automatic_backup_event",
+    "labels": [],
+    "icon": null
+   },
+   "input_boolean.n1": {
+    "entity_id": "input_boolean.n1",
+    "platform": "input_boolean",
+    "name": "nom",
+    "device_id": null,
+    "area_id": null,
+    "hidden": true,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "input_boolean.n2": {
+    "entity_id": "input_boolean.n2",
+    "platform": "input_boolean",
+    "name": "nom",
+    "device_id": null,
+    "area_id": null,
+    "hidden": true,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "light.n1": {
+    "entity_id": "light.n1",
+    "platform": "template",
+    "name": "salon",
+    "device_id": null,
+    "area_id": "p3",
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "person.n1": {
+    "entity_id": "person.n1",
+    "platform": "person",
+    "name": "nom",
+    "device_id": null,
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n1": {
+    "entity_id": "sensor.n1",
+    "platform": "backup",
+    "name": "nom",
+    "device_id": "a1",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": "backup_manager_state",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n2": {
+    "entity_id": "sensor.n2",
+    "platform": "backup",
+    "name": "nom",
+    "device_id": "a1",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": "last_attempted_automatic_backup",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n3": {
+    "entity_id": "sensor.n3",
+    "platform": "backup",
+    "name": "nom",
+    "device_id": "a1",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": "last_successful_automatic_backup",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n4": {
+    "entity_id": "sensor.n4",
+    "platform": "backup",
+    "name": "tic",
+    "device_id": "a1",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": "last_successful_automatic_backup_size",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n5": {
+    "entity_id": "sensor.n5",
+    "platform": "backup",
+    "name": "nom",
+    "device_id": "a1",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": "next_scheduled_automatic_backup",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n6_weather_alert": {
+    "entity_id": "sensor.n6_weather_alert",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n7": {
+    "entity_id": "sensor.n7",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n8": {
+    "entity_id": "sensor.n8",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n9": {
+    "entity_id": "sensor.n9",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n10": {
+    "entity_id": "sensor.n10",
+    "platform": "meteo_france",
+    "name": "humid",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n11": {
+    "entity_id": "sensor.n11",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n12": {
+    "entity_id": "sensor.n12",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n13": {
+    "entity_id": "sensor.n13",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n14_next_rain": {
+    "entity_id": "sensor.n14_next_rain",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n15": {
+    "entity_id": "sensor.n15",
+    "platform": "sun",
+    "name": "nom",
+    "device_id": "a3",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": "diagnostic",
+    "translation_key": "next_dawn",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n16": {
+    "entity_id": "sensor.n16",
+    "platform": "sun",
+    "name": "nom",
+    "device_id": "a3",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": "diagnostic",
+    "translation_key": "next_dusk",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n17": {
+    "entity_id": "sensor.n17",
+    "platform": "sun",
+    "name": "nom",
+    "device_id": "a3",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": "diagnostic",
+    "translation_key": "next_midnight",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n18": {
+    "entity_id": "sensor.n18",
+    "platform": "sun",
+    "name": "nom",
+    "device_id": "a3",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": "diagnostic",
+    "translation_key": "next_noon",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n19": {
+    "entity_id": "sensor.n19",
+    "platform": "sun",
+    "name": "nom",
+    "device_id": "a3",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": "diagnostic",
+    "translation_key": "next_rising",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n20": {
+    "entity_id": "sensor.n20",
+    "platform": "sun",
+    "name": "nom",
+    "device_id": "a3",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": "diagnostic",
+    "translation_key": "next_setting",
+    "labels": [],
+    "icon": null
+   },
+   "sensor.n21": {
+    "entity_id": "sensor.n21",
+    "platform": "template",
+    "name": "salon",
+    "device_id": null,
+    "area_id": "p3",
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "switch.n1": {
+    "entity_id": "switch.n1",
+    "platform": "template",
+    "name": "nom",
+    "device_id": null,
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "todo.n1": {
+    "entity_id": "todo.n1",
+    "platform": "shopping_list",
+    "name": "nom",
+    "device_id": null,
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": "shopping_list",
+    "labels": [],
+    "icon": null
+   },
+   "tts.n1": {
+    "entity_id": "tts.n1",
+    "platform": "google_translate",
+    "name": null,
+    "device_id": "a5",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "weather.n1": {
+    "entity_id": "weather.n1",
+    "platform": "met",
+    "name": null,
+    "device_id": "a2",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   },
+   "weather.n2": {
+    "entity_id": "weather.n2",
+    "platform": "meteo_france",
+    "name": "nom",
+    "device_id": "a4",
+    "area_id": null,
+    "hidden": false,
+    "entity_category": null,
+    "translation_key": null,
+    "labels": [],
+    "icon": null
+   }
+  },
+  "devices": {
+   "a1": {
+    "id": "a1",
+    "name": "appareil",
+    "name_by_user": null,
+    "area_id": null,
+    "parent_device_id": null,
+    "entry_type": "service",
+    "manufacturer": "Home Assistant",
+    "model": "Home Assistant Backup",
+    "labels": []
+   },
+   "a2": {
+    "id": "a2",
+    "name": "appareil",
+    "name_by_user": null,
+    "area_id": null,
+    "parent_device_id": null,
+    "entry_type": "service",
+    "manufacturer": "Met.no",
+    "model": "Forecast",
+    "labels": []
+   },
+   "a3": {
+    "id": "a3",
+    "name": "appareil",
+    "name_by_user": null,
+    "area_id": null,
+    "parent_device_id": null,
+    "entry_type": "service",
+    "manufacturer": null,
+    "model": null,
+    "labels": []
+   },
+   "a4": {
+    "id": "a4",
+    "name": "appareil",
+    "name_by_user": null,
+    "area_id": null,
+    "parent_device_id": null,
+    "entry_type": "service",
+    "manufacturer": "Météo-France",
+    "model": "Météo-France mobile API",
+    "labels": []
+   },
+   "a5": {
+    "id": "a5",
+    "name": "appareil",
+    "name_by_user": null,
+    "area_id": null,
+    "parent_device_id": null,
+    "entry_type": "service",
+    "manufacturer": "Google",
+    "model": "Google Translate TTS",
+    "labels": []
+   }
+  },
+  "areas": {
+   "p1": {
+    "area_id": "p1",
+    "name": "chambre",
+    "icon": "mdi:bed",
+    "floor_id": null,
+    "temperature_entity_id": null,
+    "humidity_entity_id": null,
+    "labels": [],
+    "aliases": []
+   },
+   "p2": {
+    "area_id": "p2",
+    "name": "cuisine",
+    "icon": "mdi:stove",
+    "floor_id": null,
+    "temperature_entity_id": null,
+    "humidity_entity_id": null,
+    "labels": [],
+    "aliases": []
+   },
+   "p3": {
+    "area_id": "p3",
+    "name": "salon",
+    "icon": "mdi:sofa",
+    "floor_id": null,
+    "temperature_entity_id": null,
+    "humidity_entity_id": null,
+    "labels": [],
+    "aliases": []
+   }
+  },
+  "floors": {},
+  "config": {
+   "version": "2026.11.1",
+   "components": [
+    "ai_task",
+    "air_quality",
+    "alarm_control_panel",
+    "analytics",
+    "api",
+    "application_credentials",
+    "assist_pipeline",
+    "assist_satellite",
+    "auth",
+    "automatic_dashboard",
+    "automation",
+    "backup",
+    "backup.event",
+    "backup.sensor",
+    "battery",
+    "binary_sensor",
+    "blueprint",
+    "bluetooth",
+    "brands",
+    "button",
+    "camera",
+    "climate",
+    "cloud",
+    "cloud.tts",
+    "config",
+    "conversation",
+    "counter",
+    "cover",
+    "date",
+    "datetime",
+    "default_config",
+    "device_automation",
+    "device_tracker",
+    "dhcp",
+    "diagnostics",
+    "door",
+    "energy",
+    "energy.sensor",
+    "event",
+    "fan",
+    "ffmpeg",
+    "file",
+    "file_upload",
+    "frontend",
+    "garage_door",
+    "gate",
+    "geo_location",
+    "go2rtc",
+    "google_translate",
+    "google_translate.tts",
+    "hardware",
+    "history",
+    "homeassistant",
+    "homeassistant.scene",
+    "homeassistant_alerts",
+    "http",
+    "humidifier",
+    "humidity",
+    "illuminance",
+    "image",
+    "image_processing",
+    "image_upload",
+    "infrared",
+    "input_boolean",
+    "input_button",
+    "input_datetime",
+    "input_number",
+    "input_select",
+    "input_text",
+    "intent",
+    "labs",
+    "lawn_mower",
+    "light",
+    "llm",
+    "lock",
+    "logbook",
+    "logger",
+    "lovelace",
+    "map_tiles",
+    "marketplace",
+    "marketplace.switch",
+    "marketplace.update",
+    "media_player",
+    "media_source",
+    "met",
+    "met.weather",
+    "meteo_france",
+    "meteo_france.sensor",
+    "meteo_france.weather",
+    "mobile_app",
+    "mobile_app.notify",
+    "moisture",
+    "motion",
+    "my",
+    "network",
+    "notify",
+    "number",
+    "occupancy",
+    "onboarding",
+    "persistent_notification",
+    "person",
+    "power",
+    "radio_browser",
+    "radio_frequency",
+    "recorder",
+    "remote",
+    "repairs",
+    "scene",
+    "schedule",
+    "script",
+    "search",
+    "select",
+    "sensor",
+    "shopping_list",
+    "shopping_list.todo",
+    "siren",
+    "ssdp",
+    "stream",
+    "stt",
+    "sun",
+    "sun.binary_sensor",
+    "sun.sensor",
+    "switch",
+    "system_health",
+    "system_log",
+    "tag",
+    "temperature",
+    "template",
+    "template.light",
+    "template.sensor",
+    "template.switch",
+    "text",
+    "time",
+    "timer",
+    "todo",
+    "trace",
+    "tts",
+    "update",
+    "usage_prediction",
+    "usb",
+    "vacuum",
+    "valve",
+    "vibration",
+    "wake_word",
+    "water_heater",
+    "weather",
+    "web_rtc",
+    "webhook",
+    "websocket_api",
+    "window",
+    "zeroconf",
+    "zone"
+   ],
+   "latitude": 0,
+   "longitude": 0
+  }
+ }
+}
