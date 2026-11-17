@@ -46,7 +46,7 @@ Les mêmes vérifications que GitHub Actions, depuis la racine du dépôt :
 
 ```sh
 (cd frontend && npm run verifier)                   # tableau : types, tests, construction de automatic-dashboard.js
-uv venv && uv pip install -r requirements_test.txt  # une fois : Home Assistant de test
+uv venv && uv pip install -r tests/requirements.txt  # une fois : Home Assistant de test
 .venv/bin/pytest                                    # intégration : mise en place, thème, réparation, traductions
 ruff check . && ruff format --check .               # analyse du code Python
 ```
@@ -61,15 +61,6 @@ docker rm -f automatic-sonde-8130 && rm -rf dev/neuve                    # pour 
 ```
 
 `maison_neuve.sh` monte une maison familiale toute neuve sur l'image demandée (le dossier doit être sous votre dossier personnel avec Colima).
-
-## Publier
-
-```sh
-dev/scripts/publier.sh --essai         # la première publication : dépôts, réglages GitHub, site, version
-dev/scripts/demander_hacs.sh --essai   # la demande d'inscription au catalogue officiel de HACS
-```
-
-Sans `--essai`, ils le font. Le mode d'emploi complet est dans `docs/publication.md`.
 
 ## Outils
 
@@ -100,6 +91,3 @@ Les variables `AUTOMATIC_HA` et `AUTOMATIC_SECRETS` choisissent la maison pour t
 | `scripts/exporter_maison.py` | Exporte une maison pour les tests du moteur, sans jeton, mot de passe ni position |
 | `scripts/ws.py` | Appels WebSocket avec l'un des deux comptes |
 | `scripts/effacer.sh` | Efface une maison d'essai |
-| `maquette/centralhome-essai4.js` | La maquette en JavaScript qui a servi de modèle au code TypeScript |
-
-Les résultats des essais techniques sont dans [docs/cahier-des-charges.md](../docs/cahier-des-charges.md), partie « Résultats des essais ». Le design est dans [docs/conception/](../docs/conception/), à lire en commençant par `00-synthese.md`.

@@ -6,9 +6,22 @@ Merci de vouloir aider ! Automatic Dashboard est un projet communautaire et libr
 
 ## Sans écrire de code
 
-- **Signaler un appareil mal rangé** : un capteur technique montré, un appareil absent, une pièce mal comptée. Le modèle « Le tableau range mal un appareil » demande ce qu'il faut pour corriger la règle.
+- **Signaler un appareil mal rangé** : un capteur technique montré, un appareil absent, une pièce mal comptée. Joignez le **diagnostic** : sur le tableau, le crayon (*Modifier le tableau de bord*), *Signaler un problème*, choisissez l'appareil et ce qu'il devrait être, puis *Copier* ou *Télécharger le diagnostic*. Il décrit votre maison sans aucun nom ni valeur, et vous pouvez l'ouvrir pour le vérifier. Le modèle de ticket « Le tableau range mal un appareil » le demande.
 - **Traduire** : les textes de l'interface sont dans `frontend/src/textes.ts` (un bloc par langue) et `custom_components/automatic_dashboard/translations/`. Ajouter une langue, c'est copier le bloc anglais et le traduire.
-- **Relire** : les textes du tableau, de la documentation et du site, pour qu'ils restent simples et justes.
+- **Relire** : les textes du tableau, et ceux du site, dont la documentation est en Markdown dans le dépôt [automatic-dashboard.github.io](https://github.com/Automatic-Dashboard/automatic-dashboard.github.io) (`src/pages/documentation.md`, et `src/pages/en/` pour l'anglais).
+
+### Tester chez vous
+
+Chaque vraie maison apprend au tableau ce que les maisons d'essai ne montrent pas. Après [l'installation](https://automatic-dashboard.github.io/documentation/#installer), dix minutes suffisent :
+
+- **l'accueil** : la phrase du haut est-elle juste ? Les points à regarder sont-ils utiles ?
+- **vos pièces** : chaque appareil est-il dans la bonne pièce ? Un capteur technique (signal, batterie, mise à jour) apparaît-il là où il ne devrait pas ?
+- **« À ranger »** : les appareils sans pièce sont-ils listés, et la pièce proposée est-elle la bonne ?
+- **les pages** Climat, Énergie, Sécurité, Système : les chiffres correspondent-ils à ce que vous connaissez ?
+- **sur téléphone** : tout se lit-il sans zoomer ?
+- **les réglages** (le crayon) : changez de style, épinglez un favori, masquez une entité. Est-ce clair ?
+
+Racontez ce que vous avez vu dans un [retour de testeur](https://github.com/Automatic-Dashboard/automatic-dashboard/issues/new?template=4-testeur.yml), avec le diagnostic pour chaque appareil mal rangé.
 
 ## Le code
 
@@ -21,10 +34,9 @@ frontend/src/editeur/            l'éditeur des réglages
 frontend/tests/                  les tests du tableau, sur trois maisons exportées de Home Assistant
 tests/                           les tests de l'intégration
 dev/                             trois maisons d'essai dans Docker (mode d'emploi : dev/README.md)
-docs/conception/                 les choix de design, et pourquoi
 ```
 
-Avant de proposer un changement important, ouvrez un ticket ou une discussion : on en parle d'abord, pour ne pas perdre votre temps.
+Avant de proposer un changement important, ouvrez un ticket ou une [discussion](https://github.com/Automatic-Dashboard/automatic-dashboard/discussions) : on en parle d'abord, pour ne pas perdre votre temps.
 
 ### Les principes
 
@@ -41,7 +53,7 @@ Les mêmes vérifications que GitHub Actions :
 
 ```sh
 (cd frontend && npm ci && npm run verifier)   # types, tests, construction de automatic-dashboard.js
-uv venv && uv pip install -r requirements_test.txt && .venv/bin/pytest
+uv venv && uv pip install -r tests/requirements.txt && .venv/bin/pytest
 ruff check . && ruff format --check .
 ```
 
@@ -64,8 +76,8 @@ Chaque jeudi, le flux « Bêta de Home Assistant » monte une maison neuve sur l
 
 ## Le nom et le logo
 
-Le code est sous licence Apache 2.0. Le nom Automatic Dashboard, son logo et son symbole restent réservés (voir `NOTICE`) : une version modifiée et redistribuée doit porter un autre nom.
+Le code est sous licence Apache 2.0. Le nom Automatic Dashboard, son logo et son symbole restent réservés (voir [NOTICE](../NOTICE)) : une version modifiée et redistribuée doit porter un autre nom.
 
 ## Le comportement
 
-Ce projet suit son [code de conduite](CODE_OF_CONDUCT.md) : bienveillance, patience avec les débutants, et aucune tolérance pour le harcèlement.
+Ce projet suit son [code de conduite](https://github.com/Automatic-Dashboard/.github/blob/main/CODE_OF_CONDUCT.md) : bienveillance, patience avec les débutants, et aucune tolérance pour le harcèlement.

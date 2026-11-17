@@ -1,14 +1,14 @@
 """Prend les captures d'écran du tableau sur les trois maisons d'essai, avec Playwright :
 chaque page sur ordinateur et sur téléphone, en thème clair et sombre, plus quelques
 cartes seules (pour le site) et la vue d'ensemble native de Home Assistant (pour la
-comparaison). Elles servent au README, au site (démo) et aux notes de version.
+comparaison). Elles servent au site : la démo et la documentation.
 
 Chaque maison est ouverte avec son compte administrateur de dev/.secrets/ : le script
 se connecte lui-même par le flux de connexion de Home Assistant, sans jamais afficher le
 mot de passe ni le jeton.
 
 Usage (les trois maisons doivent tourner ; CAPTURES_PAGES=accueil pour ne refaire que ces pages) :
-  uv run --with playwright python dev/scripts/captures.py              # tout, dans docs/captures/v1/
+  uv run --with playwright python dev/scripts/captures.py              # tout, dans dev/captures/
   uv run --with playwright python dev/scripts/captures.py famille      # une seule maison
   uv run --with playwright python dev/scripts/captures.py --anglais    # l'interface en anglais
 La première fois : uv run --with playwright playwright install chromium
@@ -31,7 +31,7 @@ from urllib.parse import urlencode
 from playwright.sync_api import Page, sync_playwright
 
 RACINE = Path(__file__).resolve().parents[2]
-SORTIE = RACINE / "docs" / "captures" / "v1"
+SORTIE = RACINE / "dev" / "captures"
 # Pour ne refaire que quelques pages : CAPTURES_PAGES=accueil (la page entière de l'accueil suit).
 SEULEMENT = [p for p in os.environ.get("CAPTURES_PAGES", "").split(",") if p]
 TABLEAU = "/automatic-essai"

@@ -1,5 +1,5 @@
 // Les briques de configuration des vues : sections, titres, tuiles, vue complète.
-// D'après docs/conception/01-mise-en-page.md : une scène (sections column_span 2,
+// Une scène (sections column_span 2,
 // 24 cases sur ordinateur, 12 sur téléphone) et un côté (colonne « sidebar »,
 // visible à 3 colonnes, recopié dans le flux sinon).
 

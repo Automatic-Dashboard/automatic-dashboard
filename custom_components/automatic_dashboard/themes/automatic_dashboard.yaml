@@ -1,5 +1,4 @@
-# Thème Automatic Dashboard, tiré de la charte graphique (marque/charte-graphique.md)
-# et des couleurs exactes du site (docs/css/site.css).
+# Thème Automatic Dashboard, aux couleurs exactes du site (automatic-dashboard.github.io).
 Automatic Dashboard:
   # Typographie : Inter, chargée par l'intégration, avec les replis du site
   ha-font-family-body: "Inter, 'Inter repli', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"

@@ -1,7 +1,6 @@
 // « En ce moment » : ce qui se passe dans la maison, en quelques lignes : les médias en
 // lecture, qui est là, les prochains rendez-vous, les machines en marche, la liste de
-// courses. D'après docs/conception/01-mise-en-page.md, partie 6.1. Se masque si rien
-// ne se passe ; plafonnée à 5 lignes en mode Complet.
+// courses. Se masque si rien ne se passe ; plafonnée à 5 lignes en mode Complet.
 
 import { css, html, nothing, type TemplateResult } from "lit";
 import type { EtatHA, HomeAssistant } from "../ha";

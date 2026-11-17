@@ -33,3 +33,6 @@ dev/complet/mosquitto/data/
 
 # Maisons neuves montées par dev/scripts/maison_neuve.sh
 dev/neuve/
+
+# Les captures prises par dev/scripts/captures.py (le site les importe)
+dev/captures/

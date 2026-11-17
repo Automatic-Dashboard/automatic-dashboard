@@ -1,5 +1,4 @@
 // Des rangées toujours pleines, sur ordinateur (24 cases) comme sur téléphone (12).
-// D'après docs/conception/01-mise-en-page.md, partie 5.3.
 
 export type Largeur = number | "full";
 

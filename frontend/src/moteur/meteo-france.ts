@@ -1,6 +1,5 @@
 // Lecture des deux capteurs de Météo-France : la pluie dans l'heure et la vigilance.
-// D'après docs/conception/02-mode-decouverte.md, parties 5.3 et 5.4. Fonctions pures :
-// jamais d'affirmation sans donnée (un capteur inconnu ne veut pas dire « pas de pluie »).
+// Fonctions pures : jamais d'affirmation sans donnée (un capteur inconnu ne veut pas dire « pas de pluie »).
 
 import type { EtatHA } from "../ha";
 

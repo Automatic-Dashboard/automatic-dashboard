@@ -1,6 +1,5 @@
 // Les Héros : la carte de tête des pages thématiques (pleine largeur × 4 rangées) :
-// deux ou trois chiffres de 40 px et un visuel (courbe, liste, progression). D'après
-// docs/conception/01-mise-en-page.md, parties 6.3 à 6.7 et 7.2.
+// deux ou trois chiffres de 40 px et un visuel (courbe, liste, progression).
 
 import { css, html, nothing, type PropertyDeclarations, type TemplateResult } from "lit";
 import { styleMap } from "lit/directives/style-map.js";

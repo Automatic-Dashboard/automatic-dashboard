@@ -1,4 +1,4 @@
-// Les règles de tri, d'après docs/conception/03-mode-complet.md : on écarte d'abord,
+// Les règles de tri : on écarte d'abord,
 // puis on donne à chaque entité un rôle et une section.
 
 import type { EntiteHA, EtatHA } from "../ha";

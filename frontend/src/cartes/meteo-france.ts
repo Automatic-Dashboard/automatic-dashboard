@@ -1,7 +1,6 @@
 // Météo-France : la pluie dans l'heure (une phrase et une barre de tranches, plus ou
 // moins foncées selon l'intensité) et la vigilance du département (une ligne discrète
-// au vert, un bloc à la couleur du niveau sinon). D'après docs/conception/02-mode-decouverte.md,
-// parties 5.3 et 5.4. Se masque sans Météo-France ou sans donnée.
+// au vert, un bloc à la couleur du niveau sinon). Se masque sans Météo-France ou sans donnée.
 
 import { css, html, nothing, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
