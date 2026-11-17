@@ -73,7 +73,9 @@ faire gh repo create "$ORG/automatic-dashboard.github.io" --public \
 git -C "$SITE" remote get-url origin >/dev/null 2>&1 || faire git -C "$SITE" remote add origin "https://github.com/$ORG/automatic-dashboard.github.io.git"
 faire git -C "$SITE" push -u origin main
 # Pages par GitHub Actions, une fois le dépôt rempli ; puis le flux « Publier le site » est relancé pour le mettre en ligne.
-faire gh api -X POST "repos/$ORG/automatic-dashboard.github.io/pages" -f build_type=workflow
+# GitHub répond sans contenu et crée parfois Pages en mode « branche » : on force ensuite le mode GitHub Actions.
+faire gh api -X POST "repos/$ORG/automatic-dashboard.github.io/pages" -f build_type=workflow --silent || true
+faire gh api -X PUT "repos/$ORG/automatic-dashboard.github.io/pages" -f build_type=workflow --silent
 $ESSAI || sleep 5
 faire gh workflow run publier.yml -R "$ORG/automatic-dashboard.github.io" --ref main
 
