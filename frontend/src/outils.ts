@@ -11,11 +11,24 @@ export const mh = (hass?: HomeAssistant) => (estFrancais(hass) ? MOTS_HEROS.fr :
 export const nombre = (hass: HomeAssistant | undefined, v: number, chiffres = 1): string =>
   new Intl.NumberFormat(hass?.locale?.language || "fr", { maximumFractionDigits: chiffres, minimumFractionDigits: chiffres }).format(v);
 export const degres = (hass: HomeAssistant | undefined, v: number): string => `${nombre(hass, v, 1)}°`;
-/** « 7 h 34 » en français, « 7:34 AM » ou « 07:34 » selon la langue anglaise choisie. */
-export const heure = (hass: HomeAssistant | undefined, date: Date): string =>
-  estFrancais(hass)
+/**
+ * L'heure sur 12 heures ? Selon le format choisi dans le profil Home Assistant : « 12 », « 24 »,
+ * celui de l'appareil (« system »), sinon celui de la langue (undefined).
+ */
+export function douzeHeures(hass: HomeAssistant | undefined): boolean | undefined {
+  const format = hass?.locale?.time_format;
+  if (format === "12") return true;
+  if (format === "24") return false;
+  if (format === "system") return new Intl.DateTimeFormat(undefined, { hour: "numeric" }).resolvedOptions().hour12;
+  return undefined;
+}
+/** « 7 h 34 » en français, « 7:34 AM » ou « 07:34 » en anglais, selon le format choisi dans Home Assistant. */
+export const heure = (hass: HomeAssistant | undefined, date: Date): string => {
+  const douze = douzeHeures(hass);
+  return estFrancais(hass) && !douze
     ? `${date.getHours()} h ${String(date.getMinutes()).padStart(2, "0")}`
-    : new Intl.DateTimeFormat(hass?.locale?.language || "en", { hour: "numeric", minute: "2-digit" }).format(date);
+    : new Intl.DateTimeFormat(hass?.locale?.language || "en", { hour: "numeric", minute: "2-digit", hour12: douze }).format(date);
+};
 export const majuscule = (s: string): string => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
 export const valide = (etat?: EtatHA): etat is EtatHA => Boolean(etat) && !["unknown", "unavailable"].includes(etat!.state);
 

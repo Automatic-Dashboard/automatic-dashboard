@@ -1559,11 +1559,25 @@ var nombre = (hass, v, chiffres = 1) => new Intl.NumberFormat(hass?.locale?.lang
 	minimumFractionDigits: chiffres
 }).format(v);
 var degres = (hass, v) => `${nombre(hass, v, 1)}°`;
-/** « 7 h 34 » en français, « 7:34 AM » ou « 07:34 » selon la langue anglaise choisie. */
-var heure = (hass, date) => estFrancais(hass) ? `${date.getHours()} h ${String(date.getMinutes()).padStart(2, "0")}` : new Intl.DateTimeFormat(hass?.locale?.language || "en", {
-	hour: "numeric",
-	minute: "2-digit"
-}).format(date);
+/**
+* L'heure sur 12 heures ? Selon le format choisi dans le profil Home Assistant : « 12 », « 24 »,
+* celui de l'appareil (« system »), sinon celui de la langue (undefined).
+*/
+function douzeHeures(hass) {
+	const format = hass?.locale?.time_format;
+	if (format === "12") return true;
+	if (format === "24") return false;
+	if (format === "system") return new Intl.DateTimeFormat(void 0, { hour: "numeric" }).resolvedOptions().hour12;
+}
+/** « 7 h 34 » en français, « 7:34 AM » ou « 07:34 » en anglais, selon le format choisi dans Home Assistant. */
+var heure = (hass, date) => {
+	const douze = douzeHeures(hass);
+	return estFrancais(hass) && !douze ? `${date.getHours()} h ${String(date.getMinutes()).padStart(2, "0")}` : new Intl.DateTimeFormat(hass?.locale?.language || "en", {
+		hour: "numeric",
+		minute: "2-digit",
+		hour12: douze
+	}).format(date);
+};
 var majuscule = (s) => s ? s.charAt(0).toUpperCase() + s.slice(1) : s;
 var valide = (etat) => Boolean(etat) && !["unknown", "unavailable"].includes(etat.state);
 /** « il y a 3 heures », « dans 2 jours »… dans la langue de l'utilisateur. */
@@ -1837,13 +1851,14 @@ function conseils(hass, m) {
 	for (const p of m.pieces.filter((x) => !x.exterieur && !x.annexe)) {
 		const dedans = premiereValeur(hass, p.temperatures);
 		if (dehors === null || dedans === null) continue;
+		const dehorsC = temperatureDehorsC(hass, m), dedansC = premiereTemperatureC(hass, p.temperatures);
 		const voletsOuverts = p.entites.filter((e) => e.domaine === "cover" && ![
 			"garage",
 			"gate",
 			"door"
 		].includes(e.classe ?? "") && etat(e.id)?.state === "open");
 		const article = avecArticle(p.name, fr);
-		if (soleilLeve && dehors >= 25 && dedans >= 24 && voletsOuverts.length) points.push({
+		if (soleilLeve && dehorsC >= 25 && dedansC >= 24 && voletsOuverts.length) points.push({
 			cle: `volets:${p.area_id}`,
 			niveau: 1,
 			icone: "mdi:weather-sunny-alert",
@@ -1852,7 +1867,7 @@ function conseils(hass, m) {
 			detail: tx.chaleur(degres(hass, dehors), degres(hass, dedans)),
 			entite: voletsOuverts[0].id
 		});
-		else if (!fraicheurProposee && dedans >= 24 && dehors <= dedans - 2 && (heureNow >= 18 || heureNow < 10) && !m.ouvrants.some((o) => o.piece === p.area_id && etat(o.id)?.state === "on")) {
+		else if (!fraicheurProposee && dedansC >= 24 && dehorsC <= dedansC - 2 && (heureNow >= 18 || heureNow < 10) && !m.ouvrants.some((o) => o.piece === p.area_id && etat(o.id)?.state === "on")) {
 			fraicheurProposee = true;
 			points.push({
 				cle: "fraicheur",
@@ -1891,6 +1906,23 @@ function conseils(hass, m) {
 }
 // src/moteur/valeurs.ts
 /** Première valeur numérique disponible parmi des candidats ordonnés. */
+/** L'unité d'une température : celle de l'entité, sinon celle choisie pour la maison. */
+function uniteTemperature(hass, id) {
+	const a = id ? hass?.states?.[id]?.attributes : void 0;
+	return a?.unit_of_measurement ?? a?.temperature_unit ?? hass?.config?.unit_system?.temperature;
+}
+/** Une température en °C, pour la comparer aux seuils ; l'unité est celle de l'entité donnée, sinon celle de la maison. */
+var enCelsius = (hass, v, id) => uniteTemperature(hass, id) === "°F" ? (v - 32) * 5 / 9 : v;
+/** Un seuil écrit en °C, dans l'unité des mesures affichées (celle de l'entité donnée, sinon de la maison). */
+var depuisCelsius = (hass, c, id) => uniteTemperature(hass, id) === "°F" ? c * 9 / 5 + 32 : c;
+/** La première température valide d'une liste de capteurs, en °C. */
+function premiereTemperatureC(hass, candidats) {
+	for (const id of candidats ?? []) {
+		const v = Number.parseFloat(hass.states[id]?.state ?? "");
+		if (!Number.isNaN(v)) return enCelsius(hass, v, id);
+	}
+	return null;
+}
 function premiereValeur(hass, candidats) {
 	for (const id of candidats ?? []) {
 		const v = Number.parseFloat(hass.states[id]?.state ?? "");
@@ -1903,6 +1935,13 @@ function moyenneInterieure(hass, m) {
 	return valeurs.length ? valeurs.reduce((a, b) => a + b, 0) / valeurs.length : null;
 }
 /** Dehors : un capteur d'une pièce extérieure, sinon la météo. */
+/** La température dehors en °C : le capteur extérieur, sinon la météo, chacun dans son unité. */
+function temperatureDehorsC(hass, m) {
+	const capteur = premiereTemperatureC(hass, m.temperaturesExterieures);
+	if (capteur !== null) return capteur;
+	const v = temperatureDehors(hass, m);
+	return v === null ? null : enCelsius(hass, v, m.meteo ?? void 0);
+}
 function temperatureDehors(hass, m) {
 	const capteur = premiereValeur(hass, m.temperaturesExterieures);
 	if (capteur !== null) return capteur;
@@ -3431,19 +3470,24 @@ var AutomaticConfort = class extends CarteAutomatic {
 		const etat = (id) => hass.states[id]?.state ?? "";
 		const lignes = m.pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length).map((p) => {
 			const temp = premiereValeur(hass, p.temperatures);
+			const hum = premiereValeur(hass, p.humidites);
+			const chauffe = p.entites.some((e) => e.domaine === "climate" && [
+				"heat",
+				"heat_cool",
+				"auto"
+			].includes(etat(e.id)));
+			const froid = p.entites.some((e) => e.domaine === "climate" && etat(e.id) === "cool");
+			const c = premiereTemperatureC(hass, p.temperatures);
 			return {
 				p,
 				temp,
-				hum: premiereValeur(hass, p.humidites),
-				chauffe: p.entites.some((e) => e.domaine === "climate" && [
-					"heat",
-					"heat_cool",
-					"auto"
-				].includes(etat(e.id))),
-				froid: p.entites.some((e) => e.domaine === "climate" && etat(e.id) === "cool"),
-				ecart: temp === null ? -1 : temp < BAS ? BAS - temp : temp > HAUT ? temp - HAUT : 0
+				c,
+				hum,
+				chauffe,
+				froid,
+				ecart: c === null ? -1 : c < BAS ? BAS - c : c > HAUT ? c - HAUT : 0
 			};
-		}).filter((l) => l.temp !== null);
+		}).filter((l) => l.c !== null);
 		if (lignes.length < 2) return null;
 		lignes.sort((a, b) => b.ecart - a.ecart);
 		const pos = (v) => `${(Math.max(MIN, Math.min(MAX, v)) - MIN) / 14 * 100}%`;
@@ -3453,9 +3497,14 @@ var AutomaticConfort = class extends CarteAutomatic {
 			left: pos(BAS),
 			right: `calc(100% - ${pos(HAUT)})`
 		})}></span>
-        <span class="point ${l.temp < BAS ? "froid" : l.temp > HAUT ? "chaud" : ""}" style=${o({ left: pos(l.temp) })}></span></span>
+        <span class="point ${l.c < BAS ? "froid" : l.c > HAUT ? "chaud" : ""}" style=${o({ left: pos(l.c) })}></span></span>
       <span class="hum doux chiffre">${l.hum !== null ? `${nombre(hass, l.hum, 0)} %` : A}</span>
-      <span class="etat">${l.chauffe ? b`<ha-icon class="chauffe" icon="mdi:radiator"></ha-icon>` : l.froid ? b`<ha-icon class="refroidit" icon="mdi:snowflake"></ha-icon>` : A}</span></div>`)}<div class="graduations"><span></span><span></span><span class="g"><span>${MIN}°</span><span>${BAS}°</span><span>${HAUT}°</span><span>${MAX}°</span></span><span></span><span></span></div></ha-card>`;
+      <span class="etat">${l.chauffe ? b`<ha-icon class="chauffe" icon="mdi:radiator"></ha-icon>` : l.froid ? b`<ha-icon class="refroidit" icon="mdi:snowflake"></ha-icon>` : A}</span></div>`)}<div class="graduations"><span></span><span></span><span class="g">${[
+			MIN,
+			BAS,
+			HAUT,
+			MAX
+		].map((c) => b`<span>${Math.round(depuisCelsius(hass, c, lignes[0].p.temperatures[0]))}°</span>`)}</span><span></span><span></span></div></ha-card>`;
 	}
 };
 // src/cartes/depart.ts
@@ -4718,9 +4767,10 @@ function phraseSujet(hass, m, sujet) {
 	if (sujet === "climat") {
 		const pieces = m.pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length).map((p) => ({
 			p,
-			v: premiereValeur(hass, p.temperatures)
-		})).filter((x) => x.v !== null);
-		const froides = pieces.filter((x) => x.v < 18.5), chaudes = pieces.filter((x) => x.v > 24);
+			v: premiereValeur(hass, p.temperatures),
+			c: premiereTemperatureC(hass, p.temperatures)
+		})).filter((x) => x.v !== null && x.c !== null);
+		const froides = pieces.filter((x) => x.c < 18.5), chaudes = pieces.filter((x) => x.c > 24);
 		const ecarts = [...froides, ...chaudes];
 		let phrase;
 		if (!pieces.length) {
@@ -5251,6 +5301,7 @@ var AutomaticPiece = class extends CarteAutomatic {
 };
 // src/cartes/plan.ts
 /** Du froid au chaud : les paliers de couleur d'une pièce. */
+/** Les couleurs par température, seuils en °C (une maison en °F est convertie). */
 var PALIERS = [
 	[17, "#3E6FB0"],
 	[19, "#7BA7D1"],
@@ -5295,6 +5346,7 @@ var AutomaticPlan = class extends CarteAutomatic {
 	rendu(hass, m) {
 		const pieces = m.pieces.filter((p) => p.entites.length || p.temperatures.length);
 		if (pieces.filter((p) => p.temperatures.length).length < 2) return null;
+		const capteur = pieces.find((p) => p.temperatures.length).temperatures[0];
 		const groupes = [...m.etages].sort((a, b) => (b.level ?? 0) - (a.level ?? 0)).map((e) => [e.name, pieces.filter((p) => p.etage === e.floor_id)]).filter(([, l]) => l.length);
 		const sans = pieces.filter((p) => !p.etage);
 		if (sans.length) groupes.push([groupes.length ? estFrancais(hass) ? "Autres" : "Other" : null, sans]);
@@ -5302,13 +5354,13 @@ var AutomaticPlan = class extends CarteAutomatic {
       ${groupes.map(([nom, liste]) => b`<div class=${nom ? "etage" : "etage sans-etage"}>
         ${nom ? b`<span class="sur">${nom}</span>` : A}
         <div class="pieces">${liste.map((p) => this.piece(hass, p))}</div></div>`)}
-      <div class="legende"><span>16°</span><span class="degrade"></span><span>26°</span></div>
+      <div class="legende"><span>${Math.round(depuisCelsius(hass, 16, capteur))}°</span><span class="degrade"></span><span>${Math.round(depuisCelsius(hass, 26, capteur))}°</span></div>
     </ha-card>`;
 	}
 	piece(hass, p) {
 		const t = premiereValeur(hass, p.temperatures);
 		const h = premiereValeur(hass, p.humidites);
-		const couleur = couleurTemperature(t);
+		const couleur = couleurTemperature(premiereTemperatureC(hass, p.temperatures));
 		const poids = 1 + Math.min(1, p.utiles / 8);
 		return b`<button class=${[
 			"piece",
@@ -6297,7 +6349,8 @@ var AutomaticTablette = class extends CarteAutomatic {
 		const maintenant = /* @__PURE__ */ new Date();
 		const heure = new Intl.DateTimeFormat(langue(hass), {
 			hour: "2-digit",
-			minute: "2-digit"
+			minute: "2-digit",
+			hour12: douzeHeures(hass)
 		}).format(maintenant);
 		if (this._veille) {
 			const graine = maintenant.getHours() * 60 + maintenant.getMinutes();

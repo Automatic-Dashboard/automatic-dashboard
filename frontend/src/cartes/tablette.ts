@@ -13,7 +13,7 @@ import { pointsVisibles } from "../moteur/points";
 import type { Maison } from "../moteur/types";
 import { moyenneInterieure, temperatureDehors } from "../moteur/valeurs";
 import { phraseAccueil } from "../phrases";
-import { conditionMeteo, degres, langue, majuscule, nombre, nomCourt, plusDInfos, t } from "../outils";
+import { conditionMeteo, degres, douzeHeures, langue, majuscule, nombre, nomCourt, plusDInfos, t } from "../outils";
 import { CarteAutomatic, definis, type OptionsGrille } from "./base";
 import { ciel, STYLE_CIEL } from "./ciel";
 import { STYLE_COMMUN } from "./styles";
@@ -188,7 +188,7 @@ export class AutomaticTablette extends CarteAutomatic {
   protected override rendu(hass: HomeAssistant, m: Maison): TemplateResult {
     const tx = t(hass);
     const maintenant = new Date();
-    const heure = new Intl.DateTimeFormat(langue(hass), { hour: "2-digit", minute: "2-digit" }).format(maintenant);
+    const heure = new Intl.DateTimeFormat(langue(hass), { hour: "2-digit", minute: "2-digit", hour12: douzeHeures(hass) }).format(maintenant);
     if (this._veille) {
       // La position change chaque minute, toujours dans l'écran.
       const graine = maintenant.getHours() * 60 + maintenant.getMinutes();

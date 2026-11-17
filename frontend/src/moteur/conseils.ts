@@ -4,7 +4,7 @@
 
 import type { HomeAssistant } from "../ha";
 import { degres, estFrancais, majuscule, nombre, nomCourt, t } from "../outils";
-import { premiereValeur, temperatureDehors } from "./valeurs";
+import { premiereTemperatureC, premiereValeur, temperatureDehors, temperatureDehorsC } from "./valeurs";
 import type { Point } from "./points";
 import type { Entite, Maison } from "./types";
 
@@ -26,7 +26,7 @@ const NOMS_EN = /^(bedroom|kitchen|living|bathroom|office|hall|hallway|garage|at
 const MACHINES = /lave-linge|lave-vaisselle|s(è|e)che-linge|machine (à|a) laver|washer|washing machine|dryer|dishwasher/i;
 /** Au-delà, une machine finie n'est plus une nouvelle. */
 const MACHINE_FINIE_DEPUIS = 2 * 3600000;
-/** Il fait chaud : au-delà, dehors et dedans, on garde la fraîcheur. */
+/** Il fait chaud : au-delà, dehors et dedans, on garde la fraîcheur (en °C, une maison en °F est convertie). */
 export const CHAUD_DEHORS = 25;
 export const CHAUD_DEDANS = 24;
 
@@ -99,14 +99,15 @@ export function conseils(hass: HomeAssistant, m: Maison): { points: Point[]; rem
   for (const p of m.pieces.filter((x) => !x.exterieur && !x.annexe)) {
     const dedans = premiereValeur(hass, p.temperatures);
     if (dehors === null || dedans === null) continue;
+    const dehorsC = temperatureDehorsC(hass, m)!, dedansC = premiereTemperatureC(hass, p.temperatures)!;
     const voletsOuverts = p.entites.filter((e) => e.domaine === "cover" && !["garage", "gate", "door"].includes(e.classe ?? "")
       && etat(e.id)?.state === "open");
     const article = avecArticle(p.name, fr);
-    if (soleilLeve && dehors >= CHAUD_DEHORS && dedans >= CHAUD_DEDANS && voletsOuverts.length) {
+    if (soleilLeve && dehorsC >= CHAUD_DEHORS && dedansC >= CHAUD_DEDANS && voletsOuverts.length) {
       points.push({ cle: `volets:${p.area_id}`, niveau: 1, icone: "mdi:weather-sunny-alert", conseil: true,
         titre: article ? tx.fermerVolets(article) : `${tx.fermerVoletsSans} : ${p.name}`,
         detail: tx.chaleur(degres(hass, dehors), degres(hass, dedans)), entite: voletsOuverts[0].id });
-    } else if (!fraicheurProposee && dedans >= CHAUD_DEDANS && dehors <= dedans - 2 && (heureNow >= 18 || heureNow < 10)
+    } else if (!fraicheurProposee && dedansC >= CHAUD_DEDANS && dehorsC <= dedansC - 2 && (heureNow >= 18 || heureNow < 10)
       && !m.ouvrants.some((o) => o.piece === p.area_id && etat(o.id)?.state === "on")) {
       fraicheurProposee = true;
       points.push({ cle: "fraicheur", niveau: 1, icone: "mdi:weather-windy", conseil: true, titre: tx.ouvrirFrais,

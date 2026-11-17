@@ -1,11 +1,12 @@
 // Le confort : une ligne par pièce, sa température sur une barre de 14 à 28 °C, la zone
 // de confort (19 à 22 °C) en vert pâle, son humidité et ce qui chauffe ou refroidit.
+// Une maison en °F est placée sur la même barre, graduée dans son unité.
 
 import { css, html, nothing, type TemplateResult } from "lit";
 import { styleMap } from "lit/directives/style-map.js";
 import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
-import { premiereValeur } from "../moteur/valeurs";
+import { depuisCelsius, premiereTemperatureC, premiereValeur } from "../moteur/valeurs";
 import { degres, naviguer, nombre } from "../outils";
 import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
@@ -50,8 +51,9 @@ export class AutomaticConfort extends CarteAutomatic {
       const hum = premiereValeur(hass, p.humidites);
       const chauffe = p.entites.some((e) => e.domaine === "climate" && ["heat", "heat_cool", "auto"].includes(etat(e.id)));
       const froid = p.entites.some((e) => e.domaine === "climate" && etat(e.id) === "cool");
-      return { p, temp, hum, chauffe, froid, ecart: temp === null ? -1 : temp < BAS ? BAS - temp : temp > HAUT ? temp - HAUT : 0 };
-    }).filter((l): l is typeof l & { temp: number } => l.temp !== null);
+      const c = premiereTemperatureC(hass, p.temperatures);
+      return { p, temp, c, hum, chauffe, froid, ecart: c === null ? -1 : c < BAS ? BAS - c : c > HAUT ? c - HAUT : 0 };
+    }).filter((l): l is typeof l & { temp: number; c: number } => l.c !== null);
     if (lignes.length < 2) return null;
     // Les pièces les plus loin de la zone de confort d'abord.
     lignes.sort((a, b) => b.ecart - a.ecart);
@@ -59,8 +61,8 @@ export class AutomaticConfort extends CarteAutomatic {
     return html`<ha-card>${lignes.map((l) => html`<div class="ligne" @click=${() => naviguer(l.p.area_id)}>
       <span class="nom">${l.p.name}</span><span class="temp chiffre">${degres(hass, l.temp)}</span>
       <span class="echelle"><span class="zone" style=${styleMap({ left: pos(BAS), right: `calc(100% - ${pos(HAUT)})` })}></span>
-        <span class="point ${l.temp < BAS ? "froid" : l.temp > HAUT ? "chaud" : ""}" style=${styleMap({ left: pos(l.temp) })}></span></span>
+        <span class="point ${l.c < BAS ? "froid" : l.c > HAUT ? "chaud" : ""}" style=${styleMap({ left: pos(l.c) })}></span></span>
       <span class="hum doux chiffre">${l.hum !== null ? `${nombre(hass, l.hum, 0)} %` : nothing}</span>
-      <span class="etat">${l.chauffe ? html`<ha-icon class="chauffe" icon="mdi:radiator"></ha-icon>` : l.froid ? html`<ha-icon class="refroidit" icon="mdi:snowflake"></ha-icon>` : nothing}</span></div>`)}<div class="graduations"><span></span><span></span><span class="g"><span>${MIN}°</span><span>${BAS}°</span><span>${HAUT}°</span><span>${MAX}°</span></span><span></span><span></span></div></ha-card>`;
+      <span class="etat">${l.chauffe ? html`<ha-icon class="chauffe" icon="mdi:radiator"></ha-icon>` : l.froid ? html`<ha-icon class="refroidit" icon="mdi:snowflake"></ha-icon>` : nothing}</span></div>`)}<div class="graduations"><span></span><span></span><span class="g">${[MIN, BAS, HAUT, MAX].map((c) => html`<span>${Math.round(depuisCelsius(hass, c, lignes[0].p.temperatures[0]))}°</span>`)}</span><span></span><span></span></div></ha-card>`;
   }
 }

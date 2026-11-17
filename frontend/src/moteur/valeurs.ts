@@ -7,6 +7,29 @@ import { chauffe } from "./conseils";
 import type { Maison } from "./types";
 
 /** Première valeur numérique disponible parmi des candidats ordonnés. */
+// Les seuils du tableau sont écrits en °C. Chaque mesure est convertie selon l'unité de son
+// capteur (ou de la météo) : passer la maison en °F laisse les capteurs existants en °C.
+
+/** L'unité d'une température : celle de l'entité, sinon celle choisie pour la maison. */
+function uniteTemperature(hass: HomeAssistant | undefined, id?: string): string | undefined {
+  const a = id ? hass?.states?.[id]?.attributes : undefined;
+  return (a?.unit_of_measurement as string | undefined) ?? (a?.temperature_unit as string | undefined) ?? hass?.config?.unit_system?.temperature;
+}
+/** Une température en °C, pour la comparer aux seuils ; l'unité est celle de l'entité donnée, sinon celle de la maison. */
+export const enCelsius = (hass: HomeAssistant | undefined, v: number, id?: string): number =>
+  uniteTemperature(hass, id) === "°F" ? ((v - 32) * 5) / 9 : v;
+/** Un seuil écrit en °C, dans l'unité des mesures affichées (celle de l'entité donnée, sinon de la maison). */
+export const depuisCelsius = (hass: HomeAssistant | undefined, c: number, id?: string): number =>
+  uniteTemperature(hass, id) === "°F" ? (c * 9) / 5 + 32 : c;
+/** La première température valide d'une liste de capteurs, en °C. */
+export function premiereTemperatureC(hass: HomeAssistant, candidats: string[] | undefined): number | null {
+  for (const id of candidats ?? []) {
+    const v = Number.parseFloat(hass.states[id]?.state ?? "");
+    if (!Number.isNaN(v)) return enCelsius(hass, v, id);
+  }
+  return null;
+}
+
 export function premiereValeur(hass: HomeAssistant, candidats: string[] | undefined): number | null {
   for (const id of candidats ?? []) {
     const v = Number.parseFloat(hass.states[id]?.state ?? "");
@@ -27,6 +50,14 @@ export function humiditeInterieure(hass: HomeAssistant, m: Maison): number | nul
 }
 
 /** Dehors : un capteur d'une pièce extérieure, sinon la météo. */
+/** La température dehors en °C : le capteur extérieur, sinon la météo, chacun dans son unité. */
+export function temperatureDehorsC(hass: HomeAssistant, m: Maison): number | null {
+  const capteur = premiereTemperatureC(hass, m.temperaturesExterieures);
+  if (capteur !== null) return capteur;
+  const v = temperatureDehors(hass, m);
+  return v === null ? null : enCelsius(hass, v, m.meteo ?? undefined);
+}
+
 export function temperatureDehors(hass: HomeAssistant, m: Maison): number | null {
   const capteur = premiereValeur(hass, m.temperaturesExterieures);
   if (capteur !== null) return capteur;

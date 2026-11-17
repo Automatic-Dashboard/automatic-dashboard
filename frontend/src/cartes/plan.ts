@@ -6,12 +6,13 @@
 import { css, html, nothing, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
 import type { Maison, Piece } from "../moteur/types";
-import { premiereValeur } from "../moteur/valeurs";
+import { depuisCelsius, premiereTemperatureC, premiereValeur } from "../moteur/valeurs";
 import { degres, estFrancais, naviguer, nombre } from "../outils";
 import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
 /** Du froid au chaud : les paliers de couleur d'une pièce. */
+/** Les couleurs par température, seuils en °C (une maison en °F est convertie). */
 export const PALIERS: [number, string][] = [[17, "#3E6FB0"], [19, "#7BA7D1"], [22, "#CDBB8F"], [24, "#E9A23B"], [Infinity, "#C8613A"]];
 export const couleurTemperature = (t: number | null): string | null => (t === null ? null : PALIERS.find(([seuil]) => t < seuil)![1]);
 
@@ -49,6 +50,8 @@ export class AutomaticPlan extends CarteAutomatic {
   protected override rendu(hass: HomeAssistant, m: Maison): TemplateResult | null {
     const pieces = m.pieces.filter((p) => p.entites.length || p.temperatures.length);
     if (pieces.filter((p) => p.temperatures.length).length < 2) return null;
+    // La légende est graduée dans l'unité des capteurs affichés.
+    const capteur = pieces.find((p) => p.temperatures.length)!.temperatures[0];
     // Le plus haut étage en haut ; les pièces sans étage à la fin.
     const etages = [...m.etages].sort((a, b) => (b.level ?? 0) - (a.level ?? 0));
     const groupes: [string | null, Piece[]][] = etages.map((e): [string | null, Piece[]] => [e.name, pieces.filter((p) => p.etage === e.floor_id)])
@@ -59,14 +62,14 @@ export class AutomaticPlan extends CarteAutomatic {
       ${groupes.map(([nom, liste]) => html`<div class=${nom ? "etage" : "etage sans-etage"}>
         ${nom ? html`<span class="sur">${nom}</span>` : nothing}
         <div class="pieces">${liste.map((p) => this.piece(hass, p))}</div></div>`)}
-      <div class="legende"><span>16°</span><span class="degrade"></span><span>26°</span></div>
+      <div class="legende"><span>${Math.round(depuisCelsius(hass, 16, capteur))}°</span><span class="degrade"></span><span>${Math.round(depuisCelsius(hass, 26, capteur))}°</span></div>
     </ha-card>`;
   }
 
   private piece(hass: HomeAssistant, p: Piece): TemplateResult {
     const t = premiereValeur(hass, p.temperatures);
     const h = premiereValeur(hass, p.humidites);
-    const couleur = couleurTemperature(t);
+    const couleur = couleurTemperature(premiereTemperatureC(hass, p.temperatures));
     // Une pièce pèse selon ses appareils : le salon est plus grand que les toilettes.
     const poids = 1 + Math.min(1, p.utiles / 8);
     const classes = ["piece", couleur ? "" : "inconnue", p.exterieur ? "dehors" : ""].join(" ");

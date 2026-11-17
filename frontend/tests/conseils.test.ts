@@ -120,6 +120,29 @@ describe("les conseils de saison", () => {
     expect(p.detail).toMatch(/^Il fait 29,0° dehors et 25,5° dedans/u);
   });
 
+  it("une maison en °F garde les mêmes seuils : rien quand il gèle dehors, les volets quand il fait 30 °C", () => {
+    const enF = (dehors: number, dedans: string) => {
+      const r = chaleur(dehors, dedans);
+      r.h.config = { ...r.h.config, unit_system: { temperature: "°F" } };
+      for (const s of Object.values(r.h.states)) {
+        if (s.attributes.device_class === "temperature") s.attributes = { ...s.attributes, unit_of_measurement: "°F" };
+        if (s.entity_id.startsWith("weather.")) s.attributes = { ...s.attributes, temperature_unit: "°F" };
+      }
+      return pointsARegarder(r.h, r.m).find((x) => x.cle.startsWith("volets:"));
+    };
+    expect(enF(29, "72")).toBeUndefined();
+    expect(enF(50, "77")).toBeUndefined();
+    const p = enF(86, "79");
+    expect(p!.titre).toBe("Fermez les volets du salon");
+    expect(p!.detail).toMatch(/^Il fait 86,0° dehors et 79,0° dedans/u);
+  });
+
+  it("un capteur resté en °C dans une maison passée en °F n'est pas converti à tort", () => {
+    const r = chaleur(29, "25.5");
+    r.h.config = { ...r.h.config, unit_system: { temperature: "°F" } };
+    expect(pointsARegarder(r.h, r.m).find((x) => x.cle.startsWith("volets:"))!.titre).toBe("Fermez les volets du salon");
+  });
+
   it("il fait plus frais dehors le soir : « Ouvrez les fenêtres »", () => {
     const { h, m } = maison((x) => {
       const meteo = analyser(x as Instantane).meteo!;

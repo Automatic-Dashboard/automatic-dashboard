@@ -7,7 +7,7 @@ import { conseils } from "./moteur/conseils";
 import { pointsVisibles } from "./moteur/points";
 import type { Maison, Piece } from "./moteur/types";
 import { lirePluie } from "./moteur/meteo-france";
-import { premiereValeur, temperatureDehors } from "./moteur/valeurs";
+import { premiereTemperatureC, premiereValeur, temperatureDehors } from "./moteur/valeurs";
 import { conditionMeteo, degres, estFrancais, ilYa, majuscule, nombre, nomCourt, t, valide } from "./outils";
 
 export interface Phrase {
@@ -84,9 +84,9 @@ export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phra
   if (sujet === "climat") {
     // « Il fait bon partout, sauf dans la chambre (17,9°). 6 chauffages en marche. »
     const pieces = m.pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length)
-      .map((p) => ({ p, v: premiereValeur(hass, p.temperatures) }))
-      .filter((x): x is { p: Piece; v: number } => x.v !== null);
-    const froides = pieces.filter((x) => x.v < 18.5), chaudes = pieces.filter((x) => x.v > 24);
+      .map((p) => ({ p, v: premiereValeur(hass, p.temperatures), c: premiereTemperatureC(hass, p.temperatures) }))
+      .filter((x): x is { p: Piece; v: number; c: number } => x.v !== null && x.c !== null);
+    const froides = pieces.filter((x) => x.c < 18.5), chaudes = pieces.filter((x) => x.c > 24);
     const ecarts = [...froides, ...chaudes];
     let phrase: string;
     if (!pieces.length) {

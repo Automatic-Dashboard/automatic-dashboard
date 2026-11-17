@@ -62,6 +62,8 @@ export interface ConfigHA {
   country?: string | null;
   version?: string;
   components?: string[];
+  /** Les unités choisies dans Home Assistant (Paramètres, Système, Général). */
+  unit_system?: { temperature?: string };
 }
 
 /** Ce que le moteur de tri lit : les registres et les états, rien d'autre. */
@@ -76,7 +78,8 @@ export interface Instantane {
 export interface HomeAssistant extends Instantane {
   config: ConfigHA;
   user?: { id: string; name: string; is_admin: boolean };
-  locale?: { language: string };
+  /** La langue et le format de l'heure choisis dans le profil (« 12 », « 24 », « language » ou « system »). */
+  locale?: { language: string; time_format?: string };
   language?: string;
   themes?: { darkMode?: boolean; theme?: string };
   panels?: Record<string, unknown>;
