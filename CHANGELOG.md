@@ -11,7 +11,7 @@ Première version publique.
 **Installez, c'est prêt.** Automatic Dashboard construit un tableau de bord complet à partir des appareils, des pièces et des étages de votre Home Assistant, et le tient à jour tout seul.
 
 **Prêt en deux minutes**
-- Téléchargez-le dans HACS, ajoutez l'intégration : un écran, deux cases. Le tableau est créé pour vous, et peut devenir celui de tout le monde.
+- Ajoutez-le au Marketplace de Home Assistant (*Ajouter grâce à un lien* : `Automatic-Dashboard/automatic-dashboard` ; HACS avant 2026.11), installez-le : un écran, deux cases. Le tableau est créé pour vous, et peut devenir celui de tout le monde.
 - Trois modes, choisis d'après votre maison : Découverte (quelques appareils), Maison, Complet (des centaines d'entités).
 
 **Ce que montre le tableau**
@@ -43,7 +43,7 @@ Français et anglais. Aucune donnée collectée, aucune carte tierce à installe
 **Install it, it's ready.** Automatic Dashboard builds a complete dashboard from the devices, areas and floors of your Home Assistant, and keeps it up to date on its own.
 
 **Ready in two minutes**
-- Download it in HACS, add the integration: one screen, two boxes. The dashboard is created for you, and can become everyone's default.
+- Add it to the Home Assistant Marketplace (*Add from link*: `Automatic-Dashboard/automatic-dashboard`; HACS before 2026.11), install it: one screen, two boxes. The dashboard is created for you, and can become everyone's default.
 - Three modes, chosen from your home: Discovery (a few devices), Home, Complete (hundreds of entities).
 
 **What the dashboard shows**

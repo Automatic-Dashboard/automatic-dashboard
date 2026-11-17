@@ -54,17 +54,21 @@ Home Assistant génère déjà une vue d'ensemble : des pièces et des résumés
 
 ## Installer
 
-Il faut Home Assistant 2026.9 ou plus récent, et [HACS](https://hacs.xyz/docs/use/).
+Il faut Home Assistant 2026.9 ou plus récent. Depuis la version 2026.11, l'installation passe par le **Marketplace** de Home Assistant :
 
-1. **Téléchargez Automatic Dashboard dans HACS**, puis redémarrez Home Assistant. En attendant son inscription au catalogue officiel (et donc au Marketplace de Home Assistant), ce bouton l'ajoute comme dépôt personnalisé :
+1. **Ouvrez le Marketplace** (*Paramètres*, *Marketplace*). La première fois, acceptez l'avertissement.
 
-   [![Ouvrir dans HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Automatic-Dashboard&repository=automatic-dashboard&category=integration)
+   [![Ouvrir le Marketplace](https://my.home-assistant.io/badges/marketplace_repositories.svg)](https://my.home-assistant.io/redirect/marketplace_repositories/)
 
-2. **Ajoutez l'intégration.** Un écran, deux cases : créer le tableau (cochée), et en faire le tableau par défaut pour tout le monde.
+2. **Ajoutez Automatic Dashboard** : en haut à droite, *Ajouter grâce à un lien*, puis `Automatic-Dashboard/automatic-dashboard`. La première fois, le Marketplace demande de connecter GitHub avec un code à valider sur github.com. Cette étape disparaîtra quand Automatic Dashboard sera dans le catalogue officiel.
 
-   [![Ajouter l'intégration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=automatic_dashboard)
+3. **Installez-le.** L'écran de l'intégration s'ouvre tout seul : deux cases, créer le tableau (cochée), et en faire le tableau par défaut pour tout le monde.
 
-3. **Rechargez la page** : le tableau est dans la barre latérale. C'est prêt.
+4. **Rechargez la page** : le tableau est dans la barre latérale. C'est prêt.
+
+Avec Home Assistant 2026.9 ou 2026.10, passez par [HACS](https://hacs.xyz/docs/use/) : téléchargez Automatic Dashboard, redémarrez, puis ajoutez l'intégration et suivez les étapes 3 et 4.
+
+[![Ouvrir dans HACS](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Automatic-Dashboard&repository=automatic-dashboard&category=integration) [![Ajouter l'intégration](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=automatic_dashboard)
 
 L'intégration installe aussi le thème Automatic Dashboard (clair et sombre), et trois étiquettes de réglage en masse. Le pas à pas complet, avec les questions fréquentes, est dans [la documentation](https://automatic-dashboard.github.io/documentation/).
 
@@ -126,4 +130,4 @@ Home Assistant est une marque de l'Open Home Foundation. Automatic Dashboard n'y
 
 ## In English
 
-**Install it, it's ready.** Automatic Dashboard builds a complete, polished Home Assistant dashboard from your own devices, rooms and floors, with nothing to configure. As its name says, it builds itself, and rebuilds itself when the home changes. It adapts to your home with three densities (Discovery for beginners, Home, Complete for hundreds of entities) and keeps one visual identity for everyone. It is a free, community project started by Antonin Chenavaz: no paid features, no data collected, no external service contacted. Install it through HACS (custom repository for now), add the integration (one screen: it creates the dashboard for you, and can make it everyone's default), reload the page: it's ready. Everything can be adjusted in the visual editor ("Edit dashboard"): mode, four styles, how rooms are shown, favorites (and each person's own), hidden entities, names, ready-made "notify me" automations with a choice of phones, and the wall tablet. Day to day, it gives advice rather than facts, lets you ignore a thing to check while nothing changes, puts security first when everyone has left, lists what to do before leaving, sums up the week or month with the energy cost, adds Air, Vehicle and Outdoor pages when the home has them, and suggests the room of unassigned devices. Reporting a problem attaches a diagnostic of the home without any name or value, which becomes a test case. The interface is available in French and English; contributions and bug reports in English are welcome ([contributing guide](CONTRIBUTING.md), [changelog](CHANGELOG.md)).
+**Install it, it's ready.** Automatic Dashboard builds a complete, polished Home Assistant dashboard from your own devices, rooms and floors, with nothing to configure. As its name says, it builds itself, and rebuilds itself when the home changes. It adapts to your home with three densities (Discovery for beginners, Home, Complete for hundreds of entities) and keeps one visual identity for everyone. It is a free, community project started by Antonin Chenavaz: no paid features, no data collected, no external service contacted. Install it from the Home Assistant Marketplace (Settings, Marketplace, "Add from link": `Automatic-Dashboard/automatic-dashboard`; HACS before Home Assistant 2026.11), tick the boxes on the setup screen (it creates the dashboard for you, and can make it everyone's default), reload the page: it's ready. Everything can be adjusted in the visual editor ("Edit dashboard"): mode, four styles, how rooms are shown, favorites (and each person's own), hidden entities, names, ready-made "notify me" automations with a choice of phones, and the wall tablet. Day to day, it gives advice rather than facts, lets you ignore a thing to check while nothing changes, puts security first when everyone has left, lists what to do before leaving, sums up the week or month with the energy cost, adds Air, Vehicle and Outdoor pages when the home has them, and suggests the room of unassigned devices. Reporting a problem attaches a diagnostic of the home without any name or value, which becomes a test case. The interface is available in French and English; contributions and bug reports in English are welcome ([contributing guide](CONTRIBUTING.md), [changelog](CHANGELOG.md)).
