@@ -70,10 +70,12 @@ echo; echo "3. Le site"
 faire gh repo create "$ORG/automatic-dashboard.github.io" --public \
   --description "Le site d'Automatic Dashboard : présentation, démo et documentation, en français et en anglais." \
   --homepage "https://automatic-dashboard.github.io"
-# Pages par GitHub Actions, avant l'envoi : le flux « Publier le site » met le site en ligne dès le premier envoi.
-faire gh api -X POST "repos/$ORG/automatic-dashboard.github.io/pages" -f build_type=workflow
 git -C "$SITE" remote get-url origin >/dev/null 2>&1 || faire git -C "$SITE" remote add origin "https://github.com/$ORG/automatic-dashboard.github.io.git"
 faire git -C "$SITE" push -u origin main
+# Pages par GitHub Actions, une fois le dépôt rempli ; puis le flux « Publier le site » est relancé pour le mettre en ligne.
+faire gh api -X POST "repos/$ORG/automatic-dashboard.github.io/pages" -f build_type=workflow
+$ESSAI || sleep 5
+faire gh workflow run publier.yml -R "$ORG/automatic-dashboard.github.io" --ref main
 
 echo; echo "4. Les vérifications, puis la version"
 if ! $ESSAI; then
