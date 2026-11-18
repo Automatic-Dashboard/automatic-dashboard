@@ -2,6 +2,32 @@
 
 Les numéros suivent ceux de Home Assistant : l'année, le mois, puis les corrections (2026.12.0, 2026.12.1…). Chaque version est publiée comme une release GitHub, avec ces notes en français et en anglais.
 
+## 2026.12.3
+
+### En français
+
+**Ajouté**
+- Des sections Automatic Dashboard à glisser dans n'importe quel tableau : l'état de la maison, en ce moment, le climat, le système, à ranger et avant de partir. Elles apparaissent dans *Créer une section*, *Section automatique*, avec leur aperçu, et suivent la maison comme le tableau complet.
+- Sur le site, une démo en direct : le vrai tableau, sur une maison fictive, dans le navigateur.
+
+**Amélioré**
+- Les textes sont rangés dans un fichier par langue, vérifiés par les tests : de nouvelles langues pourront s'ajouter sans toucher au code. Une langue non traduite s'affiche en anglais.
+
+**Corrigé**
+- Créer le tableau à la main, depuis « Tableaux de bord communautaires », échouait : le type déclaré ne correspondait pas à celui du tableau.
+
+### In English
+
+**Added**
+- Automatic Dashboard sections to drop into any dashboard: the state of the home, right now, climate, system, to sort and before leaving. They show up in *Create section*, *Automatic section*, with a preview, and follow the home like the full dashboard.
+- On the website, a live demo: the real dashboard, on a fictional home, in the browser.
+
+**Improved**
+- Texts live in one file per language, checked by tests: new languages can be added without touching the code. An untranslated language falls back to English.
+
+**Fixed**
+- Creating the dashboard by hand from "Community dashboards" failed: the declared type did not match the dashboard's.
+
 ## 2026.12.2
 
 ### En français
