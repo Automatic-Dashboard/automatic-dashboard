@@ -304,6 +304,19 @@ export const en: Langue = {
     template: "Templates",
     systemmonitor: "System monitor",
   } as Record<string, string>,
+  sections: {
+    etat: ["Automatic Dashboard: the state of the home", "The home in one sentence, today's sky and the things to check."],
+    moment: ["Automatic Dashboard: right now", "What's going on: music, who's home, appointments, running machines, shopping list."],
+    climat: ["Automatic Dashboard: climate", "Inside, outside, humidity, today's curve and comfort room by room."],
+    systeme: ["Automatic Dashboard: system", "Updates, the last backup and the state of Home Assistant."],
+    "a-ranger": ["Automatic Dashboard: to sort", "Devices without a room, with the suggested room in one click."],
+    depart: ["Automatic Dashboard: before leaving", "What is still open, on or unlocked, with one button per action."],
+  } as Record<string, [string, string]>,
+  tableau: ["Automatic Dashboard", "A complete dashboard that builds itself from your devices."] as [string, string],
+  cartes: {
+    points: ["Automatic Dashboard: things to check", "What needs checking in the home, or nothing."],
+    piece: ["Automatic Dashboard: room", "A room, its temperature and what is on."],
+  } as Record<string, [string, string]>,
   meteo: {
     "clear-night": "Clear night",
     cloudy: "Cloudy",

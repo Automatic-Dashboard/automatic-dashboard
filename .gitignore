@@ -36,3 +36,6 @@ dev/neuve/
 
 # Les captures prises par dev/scripts/captures.py (le site les importe)
 dev/captures/
+
+# Créé par « uv run » : le projet ne verrouille pas ses dépendances Python avec uv
+uv.lock

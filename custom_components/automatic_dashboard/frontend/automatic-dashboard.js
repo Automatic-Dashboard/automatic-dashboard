@@ -1176,6 +1176,19 @@ var en = {
 		template: "Templates",
 		systemmonitor: "System monitor"
 	},
+	sections: {
+		etat: ["Automatic Dashboard: the state of the home", "The home in one sentence, today's sky and the things to check."],
+		moment: ["Automatic Dashboard: right now", "What's going on: music, who's home, appointments, running machines, shopping list."],
+		climat: ["Automatic Dashboard: climate", "Inside, outside, humidity, today's curve and comfort room by room."],
+		systeme: ["Automatic Dashboard: system", "Updates, the last backup and the state of Home Assistant."],
+		"a-ranger": ["Automatic Dashboard: to sort", "Devices without a room, with the suggested room in one click."],
+		depart: ["Automatic Dashboard: before leaving", "What is still open, on or unlocked, with one button per action."]
+	},
+	tableau: ["Automatic Dashboard", "A complete dashboard that builds itself from your devices."],
+	cartes: {
+		points: ["Automatic Dashboard: things to check", "What needs checking in the home, or nothing."],
+		piece: ["Automatic Dashboard: room", "A room, its temperature and what is on."]
+	},
 	meteo: {
 		"clear-night": "Clear night",
 		cloudy: "Cloudy",
@@ -1654,6 +1667,19 @@ var fr = {
 		demo: "Démonstration",
 		template: "Modèles",
 		systemmonitor: "Moniteur système"
+	},
+	sections: {
+		etat: ["Automatic Dashboard : l'état de la maison", "La maison en une phrase, le ciel du jour et les points à regarder."],
+		moment: ["Automatic Dashboard : en ce moment", "Ce qui se passe : musique, présences, rendez-vous, machines en marche, courses."],
+		climat: ["Automatic Dashboard : le climat", "Dedans, dehors, l'humidité, la courbe du jour et le confort pièce par pièce."],
+		systeme: ["Automatic Dashboard : le système", "Les mises à jour, la dernière sauvegarde et l'état de Home Assistant."],
+		"a-ranger": ["Automatic Dashboard : à ranger", "Les appareils sans pièce, avec la pièce proposée en un clic."],
+		depart: ["Automatic Dashboard : avant de partir", "Ce qui reste ouvert, allumé ou déverrouillé, et un bouton par geste."]
+	},
+	tableau: ["Automatic Dashboard", "Un tableau de bord complet, construit tout seul à partir de vos appareils."],
+	cartes: {
+		points: ["Automatic Dashboard : points à regarder", "Ce qu'il faut regarder dans la maison, ou rien."],
+		piece: ["Automatic Dashboard : pièce", "Une pièce, sa température et ce qui est allumé."]
 	},
 	meteo: {
 		"clear-night": "Nuit claire",
@@ -8043,6 +8069,59 @@ function tableauEnPanne(config, hass, erreur, version) {
 		}]
 	};
 }
+// src/strategie/sections.ts
+var SECTIONS = [
+	"etat",
+	"moment",
+	"climat",
+	"systeme",
+	"a-ranger",
+	"depart"
+];
+/** Les cartes d'une section, avec les réglages de sa configuration. */
+function genererSection(nom, config, hass) {
+	const reglages = lireReglages(config);
+	const avec = (c) => ({
+		...c,
+		reglages
+	});
+	const tx = t$1(hass);
+	return {
+		type: "grid",
+		cards: {
+			etat: () => [avec({
+				type: "custom:automatic-dashboard-ouverture",
+				page: "accueil"
+			}), avec({ type: "custom:automatic-dashboard-points" })],
+			moment: () => [avec({ type: "custom:automatic-dashboard-moment" })],
+			climat: () => [
+				titre(tx.climat),
+				avec({
+					type: "custom:automatic-dashboard-heros",
+					page: "climat"
+				}),
+				avec({ type: reglages.pieces === "mosaique" ? "custom:automatic-dashboard-plan" : "custom:automatic-dashboard-confort" })
+			],
+			systeme: () => [titre(tx.systeme), avec({
+				type: "custom:automatic-dashboard-heros",
+				page: "systeme"
+			})],
+			"a-ranger": () => [titre(tx.aRanger), avec({ type: "custom:automatic-dashboard-a-ranger" })],
+			depart: () => [titre(tx.jePars), avec({ type: "custom:automatic-dashboard-depart" })]
+		}[nom]()
+	};
+}
+/** Quand une section ne peut pas se construire : une ligne qui le dit, plutôt qu'une erreur technique. */
+function sectionEnPanne(hass, erreur) {
+	const message = erreur instanceof Error ? erreur.message : String(erreur);
+	return {
+		type: "grid",
+		cards: [{
+			type: "markdown",
+			content: `**${t$1(hass).panneTitre}**\n\n\`${message.slice(0, 300)}\``
+		}]
+	};
+}
 // src/index.ts
 /** Numéro de version, lu dans package.json à la construction. */
 var VERSION = "2026.12.2";
@@ -8093,23 +8172,48 @@ if (!window.__automaticDashboardPremier) {
 	window.__automaticDashboardPremier = true;
 	preparerPremierTableau().catch(() => void 0);
 }
+var lg = langueDe(document.querySelector("home-assistant")?.hass ?? { locale: { language: localStorage.getItem("selectedLanguage")?.replace(/"/g, "") || navigator.language } });
+var DOC = "https://automatic-dashboard.github.io/documentation/";
 window.customStrategies = window.customStrategies || [];
-if (!window.customStrategies.some((s) => s.type === "automatic_dashboard")) window.customStrategies.push({
-	type: "automatic_dashboard",
+if (!window.customStrategies.some((s) => s.type === "automatic-dashboard")) window.customStrategies.push({
+	type: "automatic-dashboard",
 	strategyType: "dashboard",
-	name: "Automatic Dashboard",
-	description: "Un tableau de bord complet, construit tout seul à partir de vos appareils.",
-	documentationURL: "https://automatic-dashboard.github.io/documentation/"
+	name: lg.tableau[0],
+	description: lg.tableau[1],
+	documentationURL: DOC
 });
+for (const nom of SECTIONS) {
+	const type = `automatic-dashboard-${nom}`;
+	if (!customElements.get(`ll-strategy-section-${type}`)) customElements.define(`ll-strategy-section-${type}`, class extends HTMLElement {
+		static async generate(config, hass) {
+			try {
+				return genererSection(nom, config, hass);
+			} catch (erreur) {
+				console.error("Automatic Dashboard :", erreur);
+				return sectionEnPanne(hass, erreur);
+			}
+		}
+		static getStubConfig() {
+			return { type: `custom:${type}` };
+		}
+	});
+	if (!window.customStrategies.some((s) => s.type === type)) window.customStrategies.push({
+		type,
+		strategyType: "section",
+		name: lg.sections[nom][0],
+		description: lg.sections[nom][1],
+		documentationURL: DOC
+	});
+}
 window.customCards = window.customCards || [];
 if (!window.customCards.some((c) => c.type === "automatic-dashboard-points")) window.customCards.push({
 	type: "automatic-dashboard-points",
-	name: "Automatic Dashboard : points à regarder",
-	description: "Ce qu'il faut regarder dans la maison, ou rien."
+	name: lg.cartes.points[0],
+	description: lg.cartes.points[1]
 }, {
 	type: "automatic-dashboard-piece",
-	name: "Automatic Dashboard : pièce",
-	description: "Une pièce, sa température et ce qui est allumé."
+	name: lg.cartes.piece[0],
+	description: lg.cartes.piece[1]
 });
 window.__automaticDashboard = {
 	version: VERSION,

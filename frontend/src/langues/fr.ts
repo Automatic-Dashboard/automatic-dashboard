@@ -309,6 +309,19 @@ export const fr = {
     template: "Modèles",
     systemmonitor: "Moniteur système",
   } as Record<string, string>,
+  sections: {
+    etat: ["Automatic Dashboard : l'état de la maison", "La maison en une phrase, le ciel du jour et les points à regarder."],
+    moment: ["Automatic Dashboard : en ce moment", "Ce qui se passe : musique, présences, rendez-vous, machines en marche, courses."],
+    climat: ["Automatic Dashboard : le climat", "Dedans, dehors, l'humidité, la courbe du jour et le confort pièce par pièce."],
+    systeme: ["Automatic Dashboard : le système", "Les mises à jour, la dernière sauvegarde et l'état de Home Assistant."],
+    "a-ranger": ["Automatic Dashboard : à ranger", "Les appareils sans pièce, avec la pièce proposée en un clic."],
+    depart: ["Automatic Dashboard : avant de partir", "Ce qui reste ouvert, allumé ou déverrouillé, et un bouton par geste."],
+  } as Record<string, [string, string]>,
+  tableau: ["Automatic Dashboard", "Un tableau de bord complet, construit tout seul à partir de vos appareils."] as [string, string],
+  cartes: {
+    points: ["Automatic Dashboard : points à regarder", "Ce qu'il faut regarder dans la maison, ou rien."],
+    piece: ["Automatic Dashboard : pièce", "Une pièce, sa température et ce qui est allumé."],
+  } as Record<string, [string, string]>,
   meteo: {
     "clear-night": "Nuit claire",
     cloudy: "Nuageux",
