@@ -4,7 +4,7 @@
 
 import { css, html, nothing, svg, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
-import { heure, langue, phaseLune } from "../outils";
+import { heure, langue, phaseLune, t } from "../outils";
 
 const CYCLE = 29.530588853;
 
@@ -73,11 +73,10 @@ function dessin(L: number, H: number, base: number, rx: number, ry: number, j: N
 export function ciel(hass: HomeAssistant, maintenant = new Date()): TemplateResult | typeof nothing {
   const j = journee(hass.states["sun.sun"], maintenant);
   if (!j) return nothing;
-  const fr = langue(hass) === "fr";
   const jour = j.avancement >= 0 && j.avancement <= 1;
   const lune = phaseLune(maintenant, langue(hass));
   const legende = jour
-    ? `${fr ? "Lever" : "Sunrise"} ${heure(hass, j.lever)} · ${fr ? "coucher" : "sunset"} ${heure(hass, j.coucher)}`
+    ? t(hass).leverCoucher(heure(hass, j.lever), heure(hass, j.coucher))
     : lune.nom;
   return html`<figure class="ciel" aria-label=${legende}>
     <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>

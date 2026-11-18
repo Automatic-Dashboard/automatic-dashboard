@@ -3,7 +3,7 @@
 // barre latérale (et devenir celui de tout le monde, si c'était demandé). Une seule fois.
 
 import type { HomeAssistant } from "./ha";
-import { estFrancais, naviguer } from "./outils";
+import { naviguer, t } from "./outils";
 
 export const URL_TABLEAU = "automatic-dashboard";
 
@@ -33,12 +33,12 @@ export async function preparerPremierTableau(): Promise<void> {
     await hass.callWS({ type: "frontend/set_system_data", key: "core", value: { ...systeme, default_panel: URL_TABLEAU } }).catch(() => undefined);
   }
   await hass.callWS({ type: "automatic_dashboard/fait" });
-  const fr = estFrancais(hass);
+  const tx = t(hass);
   document.querySelector("home-assistant")?.dispatchEvent(new CustomEvent("hass-notification", {
     detail: {
-      message: fr ? "Votre tableau Automatic Dashboard est prêt." : "Your Automatic Dashboard dashboard is ready.",
+      message: tx.tableauPret,
       duration: 15000,
-      action: { text: fr ? "Ouvrir" : "Open", action: () => naviguer(`/${URL_TABLEAU}`) },
+      action: { text: tx.ouvrir, action: () => naviguer(`/${URL_TABLEAU}`) },
     },
     bubbles: true, composed: true,
   }));

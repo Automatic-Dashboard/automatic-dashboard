@@ -712,243 +712,9 @@ function courbes(series, largeur = 300, hauteur = 92) {
 		return w`${n === 0 ? w`<path d=${`${ligne} L${x(pts[pts.length - 1][0])} ${hauteur} L${x(pts[0][0])} ${hauteur} Z`} fill=${s.couleur} fill-opacity=".10"/>` : A}<path d=${ligne} fill="none" stroke=${s.couleur} stroke-width=${n === 0 ? 2 : 1.6} stroke-dasharray=${n ? "4 4" : A} vector-effect="non-scaling-stroke" stroke-linejoin="round"/>`;
 	})}</svg>`;
 }
-// src/textes.ts
-var TEXTES$1 = {
-	fr: {
-		bonjour: "Bonjour",
-		apresmidi: "Bon après-midi",
-		bonsoir: "Bonsoir",
-		nuit: "Bonne nuit",
-		accueil: "Accueil",
-		favoris: "Favoris",
-		pieces: "Pièces",
-		votreMaison: "Votre maison",
-		aujourdhui: "Aujourd'hui",
-		climat: "Climat",
-		energie: "Énergie",
-		securite: "Sécurité",
-		systeme: "Système",
-		aRanger: "À ranger",
-		meteo: "Météo",
-		lumieres: "Lumières",
-		volets: "Volets",
-		appareils: "Appareils",
-		capteurs: "Capteurs",
-		medias: "Musique et télé",
-		thermostats: "Chauffage et climatisation",
-		temperatures: "Températures",
-		sauvegardes: "Sauvegardes",
-		misesAJour: "Mises à jour",
-		piles: "Piles",
-		machine: "La machine",
-		ouvertures: "Portes et fenêtres",
-		alertes: "Détecteurs",
-		toutVaBien: "Tout va bien à la maison.",
-		mesFavoris: "Mes favoris",
-		mesFavorisPhrase: "Les vôtres remplacent ceux du tableau, pour vous seulement, sur tous vos écrans.",
-		mesFavorisListe: "Vos favoris",
-		mesFavorisOrdre: "Dans l'ordre de l'accueil : les flèches le changent.",
-		mesFavorisVide: "Vous n'en avez pas choisi : l'accueil montre ceux du tableau. Touchez les étoiles ci-dessous.",
-		monter: "Monter",
-		descendre: "Descendre",
-		retirerFavori: "Retirer de mes favoris",
-		sansPieceTitre: "Sans pièce",
-		favorisDuTableau: "Revenir aux favoris du tableau",
-		termine: "Terminé",
-		modifierFavoris: "Mes favoris",
-		air: "Air",
-		vehicule: "Véhicule",
-		exterieur: "Extérieur",
-		airBon: "L'air est bon partout.",
-		vehiculeSansBatterie: "Votre véhicule et sa recharge.",
-		vehiculeBatterie: (v, charge) => `Batterie à ${v} %${charge ? ", en charge" : ""}.`,
-		voitureChargee: "La voiture est chargée",
-		jePars: "Je pars",
-		departPhrase: "Ce qui reste ouvert, allumé ou déverrouillé, et un bouton pour chaque geste.",
-		departLumieres: (n) => `${n} lumière${n > 1 ? "s allumées" : " allumée"}`,
-		departSerrures: (n) => `${n} serrure${n > 1 ? "s ouvertes" : " ouverte"}`,
-		departVolets: (n) => `${n} volet${n > 1 ? "s ouverts" : " ouvert"}`,
-		departAlarme: "L'alarme est désarmée",
-		departOuvertures: (n) => n > 1 ? `${n} portes ou fenêtres ouvertes` : "1 porte ou fenêtre ouverte",
-		aLaMain: "À fermer à la main",
-		departPret: "Tout est fermé et éteint. Bonne journée !",
-		departEchec: "Ça n'a pas marché :",
-		toutVerrouiller: "Tout verrouiller",
-		aFaire: (n) => `${n} à faire`,
-		reveiller: "Toucher pour rallumer l'écran",
-		pleinEcran: "Plein écran",
-		sortirPleinEcran: "Appui long pour quitter le plein écran",
-		bilan: "Bilan",
-		bilanPret: "Le bilan de la semaine est prêt",
-		bilanPretMois: "Le bilan du mois est prêt",
-		bilanPretDetail: "Énergie, températures et ouvertures.",
-		bilanEntete: "La semaine ou le mois passé : l'énergie et son coût, les températures, ce qui s'est ouvert.",
-		semaine: "Semaine",
-		mois: "Mois",
-		bilanPartielMois: (n) => `Home Assistant n'a que ${n} jour${n > 1 ? "s" : ""} d'historique pour ce mois : le premier bilan complet arrivera le 1er du mois prochain.`,
-		bilanPhrase: (du, au) => `Du ${du} au ${au}.`,
-		bilanVide: "Pas encore assez d'historique : le bilan se remplira tout seul au fil des semaines.",
-		bilanSansEnergie: "Pas de compteur d'énergie pour la maison.",
-		bilanSansTemperature: "Pas de température suivie.",
-		bilanEcart: (v) => `${v} par rapport à la semaine d'avant`,
-		bilanBarres: "Consommation jour par jour",
-		bilanFois: (n) => n > 1 ? "ouvertures" : "ouverture",
-		bilanPartiel: (n) => `Home Assistant n'a que ${n} jour${n > 1 ? "s" : ""} d'historique pour cette semaine : le premier bilan complet arrivera lundi prochain.`,
-		bilanSansDonnee: "Pas encore de données ce jour-là",
-		absenceCalme: "Personne à la maison, tout est fermé et éteint.",
-		absenceReste: (liste) => `Personne à la maison : ${liste}.`,
-		absOuverts: (n) => n > 1 ? `${n} ouvertures` : "1 ouverture",
-		absSerrures: (n) => n > 1 ? `${n} serrures ouvertes` : "1 serrure ouverte",
-		absLumieres: (n) => n > 1 ? `${n} lumières allumées` : "1 lumière allumée",
-		absAlarme: "l'alarme désarmée",
-		verrouiller: (quoi) => `Verrouillez ${quoi}`,
-		verrouillerSans: "À verrouiller",
-		armer: "Armez l'alarme",
-		eteindre: "Éteignez les lumières",
-		personneLa: "Personne n'est à la maison.",
-		lumieresOubliees: (n, pieces) => `${n > 1 ? `${n} allumées` : "1 allumée"}${pieces ? ` : ${pieces}` : ""}.`,
-		points: (n) => n > 1 ? `${n} points à regarder, le reste va bien.` : "1 point à regarder, le reste va bien.",
-		alerteGrave: (q) => `${q}.`,
-		ouverte: "Ouverte",
-		fuite: "Fuite détectée",
-		fumee: "Fumée détectée",
-		alarme: "Alarme déclenchée",
-		pileFaible: "Pile faible",
-		serviceEnPanne: "Service hors ligne",
-		fermer: (quoi) => `Fermez ${quoi}`,
-		fermerSans: "À fermer",
-		chauffageOuvert: "Le chauffage tourne pendant que c'est ouvert.",
-		aerer: (piece) => `Aérez ${piece}`,
-		aererSans: "À aérer",
-		fermerVolets: (piece) => `Fermez les volets ${piece.replace(/^le /, "du ").replace(/^la /, "de la ").replace(/^l'/, "de l'")}`,
-		fermerVoletsSans: "Volets à fermer",
-		chaleur: (dehors, dedans) => `Il fait ${dehors} dehors et ${dedans} dedans : gardez la fraîcheur.`,
-		ouvrirFrais: "Ouvrez les fenêtres",
-		fraisDehors: (dehors, dedans) => `Il fait plus frais dehors : ${dehors}, contre ${dedans} dedans.`,
-		machineFinie: (quoi) => `${quoi} a fini`,
-		machineFinieSans: "Terminé",
-		depuis: (min) => min < 60 ? `Depuis ${min} min.` : `Depuis ${Math.floor(min / 60)} h ${String(min % 60).padStart(2, "0")}.`,
-		co2: (v) => `${v} ppm de CO₂ : quelques minutes de fenêtre ouverte suffisent.`,
-		humidite: (v) => `${v} % d'humidité : aérez pour éviter la moisissure.`,
-		majs: (n) => n > 1 ? `${n} mises à jour disponibles` : "1 mise à jour disponible",
-		majsDetail: "Système, applications et appareils",
-		sauvegardeAucune: "Aucune sauvegarde automatique",
-		sauvegardeAucuneDetail: "À régler dans les sauvegardes",
-		sauvegardeEchec: "La dernière sauvegarde a échoué",
-		sauvegardeEchecDetail: "Ouvrir les sauvegardes",
-		vigilance: (c) => `Vigilance ${c}`,
-		autres: (n) => `et ${n} autre${n > 1 ? "s" : ""}`,
-		ignorer: "Ignorer tant que ça ne change pas",
-		actions: "Que faire de ce point ?",
-		prevenir: "Me prévenir la prochaine fois",
-		prevenu: "Vous serez prévenu : voir l'automatisme",
-		prevenirAdmin: "Pour être prévenu, un administrateur peut l'activer dans les réglages du tableau.",
-		automatismeCree: (nom) => `Automatisme créé : ${nom}.`,
-		automatismeEchec: "L'automatisme n'a pas pu être créé.",
-		voir: "Voir",
-		ignores: (n) => `${n} point${n > 1 ? "s" : ""} ignoré${n > 1 ? "s" : ""} tant qu'il${n > 1 ? "s ne changent" : " ne change"} pas.`,
-		remontrer: "Remontrer",
-		allumees: (n) => n > 1 ? `${n} allumées` : n === 1 ? "1 allumée" : "Éteintes",
-		dedans: "dedans",
-		dehors: "Dehors",
-		moyenne: "en moyenne",
-		toutFerme: "Tout est fermé",
-		ouverts: (n) => n > 1 ? `${n} ouvertures` : "1 ouverture",
-		aJour: "À jour",
-		enCeMoment: "en ce moment",
-		sansPiece: (n) => n > 1 ? `${n} appareils sans pièce` : "1 appareil sans pièce",
-		choisirPieces: "Choisir leur pièce",
-		toutEteindre: "Tout éteindre",
-		toutFermer: "Tout fermer",
-		alarmeEtat: {
-			disarmed: "Alarme désactivée",
-			armed_home: "Alarme activée (présence)",
-			armed_away: "Alarme activée",
-			armed_night: "Alarme de nuit",
-			triggered: "Alarme déclenchée"
-		},
-		aucuneFuite: "aucune fuite",
-		sauvegardeIlYa: (q) => `Sauvegarde ${q}`,
-		sauvegardeNon: "Sauvegardes à régler",
-		lever: "Lever",
-		coucher: "Coucher",
-		deJour: "de jour",
-		soleil: "Soleil",
-		ferie: "Prochain jour férié",
-		ferieAujourdhui: "Aujourd'hui, férié",
-		dansJours: (n) => n === 1 ? "demain" : `dans ${n} jours`,
-		premiersPas: "Premiers pas",
-		premiersPasDetail: "Pour profiter d'Automatic Dashboard dès aujourd'hui.",
-		etapes: {
-			emplacement: "Indiquer où est la maison",
-			meteoFrance: "Ajouter Météo-France : pluie dans l'heure et vigilance",
-			meteo: "Ajouter la météo",
-			feries: "Afficher les jours fériés",
-			sauvegardes: "Activer les sauvegardes automatiques",
-			pieces: "Ranger vos appareils dans des pièces",
-			appli: "Installer l'application sur votre téléphone",
-			appareil: "Ajouter un appareil"
-		},
-		phraseMeteo: (cond, temp) => `${cond}, ${temp}.`,
-		pasDePluie: "Pas de pluie dans l'heure.",
-		pluieDansPhrase: (n) => `Pluie dans ${n} min.`,
-		pluieEnCours: "Il pleut.",
-		piecePhrase: (morceaux) => morceaux.join(", ") + ".",
-		lumieresAllumees: (n) => n > 1 ? `${n} lumières allumées` : "1 lumière allumée",
-		voletsOuverts: (n) => n > 1 ? `${n} volets ouverts` : "volet ouvert",
-		chauffe: "chauffage en marche",
-		clim: "climatisation en marche",
-		toutEteint: "Tout est éteint",
-		climatPhrase: (d, e) => [d, e].filter(Boolean).join(", ") + ".",
-		energiePhrase: (w) => `${w} en ce moment.`,
-		pieceSurtitre: "Pièce",
-		etagePrefixe: "",
-		enCeMomentTitre: "En ce moment",
-		mediasEnLecture: (n) => `${n} médias en lecture`,
-		pauseMedia: "Mettre en pause",
-		aLaMaison: (noms) => `À la maison : ${noms.join(", ")}`,
-		personnesALaMaison: (n) => n > 1 ? `${n} personnes à la maison` : "1 personne à la maison",
-		personne: "Personne à la maison",
-		ailleurs: (nom, zone) => `${nom} : ${zone ?? "ailleurs"}`,
-		enCours: "En cours",
-		demain: "Demain",
-		toutLeJour: "Aujourd'hui",
-		enMarche: (nom) => `${nom} en marche`,
-		minuteur: (nom, min) => `${nom} : ${min} min`,
-		enPause: (nom) => `${nom} : en pause`,
-		articles: (n) => n > 1 ? `${n} articles à acheter` : "1 article à acheter",
-		pluieTitre: "Pluie dans l'heure",
-		pluieAucune: "Pas de pluie dans l'heure",
-		pluieDans: (type, n) => `${type} dans ${n} min`,
-		pluieFin: (n) => `Il pleut, fin prévue dans ${n} min`,
-		pluieContinue: "Pluie pendant toute l'heure",
-		pluieSource: (h) => `Météo-France, ${h}`,
-		maintenant: "maintenant",
-		dans1h: "dans 1 h",
-		pluieTypes: {},
-		couleurs: [
-			"vert",
-			"jaune",
-			"orange",
-			"rouge"
-		],
-		vigilanceVerte: "Pas de vigilance météo aujourd'hui",
-		conseils: [
-			"",
-			"Soyez attentif : des phénomènes habituels mais parfois dangereux sont prévus.",
-			"Soyez très vigilant : des phénomènes dangereux sont prévus. Suivez les consignes des autorités.",
-			"Vigilance absolue : des phénomènes dangereux d'une intensité exceptionnelle sont prévus. Respectez les consignes des autorités."
-		],
-		vigilanceCarte: "Voir la carte de Météo-France",
-		panneTitre: "Le tableau n'a pas pu se construire",
-		panneTexte: "Automatic Dashboard a rencontré une erreur en lisant votre maison. Rien n'est cassé dans Home Assistant : vos appareils et vos automatismes fonctionnent normalement.",
-		panneEtapes: [
-			"Rechargez la page.",
-			"Si Automatic Dashboard vient d'être mis à jour, redémarrez Home Assistant (*Paramètres*, *Système*, en haut à droite), puis rechargez la page.",
-			"Si l'erreur revient, [signalez-la](LIEN) en joignant le message ci-dessous (relisez-le : il décrit l'erreur, pas votre maison)."
-		]
-	},
-	en: {
+// src/langues/en.ts
+var en = {
+	textes: {
 		bonjour: "Good morning",
 		apresmidi: "Good afternoon",
 		bonsoir: "Good evening",
@@ -1184,88 +950,539 @@ var TEXTES$1 = {
 			"Reload the page.",
 			"If Automatic Dashboard was just updated, restart Home Assistant (*Settings*, *System*, top right), then reload the page.",
 			"If the error comes back, [report it](LIEN) with the message below (read it first: it describes the error, not your home)."
-		]
+		],
+		dehorsTitre: "Outside",
+		et: " and ",
+		bonPartout: "Comfortable everywhere.",
+		bonPresquePartout: (liste) => `Comfortable almost everywhere. Keep an eye on ${liste}.`,
+		horsConfort: (n) => `${n} rooms outside the comfort zone.`,
+		chauffagesEnMarche: (n) => `${n} heater${n > 1 ? "s" : ""} on.`,
+		toutFermePhrase: "Everything is closed.",
+		ouvertsPhrase: (liste, n) => `${liste} ${n > 1 ? "are" : "is"} open.`,
+		sansSauvegardePhrase: (majs) => `No automatic backup.${majs ? ` ${majs}.` : ""}`,
+		systemeOkPhrase: (_majs, quand) => `All good. Backup ${quand}.`,
+		donnerPiece: "Give them a room: they will show up on the home page and in their room.",
+		pastilleSansPiece: (n) => n > 1 ? `${n} devices without a room` : "1 device without a room",
+		motsEnMarche: {
+			chauffage: ["heater", "heaters"],
+			clim: ["AC unit", "AC units"],
+			appareil: ["device", "devices"]
+		},
+		tableauPret: "Your Automatic Dashboard dashboard is ready.",
+		ouvrir: "Open",
+		leverCoucher: (lever, coucher) => `Sunrise ${lever} · sunset ${coucher}`,
+		nbEntites: (n) => `${n} entit${n > 1 ? "ies" : "y"}`,
+		sansAppareil: "no device",
+		rangerDans: (piece) => `Put in ${piece}`,
+		autreChoix: "Other",
+		choisir: "Choose",
+		rangeDans: (nom, piece) => `${nom}: put in ${piece}.`,
+		annuler: "Undo",
+		noteAdmin: "An administrator can put these devices in the suggested room in one click.",
+		airSec: "Dry air",
+		airHumide: "Humid air: ventilate",
+		confortable: "Comfortable",
+		humiditeTitre: "Humidity",
+		rienOuvert: "Nothing was opened.",
+		autresTitre: "Other",
+		autresPieces: "Other rooms",
+		pieceParPiece: "Room by room",
+		compteurs: "Meters",
+		repartition: "Breakdown",
+		septJours: "Last 7 days",
+		serruresTitre: "Locks",
+		presence: "Presence",
+		activite: "Activity",
+		huitSemaines: "Last 8 weeks",
+		temperatures7j: "Temperatures, 7 days",
+		co2Jour: "CO₂, 24 hours",
+		jardin: "The garden",
+		portailGarage: "Gate and garage",
+		arrosage: "Watering and pool",
+		tondeuse: "Mower",
+		tabletteMurale: "Wall tablet",
+		deuxPoints: ": "
+	},
+	heros: {
+		dedans: "inside",
+		dehors: "outside",
+		humidite: "humidity",
+		maintenant: "now",
+		aujourdhui: "today",
+		hier: "yesterday",
+		production: "production",
+		ouvertures: (_n, total) => `open of ${total}`,
+		serrures: () => "unlocked",
+		detecteurs: (n) => n === 1 ? "alert" : "alerts",
+		toutFerme: "Everything is closed",
+		ouvert: "open",
+		gerer: "Manage",
+		voir: "See",
+		regler: "Set up",
+		majs: (n) => n > 1 ? `${n} updates available` : "1 update available",
+		aJour: "Everything is up to date",
+		sauvegarde: "backup",
+		prochaine: "next",
+		taille: "size",
+		version: "Home Assistant",
+		jamais: "never",
+		nonPrevue: "not scheduled",
+		reussie: "succeeded",
+		echouee: "failed",
+		sansSauvegarde: "No automatic backup",
+		sansSauvegardeDetail: "Without it, a failure can erase everything.",
+		ranges: (n) => `${n} device${n > 1 ? "s" : ""} sorted`,
+		aRanger: (n) => `${n} to sort`,
+		rangerTout: "Sort my devices",
+		creerPiece: "Create a room",
+		legende24: "last 24 hours",
+		puissance: "power",
+		alarme: "Alarm"
+	},
+	editeur: {
+		mode: "Mode",
+		modes: {
+			auto: ["Automatic", "Chosen from your home, and reviewed when it changes."],
+			decouverte: ["Discovery", "Few devices: the weather and each device shown large."],
+			maison: ["Home", "Things to check, favorites, rooms and overviews."],
+			complet: ["Complete", "Many devices: rooms by floor, compact tiles."]
+		},
+		nomsModes: {
+			decouverte: "Discovery",
+			maison: "Home",
+			complet: "Complete"
+		},
+		detecte: (mode, u, d, p) => `From your home: ${mode} mode (${u} useful entit${u > 1 ? "ies" : "y"}, ${d} device${d > 1 ? "s" : ""}, ${p} room${p > 1 ? "s" : ""}).`,
+		apparence: "Appearance",
+		apparenceAide: "Choose the style and what the dashboard shows. Everything else stays automatic.",
+		style: "Style",
+		styles: {
+			automatic: ["Automatic", "Blue and terracotta, with the site's dot pattern."],
+			doux: ["Soft", "Cream and sage green, no borders, rounder."],
+			contraste: ["High contrast", "Black on white, strong borders: the most readable."],
+			home_assistant: ["Your theme", "The one chosen in your Home Assistant profile."]
+		},
+		piecesClimat: "Rooms, in Climate",
+		barres: "Bars",
+		mosaique: "Mosaic",
+		tuiles: "Favorite tiles",
+		tuilesAutomatic: "Name on two lines",
+		tuilesHA: "Home Assistant",
+		ciel: "The sky of the day",
+		cielAide: "At the top of the home page: the sun's arc, and the moon at night.",
+		conseils: "Advice",
+		conseilsAide: "\"Close the living room window\", \"Air out the bedroom\"… in the things to check.",
+		bilanPage: "The weekly report",
+		bilanPageAide: "A page of its own, announced on Mondays.",
+		favoris: "Favorites",
+		favorisAide: "Your favorites first, in the order you choose: drag them to change it.",
+		completer: "Fill in with the devices you use most",
+		completerAide: "Home Assistant suggests them by time of day: they change throughout the day.",
+		propose: "Suggested",
+		epingler: "Pin",
+		retirer: "Remove",
+		deplacer: (nom) => `Move ${nom} (drag, or arrow keys)`,
+		ajouterFavori: "Add a favorite",
+		aucunFavori: "No favorites: the row won't appear.",
+		favorisDecouverte: "In Discovery mode, the home page already shows each device large: favorites will appear in Home or Complete mode.",
+		masques: "Hidden",
+		masquesAide: "What Automatic Dashboard never shows. The rest of Home Assistant is not affected.",
+		masquer: "Hide a device or entity",
+		aucunMasque: "Nothing is hidden.",
+		masquesEtiquette: (n) => `And ${n} entit${n > 1 ? "ies" : "y"} by the "Automatic Dashboard: hide" label, set in Home Assistant on entities, devices or areas.`,
+		parEtiquette: "By label",
+		parEtiquetteAide: "Pinned by the \"Automatic Dashboard: favorite\" label, set in Home Assistant",
+		noms: "Names",
+		nomsAide: "The name shown in Automatic Dashboard. The Home Assistant name (and voice assistants) stays the same.",
+		renommer: "Rename a device or entity",
+		nomTableau: "Name in Automatic Dashboard",
+		nomDansHA: (nom) => `In Home Assistant: ${nom}`,
+		pieces: "Rooms",
+		piecesAide: "Rooms and floors follow the order chosen in Home Assistant.",
+		changerOrdre: "Change the order",
+		enregistrerDabord: "Save your settings first to change the order of rooms.",
+		prevenirTitre: "Notify me",
+		prevenirAide: "Automatic Dashboard creates the ready-made automation in Home Assistant (Settings, Automations), watching every sensor of the same kind. Applies right away.",
+		sujets: {
+			fuite: "On a water leak",
+			fumee: "On smoke or gas",
+			pile: "When a battery is low",
+			sauvegarde: "If the backup fails"
+		},
+		surveille: (n) => `Watches ${n} sensor${n > 1 ? "s" : ""}.`,
+		surveilleSauvegarde: "Watches Home Assistant's automatic backups.",
+		rienASurveiller: {
+			fuite: "No leak detector in the home.",
+			fumee: "No smoke or gas detector.",
+			pile: "No battery tracked.",
+			sauvegarde: "Automatic backups are not set up."
+		},
+		quiPrevenir: "Who to notify",
+		notificationHA: "The notification in Home Assistant",
+		aucunTelephone: "No phone has the Home Assistant app: install it to be notified on your phone.",
+		tablette: "Wall tablet",
+		tabletteAide: (page) => `On the tablet, open ${page}: the time shown large, the status sentence, things to check and, at night, a screen saver.`,
+		ouvrirTablette: "Open the page",
+		nuit: "Night screen saver, from",
+		a: "to",
+		heureCourte: (h) => `${h}:00`,
+		reveil: "Wake the screen when someone passes",
+		reveilAide: "A motion or presence sensor near the tablet.",
+		choisirDetecteur: "Pick the sensor",
+		signaler: "Report a problem",
+		signalerAide: "A device misplaced, missing or shown by mistake? Pick it, then attach the diagnostic to your issue. It describes your home without any name or value, and becomes a test case so the mistake never comes back.",
+		signalerChoisir: "Pick the device involved",
+		devraitEtre: "It should be…",
+		attenteCache: "Hidden: it's technical information",
+		attenteVisible: "Visible: it's missing today",
+		dansLaPiece: "In the area",
+		dansLaPage: "On the page",
+		pages: {
+			securite: "Security",
+			climat: "Climate",
+			energie: "Energy",
+			systeme: "System"
+		},
+		telecharger: "Download the diagnostic",
+		copier: "Copy",
+		ouvrirTicket: "Open an issue",
+		copie: "Diagnostic copied: paste it into the issue.",
+		copieEchec: "Copying failed: download the diagnostic and attach the file to the issue.",
+		tropLong: "Diagnostic copied, but too long to paste into an issue: download it and attach the file."
+	},
+	automatismes: {
+		alias: {
+			fuite: "notify on leak",
+			fumee: "notify on smoke or gas",
+			pile: "notify when a battery is low",
+			sauvegarde: "notify if the backup fails"
+		},
+		titre: {
+			fuite: "Leak detected",
+			fumee: "Smoke or gas detected",
+			pile: "Low battery",
+			sauvegarde: "Backup failed"
+		},
+		message: {
+			fuite: "{{ trigger.to_state.name }} detected water.",
+			fumee: "{{ trigger.to_state.name }} went off.",
+			pile: "{{ trigger.to_state.name }}: {{ trigger.to_state.state }}%, replace it soon.",
+			sauvegarde: "The last automatic Home Assistant backup failed."
+		},
+		description: "Created by Automatic Dashboard from a thing to check. It is yours: edit it freely."
+	},
+	integrations: {
+		demo: "Demo",
+		template: "Templates",
+		systemmonitor: "System monitor"
+	},
+	meteo: {
+		"clear-night": "Clear night",
+		cloudy: "Cloudy",
+		fog: "Fog",
+		hail: "Hail",
+		lightning: "Lightning",
+		"lightning-rainy": "Thunderstorm",
+		partlycloudy: "Partly cloudy",
+		pouring: "Pouring",
+		rainy: "Rainy",
+		snowy: "Snowy",
+		"snowy-rainy": "Sleet",
+		sunny: "Sunny",
+		windy: "Windy",
+		"windy-variant": "Windy",
+		exceptional: "Exceptional"
 	}
 };
-var METEO = {
-	"clear-night": [
-		"mdi:weather-night",
-		"Nuit claire",
-		"Clear night"
-	],
-	cloudy: [
-		"mdi:weather-cloudy",
-		"Nuageux",
-		"Cloudy"
-	],
-	fog: [
-		"mdi:weather-fog",
-		"Brouillard",
-		"Fog"
-	],
-	hail: [
-		"mdi:weather-hail",
-		"Grêle",
-		"Hail"
-	],
-	lightning: [
-		"mdi:weather-lightning",
-		"Orage",
-		"Lightning"
-	],
-	"lightning-rainy": [
-		"mdi:weather-lightning-rainy",
-		"Orage et pluie",
-		"Thunderstorm"
-	],
-	partlycloudy: [
-		"mdi:weather-partly-cloudy",
-		"Éclaircies",
-		"Partly cloudy"
-	],
-	pouring: [
-		"mdi:weather-pouring",
-		"Averses",
-		"Pouring"
-	],
-	rainy: [
-		"mdi:weather-rainy",
-		"Pluie",
-		"Rainy"
-	],
-	snowy: [
-		"mdi:weather-snowy",
-		"Neige",
-		"Snowy"
-	],
-	"snowy-rainy": [
-		"mdi:weather-snowy-rainy",
-		"Pluie et neige",
-		"Sleet"
-	],
-	sunny: [
-		"mdi:weather-sunny",
-		"Ensoleillé",
-		"Sunny"
-	],
-	windy: [
-		"mdi:weather-windy",
-		"Venteux",
-		"Windy"
-	],
-	"windy-variant": [
-		"mdi:weather-windy-variant",
-		"Venteux",
-		"Windy"
-	],
-	exceptional: [
-		"mdi:alert-circle-outline",
-		"Exceptionnel",
-		"Exceptional"
-	]
-};
-var MOTS_HEROS = {
-	fr: {
+// src/langues/fr.ts
+var fr = {
+	textes: {
+		bonjour: "Bonjour",
+		apresmidi: "Bon après-midi",
+		bonsoir: "Bonsoir",
+		nuit: "Bonne nuit",
+		accueil: "Accueil",
+		favoris: "Favoris",
+		pieces: "Pièces",
+		votreMaison: "Votre maison",
+		aujourdhui: "Aujourd'hui",
+		climat: "Climat",
+		energie: "Énergie",
+		securite: "Sécurité",
+		systeme: "Système",
+		aRanger: "À ranger",
+		meteo: "Météo",
+		lumieres: "Lumières",
+		volets: "Volets",
+		appareils: "Appareils",
+		capteurs: "Capteurs",
+		medias: "Musique et télé",
+		thermostats: "Chauffage et climatisation",
+		temperatures: "Températures",
+		sauvegardes: "Sauvegardes",
+		misesAJour: "Mises à jour",
+		piles: "Piles",
+		machine: "La machine",
+		ouvertures: "Portes et fenêtres",
+		alertes: "Détecteurs",
+		toutVaBien: "Tout va bien à la maison.",
+		mesFavoris: "Mes favoris",
+		mesFavorisPhrase: "Les vôtres remplacent ceux du tableau, pour vous seulement, sur tous vos écrans.",
+		mesFavorisListe: "Vos favoris",
+		mesFavorisOrdre: "Dans l'ordre de l'accueil : les flèches le changent.",
+		mesFavorisVide: "Vous n'en avez pas choisi : l'accueil montre ceux du tableau. Touchez les étoiles ci-dessous.",
+		monter: "Monter",
+		descendre: "Descendre",
+		retirerFavori: "Retirer de mes favoris",
+		sansPieceTitre: "Sans pièce",
+		favorisDuTableau: "Revenir aux favoris du tableau",
+		termine: "Terminé",
+		modifierFavoris: "Mes favoris",
+		air: "Air",
+		vehicule: "Véhicule",
+		exterieur: "Extérieur",
+		airBon: "L'air est bon partout.",
+		vehiculeSansBatterie: "Votre véhicule et sa recharge.",
+		vehiculeBatterie: (v, charge) => `Batterie à ${v} %${charge ? ", en charge" : ""}.`,
+		voitureChargee: "La voiture est chargée",
+		jePars: "Je pars",
+		departPhrase: "Ce qui reste ouvert, allumé ou déverrouillé, et un bouton pour chaque geste.",
+		departLumieres: (n) => `${n} lumière${n > 1 ? "s allumées" : " allumée"}`,
+		departSerrures: (n) => `${n} serrure${n > 1 ? "s ouvertes" : " ouverte"}`,
+		departVolets: (n) => `${n} volet${n > 1 ? "s ouverts" : " ouvert"}`,
+		departAlarme: "L'alarme est désarmée",
+		departOuvertures: (n) => n > 1 ? `${n} portes ou fenêtres ouvertes` : "1 porte ou fenêtre ouverte",
+		aLaMain: "À fermer à la main",
+		departPret: "Tout est fermé et éteint. Bonne journée !",
+		departEchec: "Ça n'a pas marché :",
+		toutVerrouiller: "Tout verrouiller",
+		aFaire: (n) => `${n} à faire`,
+		reveiller: "Toucher pour rallumer l'écran",
+		pleinEcran: "Plein écran",
+		sortirPleinEcran: "Appui long pour quitter le plein écran",
+		bilan: "Bilan",
+		bilanPret: "Le bilan de la semaine est prêt",
+		bilanPretMois: "Le bilan du mois est prêt",
+		bilanPretDetail: "Énergie, températures et ouvertures.",
+		bilanEntete: "La semaine ou le mois passé : l'énergie et son coût, les températures, ce qui s'est ouvert.",
+		semaine: "Semaine",
+		mois: "Mois",
+		bilanPartielMois: (n) => `Home Assistant n'a que ${n} jour${n > 1 ? "s" : ""} d'historique pour ce mois : le premier bilan complet arrivera le 1er du mois prochain.`,
+		bilanPhrase: (du, au) => `Du ${du} au ${au}.`,
+		bilanVide: "Pas encore assez d'historique : le bilan se remplira tout seul au fil des semaines.",
+		bilanSansEnergie: "Pas de compteur d'énergie pour la maison.",
+		bilanSansTemperature: "Pas de température suivie.",
+		bilanEcart: (v) => `${v} par rapport à la semaine d'avant`,
+		bilanBarres: "Consommation jour par jour",
+		bilanFois: (n) => n > 1 ? "ouvertures" : "ouverture",
+		bilanPartiel: (n) => `Home Assistant n'a que ${n} jour${n > 1 ? "s" : ""} d'historique pour cette semaine : le premier bilan complet arrivera lundi prochain.`,
+		bilanSansDonnee: "Pas encore de données ce jour-là",
+		absenceCalme: "Personne à la maison, tout est fermé et éteint.",
+		absenceReste: (liste) => `Personne à la maison : ${liste}.`,
+		absOuverts: (n) => n > 1 ? `${n} ouvertures` : "1 ouverture",
+		absSerrures: (n) => n > 1 ? `${n} serrures ouvertes` : "1 serrure ouverte",
+		absLumieres: (n) => n > 1 ? `${n} lumières allumées` : "1 lumière allumée",
+		absAlarme: "l'alarme désarmée",
+		verrouiller: (quoi) => `Verrouillez ${quoi}`,
+		verrouillerSans: "À verrouiller",
+		armer: "Armez l'alarme",
+		eteindre: "Éteignez les lumières",
+		personneLa: "Personne n'est à la maison.",
+		lumieresOubliees: (n, pieces) => `${n > 1 ? `${n} allumées` : "1 allumée"}${pieces ? ` : ${pieces}` : ""}.`,
+		points: (n) => n > 1 ? `${n} points à regarder, le reste va bien.` : "1 point à regarder, le reste va bien.",
+		alerteGrave: (q) => `${q}.`,
+		ouverte: "Ouverte",
+		fuite: "Fuite détectée",
+		fumee: "Fumée détectée",
+		alarme: "Alarme déclenchée",
+		pileFaible: "Pile faible",
+		serviceEnPanne: "Service hors ligne",
+		fermer: (quoi) => `Fermez ${quoi}`,
+		fermerSans: "À fermer",
+		chauffageOuvert: "Le chauffage tourne pendant que c'est ouvert.",
+		aerer: (piece) => `Aérez ${piece}`,
+		aererSans: "À aérer",
+		fermerVolets: (piece) => `Fermez les volets ${piece.replace(/^le /, "du ").replace(/^la /, "de la ").replace(/^l'/, "de l'")}`,
+		fermerVoletsSans: "Volets à fermer",
+		chaleur: (dehors, dedans) => `Il fait ${dehors} dehors et ${dedans} dedans : gardez la fraîcheur.`,
+		ouvrirFrais: "Ouvrez les fenêtres",
+		fraisDehors: (dehors, dedans) => `Il fait plus frais dehors : ${dehors}, contre ${dedans} dedans.`,
+		machineFinie: (quoi) => `${quoi} a fini`,
+		machineFinieSans: "Terminé",
+		depuis: (min) => min < 60 ? `Depuis ${min} min.` : `Depuis ${Math.floor(min / 60)} h ${String(min % 60).padStart(2, "0")}.`,
+		co2: (v) => `${v} ppm de CO₂ : quelques minutes de fenêtre ouverte suffisent.`,
+		humidite: (v) => `${v} % d'humidité : aérez pour éviter la moisissure.`,
+		majs: (n) => n > 1 ? `${n} mises à jour disponibles` : "1 mise à jour disponible",
+		majsDetail: "Système, applications et appareils",
+		sauvegardeAucune: "Aucune sauvegarde automatique",
+		sauvegardeAucuneDetail: "À régler dans les sauvegardes",
+		sauvegardeEchec: "La dernière sauvegarde a échoué",
+		sauvegardeEchecDetail: "Ouvrir les sauvegardes",
+		vigilance: (c) => `Vigilance ${c}`,
+		autres: (n) => `et ${n} autre${n > 1 ? "s" : ""}`,
+		ignorer: "Ignorer tant que ça ne change pas",
+		actions: "Que faire de ce point ?",
+		prevenir: "Me prévenir la prochaine fois",
+		prevenu: "Vous serez prévenu : voir l'automatisme",
+		prevenirAdmin: "Pour être prévenu, un administrateur peut l'activer dans les réglages du tableau.",
+		automatismeCree: (nom) => `Automatisme créé : ${nom}.`,
+		automatismeEchec: "L'automatisme n'a pas pu être créé.",
+		voir: "Voir",
+		ignores: (n) => `${n} point${n > 1 ? "s" : ""} ignoré${n > 1 ? "s" : ""} tant qu'il${n > 1 ? "s ne changent" : " ne change"} pas.`,
+		remontrer: "Remontrer",
+		allumees: (n) => n > 1 ? `${n} allumées` : n === 1 ? "1 allumée" : "Éteintes",
+		dedans: "dedans",
+		dehors: "Dehors",
+		moyenne: "en moyenne",
+		toutFerme: "Tout est fermé",
+		ouverts: (n) => n > 1 ? `${n} ouvertures` : "1 ouverture",
+		aJour: "À jour",
+		enCeMoment: "en ce moment",
+		sansPiece: (n) => n > 1 ? `${n} appareils sans pièce` : "1 appareil sans pièce",
+		choisirPieces: "Choisir leur pièce",
+		toutEteindre: "Tout éteindre",
+		toutFermer: "Tout fermer",
+		alarmeEtat: {
+			disarmed: "Alarme désactivée",
+			armed_home: "Alarme activée (présence)",
+			armed_away: "Alarme activée",
+			armed_night: "Alarme de nuit",
+			triggered: "Alarme déclenchée"
+		},
+		aucuneFuite: "aucune fuite",
+		sauvegardeIlYa: (q) => `Sauvegarde ${q}`,
+		sauvegardeNon: "Sauvegardes à régler",
+		lever: "Lever",
+		coucher: "Coucher",
+		deJour: "de jour",
+		soleil: "Soleil",
+		ferie: "Prochain jour férié",
+		ferieAujourdhui: "Aujourd'hui, férié",
+		dansJours: (n) => n === 1 ? "demain" : `dans ${n} jours`,
+		premiersPas: "Premiers pas",
+		premiersPasDetail: "Pour profiter d'Automatic Dashboard dès aujourd'hui.",
+		etapes: {
+			emplacement: "Indiquer où est la maison",
+			meteoFrance: "Ajouter Météo-France : pluie dans l'heure et vigilance",
+			meteo: "Ajouter la météo",
+			feries: "Afficher les jours fériés",
+			sauvegardes: "Activer les sauvegardes automatiques",
+			pieces: "Ranger vos appareils dans des pièces",
+			appli: "Installer l'application sur votre téléphone",
+			appareil: "Ajouter un appareil"
+		},
+		phraseMeteo: (cond, temp) => `${cond}, ${temp}.`,
+		pasDePluie: "Pas de pluie dans l'heure.",
+		pluieDansPhrase: (n) => `Pluie dans ${n} min.`,
+		pluieEnCours: "Il pleut.",
+		piecePhrase: (morceaux) => morceaux.join(", ") + ".",
+		lumieresAllumees: (n) => n > 1 ? `${n} lumières allumées` : "1 lumière allumée",
+		voletsOuverts: (n) => n > 1 ? `${n} volets ouverts` : "volet ouvert",
+		chauffe: "chauffage en marche",
+		clim: "climatisation en marche",
+		toutEteint: "Tout est éteint",
+		climatPhrase: (d, e) => [d, e].filter(Boolean).join(", ") + ".",
+		energiePhrase: (w) => `${w} en ce moment.`,
+		pieceSurtitre: "Pièce",
+		etagePrefixe: "",
+		enCeMomentTitre: "En ce moment",
+		mediasEnLecture: (n) => `${n} médias en lecture`,
+		pauseMedia: "Mettre en pause",
+		aLaMaison: (noms) => `À la maison : ${noms.join(", ")}`,
+		personnesALaMaison: (n) => n > 1 ? `${n} personnes à la maison` : "1 personne à la maison",
+		personne: "Personne à la maison",
+		ailleurs: (nom, zone) => `${nom} : ${zone ?? "ailleurs"}`,
+		enCours: "En cours",
+		demain: "Demain",
+		toutLeJour: "Aujourd'hui",
+		enMarche: (nom) => `${nom} en marche`,
+		minuteur: (nom, min) => `${nom} : ${min} min`,
+		enPause: (nom) => `${nom} : en pause`,
+		articles: (n) => n > 1 ? `${n} articles à acheter` : "1 article à acheter",
+		pluieTitre: "Pluie dans l'heure",
+		pluieAucune: "Pas de pluie dans l'heure",
+		pluieDans: (type, n) => `${type} dans ${n} min`,
+		pluieFin: (n) => `Il pleut, fin prévue dans ${n} min`,
+		pluieContinue: "Pluie pendant toute l'heure",
+		pluieSource: (h) => `Météo-France, ${h}`,
+		maintenant: "maintenant",
+		dans1h: "dans 1 h",
+		pluieTypes: {},
+		couleurs: [
+			"vert",
+			"jaune",
+			"orange",
+			"rouge"
+		],
+		vigilanceVerte: "Pas de vigilance météo aujourd'hui",
+		conseils: [
+			"",
+			"Soyez attentif : des phénomènes habituels mais parfois dangereux sont prévus.",
+			"Soyez très vigilant : des phénomènes dangereux sont prévus. Suivez les consignes des autorités.",
+			"Vigilance absolue : des phénomènes dangereux d'une intensité exceptionnelle sont prévus. Respectez les consignes des autorités."
+		],
+		vigilanceCarte: "Voir la carte de Météo-France",
+		panneTitre: "Le tableau n'a pas pu se construire",
+		panneTexte: "Automatic Dashboard a rencontré une erreur en lisant votre maison. Rien n'est cassé dans Home Assistant : vos appareils et vos automatismes fonctionnent normalement.",
+		panneEtapes: [
+			"Rechargez la page.",
+			"Si Automatic Dashboard vient d'être mis à jour, redémarrez Home Assistant (*Paramètres*, *Système*, en haut à droite), puis rechargez la page.",
+			"Si l'erreur revient, [signalez-la](LIEN) en joignant le message ci-dessous (relisez-le : il décrit l'erreur, pas votre maison)."
+		],
+		dehorsTitre: "Dehors",
+		et: " et ",
+		bonPartout: "Il fait bon partout.",
+		bonPresquePartout: (liste) => `Il fait bon presque partout. À surveiller : ${liste}.`,
+		horsConfort: (n) => `${n} pièces hors de la zone de confort.`,
+		chauffagesEnMarche: (n) => `${n} chauffage${n > 1 ? "s" : ""} en marche.`,
+		toutFermePhrase: "Tout est fermé.",
+		ouvertsPhrase: (liste, n) => `${liste} ${n > 1 ? "sont ouvertes" : "est ouverte"}. ${n > 2 ? `Et ${n - 2} autres.` : "Tout le reste est fermé."}`,
+		sansSauvegardePhrase: (majs) => `Aucune sauvegarde automatique.${majs ? ` ${majs}.` : " Tout le reste est à jour."}`,
+		systemeOkPhrase: (majs, quand) => `Tout fonctionne. ${majs ? `${majs}, sauvegarde ${quand}.` : `Tout est à jour, sauvegarde ${quand}.`}`,
+		donnerPiece: "Donnez-leur une pièce : ils apparaîtront sur l'accueil et dans leur pièce.",
+		pastilleSansPiece: (n) => `${n} appareil${n > 1 ? "s n'ont" : " n'a"} pas de pièce`,
+		motsEnMarche: {
+			chauffage: ["chauffage", "chauffages"],
+			clim: ["clim", "clims"],
+			appareil: ["appareil", "appareils"]
+		},
+		tableauPret: "Votre tableau Automatic Dashboard est prêt.",
+		ouvrir: "Ouvrir",
+		leverCoucher: (lever, coucher) => `Lever ${lever} · coucher ${coucher}`,
+		nbEntites: (n) => `${n} entité${n > 1 ? "s" : ""}`,
+		sansAppareil: "sans appareil",
+		rangerDans: (piece) => `Ranger dans ${piece}`,
+		autreChoix: "Autre",
+		choisir: "Choisir",
+		rangeDans: (nom, piece) => `${nom} : rangé dans ${piece}.`,
+		annuler: "Annuler",
+		noteAdmin: "Un administrateur peut ranger ces appareils en un clic, dans la pièce proposée.",
+		airSec: "Air sec",
+		airHumide: "Air humide : aérez",
+		confortable: "Confortable",
+		humiditeTitre: "Humidité",
+		rienOuvert: "Rien ne s'est ouvert.",
+		autresTitre: "Autres",
+		autresPieces: "Autres pièces",
+		pieceParPiece: "Pièce par pièce",
+		compteurs: "Compteurs",
+		repartition: "Répartition",
+		septJours: "7 derniers jours",
+		serruresTitre: "Serrures",
+		presence: "Présence",
+		activite: "Activité",
+		huitSemaines: "8 dernières semaines",
+		temperatures7j: "Températures, 7 jours",
+		co2Jour: "CO₂, 24 heures",
+		jardin: "Le jardin",
+		portailGarage: "Portail et garage",
+		arrosage: "Arrosage et piscine",
+		tondeuse: "Tondeuse",
+		tabletteMurale: "Tablette murale",
+		/** Les deux-points, précédés d'une espace en français. */
+		deuxPoints: " : "
+	},
+	heros: {
 		dedans: "dedans",
 		dehors: "dehors",
 		humidite: "humidité",
@@ -1301,46 +1518,7 @@ var MOTS_HEROS = {
 		puissance: "puissance",
 		alarme: "Alarme"
 	},
-	en: {
-		dedans: "inside",
-		dehors: "outside",
-		humidite: "humidity",
-		maintenant: "now",
-		aujourdhui: "today",
-		hier: "yesterday",
-		production: "production",
-		ouvertures: (_n, total) => `open of ${total}`,
-		serrures: () => "unlocked",
-		detecteurs: (n) => n === 1 ? "alert" : "alerts",
-		toutFerme: "Everything is closed",
-		ouvert: "open",
-		gerer: "Manage",
-		voir: "See",
-		regler: "Set up",
-		majs: (n) => n > 1 ? `${n} updates available` : "1 update available",
-		aJour: "Everything is up to date",
-		sauvegarde: "backup",
-		prochaine: "next",
-		taille: "size",
-		version: "Home Assistant",
-		jamais: "never",
-		nonPrevue: "not scheduled",
-		reussie: "succeeded",
-		echouee: "failed",
-		sansSauvegarde: "No automatic backup",
-		sansSauvegardeDetail: "Without it, a failure can erase everything.",
-		ranges: (n) => `${n} device${n > 1 ? "s" : ""} sorted`,
-		aRanger: (n) => `${n} to sort`,
-		rangerTout: "Sort my devices",
-		creerPiece: "Create a room",
-		legende24: "last 24 hours",
-		puissance: "power",
-		alarme: "Alarm"
-	}
-};
-/** Les textes de l'éditeur des réglages (Modifier le tableau de bord). */
-var EDITEUR = {
-	fr: {
+	editeur: {
 		mode: "Mode",
 		modes: {
 			auto: ["Automatique", "Choisi d'après votre maison, et revu quand elle change."],
@@ -1451,123 +1629,85 @@ var EDITEUR = {
 		copieEchec: "La copie n'a pas marché : téléchargez le diagnostic et joignez le fichier au ticket.",
 		tropLong: "Diagnostic copié, mais trop long pour être collé dans un ticket : téléchargez-le et joignez le fichier."
 	},
-	en: {
-		mode: "Mode",
-		modes: {
-			auto: ["Automatic", "Chosen from your home, and reviewed when it changes."],
-			decouverte: ["Discovery", "Few devices: the weather and each device shown large."],
-			maison: ["Home", "Things to check, favorites, rooms and overviews."],
-			complet: ["Complete", "Many devices: rooms by floor, compact tiles."]
+	automatismes: {
+		alias: {
+			fuite: "prévenir en cas de fuite",
+			fumee: "prévenir en cas de fumée ou de gaz",
+			pile: "prévenir quand une pile est faible",
+			sauvegarde: "prévenir si la sauvegarde échoue"
 		},
-		nomsModes: {
-			decouverte: "Discovery",
-			maison: "Home",
-			complet: "Complete"
+		titre: {
+			fuite: "Fuite détectée",
+			fumee: "Fumée ou gaz détecté",
+			pile: "Pile faible",
+			sauvegarde: "Sauvegarde ratée"
 		},
-		detecte: (mode, u, d, p) => `From your home: ${mode} mode (${u} useful entit${u > 1 ? "ies" : "y"}, ${d} device${d > 1 ? "s" : ""}, ${p} room${p > 1 ? "s" : ""}).`,
-		apparence: "Appearance",
-		apparenceAide: "Choose the style and what the dashboard shows. Everything else stays automatic.",
-		style: "Style",
-		styles: {
-			automatic: ["Automatic", "Blue and terracotta, with the site's dot pattern."],
-			doux: ["Soft", "Cream and sage green, no borders, rounder."],
-			contraste: ["High contrast", "Black on white, strong borders: the most readable."],
-			home_assistant: ["Your theme", "The one chosen in your Home Assistant profile."]
+		message: {
+			fuite: "{{ trigger.to_state.name }} a détecté de l'eau.",
+			fumee: "{{ trigger.to_state.name }} s'est déclenché.",
+			pile: "{{ trigger.to_state.name }} : {{ trigger.to_state.state }} %, à changer bientôt.",
+			sauvegarde: "La dernière sauvegarde automatique de Home Assistant a échoué."
 		},
-		piecesClimat: "Rooms, in Climate",
-		barres: "Bars",
-		mosaique: "Mosaic",
-		tuiles: "Favorite tiles",
-		tuilesAutomatic: "Name on two lines",
-		tuilesHA: "Home Assistant",
-		ciel: "The sky of the day",
-		cielAide: "At the top of the home page: the sun's arc, and the moon at night.",
-		conseils: "Advice",
-		conseilsAide: "\"Close the living room window\", \"Air out the bedroom\"… in the things to check.",
-		bilanPage: "The weekly report",
-		bilanPageAide: "A page of its own, announced on Mondays.",
-		favoris: "Favorites",
-		favorisAide: "Your favorites first, in the order you choose: drag them to change it.",
-		completer: "Fill in with the devices you use most",
-		completerAide: "Home Assistant suggests them by time of day: they change throughout the day.",
-		propose: "Suggested",
-		epingler: "Pin",
-		retirer: "Remove",
-		deplacer: (nom) => `Move ${nom} (drag, or arrow keys)`,
-		ajouterFavori: "Add a favorite",
-		aucunFavori: "No favorites: the row won't appear.",
-		favorisDecouverte: "In Discovery mode, the home page already shows each device large: favorites will appear in Home or Complete mode.",
-		masques: "Hidden",
-		masquesAide: "What Automatic Dashboard never shows. The rest of Home Assistant is not affected.",
-		masquer: "Hide a device or entity",
-		aucunMasque: "Nothing is hidden.",
-		masquesEtiquette: (n) => `And ${n} entit${n > 1 ? "ies" : "y"} by the "Automatic Dashboard: hide" label, set in Home Assistant on entities, devices or areas.`,
-		parEtiquette: "By label",
-		parEtiquetteAide: "Pinned by the \"Automatic Dashboard: favorite\" label, set in Home Assistant",
-		noms: "Names",
-		nomsAide: "The name shown in Automatic Dashboard. The Home Assistant name (and voice assistants) stays the same.",
-		renommer: "Rename a device or entity",
-		nomTableau: "Name in Automatic Dashboard",
-		nomDansHA: (nom) => `In Home Assistant: ${nom}`,
-		pieces: "Rooms",
-		piecesAide: "Rooms and floors follow the order chosen in Home Assistant.",
-		changerOrdre: "Change the order",
-		enregistrerDabord: "Save your settings first to change the order of rooms.",
-		prevenirTitre: "Notify me",
-		prevenirAide: "Automatic Dashboard creates the ready-made automation in Home Assistant (Settings, Automations), watching every sensor of the same kind. Applies right away.",
-		sujets: {
-			fuite: "On a water leak",
-			fumee: "On smoke or gas",
-			pile: "When a battery is low",
-			sauvegarde: "If the backup fails"
-		},
-		surveille: (n) => `Watches ${n} sensor${n > 1 ? "s" : ""}.`,
-		surveilleSauvegarde: "Watches Home Assistant's automatic backups.",
-		rienASurveiller: {
-			fuite: "No leak detector in the home.",
-			fumee: "No smoke or gas detector.",
-			pile: "No battery tracked.",
-			sauvegarde: "Automatic backups are not set up."
-		},
-		quiPrevenir: "Who to notify",
-		notificationHA: "The notification in Home Assistant",
-		aucunTelephone: "No phone has the Home Assistant app: install it to be notified on your phone.",
-		tablette: "Wall tablet",
-		tabletteAide: (page) => `On the tablet, open ${page}: the time shown large, the status sentence, things to check and, at night, a screen saver.`,
-		ouvrirTablette: "Open the page",
-		nuit: "Night screen saver, from",
-		a: "to",
-		heureCourte: (h) => `${h}:00`,
-		reveil: "Wake the screen when someone passes",
-		reveilAide: "A motion or presence sensor near the tablet.",
-		choisirDetecteur: "Pick the sensor",
-		signaler: "Report a problem",
-		signalerAide: "A device misplaced, missing or shown by mistake? Pick it, then attach the diagnostic to your issue. It describes your home without any name or value, and becomes a test case so the mistake never comes back.",
-		signalerChoisir: "Pick the device involved",
-		devraitEtre: "It should be…",
-		attenteCache: "Hidden: it's technical information",
-		attenteVisible: "Visible: it's missing today",
-		dansLaPiece: "In the area",
-		dansLaPage: "On the page",
-		pages: {
-			securite: "Security",
-			climat: "Climate",
-			energie: "Energy",
-			systeme: "System"
-		},
-		telecharger: "Download the diagnostic",
-		copier: "Copy",
-		ouvrirTicket: "Open an issue",
-		copie: "Diagnostic copied: paste it into the issue.",
-		copieEchec: "Copying failed: download the diagnostic and attach the file to the issue.",
-		tropLong: "Diagnostic copied, but too long to paste into an issue: download it and attach the file."
+		description: "Créé par Automatic Dashboard, depuis un point à regarder. Il vous appartient : modifiez-le librement."
+	},
+	integrations: {
+		demo: "Démonstration",
+		template: "Modèles",
+		systemmonitor: "Moniteur système"
+	},
+	meteo: {
+		"clear-night": "Nuit claire",
+		cloudy: "Nuageux",
+		fog: "Brouillard",
+		hail: "Grêle",
+		lightning: "Orage",
+		"lightning-rainy": "Orage et pluie",
+		partlycloudy: "Éclaircies",
+		pouring: "Averses",
+		rainy: "Pluie",
+		snowy: "Neige",
+		"snowy-rainy": "Pluie et neige",
+		sunny: "Ensoleillé",
+		windy: "Venteux",
+		"windy-variant": "Venteux",
+		exceptional: "Exceptionnel"
 	}
+};
+// src/textes.ts
+var LANGUES = {
+	fr,
+	en
+};
+/** La langue de secours, quand celle de l'utilisateur n'est pas traduite. */
+var SECOURS = en;
+fr.textes, en.textes;
+fr.heros, en.heros;
+fr.editeur, en.editeur;
+/** L'icône de chaque état de la météo ; son nom est dans chaque langue. */
+var ICONES_METEO = {
+	"clear-night": "mdi:weather-night",
+	cloudy: "mdi:weather-cloudy",
+	fog: "mdi:weather-fog",
+	hail: "mdi:weather-hail",
+	lightning: "mdi:weather-lightning",
+	"lightning-rainy": "mdi:weather-lightning-rainy",
+	partlycloudy: "mdi:weather-partly-cloudy",
+	pouring: "mdi:weather-pouring",
+	rainy: "mdi:weather-rainy",
+	snowy: "mdi:weather-snowy",
+	"snowy-rainy": "mdi:weather-snowy-rainy",
+	sunny: "mdi:weather-sunny",
+	windy: "mdi:weather-windy",
+	"windy-variant": "mdi:weather-windy-variant",
+	exceptional: "mdi:alert-circle-outline"
 };
 // src/outils.ts
 var langue = (hass) => (hass?.locale?.language || hass?.language || "fr").slice(0, 2);
 var estFrancais = (hass) => langue(hass) === "fr";
-var t$1 = (hass) => estFrancais(hass) ? TEXTES$1.fr : TEXTES$1.en;
-var mh = (hass) => estFrancais(hass) ? MOTS_HEROS.fr : MOTS_HEROS.en;
+/** Les textes dans la langue de l'utilisateur, sinon en anglais. */
+var langueDe = (hass) => LANGUES[langue(hass)] ?? SECOURS;
+var t$1 = (hass) => langueDe(hass).textes;
+var mh = (hass) => langueDe(hass).heros;
 var nombre = (hass, v, chiffres = 1) => new Intl.NumberFormat(hass?.locale?.language || "fr", {
 	maximumFractionDigits: chiffres,
 	minimumFractionDigits: chiffres
@@ -1603,14 +1743,10 @@ function ilYa(hass, date) {
 	return Math.abs(heures) < 36 ? rtf.format(heures, "hour") : rtf.format(Math.round(heures / 24), "day");
 }
 function conditionMeteo(hass, etat) {
-	const [icone, fr, en] = METEO[etat?.state ?? ""] ?? [
-		"mdi:weather-cloudy",
-		etat?.state ?? "",
-		etat?.state ?? ""
-	];
+	const cle = etat?.state ?? "";
 	return {
-		icone,
-		texte: estFrancais(hass) ? fr : en
+		icone: ICONES_METEO[cle] ?? "mdi:weather-cloudy",
+		texte: langueDe(hass).meteo[cle] ?? cle
 	};
 }
 /** Navigue dans Home Assistant. Un chemin relatif reste dans le tableau courant. */
@@ -1633,33 +1769,30 @@ function nomCourt(hass, entityId, noms = {}) {
 	const appareil = hass.devices?.[hass.entities[entityId]?.device_id ?? ""];
 	return appareil?.name_by_user || appareil?.name || hass.states[entityId]?.attributes.friendly_name || entityId;
 }
-/** Noms d'intégrations quand Home Assistant ne fournit pas leur traduction (elle n'est chargée qu'à la demande). */
-var NOMS_INTEGRATIONS = {
-	demo: ["Démonstration", "Demo"],
-	mqtt: ["MQTT", "MQTT"],
-	template: ["Modèles", "Templates"],
-	zha: ["Zigbee (ZHA)", "Zigbee (ZHA)"],
-	matter: ["Matter", "Matter"],
-	hue: ["Philips Hue", "Philips Hue"],
-	esphome: ["ESPHome", "ESPHome"],
-	systemmonitor: ["Moniteur système", "System monitor"],
-	hassio: ["Supervisor", "Supervisor"],
-	glances: ["Glances", "Glances"],
-	uptime_kuma: ["Uptime Kuma", "Uptime Kuma"],
-	adguard: ["AdGuard Home", "AdGuard Home"],
-	pi_hole: ["Pi-hole", "Pi-hole"],
-	speedtestdotnet: ["Speedtest", "Speedtest"],
-	proxmoxve: ["Proxmox VE", "Proxmox VE"],
-	synology_dsm: ["Synology DSM", "Synology DSM"],
-	unifi: ["UniFi Network", "UniFi Network"],
-	truenas: ["TrueNAS", "TrueNAS"],
-	fritz: ["FRITZ!Box", "FRITZ!Box"],
-	netdata: ["Netdata", "Netdata"]
+/** Les noms de marque des intégrations, quand Home Assistant ne fournit pas le leur (chargé à la demande). */
+var MARQUES = {
+	mqtt: "MQTT",
+	zha: "Zigbee (ZHA)",
+	matter: "Matter",
+	hue: "Philips Hue",
+	esphome: "ESPHome",
+	hassio: "Supervisor",
+	glances: "Glances",
+	uptime_kuma: "Uptime Kuma",
+	adguard: "AdGuard Home",
+	pi_hole: "Pi-hole",
+	speedtestdotnet: "Speedtest",
+	proxmoxve: "Proxmox VE",
+	synology_dsm: "Synology DSM",
+	unifi: "UniFi Network",
+	truenas: "TrueNAS",
+	fritz: "FRITZ!Box",
+	netdata: "Netdata"
 };
 /** Le nom d'une intégration, dans la langue de l'utilisateur. */
 function nomIntegration(hass, plateforme) {
-	const connu = NOMS_INTEGRATIONS[plateforme];
-	return hass.localize?.(`component.${plateforme}.title`) || (connu ? connu[estFrancais(hass) ? 0 : 1] : majuscule(plateforme.replace(/_/g, " ")));
+	const connu = langueDe(hass).integrations[plateforme] ?? MARQUES[plateforme];
+	return hass.localize?.(`component.${plateforme}.title`) || connu || majuscule(plateforme.replace(/_/g, " "));
 }
 /** La trame de la marque : petits carrés de 2,8 px tous les 22 px, en image CSS. */
 function trame(hass) {
@@ -1981,7 +2114,6 @@ function energiesMaison(hass, m) {
 }
 /** « 2 chauffages et 1 clim en marche » : ce que font les appareils de climat allumés. */
 function enMarcheClimat(hass, m) {
-	const fr = estFrancais(hass);
 	const actifs = m.climats.filter((e) => ![
 		"off",
 		"unavailable",
@@ -1994,18 +2126,14 @@ function enMarcheClimat(hass, m) {
 	const clims = actifs.filter((e) => e.domaine === "climate" && froid(e.id)).length;
 	const autres = actifs.length - chauffages - clims;
 	const pluriel = (n, un, plusieurs) => n ? `${n} ${n > 1 ? plusieurs : un}` : "";
-	const liste = (fr ? [
-		pluriel(chauffages, "chauffage", "chauffages"),
-		pluriel(clims, "clim", "clims"),
-		pluriel(autres, "appareil", "appareils")
-	] : [
-		pluriel(chauffages, "heater", "heaters"),
-		pluriel(clims, "AC unit", "AC units"),
-		pluriel(autres, "device", "devices")
-	]).filter(Boolean);
-	const et = fr ? " et " : " and ";
-	const texte = liste.length > 1 ? `${liste.slice(0, -1).join(", ")}${et}${liste.at(-1)}` : liste[0];
-	return fr ? `${texte} en marche` : `${texte} running`;
+	const tx = t$1(hass), mots = tx.motsEnMarche;
+	const liste = [
+		pluriel(chauffages, mots.chauffage[0], mots.chauffage[1]),
+		pluriel(clims, mots.clim[0], mots.clim[1]),
+		pluriel(autres, mots.appareil[0], mots.appareil[1])
+	].filter(Boolean);
+	const texte = liste.length > 1 ? `${liste.slice(0, -1).join(", ")}${tx.et}${liste.at(-1)}` : liste[0];
+	return tx.enMarche(texte);
 }
 // src/donnees/ignores.ts
 var CLE$1 = "automatic_dashboard_ignores";
@@ -2859,9 +2987,9 @@ var AutomaticApercu = class extends CarteAutomatic {
 			if (!valeurs.length) return null;
 			const h = valeurs.reduce((a, b) => a + b, 0) / valeurs.length;
 			this.chargerCourbe("humidite", ids.slice(0, 8));
-			const fr = estFrancais(hass);
-			const avis = h < 35 ? fr ? "Air sec" : "Dry air" : h > 65 ? fr ? "Air humide : aérez" : "Humid air: ventilate" : fr ? "Confortable" : "Comfortable";
-			return this.gabarit("mdi:water-percent", fr ? "Humidité" : "Humidity", b`${nombre(hass, h, 0)}<small>%</small>`, avis);
+			const tx = t$1(hass);
+			const avis = h < 35 ? tx.airSec : h > 65 ? tx.airHumide : tx.confortable;
+			return this.gabarit("mdi:water-percent", tx.humiditeTitre, b`${nombre(hass, h, 0)}<small>%</small>`, avis);
 		}
 		if (s === "a-ranger") {
 			if (!m.aRanger.length) return null;
@@ -2993,7 +3121,7 @@ var AutomaticARanger = class extends CarteAutomatic {
 	rendu(hass, m) {
 		const ranges = this.ranges;
 		if (!m.aRanger.length && !ranges.length) return null;
-		const fr = estFrancais(hass);
+		const tx = t$1(hass);
 		const admin = Boolean(hass.user?.is_admin);
 		const groupes = /* @__PURE__ */ new Map();
 		for (const e of m.aRanger) {
@@ -3010,7 +3138,7 @@ var AutomaticARanger = class extends CarteAutomatic {
 				const appareil = e.appareil ? hass.devices[e.appareil] : void 0;
 				const nom = m.noms[e.id] || appareil?.name_by_user || appareil?.name || e.etat.attributes.friendly_name;
 				const n = appareil ? nbEntites(e.appareil) : 1;
-				const detail = appareil ? fr ? `${n} entité${n > 1 ? "s" : ""}` : `${n} entit${n > 1 ? "ies" : "y"}` : fr ? "sans appareil" : "no device";
+				const detail = appareil ? tx.nbEntites(n) : tx.sansAppareil;
 				const proposee = m.pieces.find((p) => p.area_id === m.propositions[e.id]);
 				if (proposee && !admin) proposeesSansDroit++;
 				contenu.push(b`<div class="ligne"><span class="ico"><ha-icon icon=${ICONES_DOMAINES[e.domaine] || "mdi:devices"}></ha-icon></span>
@@ -3018,18 +3146,18 @@ var AutomaticARanger = class extends CarteAutomatic {
           <span class="actions">
             ${proposee && !admin ? b`<span class="indice">${proposee.name} ?</span>` : A}
             ${proposee && admin ? b`<button class="proposer" ?disabled=${this._enCours === e.id} @click=${() => this.ranger(e, String(nom), proposee.area_id)}
-                  title=${fr ? `Ranger dans ${proposee.name}` : `Put in ${proposee.name}`}><ha-icon icon=${proposee.icon}></ha-icon>${proposee.name} ?</button>` : A}
+                  title=${tx.rangerDans(proposee.name)}><ha-icon icon=${proposee.icon}></ha-icon>${proposee.name} ?</button>` : A}
             <button class=${proposee && admin ? "choisir discret" : "choisir"} @click=${() => this.choisir(e)}>
-              ${proposee && admin ? fr ? "Autre" : "Other" : fr ? "Choisir" : "Choose"}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
+              ${proposee && admin ? tx.autreChoix : tx.choisir}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
           </span></div>`);
 			}
 		}
 		return b`<ha-card>${ranges.map((r) => {
 			const piece = hass.areas[r.piece]?.name ?? r.piece;
 			return b`<div class="range" role="status"><ha-icon icon="mdi:check-circle"></ha-icon>
-        <span>${fr ? `${r.nom} : rangé dans ${piece}.` : `${r.nom}: put in ${piece}.`}</span>
-        <button @click=${() => this.annuler(r)}>${fr ? "Annuler" : "Undo"}</button></div>`;
-		})}${contenu}${proposeesSansDroit ? b`<p class="note">${fr ? "Un administrateur peut ranger ces appareils en un clic, dans la pièce proposée." : "An administrator can put these devices in the suggested room in one click."}</p>` : A}</ha-card>`;
+        <span>${tx.rangeDans(r.nom, piece)}</span>
+        <button @click=${() => this.annuler(r)}>${tx.annuler}</button></div>`;
+		})}${contenu}${proposeesSansDroit ? b`<p class="note">${tx.noteAdmin}</p>` : A}</ha-card>`;
 	}
 	/** Range l'appareil (ou l'entité seule) dans la pièce proposée. */
 	async ranger(e, nom, piece) {
@@ -3370,7 +3498,7 @@ var AutomaticBilan = class extends CarteAutomatic {
 		return b`<div class="ouvertures"><div class="sur">${tx.ouvertures}</div>
       <div class="grand"><span class="valeur chiffre">${total}<small>${tx.bilanFois(total)}</small></span></div>
       ${parEntite.length ? b`<div class="liste">${parEntite.slice(0, 4).map(([id, n]) => b`<button @click=${() => plusDInfos(this, id)}>
-            ${nomCourt(hass, id, m.noms)}<b>${n}</b></button>`)}</div>` : b`<p class="vide">${estFrancais(hass) ? "Rien ne s'est ouvert." : "Nothing was opened."}</p>`}</div>`;
+            ${nomCourt(hass, id, m.noms)}<b>${n}</b></button>`)}</div>` : b`<p class="vide">${t$1(hass).rienOuvert}</p>`}</div>`;
 	}
 };
 // node_modules/lit-html/directive.js
@@ -4775,7 +4903,6 @@ function phrasePiece(hass, p) {
 /** La phrase d'une page thématique : climat, énergie, sécurité, système ou à ranger. */
 function phraseSujet(hass, m, sujet) {
 	const tx = t$1(hass);
-	const fr = estFrancais(hass);
 	const etat = (id) => id ? hass.states[id] : void 0;
 	const nom = (e) => nomCourt(hass, e.id, m.noms);
 	if (sujet === "climat") {
@@ -4789,21 +4916,21 @@ function phraseSujet(hass, m, sujet) {
 		let phrase;
 		if (!pieces.length) {
 			const e = temperatureDehors(hass, m);
-			phrase = e !== null ? `${fr ? "Dehors" : "Outside"} ${degres(hass, e)}.` : "";
+			phrase = e !== null ? `${tx.dehorsTitre} ${degres(hass, e)}.` : "";
 		} else if (pieces.length === 1) {
 			const e = temperatureDehors(hass, m);
-			phrase = `${pieces[0].p.name} : ${degres(hass, pieces[0].v)}.${e !== null ? ` ${fr ? "Dehors" : "Outside"} : ${degres(hass, e)}.` : ""}`;
-		} else if (!ecarts.length) phrase = fr ? "Il fait bon partout." : "Comfortable everywhere.";
+			phrase = `${pieces[0].p.name}${tx.deuxPoints}${degres(hass, pieces[0].v)}.${e !== null ? ` ${tx.dehorsTitre}${tx.deuxPoints}${degres(hass, e)}.` : ""}`;
+		} else if (!ecarts.length) phrase = tx.bonPartout;
 		else if (ecarts.length <= 2) {
-			const liste = ecarts.map((x) => `${x.p.name} (${degres(hass, x.v)})`).join(fr ? " et " : " and ");
-			phrase = fr ? `Il fait bon presque partout. À surveiller : ${liste}.` : `Comfortable almost everywhere. Keep an eye on ${liste}.`;
-		} else phrase = fr ? `${ecarts.length} pièces hors de la zone de confort.` : `${ecarts.length} rooms outside the comfort zone.`;
+			const liste = ecarts.map((x) => `${x.p.name} (${degres(hass, x.v)})`).join(tx.et);
+			phrase = tx.bonPresquePartout(liste);
+		} else phrase = tx.horsConfort(ecarts.length);
 		const chauffes = m.climats.filter((e) => e.domaine === "climate" && [
 			"heat",
 			"heat_cool",
 			"auto"
 		].includes(etat(e.id)?.state ?? "")).length;
-		if (chauffes) phrase += fr ? ` ${chauffes} chauffage${chauffes > 1 ? "s" : ""} en marche.` : ` ${chauffes} heater${chauffes > 1 ? "s" : ""} on.`;
+		if (chauffes) phrase += ` ${tx.chauffagesEnMarche(chauffes)}`;
 		return {
 			phrase,
 			point: ecarts.length ? ORANGE : VERT
@@ -4825,16 +4952,16 @@ function phraseSujet(hass, m, sujet) {
 		const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on");
 		const alertes = m.alertes.filter((e) => etat(e.id)?.state === "on");
 		if (alertes.length) return {
-			phrase: `${tx.fuite} : ${alertes.map(nom).join(", ")}.`,
+			phrase: `${tx.fuite}${tx.deuxPoints}${alertes.map(nom).join(", ")}.`,
 			point: ROUGE
 		};
 		if (!ouverts.length) return {
-			phrase: fr ? "Tout est fermé." : "Everything is closed.",
+			phrase: tx.toutFermePhrase,
 			point: VERT
 		};
-		const liste = ouverts.slice(0, 2).map(nom).join(fr ? " et " : " and ");
+		const liste = ouverts.slice(0, 2).map(nom).join(tx.et);
 		return {
-			phrase: fr ? `${liste} ${ouverts.length > 1 ? "sont ouvertes" : "est ouverte"}. ${ouverts.length > 2 ? `Et ${ouverts.length - 2} autres.` : "Tout le reste est fermé."}` : `${liste} ${ouverts.length > 1 ? "are" : "is"} open.`,
+			phrase: tx.ouvertsPhrase(liste, ouverts.length),
 			point: ORANGE
 		};
 	}
@@ -4843,16 +4970,16 @@ function phraseSujet(hass, m, sujet) {
 		const sauvegarde = m.systeme.find((e) => e.plateforme === "backup" && hass.entities[e.id]?.translation_key === "last_successful_automatic_backup");
 		const d = sauvegarde ? new Date(etat(sauvegarde.id)?.state ?? "") : null;
 		if (!d || Number.isNaN(d.getTime())) return {
-			phrase: fr ? `Aucune sauvegarde automatique.${n ? ` ${tx.majs(n)}.` : " Tout le reste est à jour."}` : `No automatic backup.${n ? ` ${tx.majs(n)}.` : ""}`,
+			phrase: tx.sansSauvegardePhrase(n ? tx.majs(n) : ""),
 			point: ORANGE
 		};
 		return {
-			phrase: fr ? `Tout fonctionne. ${n ? `${tx.majs(n)}, sauvegarde ${ilYa(hass, d)}.` : `Tout est à jour, sauvegarde ${ilYa(hass, d)}.`}` : `All good. Backup ${ilYa(hass, d)}.`,
+			phrase: tx.systemeOkPhrase(n ? tx.majs(n) : "", ilYa(hass, d)),
 			point: n ? ORANGE : VERT
 		};
 	}
 	if (sujet === "a-ranger") return {
-		phrase: fr ? "Donnez-leur une pièce : ils apparaîtront sur l'accueil et dans leur pièce." : "Give them a room: they will show up on the home page and in their room.",
+		phrase: tx.donnerPiece,
 		point: BLEU
 	};
 	return {
@@ -4948,10 +5075,9 @@ function dessin(L, H, base, rx, ry, j, maintenant, classe) {
 function ciel(hass, maintenant = /* @__PURE__ */ new Date()) {
 	const j = journee(hass.states["sun.sun"], maintenant);
 	if (!j) return A;
-	const fr = langue(hass) === "fr";
 	const jour = j.avancement >= 0 && j.avancement <= 1;
 	const lune = phaseLune(maintenant, langue(hass));
-	const legende = jour ? `${fr ? "Lever" : "Sunrise"} ${heure(hass, j.lever)} · ${fr ? "coucher" : "sunset"} ${heure(hass, j.coucher)}` : lune.nom;
+	const legende = jour ? t$1(hass).leverCoucher(heure(hass, j.lever), heure(hass, j.coucher)) : lune.nom;
 	return b`<figure class="ciel" aria-label=${legende}>
     <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
       <linearGradient id="arc-jour" x1="0" x2="1"><stop offset="0" stop-color="#E9A23B" stop-opacity=".25"/><stop offset="1" stop-color="#E9A23B"/></linearGradient>
@@ -5066,7 +5192,7 @@ var AutomaticOuverture = class extends CarteAutomatic {
 				energie: tx.energie,
 				securite: tx.securite,
 				systeme: tx.systeme,
-				"a-ranger": estFrancais(hass) ? `${n} appareil${n > 1 ? "s n'ont" : " n'a"} pas de pièce` : tx.sansPiece(n)
+				"a-ranger": tx.pastilleSansPiece(n)
 			}[page] || "";
 			sur = date;
 			({phrase, point} = phraseSujet(hass, m, page));
@@ -5363,7 +5489,7 @@ var AutomaticPlan = class extends CarteAutomatic {
 		const capteur = pieces.find((p) => p.temperatures.length).temperatures[0];
 		const groupes = [...m.etages].sort((a, b) => (b.level ?? 0) - (a.level ?? 0)).map((e) => [e.name, pieces.filter((p) => p.etage === e.floor_id)]).filter(([, l]) => l.length);
 		const sans = pieces.filter((p) => !p.etage);
-		if (sans.length) groupes.push([groupes.length ? estFrancais(hass) ? "Autres" : "Other" : null, sans]);
+		if (sans.length) groupes.push([groupes.length ? t$1(hass).autresTitre : null, sans]);
 		return b`<ha-card>
       ${groupes.map(([nom, liste]) => b`<div class=${nom ? "etage" : "etage sans-etage"}>
         ${nom ? b`<span class="sur">${nom}</span>` : A}
@@ -5393,50 +5519,6 @@ var CLASSES_FUMEE = /* @__PURE__ */ new Set([
 	"gas",
 	"carbon_monoxide"
 ]);
-var TEXTES = {
-	fr: {
-		alias: {
-			fuite: "prévenir en cas de fuite",
-			fumee: "prévenir en cas de fumée ou de gaz",
-			pile: "prévenir quand une pile est faible",
-			sauvegarde: "prévenir si la sauvegarde échoue"
-		},
-		titre: {
-			fuite: "Fuite détectée",
-			fumee: "Fumée ou gaz détecté",
-			pile: "Pile faible",
-			sauvegarde: "Sauvegarde ratée"
-		},
-		message: {
-			fuite: "{{ trigger.to_state.name }} a détecté de l'eau.",
-			fumee: "{{ trigger.to_state.name }} s'est déclenché.",
-			pile: "{{ trigger.to_state.name }} : {{ trigger.to_state.state }} %, à changer bientôt.",
-			sauvegarde: "La dernière sauvegarde automatique de Home Assistant a échoué."
-		},
-		description: "Créé par Automatic Dashboard, depuis un point à regarder. Il vous appartient : modifiez-le librement."
-	},
-	en: {
-		alias: {
-			fuite: "notify on leak",
-			fumee: "notify on smoke or gas",
-			pile: "notify when a battery is low",
-			sauvegarde: "notify if the backup fails"
-		},
-		titre: {
-			fuite: "Leak detected",
-			fumee: "Smoke or gas detected",
-			pile: "Low battery",
-			sauvegarde: "Backup failed"
-		},
-		message: {
-			fuite: "{{ trigger.to_state.name }} detected water.",
-			fumee: "{{ trigger.to_state.name }} went off.",
-			pile: "{{ trigger.to_state.name }}: {{ trigger.to_state.state }}%, replace it soon.",
-			sauvegarde: "The last automatic Home Assistant backup failed."
-		},
-		description: "Created by Automatic Dashboard from a thing to check. It is yours: edit it freely."
-	}
-};
 var idAutomatisme = (sujet) => `automatic_dashboard_${sujet}`;
 /** Cet automatisme existe-t-il déjà (créé ici, ou gardé après modification) ? */
 var automatismeExiste = (hass, sujet) => Object.values(hass.states).some((s) => s.entity_id.startsWith("automation.") && s.attributes.id === idAutomatisme(sujet));
@@ -5492,7 +5574,7 @@ function destinatairesDe(config) {
 }
 /** L'automatisme d'un sujet, ou null si la maison n'a rien à surveiller pour lui. */
 function automatisme(hass, m, sujet, destinataires = tousLesDestinataires(hass)) {
-	const tx = estFrancais(hass) ? TEXTES.fr : TEXTES.en;
+	const tx = langueDe(hass).automatismes;
 	let triggers = [];
 	let conditions = [];
 	if (sujet === "fuite" || sujet === "fumee") {
@@ -5537,7 +5619,7 @@ function automatisme(hass, m, sujet, destinataires = tousLesDestinataires(hass))
 		id: idAutomatisme(sujet),
 		config: {
 			id: idAutomatisme(sujet),
-			alias: `Automatic Dashboard${estFrancais(hass) ? " : " : ": "}${tx.alias[sujet]}`,
+			alias: `Automatic Dashboard${langueDe(hass).textes.deuxPoints}${tx.alias[sujet]}`,
 			description: tx.description,
 			mode: "queued",
 			triggers,
@@ -6060,7 +6142,7 @@ function accueilMaison(hass, m, avecReglages, pastilles, favoris) {
 			scene.push(section([titre(etage.name, { icon: etage.icon || void 0 }), ...avecLargeurs(liste.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
 		}
 		const autres = pieces.filter((p) => !p.etage);
-		if (autres.length) scene.push(section([titre(estFrancais(hass) ? "Autres pièces" : "Other rooms"), ...avecLargeurs(autres.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
+		if (autres.length) scene.push(section([titre(t$1(hass).autresPieces), ...avecLargeurs(autres.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
 	} else if (m.mode === "complet" && pieces.length) scene.push(section([titre(tx.pieces), ...avecLargeurs(pieces.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
 	else if (pieces.length) {
 		const ordre = [...pieces];
@@ -6832,7 +6914,7 @@ var AutomaticEditeur = class extends i$2 {
 		}));
 	}
 	get tx() {
-		return estFrancais(this.hass) ? EDITEUR.fr : EDITEUR.en;
+		return langueDe(this.hass).editeur;
 	}
 	render() {
 		if (!this.hass || !this._config) return A;
@@ -7399,13 +7481,13 @@ async function preparerPremierTableau() {
 		}).catch(() => void 0);
 	}
 	await hass.callWS({ type: "automatic_dashboard/fait" });
-	const fr = estFrancais(hass);
+	const tx = t$1(hass);
 	document.querySelector("home-assistant")?.dispatchEvent(new CustomEvent("hass-notification", {
 		detail: {
-			message: fr ? "Votre tableau Automatic Dashboard est prêt." : "Your Automatic Dashboard dashboard is ready.",
+			message: tx.tableauPret,
 			duration: 15e3,
 			action: {
-				text: fr ? "Ouvrir" : "Open",
+				text: tx.ouvrir,
 				action: () => naviguer(`/${URL_TABLEAU}`)
 			}
 		},
@@ -7418,7 +7500,6 @@ async function preparerPremierTableau() {
 var MACHINE = /* @__PURE__ */ new Set(["systemmonitor", "hassio"]);
 function sousVues(hass, m, avecReglages, reglages = {}) {
 	const tx = t$1(hass);
-	const fr = estFrancais(hass);
 	const vues = [];
 	const ouverture = (page, extra = {}) => avecReglages({
 		type: "custom:automatic-dashboard-ouverture",
@@ -7482,7 +7563,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 			})),
 			groupe(tx.appareils, app, m.mode),
 			groupe(tx.capteurs, capteurs, m.mode),
-			groupe(fr ? "Autres" : "Other", autres, "complet")
+			groupe(tx.autresTitre, autres, "complet")
 		].filter((s) => s !== null);
 		const cote = clim.map((c) => ({
 			type: c.domaine === "climate" ? "thermostat" : "tile",
@@ -7517,7 +7598,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 	const piecesTemp = m.pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length);
 	if (piecesTemp.length || m.climats.length) {
 		const parPiece = reglages.pieces === "mosaique" ? "custom:automatic-dashboard-plan" : "custom:automatic-dashboard-confort";
-		const scene = [section([heros("climat"), ...piecesTemp.length >= 2 ? [titre(fr ? "Pièce par pièce" : "Room by room"), avecReglages({ type: parPiece })] : []])];
+		const scene = [section([heros("climat"), ...piecesTemp.length >= 2 ? [titre(tx.pieceParPiece), avecReglages({ type: parPiece })] : []])];
 		const thermostats = m.climats.filter((e) => e.domaine === "climate");
 		if (thermostats.length) {
 			if (m.mode === "complet") scene.push(section([titre(tx.thermostats), ...avecLargeurs(thermostats.map((e) => tuile(e, "maison")), 6, "fin", 2)]));
@@ -7573,9 +7654,9 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 		const compteurs = m.energie.filter((e) => e.classe === "energy");
 		const scene = [section([heros("energie")])];
 		if (appareils.length) scene.push(section([titre(tx.appareils), ...avecLargeurs(appareils.map((e) => tuile(e, "maison")), 6, "fin", 2)]));
-		if (compteurs.length && m.mode !== "decouverte") scene.push(section([titre(fr ? "Compteurs" : "Meters"), ...avecLargeurs(compteurs.map((e) => tuile(e, "complet")), 6, "fin", 1)]));
+		if (compteurs.length && m.mode !== "decouverte") scene.push(section([titre(tx.compteurs), ...avecLargeurs(compteurs.map((e) => tuile(e, "complet")), 6, "fin", 1)]));
 		const cote = [];
-		if (appareils.length >= 2) cote.push(titre(fr ? "Répartition" : "Breakdown"), {
+		if (appareils.length >= 2) cote.push(titre(tx.repartition), {
 			type: "distribution",
 			entities: appareils.map((e) => e.id),
 			grid_options: {
@@ -7585,7 +7666,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 		});
 		const maison = energiesMaison(hass, m);
 		if (maison.length) {
-			cote.push(titre(fr ? "7 derniers jours" : "Last 7 days"), {
+			cote.push(titre(tx.septJours), {
 				type: "statistics-graph",
 				entities: maison,
 				period: "day",
@@ -7597,7 +7678,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 					rows: 4
 				}
 			});
-			cote.push(titre(tx.bilan, bouton(fr ? "Voir" : "See", "mdi:calendar-week", {
+			cote.push(titre(tx.bilan, bouton(tx.voir, "mdi:calendar-week", {
 				action: "navigate",
 				navigation_path: "bilan"
 			})));
@@ -7619,16 +7700,16 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 		const scene = [
 			section([heros("securite")]),
 			groupe(tx.ouvertures, ouvertsDabord, "complet"),
-			groupe(fr ? "Serrures" : "Locks", serrures, "maison"),
+			groupe(tx.serruresTitre, serrures, "maison"),
 			groupe(tx.alertes, m.alertes, "complet"),
-			m.mode === "complet" ? groupe(fr ? "Présence" : "Presence", m.gardees.filter((e) => e.role === "presence"), "complet") : null
+			m.mode === "complet" ? groupe(tx.presence, m.gardees.filter((e) => e.role === "presence"), "complet") : null
 		].filter((s) => s !== null);
 		const suivies = [
 			...m.ouvrants,
 			...m.alertes,
 			...m.gardees.filter((e) => e.domaine === "lock" || e.domaine === "alarm_control_panel")
 		].map((e) => e.id);
-		const cote = suivies.length ? [titre(fr ? "Activité" : "Activity"), {
+		const cote = suivies.length ? [titre(tx.activite), {
 			type: "logbook",
 			target: { entity_id: suivies },
 			hours_to_show: 24,
@@ -7687,7 +7768,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 	if (reglages.bilan !== false && aUnBilan(hass, m)) {
 		const energies = energiesMaison(hass, m);
 		const temperatures = m.temperaturesInterieures.map((c) => c[0]).slice(0, 6);
-		const cote = [...energies.length ? [titre(fr ? "8 dernières semaines" : "Last 8 weeks"), {
+		const cote = [...energies.length ? [titre(tx.huitSemaines), {
 			type: "statistics-graph",
 			entities: energies,
 			period: "week",
@@ -7698,7 +7779,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 				columns: 12,
 				rows: 4
 			}
-		}] : [], ...temperatures.length ? [titre(fr ? "Températures, 7 jours" : "Temperatures, 7 days"), {
+		}] : [], ...temperatures.length ? [titre(tx.temperatures7j), {
 			type: "history-graph",
 			entities: temperatures,
 			hours_to_show: 168,
@@ -7727,7 +7808,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 		scene: [section([heros("a-ranger"), avecReglages({ type: "custom:automatic-dashboard-a-ranger" })])]
 	}));
 	if (m.air.length) {
-		const parPiece = [...m.pieces.map((p) => [p.name, m.air.filter((e) => e.piece === p.area_id)]), [fr ? "Sans pièce" : "Without area", m.air.filter((e) => !e.piece)]];
+		const parPiece = [...m.pieces.map((p) => [p.name, m.air.filter((e) => e.piece === p.area_id)]), [tx.sansPieceTitre, m.air.filter((e) => !e.piece)]];
 		const co2 = m.air.filter((e) => e.classe === "carbon_dioxide").map((e) => e.id).slice(0, 8);
 		vues.push(vue({
 			path: "air",
@@ -7736,7 +7817,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 			subview: true,
 			ouverture: ouverture("air"),
 			scene: parPiece.map(([nom, l]) => groupe(nom, l, "maison")).filter((s) => s !== null),
-			cote: co2.length ? [titre(fr ? "CO₂, 24 heures" : "CO₂, 24 hours"), {
+			cote: co2.length ? [titre(tx.co2Jour), {
 				type: "history-graph",
 				entities: co2,
 				hours_to_show: 24,
@@ -7773,10 +7854,10 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 		const eau = prendre((e) => e.domaine === "valve" || /arrosage|irrigation|sprinkler|piscine|pool|bassin/i.test(`${e.nomPropre} ${e.etat.attributes.friendly_name ?? ""}`));
 		const jardin = prendre(() => true);
 		const scene = [
-			groupe(fr ? "Le jardin" : "The garden", jardin, "maison"),
-			groupe(fr ? "Portail et garage" : "Gate and garage", portail, "maison"),
-			groupe(fr ? "Arrosage et piscine" : "Watering and pool", eau, "maison"),
-			groupe(fr ? "Tondeuse" : "Mower", tondeuse, "maison")
+			groupe(tx.jardin, jardin, "maison"),
+			groupe(tx.portailGarage, portail, "maison"),
+			groupe(tx.arrosage, eau, "maison"),
+			groupe(tx.tondeuse, tondeuse, "maison")
 		].filter((s) => s !== null);
 		const cote = m.meteo ? [{
 			type: "weather-forecast",
@@ -7819,7 +7900,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 	}));
 	vues.push({
 		path: "tablette",
-		title: fr ? "Tablette murale" : "Wall tablet",
+		title: tx.tabletteMurale,
 		icon: "mdi:tablet-dashboard",
 		type: "panel",
 		subview: true,

@@ -12,10 +12,9 @@ import {
   supprimerAutomatisme, telephones, tousLesDestinataires,
 } from "../moteur/automatismes";
 import type { Maison } from "../moteur/types";
-import { estFrancais, naviguer, nomCourt } from "../outils";
+import { langueDe, naviguer, nomCourt } from "../outils";
 import { favorisAutomatiques, nombreDeFavoris } from "../strategie/accueil";
 import type { ConfigStrategie } from "../strategie/strategie";
-import { EDITEUR } from "../textes";
 import { demasquer, deplacer, desepingler, epingler, masquer, nettoyer, renommer } from "./reglages";
 
 const MODES = ["auto", "decouverte", "maison", "complet"] as const;
@@ -128,7 +127,7 @@ export class AutomaticEditeur extends LitElement {
   }
 
   private get tx() {
-    return estFrancais(this.hass) ? EDITEUR.fr : EDITEUR.en;
+    return langueDe(this.hass).editeur;
   }
 
   protected override render(): TemplateResult | typeof nothing {

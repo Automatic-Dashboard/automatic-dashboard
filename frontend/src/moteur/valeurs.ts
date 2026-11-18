@@ -1,7 +1,7 @@
 // Les valeurs vivantes, lues à chaque rendu dans `hass.states` (le tri, lui, ne change pas).
 
 import type { HomeAssistant } from "../ha";
-import { estFrancais, valide } from "../outils";
+import { t, valide } from "../outils";
 import { reglagesEnergie } from "../donnees/energie";
 import { chauffe } from "./conseils";
 import type { Maison } from "./types";
@@ -86,7 +86,6 @@ export function energiesMaison(hass: HomeAssistant, m: Maison): string[] {
 
 /** « 2 chauffages et 1 clim en marche » : ce que font les appareils de climat allumés. */
 export function enMarcheClimat(hass: HomeAssistant, m: Maison): string {
-  const fr = estFrancais(hass);
   const actifs = m.climats.filter((e) => !["off", "unavailable", "unknown"].includes(hass.states[e.id]?.state ?? "off"));
   if (!actifs.length) return "";
   const etat = (id: string) => hass.states[id];
@@ -95,11 +94,9 @@ export function enMarcheClimat(hass: HomeAssistant, m: Maison): string {
   const clims = actifs.filter((e) => e.domaine === "climate" && froid(e.id)).length;
   const autres = actifs.length - chauffages - clims;
   const pluriel = (n: number, un: string, plusieurs: string) => (n ? `${n} ${n > 1 ? plusieurs : un}` : "");
-  const parties = fr
-    ? [pluriel(chauffages, "chauffage", "chauffages"), pluriel(clims, "clim", "clims"), pluriel(autres, "appareil", "appareils")]
-    : [pluriel(chauffages, "heater", "heaters"), pluriel(clims, "AC unit", "AC units"), pluriel(autres, "device", "devices")];
+  const tx = t(hass), mots = tx.motsEnMarche;
+  const parties = [pluriel(chauffages, mots.chauffage[0], mots.chauffage[1]), pluriel(clims, mots.clim[0], mots.clim[1]), pluriel(autres, mots.appareil[0], mots.appareil[1])];
   const liste = parties.filter(Boolean);
-  const et = fr ? " et " : " and ";
-  const texte = liste.length > 1 ? `${liste.slice(0, -1).join(", ")}${et}${liste.at(-1)}` : liste[0];
-  return fr ? `${texte} en marche` : `${texte} running`;
+  const texte = liste.length > 1 ? `${liste.slice(0, -1).join(", ")}${tx.et}${liste.at(-1)}` : liste[0];
+  return tx.enMarche(texte);
 }

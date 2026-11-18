@@ -6,7 +6,7 @@ import { css, html, nothing, type PropertyDeclarations, type TemplateResult } fr
 import { type Bilan, chargerBilan, type Periode, type Plage } from "../donnees/bilan";
 import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
-import { degres, estFrancais, langue, majuscule, nombre, nomCourt, plusDInfos, t } from "../outils";
+import { degres, langue, majuscule, nombre, nomCourt, plusDInfos, t } from "../outils";
 import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
@@ -166,6 +166,6 @@ export class AutomaticBilan extends CarteAutomatic {
       ${parEntite.length
         ? html`<div class="liste">${parEntite.slice(0, 4).map(([id, n]) => html`<button @click=${() => plusDInfos(this, id)}>
             ${nomCourt(hass, id, m.noms)}<b>${n}</b></button>`)}</div>`
-        : html`<p class="vide">${estFrancais(hass) ? "Rien ne s'est ouvert." : "Nothing was opened."}</p>`}</div>`;
+        : html`<p class="vide">${t(hass).rienOuvert}</p>`}</div>`;
   }
 }

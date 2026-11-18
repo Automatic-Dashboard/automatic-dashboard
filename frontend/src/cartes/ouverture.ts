@@ -6,7 +6,7 @@ import { styleMap } from "lit/directives/style-map.js";
 import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
 import { phraseAccueil, phraseAir, phraseMeteo, phrasePiece, phraseSujet, phraseVehicule } from "../phrases";
-import { estFrancais, langue, majuscule, t } from "../outils";
+import { langue, majuscule, t } from "../outils";
 import { CarteAutomatic, definis } from "./base";
 import { ciel, STYLE_CIEL } from "./ciel";
 import { STYLE_COMMUN } from "./styles";
@@ -87,7 +87,7 @@ export class AutomaticOuverture extends CarteAutomatic {
       const n = m.aRanger.length;
       const titres: Record<string, string> = {
         climat: tx.climat, energie: tx.energie, securite: tx.securite, systeme: tx.systeme,
-        "a-ranger": estFrancais(hass) ? `${n} appareil${n > 1 ? "s n'ont" : " n'a"} pas de pièce` : tx.sansPiece(n),
+        "a-ranger": tx.pastilleSansPiece(n),
       };
       titre = titres[page] || "";
       sur = date;

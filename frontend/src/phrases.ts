@@ -8,7 +8,7 @@ import { pointsVisibles } from "./moteur/points";
 import type { Maison, Piece } from "./moteur/types";
 import { lirePluie } from "./moteur/meteo-france";
 import { premiereTemperatureC, premiereValeur, temperatureDehors } from "./moteur/valeurs";
-import { conditionMeteo, degres, estFrancais, ilYa, majuscule, nombre, nomCourt, t, valide } from "./outils";
+import { conditionMeteo, degres, ilYa, majuscule, nombre, nomCourt, t, valide } from "./outils";
 
 export interface Phrase {
   phrase: string;
@@ -77,7 +77,6 @@ export function phrasePiece(hass: HomeAssistant, p: Piece): Phrase {
 /** La phrase d'une page thématique : climat, énergie, sécurité, système ou à ranger. */
 export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phrase {
   const tx = t(hass);
-  const fr = estFrancais(hass);
   const etat = (id: string | null | undefined) => (id ? hass.states[id] : undefined);
   const nom = (e: { id: string }) => nomCourt(hass, e.id, m.noms);
 
@@ -91,20 +90,20 @@ export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phra
     let phrase: string;
     if (!pieces.length) {
       const e = temperatureDehors(hass, m);
-      phrase = e !== null ? `${fr ? "Dehors" : "Outside"} ${degres(hass, e)}.` : "";
+      phrase = e !== null ? `${tx.dehorsTitre} ${degres(hass, e)}.` : "";
     } else if (pieces.length === 1) {
       const e = temperatureDehors(hass, m);
-      phrase = `${pieces[0].p.name} : ${degres(hass, pieces[0].v)}.${e !== null ? ` ${fr ? "Dehors" : "Outside"} : ${degres(hass, e)}.` : ""}`;
+      phrase = `${pieces[0].p.name}${tx.deuxPoints}${degres(hass, pieces[0].v)}.${e !== null ? ` ${tx.dehorsTitre}${tx.deuxPoints}${degres(hass, e)}.` : ""}`;
     } else if (!ecarts.length) {
-      phrase = fr ? "Il fait bon partout." : "Comfortable everywhere.";
+      phrase = tx.bonPartout;
     } else if (ecarts.length <= 2) {
-      const liste = ecarts.map((x) => `${x.p.name} (${degres(hass, x.v)})`).join(fr ? " et " : " and ");
-      phrase = fr ? `Il fait bon presque partout. À surveiller : ${liste}.` : `Comfortable almost everywhere. Keep an eye on ${liste}.`;
+      const liste = ecarts.map((x) => `${x.p.name} (${degres(hass, x.v)})`).join(tx.et);
+      phrase = tx.bonPresquePartout(liste);
     } else {
-      phrase = fr ? `${ecarts.length} pièces hors de la zone de confort.` : `${ecarts.length} rooms outside the comfort zone.`;
+      phrase = tx.horsConfort(ecarts.length);
     }
     const chauffes = m.climats.filter((e) => e.domaine === "climate" && ["heat", "heat_cool", "auto"].includes(etat(e.id)?.state ?? "")).length;
-    if (chauffes) phrase += fr ? ` ${chauffes} chauffage${chauffes > 1 ? "s" : ""} en marche.` : ` ${chauffes} heater${chauffes > 1 ? "s" : ""} on.`;
+    if (chauffes) phrase += ` ${tx.chauffagesEnMarche(chauffes)}`;
     return { phrase, point: ecarts.length ? ORANGE : VERT };
   }
 
@@ -118,13 +117,11 @@ export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phra
   if (sujet === "securite") {
     const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on");
     const alertes = m.alertes.filter((e) => etat(e.id)?.state === "on");
-    if (alertes.length) return { phrase: `${tx.fuite} : ${alertes.map(nom).join(", ")}.`, point: ROUGE };
-    if (!ouverts.length) return { phrase: fr ? "Tout est fermé." : "Everything is closed.", point: VERT };
-    const liste = ouverts.slice(0, 2).map(nom).join(fr ? " et " : " and ");
+    if (alertes.length) return { phrase: `${tx.fuite}${tx.deuxPoints}${alertes.map(nom).join(", ")}.`, point: ROUGE };
+    if (!ouverts.length) return { phrase: tx.toutFermePhrase, point: VERT };
+    const liste = ouverts.slice(0, 2).map(nom).join(tx.et);
     return {
-      phrase: fr
-        ? `${liste} ${ouverts.length > 1 ? "sont ouvertes" : "est ouverte"}. ${ouverts.length > 2 ? `Et ${ouverts.length - 2} autres.` : "Tout le reste est fermé."}`
-        : `${liste} ${ouverts.length > 1 ? "are" : "is"} open.`,
+      phrase: tx.ouvertsPhrase(liste, ouverts.length),
       point: ORANGE,
     };
   }
@@ -135,21 +132,19 @@ export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phra
     const d = sauvegarde ? new Date(etat(sauvegarde.id)?.state ?? "") : null;
     if (!d || Number.isNaN(d.getTime())) {
       return {
-        phrase: fr ? `Aucune sauvegarde automatique.${n ? ` ${tx.majs(n)}.` : " Tout le reste est à jour."}` : `No automatic backup.${n ? ` ${tx.majs(n)}.` : ""}`,
+        phrase: tx.sansSauvegardePhrase(n ? tx.majs(n) : ""),
         point: ORANGE,
       };
     }
     return {
-      phrase: fr
-        ? `Tout fonctionne. ${n ? `${tx.majs(n)}, sauvegarde ${ilYa(hass, d)}.` : `Tout est à jour, sauvegarde ${ilYa(hass, d)}.`}`
-        : `All good. Backup ${ilYa(hass, d)}.`,
+      phrase: tx.systemeOkPhrase(n ? tx.majs(n) : "", ilYa(hass, d)),
       point: n ? ORANGE : VERT,
     };
   }
 
   if (sujet === "a-ranger") {
     return {
-      phrase: fr ? "Donnez-leur une pièce : ils apparaîtront sur l'accueil et dans leur pièce." : "Give them a room: they will show up on the home page and in their room.",
+      phrase: tx.donnerPiece,
       point: BLEU,
     };
   }

@@ -5,7 +5,7 @@
 // Paramètres, Automatisations.
 
 import type { HomeAssistant } from "../ha";
-import { estFrancais } from "../outils";
+import { langueDe } from "../outils";
 import type { Maison } from "./types";
 
 export type Sujet = "fuite" | "fumee" | "pile" | "sauvegarde";
@@ -17,31 +17,6 @@ export interface Automatisme {
   id: string;
   config: Record<string, unknown>;
 }
-
-const TEXTES = {
-  fr: {
-    alias: { fuite: "prévenir en cas de fuite", fumee: "prévenir en cas de fumée ou de gaz", pile: "prévenir quand une pile est faible", sauvegarde: "prévenir si la sauvegarde échoue" },
-    titre: { fuite: "Fuite détectée", fumee: "Fumée ou gaz détecté", pile: "Pile faible", sauvegarde: "Sauvegarde ratée" },
-    message: {
-      fuite: "{{ trigger.to_state.name }} a détecté de l'eau.",
-      fumee: "{{ trigger.to_state.name }} s'est déclenché.",
-      pile: "{{ trigger.to_state.name }} : {{ trigger.to_state.state }} %, à changer bientôt.",
-      sauvegarde: "La dernière sauvegarde automatique de Home Assistant a échoué.",
-    },
-    description: "Créé par Automatic Dashboard, depuis un point à regarder. Il vous appartient : modifiez-le librement.",
-  },
-  en: {
-    alias: { fuite: "notify on leak", fumee: "notify on smoke or gas", pile: "notify when a battery is low", sauvegarde: "notify if the backup fails" },
-    titre: { fuite: "Leak detected", fumee: "Smoke or gas detected", pile: "Low battery", sauvegarde: "Backup failed" },
-    message: {
-      fuite: "{{ trigger.to_state.name }} detected water.",
-      fumee: "{{ trigger.to_state.name }} went off.",
-      pile: "{{ trigger.to_state.name }}: {{ trigger.to_state.state }}%, replace it soon.",
-      sauvegarde: "The last automatic Home Assistant backup failed.",
-    },
-    description: "Created by Automatic Dashboard from a thing to check. It is yours: edit it freely.",
-  },
-};
 
 export const idAutomatisme = (sujet: Sujet): string => `automatic_dashboard_${sujet}`;
 
@@ -94,7 +69,7 @@ export function destinatairesDe(config: { actions?: { action?: string; service?:
 
 /** L'automatisme d'un sujet, ou null si la maison n'a rien à surveiller pour lui. */
 export function automatisme(hass: HomeAssistant, m: Maison, sujet: Sujet, destinataires: Destinataires = tousLesDestinataires(hass)): Automatisme | null {
-  const tx = estFrancais(hass) ? TEXTES.fr : TEXTES.en;
+  const tx = langueDe(hass).automatismes;
   let triggers: Record<string, unknown>[] = [];
   let conditions: Record<string, unknown>[] = [];
 
@@ -123,7 +98,7 @@ export function automatisme(hass: HomeAssistant, m: Maison, sujet: Sujet, destin
     id: idAutomatisme(sujet),
     config: {
       id: idAutomatisme(sujet),
-      alias: `Automatic Dashboard${estFrancais(hass) ? " : " : ": "}${tx.alias[sujet]}`,
+      alias: `Automatic Dashboard${langueDe(hass).textes.deuxPoints}${tx.alias[sujet]}`,
       description: tx.description,
       mode: "queued",
       triggers,

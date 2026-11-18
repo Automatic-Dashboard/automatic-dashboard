@@ -1,12 +1,15 @@
 // Petits outils partagés : langue, nombres, dates, navigation dans Home Assistant.
 
 import type { EtatHA, HomeAssistant } from "./ha";
-import { METEO, MOTS_HEROS, TEXTES } from "./textes";
+import type { Langue } from "./langues/langue";
+import { ICONES_METEO, LANGUES, SECOURS } from "./textes";
 
 export const langue = (hass?: HomeAssistant): string => (hass?.locale?.language || hass?.language || "fr").slice(0, 2);
 export const estFrancais = (hass?: HomeAssistant): boolean => langue(hass) === "fr";
-export const t = (hass?: HomeAssistant) => (estFrancais(hass) ? TEXTES.fr : TEXTES.en);
-export const mh = (hass?: HomeAssistant) => (estFrancais(hass) ? MOTS_HEROS.fr : MOTS_HEROS.en);
+/** Les textes dans la langue de l'utilisateur, sinon en anglais. */
+export const langueDe = (hass?: HomeAssistant): Langue => LANGUES[langue(hass)] ?? SECOURS;
+export const t = (hass?: HomeAssistant) => langueDe(hass).textes;
+export const mh = (hass?: HomeAssistant) => langueDe(hass).heros;
 
 export const nombre = (hass: HomeAssistant | undefined, v: number, chiffres = 1): string =>
   new Intl.NumberFormat(hass?.locale?.language || "fr", { maximumFractionDigits: chiffres, minimumFractionDigits: chiffres }).format(v);
@@ -42,8 +45,8 @@ export function ilYa(hass: HomeAssistant | undefined, date: Date): string {
 }
 
 export function conditionMeteo(hass: HomeAssistant | undefined, etat?: EtatHA): { icone: string; texte: string } {
-  const [icone, fr, en] = METEO[etat?.state ?? ""] ?? ["mdi:weather-cloudy", etat?.state ?? "", etat?.state ?? ""];
-  return { icone, texte: estFrancais(hass) ? fr : en };
+  const cle = etat?.state ?? "";
+  return { icone: ICONES_METEO[cle] ?? "mdi:weather-cloudy", texte: langueDe(hass).meteo[cle] ?? cle };
 }
 
 /** Navigue dans Home Assistant. Un chemin relatif reste dans le tableau courant. */
@@ -65,20 +68,31 @@ export function nomCourt(hass: HomeAssistant, entityId: string, noms: Record<str
   return appareil?.name_by_user || appareil?.name || hass.states[entityId]?.attributes.friendly_name || entityId;
 }
 
-/** Noms d'intégrations quand Home Assistant ne fournit pas leur traduction (elle n'est chargée qu'à la demande). */
-const NOMS_INTEGRATIONS: Record<string, [string, string]> = {
-  demo: ["Démonstration", "Demo"], mqtt: ["MQTT", "MQTT"], template: ["Modèles", "Templates"], zha: ["Zigbee (ZHA)", "Zigbee (ZHA)"],
-  matter: ["Matter", "Matter"], hue: ["Philips Hue", "Philips Hue"], esphome: ["ESPHome", "ESPHome"],
-  systemmonitor: ["Moniteur système", "System monitor"], hassio: ["Supervisor", "Supervisor"], glances: ["Glances", "Glances"],
-  uptime_kuma: ["Uptime Kuma", "Uptime Kuma"], adguard: ["AdGuard Home", "AdGuard Home"], pi_hole: ["Pi-hole", "Pi-hole"],
-  speedtestdotnet: ["Speedtest", "Speedtest"], proxmoxve: ["Proxmox VE", "Proxmox VE"], synology_dsm: ["Synology DSM", "Synology DSM"],
-  unifi: ["UniFi Network", "UniFi Network"], truenas: ["TrueNAS", "TrueNAS"], fritz: ["FRITZ!Box", "FRITZ!Box"], netdata: ["Netdata", "Netdata"],
+/** Les noms de marque des intégrations, quand Home Assistant ne fournit pas le leur (chargé à la demande). */
+const MARQUES: Record<string, string> = {
+  mqtt: "MQTT",
+  zha: "Zigbee (ZHA)",
+  matter: "Matter",
+  hue: "Philips Hue",
+  esphome: "ESPHome",
+  hassio: "Supervisor",
+  glances: "Glances",
+  uptime_kuma: "Uptime Kuma",
+  adguard: "AdGuard Home",
+  pi_hole: "Pi-hole",
+  speedtestdotnet: "Speedtest",
+  proxmoxve: "Proxmox VE",
+  synology_dsm: "Synology DSM",
+  unifi: "UniFi Network",
+  truenas: "TrueNAS",
+  fritz: "FRITZ!Box",
+  netdata: "Netdata",
 };
 
 /** Le nom d'une intégration, dans la langue de l'utilisateur. */
 export function nomIntegration(hass: HomeAssistant, plateforme: string): string {
-  const connu = NOMS_INTEGRATIONS[plateforme];
-  return hass.localize?.(`component.${plateforme}.title`) || (connu ? connu[estFrancais(hass) ? 0 : 1] : majuscule(plateforme.replace(/_/g, " ")));
+  const connu = langueDe(hass).integrations[plateforme] ?? MARQUES[plateforme];
+  return hass.localize?.(`component.${plateforme}.title`) || connu || majuscule(plateforme.replace(/_/g, " "));
 }
 
 /** La trame de la marque : petits carrés de 2,8 px tous les 22 px, en image CSS. */

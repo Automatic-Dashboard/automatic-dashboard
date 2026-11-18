@@ -7,7 +7,7 @@ import type { HomeAssistant } from "../ha";
 import { courbe } from "../mise-en-page/courbes";
 import type { Maison } from "../moteur/types";
 import { enMarcheClimat, moyenneInterieure, temperatureDehors } from "../moteur/valeurs";
-import { degres, estFrancais, heure, langue, naviguer, nombre, phaseLune, plusDInfos, t, valide } from "../outils";
+import { degres, heure, langue, naviguer, nombre, phaseLune, plusDInfos, t, valide } from "../outils";
 import { CarteAutomatic, definis, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
@@ -79,9 +79,9 @@ export class AutomaticApercu extends CarteAutomatic {
       if (!valeurs.length) return null;
       const h = valeurs.reduce((a, b) => a + b, 0) / valeurs.length;
       this.chargerCourbe("humidite", ids.slice(0, 8));
-      const fr = estFrancais(hass);
-      const avis = h < 35 ? (fr ? "Air sec" : "Dry air") : h > 65 ? (fr ? "Air humide : aérez" : "Humid air: ventilate") : (fr ? "Confortable" : "Comfortable");
-      return this.gabarit("mdi:water-percent", fr ? "Humidité" : "Humidity", html`${nombre(hass, h, 0)}<small>%</small>`, avis);
+      const tx = t(hass);
+      const avis = h < 35 ? tx.airSec : h > 65 ? tx.airHumide : tx.confortable;
+      return this.gabarit("mdi:water-percent", tx.humiditeTitre, html`${nombre(hass, h, 0)}<small>%</small>`, avis);
     }
     if (s === "a-ranger") {
       if (!m.aRanger.length) return null;

@@ -5,7 +5,7 @@
 import { css, html, nothing, type PropertyDeclarations, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
 import type { Entite, Maison } from "../moteur/types";
-import { estFrancais, naviguer, nomIntegration, plusDInfos } from "../outils";
+import { naviguer, nomIntegration, plusDInfos, t } from "../outils";
 import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
@@ -83,7 +83,7 @@ export class AutomaticARanger extends CarteAutomatic {
   protected override rendu(hass: HomeAssistant, m: Maison): TemplateResult | null {
     const ranges = this.ranges;
     if (!m.aRanger.length && !ranges.length) return null;
-    const fr = estFrancais(hass);
+    const tx = t(hass);
     const admin = Boolean(hass.user?.is_admin);
     const groupes = new Map<string, Entite[]>();
     for (const e of m.aRanger) {
@@ -100,7 +100,7 @@ export class AutomaticARanger extends CarteAutomatic {
         const appareil = e.appareil ? hass.devices[e.appareil] : undefined;
         const nom = m.noms[e.id] || appareil?.name_by_user || appareil?.name || e.etat.attributes.friendly_name;
         const n = appareil ? nbEntites(e.appareil!) : 1;
-        const detail = appareil ? (fr ? `${n} entité${n > 1 ? "s" : ""}` : `${n} entit${n > 1 ? "ies" : "y"}`) : (fr ? "sans appareil" : "no device");
+        const detail = appareil ? tx.nbEntites(n) : tx.sansAppareil;
         // Seul un administrateur peut changer la pièce d'un appareil ; les autres voient la proposition.
         const proposee = m.pieces.find((p) => p.area_id === m.propositions[e.id]);
         if (proposee && !admin) proposeesSansDroit++;
@@ -110,21 +110,21 @@ export class AutomaticARanger extends CarteAutomatic {
             ${proposee && !admin ? html`<span class="indice">${proposee.name} ?</span>` : nothing}
             ${proposee && admin
               ? html`<button class="proposer" ?disabled=${this._enCours === e.id} @click=${() => this.ranger(e, String(nom), proposee.area_id)}
-                  title=${fr ? `Ranger dans ${proposee.name}` : `Put in ${proposee.name}`}><ha-icon icon=${proposee.icon}></ha-icon>${proposee.name} ?</button>`
+                  title=${tx.rangerDans(proposee.name)}><ha-icon icon=${proposee.icon}></ha-icon>${proposee.name} ?</button>`
               : nothing}
             <button class=${proposee && admin ? "choisir discret" : "choisir"} @click=${() => this.choisir(e)}>
-              ${proposee && admin ? (fr ? "Autre" : "Other") : fr ? "Choisir" : "Choose"}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
+              ${proposee && admin ? tx.autreChoix : tx.choisir}<ha-icon icon="mdi:chevron-right"></ha-icon></button>
           </span></div>`);
       }
     }
     const confirmations = ranges.map((r) => {
       const piece = hass.areas[r.piece]?.name ?? r.piece;
       return html`<div class="range" role="status"><ha-icon icon="mdi:check-circle"></ha-icon>
-        <span>${fr ? `${r.nom} : rangé dans ${piece}.` : `${r.nom}: put in ${piece}.`}</span>
-        <button @click=${() => this.annuler(r)}>${fr ? "Annuler" : "Undo"}</button></div>`;
+        <span>${tx.rangeDans(r.nom, piece)}</span>
+        <button @click=${() => this.annuler(r)}>${tx.annuler}</button></div>`;
     });
     const note = proposeesSansDroit
-      ? html`<p class="note">${fr ? "Un administrateur peut ranger ces appareils en un clic, dans la pièce proposée." : "An administrator can put these devices in the suggested room in one click."}</p>`
+      ? html`<p class="note">${tx.noteAdmin}</p>`
       : nothing;
     return html`<ha-card>${confirmations}${contenu}${note}</ha-card>`;
   }

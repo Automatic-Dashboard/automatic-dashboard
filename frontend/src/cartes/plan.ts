@@ -7,7 +7,7 @@ import { css, html, nothing, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
 import type { Maison, Piece } from "../moteur/types";
 import { depuisCelsius, premiereTemperatureC, premiereValeur } from "../moteur/valeurs";
-import { degres, estFrancais, naviguer, nombre } from "../outils";
+import { degres, naviguer, nombre, t } from "../outils";
 import { CarteAutomatic, type OptionsGrille } from "./base";
 import { STYLE_COMMUN } from "./styles";
 
@@ -57,7 +57,7 @@ export class AutomaticPlan extends CarteAutomatic {
     const groupes: [string | null, Piece[]][] = etages.map((e): [string | null, Piece[]] => [e.name, pieces.filter((p) => p.etage === e.floor_id)])
       .filter(([, l]) => l.length);
     const sans = pieces.filter((p) => !p.etage);
-    if (sans.length) groupes.push([groupes.length ? (estFrancais(hass) ? "Autres" : "Other") : null, sans]);
+    if (sans.length) groupes.push([groupes.length ? t(hass).autresTitre : null, sans]);
     return html`<ha-card>
       ${groupes.map(([nom, liste]) => html`<div class=${nom ? "etage" : "etage sans-etage"}>
         ${nom ? html`<span class="sur">${nom}</span>` : nothing}

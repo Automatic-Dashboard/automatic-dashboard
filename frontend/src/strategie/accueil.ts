@@ -3,7 +3,7 @@
 import type { HomeAssistant } from "../ha";
 import { avecLargeurs } from "../mise-en-page/rangees";
 import type { Maison, Reglages } from "../moteur/types";
-import { estFrancais, t } from "../outils";
+import { t } from "../outils";
 import { type CarteConfig, section, titre, tuile, vue, type VueConfig } from "./configs";
 import { lireFavorisPerso } from "../donnees/favoris";
 
@@ -112,7 +112,7 @@ export function accueilMaison(hass: HomeAssistant, m: Maison, avecReglages: Avec
     }
     const autres = pieces.filter((p) => !p.etage);
     if (autres.length) {
-      scene.push(section([titre(estFrancais(hass) ? "Autres pièces" : "Other rooms"), ...avecLargeurs(autres.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
+      scene.push(section([titre(t(hass).autresPieces), ...avecLargeurs(autres.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
     }
   } else if (m.mode === "complet" && pieces.length) {
     // Complet sans étages : une seule section, pièces en Petit 4×2 par trois.
