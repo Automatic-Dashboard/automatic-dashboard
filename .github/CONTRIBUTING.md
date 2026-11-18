@@ -36,7 +36,7 @@ tests/                           les tests de l'intégration
 dev/                             trois maisons d'essai dans Docker (mode d'emploi : dev/README.md)
 ```
 
-Avant de proposer un changement important, ouvrez un ticket ou une [discussion](https://github.com/Automatic-Dashboard/automatic-dashboard/discussions) : on en parle d'abord, pour ne pas perdre votre temps.
+Ce qui est prévu est dans la [feuille de route](https://github.com/Automatic-Dashboard/automatic-dashboard/milestones). Pour commencer, les tickets [« good first issue »](https://github.com/Automatic-Dashboard/automatic-dashboard/issues?q=is%3Aopen+label%3A%22good+first+issue%22) sont à la portée d'une première contribution. Avant de proposer un changement important, ouvrez un ticket ou une [discussion](https://github.com/Automatic-Dashboard/automatic-dashboard/discussions) : on en parle d'abord, pour ne pas perdre votre temps.
 
 ### Les principes
 
