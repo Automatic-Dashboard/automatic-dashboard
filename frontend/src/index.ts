@@ -23,7 +23,7 @@ import type { HomeAssistant } from "./ha";
 import { analyserMemo } from "./moteur/analyser";
 import { chargerPolices } from "./polices";
 import { preparerPremierTableau } from "./premier-tableau";
-import { type ConfigStrategie, genererTableau } from "./strategie/strategie";
+import { type ConfigStrategie, genererTableau, tableauEnPanne } from "./strategie/strategie";
 
 /** Numéro de version, lu dans package.json à la construction. */
 const VERSION = __VERSION__;
@@ -34,7 +34,12 @@ class AutomaticStrategie extends HTMLElement {
   }
 
   static async generate(config: ConfigStrategie, hass: HomeAssistant) {
-    return genererTableau(config, hass);
+    try {
+      return await genererTableau(config, hass);
+    } catch (erreur) {
+      console.error("Automatic Dashboard :", erreur);
+      return tableauEnPanne(config, hass, erreur, VERSION);
+    }
   }
 
   /** L'éditeur visuel, ouvert par « Modifier le tableau de bord ». */

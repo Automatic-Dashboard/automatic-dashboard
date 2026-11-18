@@ -4,6 +4,7 @@
 import { chargerReglagesEnergie } from "../donnees/energie";
 import type { HomeAssistant } from "../ha";
 import { analyserMemo } from "../moteur/analyser";
+import { t } from "../outils";
 import type { Reglages } from "../moteur/types";
 import { accueilDecouverte, accueilMaison, favorisDeLaPersonne } from "./accueil";
 import { type CarteConfig, THEME, type VueConfig } from "./configs";
@@ -89,4 +90,24 @@ export async function genererTableau(config: ConfigStrategie, hass: HomeAssistan
   const theme = { automatic: THEME, doux: `${THEME} Soft`, contraste: `${THEME} Contrast`, home_assistant: undefined }[reglages.style ?? "automatic"];
   views = views.map(({ theme: _ancien, ...v }) => (theme ? { ...v, theme } : v) as VueConfig);
   return { title: config.title || "Automatic Dashboard", views };
+}
+
+/**
+ * Quand la construction échoue : une seule page qui explique quoi faire, avec le message
+ * d'erreur à joindre au ticket, plutôt qu'une erreur technique de Home Assistant.
+ */
+export function tableauEnPanne(config: ConfigStrategie, hass: HomeAssistant, erreur: unknown, version: string): { title: string; views: VueConfig[] } {
+  const tx = t(hass);
+  const message = erreur instanceof Error ? `${erreur.name}: ${erreur.message}` : String(erreur);
+  const lien = `https://github.com/Automatic-Dashboard/automatic-dashboard/issues/new?template=2-probleme.yml&title=${encodeURIComponent(tx.panneTitre)}`;
+  const contenu = [
+    `## ${tx.panneTitre}`,
+    tx.panneTexte,
+    tx.panneEtapes.map((etape, i) => `${i + 1}. ${etape.replace("LIEN", lien)}`).join("\n"),
+    ["```", `Automatic Dashboard ${version} · Home Assistant ${hass.config?.version ?? "?"}`, message.slice(0, 500), "```"].join("\n"),
+  ].join("\n\n");
+  return {
+    title: config.title || "Automatic Dashboard",
+    views: [{ title: tx.accueil, path: "accueil", type: "panel", cards: [{ type: "markdown", content: contenu }] } as unknown as VueConfig],
+  };
 }

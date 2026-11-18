@@ -4,7 +4,7 @@
 import { describe, expect, it } from "vitest";
 import type { HomeAssistant } from "../src/ha";
 import type { CarteConfig, VueConfig } from "../src/strategie/configs";
-import { genererTableau } from "../src/strategie/strategie";
+import { genererTableau, tableauEnPanne } from "../src/strategie/strategie";
 import complete from "./fixtures/complete.json";
 import debutant from "./fixtures/debutant.json";
 import famille from "./fixtures/famille.json";
@@ -131,5 +131,25 @@ describe("pluie, vigilance et « en ce moment » sur l'accueil", () => {
   it("la carte météo porte le nom de la maison, pas celui de l'intégration", () => {
     const meteo = cartes(accueil("famille")).find((c) => c.type === "weather-forecast");
     expect(meteo?.name).toBe("Appartement d'essai");
+  });
+});
+
+describe("quand le tableau ne peut pas se construire", () => {
+  it("une page explique quoi faire, avec le message à joindre au ticket", () => {
+    const h = { config: { version: "2026.11.1", latitude: 0, longitude: 0 }, locale: { language: "fr" } } as unknown as HomeAssistant;
+    const { views } = tableauEnPanne({} as never, h, new TypeError("x is undefined"), "2026.12.2");
+    expect(views).toHaveLength(1);
+    const contenu = (views[0] as unknown as { cards: { content: string }[] }).cards[0].content;
+    expect(contenu).toMatch(/^## Le tableau n'a pas pu se construire/u);
+    expect(contenu).toContain("Rechargez la page.");
+    expect(contenu).toContain("issues/new?template=2-probleme.yml");
+    expect(contenu).toContain("Automatic Dashboard 2026.12.2 · Home Assistant 2026.11.1\nTypeError: x is undefined");
+  });
+
+  it("en anglais aussi", () => {
+    const h = { config: { latitude: 0, longitude: 0 }, locale: { language: "en" } } as unknown as HomeAssistant;
+    const contenu = (tableauEnPanne({} as never, h, "boom", "2026.12.2").views[0] as unknown as { cards: { content: string }[] }).cards[0].content;
+    expect(contenu).toMatch(/^## The dashboard could not be built/u);
+    expect(contenu).toContain("Home Assistant ?\nboom");
   });
 });

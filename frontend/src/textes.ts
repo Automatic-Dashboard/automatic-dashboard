@@ -134,6 +134,14 @@ export const TEXTES = {
       "Vigilance absolue : des phénomènes dangereux d'une intensité exceptionnelle sont prévus. Respectez les consignes des autorités.",
     ],
     vigilanceCarte: "Voir la carte de Météo-France",
+    // Quand le tableau ne peut pas se construire : une page qui dit quoi faire, au lieu d'une erreur technique.
+    panneTitre: "Le tableau n'a pas pu se construire",
+    panneTexte: "Automatic Dashboard a rencontré une erreur en lisant votre maison. Rien n'est cassé dans Home Assistant : vos appareils et vos automatismes fonctionnent normalement.",
+    panneEtapes: [
+      "Rechargez la page.",
+      "Si Automatic Dashboard vient d'être mis à jour, redémarrez Home Assistant (*Paramètres*, *Système*, en haut à droite), puis rechargez la page.",
+      "Si l'erreur revient, [signalez-la](LIEN) en joignant le message ci-dessous (relisez-le : il décrit l'erreur, pas votre maison).",
+    ],
   },
   en: {
     bonjour: "Good morning", apresmidi: "Good afternoon", bonsoir: "Good evening", nuit: "Good night",
@@ -265,6 +273,13 @@ export const TEXTES = {
       "Take extreme care: exceptionally dangerous weather is expected. Follow the instructions of the authorities.",
     ],
     vigilanceCarte: "See the Météo-France map",
+    panneTitre: "The dashboard could not be built",
+    panneTexte: "Automatic Dashboard ran into an error while reading your home. Nothing is broken in Home Assistant: your devices and automations work as usual.",
+    panneEtapes: [
+      "Reload the page.",
+      "If Automatic Dashboard was just updated, restart Home Assistant (*Settings*, *System*, top right), then reload the page.",
+      "If the error comes back, [report it](LIEN) with the message below (read it first: it describes the error, not your home).",
+    ],
   },
 };
 
