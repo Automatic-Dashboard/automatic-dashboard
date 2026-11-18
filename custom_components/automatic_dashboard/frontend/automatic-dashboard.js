@@ -6762,7 +6762,7 @@ function diagnostiquer(hass, reglages = {}, cibles = [], attentes = {}) {
 		titre: "",
 		ticket: null,
 		attendu: { entites: attendu },
-		version: "2026.12.2",
+		version: "2026.12.3",
 		home_assistant: hass.config?.version ?? null,
 		langue: (hass.locale?.language || hass.language || "").slice(0, 2),
 		reglages: {
@@ -8155,7 +8155,7 @@ function sectionEnPanne(hass, erreur) {
 }
 // src/index.ts
 /** Numéro de version, lu dans package.json à la construction. */
-var VERSION = "2026.12.2";
+var VERSION = "2026.12.3";
 var AutomaticStrategie = class extends HTMLElement {
 	static getCreateSuggestions() {
 		return {
