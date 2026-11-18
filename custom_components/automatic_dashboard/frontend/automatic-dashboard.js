@@ -939,7 +939,14 @@ var TEXTES$1 = {
 			"Soyez très vigilant : des phénomènes dangereux sont prévus. Suivez les consignes des autorités.",
 			"Vigilance absolue : des phénomènes dangereux d'une intensité exceptionnelle sont prévus. Respectez les consignes des autorités."
 		],
-		vigilanceCarte: "Voir la carte de Météo-France"
+		vigilanceCarte: "Voir la carte de Météo-France",
+		panneTitre: "Le tableau n'a pas pu se construire",
+		panneTexte: "Automatic Dashboard a rencontré une erreur en lisant votre maison. Rien n'est cassé dans Home Assistant : vos appareils et vos automatismes fonctionnent normalement.",
+		panneEtapes: [
+			"Rechargez la page.",
+			"Si Automatic Dashboard vient d'être mis à jour, redémarrez Home Assistant (*Paramètres*, *Système*, en haut à droite), puis rechargez la page.",
+			"Si l'erreur revient, [signalez-la](LIEN) en joignant le message ci-dessous (relisez-le : il décrit l'erreur, pas votre maison)."
+		]
 	},
 	en: {
 		bonjour: "Good morning",
@@ -1170,7 +1177,14 @@ var TEXTES$1 = {
 			"Be very careful: dangerous weather is expected. Follow the advice of the authorities.",
 			"Take extreme care: exceptionally dangerous weather is expected. Follow the instructions of the authorities."
 		],
-		vigilanceCarte: "See the Météo-France map"
+		vigilanceCarte: "See the Météo-France map",
+		panneTitre: "The dashboard could not be built",
+		panneTexte: "Automatic Dashboard ran into an error while reading your home. Nothing is broken in Home Assistant: your devices and automations work as usual.",
+		panneEtapes: [
+			"Reload the page.",
+			"If Automatic Dashboard was just updated, restart Home Assistant (*Settings*, *System*, top right), then reload the page.",
+			"If the error comes back, [report it](LIEN) with the message below (read it first: it describes the error, not your home)."
+		]
 	}
 };
 var METEO = {
@@ -6609,7 +6623,7 @@ function diagnostiquer(hass, reglages = {}, cibles = [], attentes = {}) {
 		titre: "",
 		ticket: null,
 		attendu: { entites: attendu },
-		version: "2026.12.1",
+		version: "2026.12.2",
 		home_assistant: hass.config?.version ?? null,
 		langue: (hass.locale?.language || hass.language || "").slice(0, 2),
 		reglages: {
@@ -7916,9 +7930,41 @@ async function genererTableau(config, hass) {
 		views
 	};
 }
+/**
+* Quand la construction échoue : une seule page qui explique quoi faire, avec le message
+* d'erreur à joindre au ticket, plutôt qu'une erreur technique de Home Assistant.
+*/
+function tableauEnPanne(config, hass, erreur, version) {
+	const tx = t$1(hass);
+	const message = erreur instanceof Error ? `${erreur.name}: ${erreur.message}` : String(erreur);
+	const lien = `https://github.com/Automatic-Dashboard/automatic-dashboard/issues/new?template=2-probleme.yml&title=${encodeURIComponent(tx.panneTitre)}`;
+	const contenu = [
+		`## ${tx.panneTitre}`,
+		tx.panneTexte,
+		tx.panneEtapes.map((etape, i) => `${i + 1}. ${etape.replace("LIEN", lien)}`).join("\n"),
+		[
+			"```",
+			`Automatic Dashboard ${version} · Home Assistant ${hass.config?.version ?? "?"}`,
+			message.slice(0, 500),
+			"```"
+		].join("\n")
+	].join("\n\n");
+	return {
+		title: config.title || "Automatic Dashboard",
+		views: [{
+			title: tx.accueil,
+			path: "accueil",
+			type: "panel",
+			cards: [{
+				type: "markdown",
+				content: contenu
+			}]
+		}]
+	};
+}
 // src/index.ts
 /** Numéro de version, lu dans package.json à la construction. */
-var VERSION = "2026.12.1";
+var VERSION = "2026.12.2";
 var AutomaticStrategie = class extends HTMLElement {
 	static getCreateSuggestions() {
 		return {
@@ -7927,7 +7973,12 @@ var AutomaticStrategie = class extends HTMLElement {
 		};
 	}
 	static async generate(config, hass) {
-		return genererTableau(config, hass);
+		try {
+			return await genererTableau(config, hass);
+		} catch (erreur) {
+			console.error("Automatic Dashboard :", erreur);
+			return tableauEnPanne(config, hass, erreur, VERSION);
+		}
 	}
 	/** L'éditeur visuel, ouvert par « Modifier le tableau de bord ». */
 	static async getConfigElement() {

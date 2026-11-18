@@ -1,7 +1,7 @@
 {
   "name": "automatic-dashboard-frontend",
   "private": true,
-  "version": "2026.12.1",
+  "version": "2026.12.2",
   "description": "Automatic Dashboard, le tableau de bord pour Home Assistant : moteur de tri, stratégie et cartes.",
   "license": "Apache-2.0",
   "type": "module",

@@ -2,6 +2,24 @@
 
 Les numéros suivent ceux de Home Assistant : l'année, le mois, puis les corrections (2026.12.0, 2026.12.1…). Chaque version est publiée comme une release GitHub, avec ces notes en français et en anglais.
 
+## 2026.12.2
+
+### En français
+
+**Amélioré**
+- Quand le tableau ne peut pas se construire, une page claire dit quoi faire (recharger, redémarrer après une mise à jour, sinon signaler l'erreur avec le message à joindre), au lieu d'une erreur technique de Home Assistant.
+
+**Corrigé**
+- En thème sombre, les initiales des personnes (dans le journal, par exemple) sont lisibles : elles étaient gris foncé sur bleu foncé. Relevé par un audit d'accessibilité (WCAG 2.1 AA) de toutes les pages, qui n'a rien trouvé d'autre dans le tableau.
+
+### In English
+
+**Improved**
+- When the dashboard cannot be built, a clear page says what to do (reload, restart after an update, otherwise report the error with the message to attach), instead of a technical Home Assistant error.
+
+**Fixed**
+- In dark mode, people's initials (in the logbook, for example) are readable: they were dark grey on dark blue. Found by an accessibility audit (WCAG 2.1 AA) of every page, which found nothing else in the dashboard.
+
 ## 2026.12.1
 
 Une version de correction, pour les maisons en degrés Fahrenheit et l'heure sur 12 heures.
