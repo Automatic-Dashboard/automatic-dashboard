@@ -43,6 +43,8 @@ frontend/src/moteur/             le tri des entités, en fonctions pures, sans a
 frontend/src/strategie/          la stratégie : les pages et leurs cartes, construites depuis le tri
 frontend/src/cartes/             les cartes Automatic Dashboard (Lit)
 frontend/src/editeur/            l'éditeur des réglages
+frontend/src/langues/            les textes, un fichier par langue
+frontend/src/demo/               la démo en direct du site : le vrai tableau sur une maison fictive (npm run demo)
 frontend/tests/                  les tests du tableau, sur trois maisons exportées de Home Assistant
 tests/                           les tests de l'intégration
 dev/                             trois maisons d'essai dans Docker (mode d'emploi : dev/README.md)

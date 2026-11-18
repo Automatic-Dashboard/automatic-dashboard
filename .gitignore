@@ -39,3 +39,6 @@ dev/captures/
 
 # Créé par « uv run » : le projet ne verrouille pas ses dépendances Python avec uv
 uv.lock
+
+# La démo du site, construite par npm run demo (copiée dans le dépôt du site)
+frontend/dist-demo/
