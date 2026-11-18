@@ -3,6 +3,7 @@
 // grandes pièces un peu plus. Du bleu au sable puis à l'orange, lisible par les daltoniens,
 // et le chiffre est toujours écrit. Un clic ouvre la pièce.
 
+import { poserStyle } from "./style";
 import { css, html, nothing, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
 import type { Maison, Piece } from "../moteur/types";
@@ -73,7 +74,7 @@ export class AutomaticPlan extends CarteAutomatic {
     // Une pièce pèse selon ses appareils : le salon est plus grand que les toilettes.
     const poids = 1 + Math.min(1, p.utiles / 8);
     const classes = ["piece", couleur ? "" : "inconnue", p.exterieur ? "dehors" : ""].join(" ");
-    return html`<button class=${classes} style=${`flex:${poids} 1 ${Math.round(86 * poids)}px;${couleur ? `--c:${couleur}` : ""}`}
+    return html`<button class=${classes} ${poserStyle({ flex: `${poids} 1 ${Math.round(86 * poids)}px`, ...(couleur ? { "--c": couleur } : {}) })}
       title=${p.name} @click=${() => p.entites.length && naviguer(p.area_id)}>
       <span class="nom">${p.name}</span>
       <span class="bas"><span class="temp chiffre">${t === null ? "—" : degres(hass, t)}</span>

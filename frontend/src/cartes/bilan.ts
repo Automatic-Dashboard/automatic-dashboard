@@ -2,6 +2,7 @@
 // les températures en plages à droite, et ce qui s'est ouvert en bas. Chaque partie se tait
 // quand la maison n'a pas de quoi la remplir.
 
+import { poserStyle } from "./style";
 import { css, html, nothing, type PropertyDeclarations, type TemplateResult } from "lit";
 import { type Bilan, chargerBilan, type Periode, type Plage } from "../donnees/bilan";
 import type { HomeAssistant } from "../ha";
@@ -87,7 +88,7 @@ export class AutomaticBilan extends CarteAutomatic {
     const tete = this.tete(hass, b);
     if (!b) return html`<ha-card>${tete}<span class="attente e"></span><span class="attente t"></span></ha-card>`;
     if (!b.energie && !b.dedans && !b.ouvertures?.total) {
-      return html`<ha-card>${tete}<p class="vide" style="grid-column:1/-1">${t(hass).bilanVide}</p></ha-card>`;
+      return html`<ha-card>${tete}<p class="vide" ${poserStyle({ "grid-column": "1/-1" })}>${t(hass).bilanVide}</p></ha-card>`;
     }
     return html`<ha-card>${tete}${this.energie(hass, b)}${this.temperatures(hass, b)}${this.ouvertures(hass, m, b)}</ha-card>`;
   }
@@ -136,7 +137,7 @@ export class AutomaticBilan extends CarteAutomatic {
         ${jours.map((v, i) => {
           const date = new Date(b.debut.getFullYear(), b.debut.getMonth(), b.debut.getDate() + i, 12);
           return html`<div class=${`barre${v === null ? " sans" : v === plus ? " haut" : ""}`} title=${v === null ? tx.bilanSansDonnee : `${nombre(hass, v, 1)} kWh`}>
-            <span style=${`height:${v === null ? 0 : Math.max(3, (v / plus) * 100)}%`}></span><small>${etiquette(date, i)}</small></div>`;
+            <span ${poserStyle({ height: `${v === null ? 0 : Math.max(3, (v / plus) * 100)}%` })}></span><small>${etiquette(date, i)}</small></div>`;
         })}
       </div></div>`;
   }
@@ -152,7 +153,7 @@ export class AutomaticBilan extends CarteAutomatic {
     return html`<div class="temperatures"><div class="sur">${tx.temperatures}</div>
       ${plages.map(([nom, p]) => html`<div class="ligne">
         <span class="moy chiffre">${degres(hass, p.moyenne)}</span><span class="nom">${nom} · ${tx.moyenne}</span>
-        <div><div class="plage"><span style=${`left:${pos(p.min)}%;right:${100 - pos(p.max)}%`}></span></div>
+        <div><div class="plage"><span ${poserStyle({ left: `${pos(p.min)}%`, right: `${100 - pos(p.max)}%` })}></span></div>
           <div class="bornes chiffre"><span>${degres(hass, p.min)}</span><span>${degres(hass, p.max)}</span></div></div>
       </div>`)}</div>`;
   }

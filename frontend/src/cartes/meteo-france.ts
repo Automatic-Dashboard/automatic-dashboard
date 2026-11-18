@@ -2,6 +2,7 @@
 // moins foncées selon l'intensité) et la vigilance du département (une ligne discrète
 // au vert, un bloc à la couleur du niveau sinon). Se masque sans Météo-France ou sans donnée.
 
+import { poserStyle } from "./style";
 import { css, html, nothing, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
 import { lirePluie, lireVigilance, nomPhenomene, type Pluie } from "../moteur/meteo-france";
@@ -77,7 +78,7 @@ export class AutomaticMeteoFrance extends CarteAutomatic {
     return html`<button class="pluie" @click=${() => plusDInfos(this, id)}>
       <span class="tete"><span class="sur">${tx.pluieTitre}</span>${p.reference ? html`<span class="source doux">${tx.pluieSource(heure(hass, p.reference))}</span>` : nothing}</span>
       <span class="phrase"><ha-icon icon=${p.dans === null ? "mdi:umbrella-closed-outline" : "mdi:umbrella-outline"}></ha-icon>${phrase}</span>
-      <span class="barre" aria-hidden="true">${p.tranches.map((tr) => html`<i class="i${tr.intensite}" style="flex:${tr.duree} 1 0"
+      <span class="barre" aria-hidden="true">${p.tranches.map((tr) => html`<i class="i${tr.intensite}" ${poserStyle({ "flex": `${tr.duree} 1 0` })}
         title=${`${tr.debut} min · ${type(tr.texte)}`}></i>`)}</span>
       <span class="axe"><span>${tx.maintenant}</span><span>${tx.dans1h}</span></span></button>`;
   }

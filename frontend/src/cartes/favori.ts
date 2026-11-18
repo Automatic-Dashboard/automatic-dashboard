@@ -3,6 +3,7 @@
 // allume ou éteint ce qui s'allume, ouvre la fenêtre de l'appareil sinon ; un appui long
 // ouvre toujours la fenêtre de l'appareil.
 
+import { poserStyle } from "./style";
 import { css, html, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
@@ -57,7 +58,7 @@ export class AutomaticFavori extends CarteAutomatic {
     const texteEtat = valide(etat) && domaine === "light" && etat.state === "on" && typeof etat.attributes.brightness === "number"
       ? `${Math.round((etat.attributes.brightness / 255) * 100)} %`
       : hass.formatEntityState?.(etat) ?? etat.state;
-    return html`<button class=${actif ? "tuile actif" : "tuile"} style=${`--couleur:${couleur}`} title=${nom}
+    return html`<button class=${actif ? "tuile actif" : "tuile"} ${poserStyle({ "--couleur": couleur })} title=${nom}
       @pointerdown=${this.appuyer} @pointerup=${this.relacher} @pointerleave=${this.annuler} @contextmenu=${(ev: Event) => ev.preventDefault()}
       @keydown=${(ev: KeyboardEvent) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); this.toucher(); } }}>
       <span class="icone"><ha-state-icon .hass=${hass} .stateObj=${etat}></ha-state-icon></span>

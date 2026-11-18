@@ -7,8 +7,8 @@
 var t$3 = globalThis;
 var e$3 = t$3.ShadowRoot && (void 0 === t$3.ShadyCSS || t$3.ShadyCSS.nativeShadow) && "adoptedStyleSheets" in Document.prototype && "replace" in CSSStyleSheet.prototype;
 var s$2 = Symbol();
-var o$4 = /* @__PURE__ */ new WeakMap();
-var n$3 = class {
+var o$3 = /* @__PURE__ */ new WeakMap();
+var n$2 = class {
 	constructor(t, e, o) {
 		if (this._$cssResult$ = !0, o !== s$2) throw Error("CSSResult is not constructable. Use `unsafeCSS` or `css` instead.");
 		this.cssText = t, this.t = e;
@@ -18,7 +18,7 @@ var n$3 = class {
 		const s = this.t;
 		if (e$3 && void 0 === t) {
 			const e = void 0 !== s && 1 === s.length;
-			e && (t = o$4.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && o$4.set(s, t));
+			e && (t = o$3.get(s)), void 0 === t && ((this.o = t = new CSSStyleSheet()).replaceSync(this.cssText), e && o$3.set(s, t));
 		}
 		return t;
 	}
@@ -26,9 +26,9 @@ var n$3 = class {
 		return this.cssText;
 	}
 };
-var r$2 = (t) => new n$3("string" == typeof t ? t : t + "", void 0, s$2);
-var i$5 = (t, ...e) => {
-	return new n$3(1 === t.length ? t[0] : e.reduce((e, s, o) => e + ((t) => {
+var r$2 = (t) => new n$2("string" == typeof t ? t : t + "", void 0, s$2);
+var i$4 = (t, ...e) => {
+	return new n$2(1 === t.length ? t[0] : e.reduce((e, s, o) => e + ((t) => {
 		if (!0 === t._$cssResult$) return t.cssText;
 		if ("number" == typeof t) return t;
 		throw Error("Value passed to 'css' function must be a 'css' function result: " + t + ". Use 'unsafeCSS' to pass non-literal values, but take care to ensure page security.");
@@ -51,7 +51,7 @@ var c$2 = e$3 ? (t) => t : (t) => t instanceof CSSStyleSheet ? ((t) => {
 * @license
 * Copyright 2017 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
-*/ var { is: i$4, defineProperty: e$2, getOwnPropertyDescriptor: h$1, getOwnPropertyNames: r$1, getOwnPropertySymbols: o$3, getPrototypeOf: n$2 } = Object, a$1 = globalThis, c$1 = a$1.trustedTypes, l$1 = c$1 ? c$1.emptyScript : "", p$1 = a$1.reactiveElementPolyfillSupport, d$1 = (t, s) => t, u$1 = {
+*/ var { is: i$3, defineProperty: e$2, getOwnPropertyDescriptor: h$1, getOwnPropertyNames: r$1, getOwnPropertySymbols: o$2, getPrototypeOf: n$1 } = Object, a$1 = globalThis, c$1 = a$1.trustedTypes, l$1 = c$1 ? c$1.emptyScript : "", p$1 = a$1.reactiveElementPolyfillSupport, d$1 = (t, s) => t, u$1 = {
 	toAttribute(t, s) {
 		switch (s) {
 			case Boolean:
@@ -80,7 +80,7 @@ var c$2 = e$3 ? (t) => t : (t) => t instanceof CSSStyleSheet ? ((t) => {
 		}
 		return i;
 	}
-}, f$1 = (t, s) => !i$4(t, s), b$1 = {
+}, f$1 = (t, s) => !i$3(t, s), b$1 = {
 	attribute: !0,
 	type: String,
 	converter: u$1,
@@ -126,13 +126,13 @@ var y$1 = class extends HTMLElement {
 	}
 	static _$Ei() {
 		if (this.hasOwnProperty(d$1("elementProperties"))) return;
-		const t = n$2(this);
+		const t = n$1(this);
 		t.finalize(), void 0 !== t.l && (this.l = [...t.l]), this.elementProperties = new Map(t.elementProperties);
 	}
 	static finalize() {
 		if (this.hasOwnProperty(d$1("finalized"))) return;
 		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(d$1("properties"))) {
-			const t = this.properties, s = [...r$1(t), ...o$3(t)];
+			const t = this.properties, s = [...r$1(t), ...o$2(t)];
 			for (const i of s) this.createProperty(i, t[i]);
 		}
 		const t = this[Symbol.metadata];
@@ -282,13 +282,13 @@ y$1.elementStyles = [], y$1.shadowRootOptions = { mode: "open" }, y$1[d$1("eleme
 * SPDX-License-Identifier: BSD-3-Clause
 */
 var t$2 = globalThis;
-var i$3 = (t) => t;
+var i$2 = (t) => t;
 var s$1 = t$2.trustedTypes;
 var e$1 = s$1 ? s$1.createPolicy("lit-html", { createHTML: (t) => t }) : void 0;
 var h = "$lit$";
-var o$2 = `lit$${Math.random().toFixed(9).slice(2)}$`;
-var n$1 = "?" + o$2;
-var r = `<${n$1}>`;
+var o$1 = `lit$${Math.random().toFixed(9).slice(2)}$`;
+var n = "?" + o$1;
+var r = `<${n}>`;
 var l = document;
 var c = () => l.createComment("");
 var a = (t) => null === t || "object" != typeof t && "function" != typeof t;
@@ -325,7 +325,7 @@ var N = (t, i) => {
 		let a, u, d = -1, f = 0;
 		for (; f < s.length && (c.lastIndex = f, u = c.exec(s), null !== u);) f = c.lastIndex, c === v ? "!--" === u[1] ? c = _ : void 0 !== u[1] ? c = m : void 0 !== u[2] ? (y.test(u[2]) && (n = RegExp("</" + u[2], "g")), c = p) : void 0 !== u[3] && (c = p) : c === p ? ">" === u[0] ? (c = n ?? v, d = -1) : void 0 === u[1] ? d = -2 : (d = c.lastIndex - u[2].length, a = u[1], c = void 0 === u[3] ? p : "\"" === u[3] ? $ : g) : c === $ || c === g ? c = p : c === _ || c === m ? c = v : (c = p, n = void 0);
 		const x = c === p && t[i + 1].startsWith("/>") ? " " : "";
-		l += c === v ? s + r : d >= 0 ? (e.push(a), s.slice(0, d) + h + s.slice(d) + o$2 + x) : s + o$2 + (-2 === d ? i : x);
+		l += c === v ? s + r : d >= 0 ? (e.push(a), s.slice(0, d) + h + s.slice(d) + o$1 + x) : s + o$1 + (-2 === d ? i : x);
 	}
 	return [V(t, l + (t[s] || "<?>") + (2 === i ? "</svg>" : 3 === i ? "</math>" : "")), e];
 };
@@ -342,7 +342,7 @@ var S = class S {
 		for (; null !== (r = P.nextNode()) && d.length < u;) {
 			if (1 === r.nodeType) {
 				if (r.hasAttributes()) for (const t of r.getAttributeNames()) if (t.endsWith(h)) {
-					const i = v[a++], s = r.getAttribute(t).split(o$2), e = /([.?@])?(.*)/.exec(i);
+					const i = v[a++], s = r.getAttribute(t).split(o$1), e = /([.?@])?(.*)/.exec(i);
 					d.push({
 						type: 1,
 						index: l,
@@ -350,12 +350,12 @@ var S = class S {
 						strings: s,
 						ctor: "." === e[1] ? I : "?" === e[1] ? L : "@" === e[1] ? z : H
 					}), r.removeAttribute(t);
-				} else t.startsWith(o$2) && (d.push({
+				} else t.startsWith(o$1) && (d.push({
 					type: 6,
 					index: l
 				}), r.removeAttribute(t));
 				if (y.test(r.tagName)) {
-					const t = r.textContent.split(o$2), i = t.length - 1;
+					const t = r.textContent.split(o$1), i = t.length - 1;
 					if (i > 0) {
 						r.textContent = s$1 ? s$1.emptyScript : "";
 						for (let s = 0; s < i; s++) r.append(t[s], c()), P.nextNode(), d.push({
@@ -365,16 +365,16 @@ var S = class S {
 						r.append(t[i], c());
 					}
 				}
-			} else if (8 === r.nodeType) if (r.data === n$1) d.push({
+			} else if (8 === r.nodeType) if (r.data === n) d.push({
 				type: 2,
 				index: l
 			});
 			else {
 				let t = -1;
-				for (; -1 !== (t = r.data.indexOf(o$2, t + 1));) d.push({
+				for (; -1 !== (t = r.data.indexOf(o$1, t + 1));) d.push({
 					type: 7,
 					index: l
-				}), t += o$2.length - 1;
+				}), t += o$1.length - 1;
 			}
 			l++;
 		}
@@ -469,8 +469,8 @@ var k = class k {
 	}
 	_$AR(t = this._$AA.nextSibling, s) {
 		for (this._$AP?.(!1, !0, s); t !== this._$AB;) {
-			const s = i$3(t).nextSibling;
-			i$3(t).remove(), t = s;
+			const s = i$2(t).nextSibling;
+			i$2(t).remove(), t = s;
 		}
 	}
 	setConnected(t) {
@@ -559,7 +559,7 @@ var D = (t, i, s) => {
 * Copyright 2017 Google LLC
 * SPDX-License-Identifier: BSD-3-Clause
 */ var s = globalThis;
-var i$2 = class extends y$1 {
+var i$1 = class extends y$1 {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -581,10 +581,63 @@ var i$2 = class extends y$1 {
 		return E;
 	}
 };
-i$2._$litElement$ = !0, i$2["finalized"] = !0, s.litElementHydrateSupport?.({ LitElement: i$2 });
-var o$1 = s.litElementPolyfillSupport;
-o$1?.({ LitElement: i$2 });
+i$1._$litElement$ = !0, i$1["finalized"] = !0, s.litElementHydrateSupport?.({ LitElement: i$1 });
+var o = s.litElementPolyfillSupport;
+o?.({ LitElement: i$1 });
 (s.litElementVersions ??= []).push("4.2.2");
+// node_modules/lit-html/directive.js
+/**
+* @license
+* Copyright 2017 Google LLC
+* SPDX-License-Identifier: BSD-3-Clause
+*/
+var t$1 = {
+	ATTRIBUTE: 1,
+	CHILD: 2,
+	PROPERTY: 3,
+	BOOLEAN_ATTRIBUTE: 4,
+	EVENT: 5,
+	ELEMENT: 6
+};
+var e = (t) => (...e) => ({
+	_$litDirective$: t,
+	values: e
+});
+var i = class {
+	constructor(t) {}
+	get _$AU() {
+		return this._$AM._$AU;
+	}
+	_$AT(t, e, i) {
+		this._$Ct = t, this._$AM = e, this._$Ci = i;
+	}
+	_$AS(t, e) {
+		return this.update(t, e);
+	}
+	update(t, e) {
+		return this.render(...e);
+	}
+};
+// src/cartes/style.ts
+var propriete = (p) => p.startsWith("--") ? p : p.replace(/[A-Z]/g, (m) => `-${m.toLowerCase()}`);
+var PoserStyle = class extends i {
+	constructor(info) {
+		super(info);
+		this.avant = /* @__PURE__ */ new Set();
+		if (info.type !== t$1.ELEMENT) throw new Error("poserStyle() se pose sur l'élément lui-même");
+	}
+	render(_styles) {
+		return E;
+	}
+	update(part, [styles]) {
+		const s = part.element.style;
+		for (const p of this.avant) if (styles[p] == null) s.removeProperty(propriete(p));
+		for (const [p, v] of Object.entries(styles)) if (v != null) s.setProperty(propriete(p), String(v));
+		this.avant = new Set(Object.keys(styles));
+		return E;
+	}
+};
+var poserStyle = e(PoserStyle);
 // src/donnees/historique.ts
 var TRANCHES = 32;
 var JOUR$1 = 864e5;
@@ -1732,7 +1785,7 @@ var langue = (hass) => (hass?.locale?.language || hass?.language || "fr").slice(
 var estFrancais = (hass) => langue(hass) === "fr";
 /** Les textes dans la langue de l'utilisateur, sinon en anglais. */
 var langueDe = (hass) => LANGUES[langue(hass)] ?? SECOURS;
-var t$1 = (hass) => langueDe(hass).textes;
+var t = (hass) => langueDe(hass).textes;
 var mh = (hass) => langueDe(hass).heros;
 var nombre = (hass, v, chiffres = 1) => new Intl.NumberFormat(hass?.locale?.language || "fr", {
 	maximumFractionDigits: chiffres,
@@ -1777,6 +1830,8 @@ function conditionMeteo(hass, etat) {
 }
 /** Navigue dans Home Assistant. Un chemin relatif reste dans le tableau courant. */
 function naviguer(chemin) {
+	const demo = window.__automaticDashboardNaviguer;
+	if (demo) return demo(chemin);
 	const cible = chemin.startsWith("/") ? chemin : `/${location.pathname.split("/")[1]}/${chemin}`;
 	history.pushState(null, "", cible);
 	window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } }));
@@ -1966,7 +2021,7 @@ function chauffe(etat) {
 /** Les conseils du moment, et les ouvertures qu'ils remplacent (pas deux points pour la même fenêtre). */
 function conseils(hass, m) {
 	const fr = estFrancais(hass);
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const etat = (id) => hass.states[id];
 	const points = [];
 	const remplaces = /* @__PURE__ */ new Set();
@@ -2152,7 +2207,7 @@ function enMarcheClimat(hass, m) {
 	const clims = actifs.filter((e) => e.domaine === "climate" && froid(e.id)).length;
 	const autres = actifs.length - chauffages - clims;
 	const pluriel = (n, un, plusieurs) => n ? `${n} ${n > 1 ? plusieurs : un}` : "";
-	const tx = t$1(hass), mots = tx.motsEnMarche;
+	const tx = t(hass), mots = tx.motsEnMarche;
 	const liste = [
 		pluriel(chauffages, mots.chauffage[0], mots.chauffage[1]),
 		pluriel(clims, mots.clim[0], mots.clim[1]),
@@ -2840,7 +2895,7 @@ function analyserMemo(maison, reglages = {}) {
 	return resultat;
 }
 // src/cartes/styles.ts
-var STYLE_COMMUN = i$5`
+var STYLE_COMMUN = i$4`
   :host{display:block;height:100%;font-family:var(--ha-font-family-body, Inter, sans-serif);container-type:inline-size}
   ha-card{height:100%;box-sizing:border-box;overflow:hidden}
   .ico{display:grid;place-items:center;width:40px;height:40px;border-radius:12px;flex:none;
@@ -2863,7 +2918,7 @@ var STYLE_COMMUN = i$5`
 // src/cartes/base.ts
 /** Garde les identifiants présents d'une liste qui peut contenir des trous. */
 var definis = (ids) => ids.filter((id) => Boolean(id));
-var CarteAutomatic = class extends i$2 {
+var CarteAutomatic = class extends i$1 {
 	constructor(..._args) {
 		super(..._args);
 		this._cache = false;
@@ -2949,7 +3004,7 @@ var AutomaticApercu = class extends CarteAutomatic {
 		this.properties = { _courbe: { state: true } };
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     button.carte{display:flex;flex-direction:column;justify-content:space-between;width:100%;height:100%;padding:13px 15px 12px;border-radius:var(--ha-card-border-radius)}
     .valeur{font-size:25px;font-weight:650;letter-spacing:-.02em;line-height:1.1;color:var(--primary-text-color);margin-top:4px}
     .valeur small{font-size:14px;font-weight:600;color:var(--secondary-text-color);margin-left:3px}
@@ -2989,7 +3044,7 @@ var AutomaticApercu = class extends CarteAutomatic {
 		return [];
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const s = this._config?.sorte;
 		const etat = (id) => id ? hass.states[id] : void 0;
 		if (s === "climat") {
@@ -3013,7 +3068,7 @@ var AutomaticApercu = class extends CarteAutomatic {
 			if (!valeurs.length) return null;
 			const h = valeurs.reduce((a, b) => a + b, 0) / valeurs.length;
 			this.chargerCourbe("humidite", ids.slice(0, 8));
-			const tx = t$1(hass);
+			const tx = t(hass);
 			const avis = h < 35 ? tx.airSec : h > 65 ? tx.airHumide : tx.confortable;
 			return this.gabarit("mdi:water-percent", tx.humiditeTitre, b`${nombre(hass, h, 0)}<small>%</small>`, avis);
 		}
@@ -3054,8 +3109,11 @@ var AutomaticApercu = class extends CarteAutomatic {
 	gabarit(icone, sur, valeur, detail) {
 		const valeurs = this._courbe ?? [];
 		return b`<ha-card><button class="carte" @click=${this._clic}><span class="tete"><span class="sur">${sur}</span><ha-icon icon=${icone}></ha-icon></span>
-      <span><span class="valeur chiffre">${valeur}</span><span class="detail doux" style="display:block">${detail}</span></span>
-      ${valeurs.length ? b`<span class="bas">${courbe(valeurs, 200, 30)}</span>` : this._demande && this._courbe === void 0 ? b`<span class="bas" aria-busy="true"><span class="attente" style="height:22px;margin:0 15px 8px"></span></span>` : A}
+      <span><span class="valeur chiffre">${valeur}</span><span class="detail doux" ${poserStyle({ "display": "block" })}>${detail}</span></span>
+      ${valeurs.length ? b`<span class="bas">${courbe(valeurs, 200, 30)}</span>` : this._demande && this._courbe === void 0 ? b`<span class="bas" aria-busy="true"><span class="attente" ${poserStyle({
+			"height": "22px",
+			"margin": "0 15px 8px"
+		})}></span></span>` : A}
       </button></ha-card>`;
 	}
 	chargerCourbe(cle, ids) {
@@ -3108,7 +3166,7 @@ var AutomaticARanger = class extends CarteAutomatic {
 		return recents;
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:6px 18px 10px}
     .groupe{font-size:11.5px;font-weight:650;letter-spacing:.08em;text-transform:uppercase;color:var(--secondary-text-color);padding:12px 0 4px}
     .ligne{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;min-height:54px;border-top:1px solid var(--divider-color)}
@@ -3147,7 +3205,7 @@ var AutomaticARanger = class extends CarteAutomatic {
 	rendu(hass, m) {
 		const ranges = this.ranges;
 		if (!m.aRanger.length && !ranges.length) return null;
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const admin = Boolean(hass.user?.is_admin);
 		const groupes = /* @__PURE__ */ new Map();
 		for (const e of m.aRanger) {
@@ -3385,7 +3443,7 @@ var AutomaticBilan = class extends CarteAutomatic {
 		localStorage.setItem("automatic_dashboard_bilan", p);
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:16px 20px 16px;display:grid;gap:18px 28px;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);
       grid-template-areas:"tete tete" "energie temperatures" "ouvertures ouvertures"}
     .tete{grid-area:tete;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
@@ -3448,12 +3506,12 @@ var AutomaticBilan = class extends CarteAutomatic {
 		const b$2 = this._bilan?.periode === this._periode ? this._bilan : void 0;
 		const tete = this.tete(hass, b$2);
 		if (!b$2) return b`<ha-card>${tete}<span class="attente e"></span><span class="attente t"></span></ha-card>`;
-		if (!b$2.energie && !b$2.dedans && !b$2.ouvertures?.total) return b`<ha-card>${tete}<p class="vide" style="grid-column:1/-1">${t$1(hass).bilanVide}</p></ha-card>`;
+		if (!b$2.energie && !b$2.dedans && !b$2.ouvertures?.total) return b`<ha-card>${tete}<p class="vide" ${poserStyle({ "grid-column": "1/-1" })}>${t(hass).bilanVide}</p></ha-card>`;
 		return b`<ha-card>${tete}${this.energie(hass, b$2)}${this.temperatures(hass, b$2)}${this.ouvertures(hass, m, b$2)}</ha-card>`;
 	}
 	/** La période montrée, et le choix entre la semaine et le mois. */
 	tete(hass, b$3) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const lg = langue(hass);
 		let titre = "";
 		if (b$3) {
@@ -3477,7 +3535,7 @@ var AutomaticBilan = class extends CarteAutomatic {
       </div></div>`;
 	}
 	energie(hass, b$4) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		if (!b$4.energie) return b`<div class="energie"><div class="sur">${tx.energie}</div><p class="vide">${tx.bilanSansEnergie}</p></div>`;
 		const { jours, total, precedent, cout } = b$4.energie;
 		const plus = Math.max(...jours.map((v) => v ?? 0), .001);
@@ -3499,12 +3557,12 @@ var AutomaticBilan = class extends CarteAutomatic {
         ${jours.map((v, i) => {
 			const date = new Date(b$4.debut.getFullYear(), b$4.debut.getMonth(), b$4.debut.getDate() + i, 12);
 			return b`<div class=${`barre${v === null ? " sans" : v === plus ? " haut" : ""}`} title=${v === null ? tx.bilanSansDonnee : `${nombre(hass, v, 1)} kWh`}>
-            <span style=${`height:${v === null ? 0 : Math.max(3, v / plus * 100)}%`}></span><small>${etiquette(date, i)}</small></div>`;
+            <span ${poserStyle({ height: `${v === null ? 0 : Math.max(3, v / plus * 100)}%` })}></span><small>${etiquette(date, i)}</small></div>`;
 		})}
       </div></div>`;
 	}
 	temperatures(hass, b$5) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const plages = [[majuscule(tx.dedans), b$5.dedans], [tx.dehors, b$5.dehors]].filter((x) => Boolean(x[1]));
 		if (!plages.length) return b`<div class="temperatures"><div class="sur">${tx.temperatures}</div><p class="vide">${tx.bilanSansTemperature}</p></div>`;
 		const bas = Math.min(...plages.map(([, p]) => p.min)) - 1;
@@ -3513,85 +3571,23 @@ var AutomaticBilan = class extends CarteAutomatic {
 		return b`<div class="temperatures"><div class="sur">${tx.temperatures}</div>
       ${plages.map(([nom, p]) => b`<div class="ligne">
         <span class="moy chiffre">${degres(hass, p.moyenne)}</span><span class="nom">${nom} · ${tx.moyenne}</span>
-        <div><div class="plage"><span style=${`left:${pos(p.min)}%;right:${100 - pos(p.max)}%`}></span></div>
+        <div><div class="plage"><span ${poserStyle({
+			left: `${pos(p.min)}%`,
+			right: `${100 - pos(p.max)}%`
+		})}></span></div>
           <div class="bornes chiffre"><span>${degres(hass, p.min)}</span><span>${degres(hass, p.max)}</span></div></div>
       </div>`)}</div>`;
 	}
 	ouvertures(hass, m, b$6) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		if (!b$6.ouvertures || !m.ouvrants.length) return A;
 		const { total, parEntite } = b$6.ouvertures;
 		return b`<div class="ouvertures"><div class="sur">${tx.ouvertures}</div>
       <div class="grand"><span class="valeur chiffre">${total}<small>${tx.bilanFois(total)}</small></span></div>
       ${parEntite.length ? b`<div class="liste">${parEntite.slice(0, 4).map(([id, n]) => b`<button @click=${() => plusDInfos(this, id)}>
-            ${nomCourt(hass, id, m.noms)}<b>${n}</b></button>`)}</div>` : b`<p class="vide">${t$1(hass).rienOuvert}</p>`}</div>`;
+            ${nomCourt(hass, id, m.noms)}<b>${n}</b></button>`)}</div>` : b`<p class="vide">${t(hass).rienOuvert}</p>`}</div>`;
 	}
 };
-// node_modules/lit-html/directive.js
-/**
-* @license
-* Copyright 2017 Google LLC
-* SPDX-License-Identifier: BSD-3-Clause
-*/
-var t = {
-	ATTRIBUTE: 1,
-	CHILD: 2,
-	PROPERTY: 3,
-	BOOLEAN_ATTRIBUTE: 4,
-	EVENT: 5,
-	ELEMENT: 6
-};
-var e = (t) => (...e) => ({
-	_$litDirective$: t,
-	values: e
-});
-var i$1 = class {
-	constructor(t) {}
-	get _$AU() {
-		return this._$AM._$AU;
-	}
-	_$AT(t, e, i) {
-		this._$Ct = t, this._$AM = e, this._$Ci = i;
-	}
-	_$AS(t, e) {
-		return this.update(t, e);
-	}
-	update(t, e) {
-		return this.render(...e);
-	}
-};
-// node_modules/lit-html/directives/style-map.js
-/**
-* @license
-* Copyright 2018 Google LLC
-* SPDX-License-Identifier: BSD-3-Clause
-*/ var n = "important";
-var i = " !" + n;
-var o = e(class extends i$1 {
-	constructor(t$4) {
-		if (super(t$4), t$4.type !== t.ATTRIBUTE || "style" !== t$4.name || t$4.strings?.length > 2) throw Error("The `styleMap` directive must be used in the `style` attribute and must be the only part in the attribute.");
-	}
-	render(t) {
-		return Object.keys(t).reduce((e, r) => {
-			const s = t[r];
-			return null == s ? e : e + `${r = r.includes("-") ? r : r.replace(/(?:^(webkit|moz|ms|o)|)(?=[A-Z])/g, "-$&").toLowerCase()}:${s};`;
-		}, "");
-	}
-	update(e, [r]) {
-		const { style: s } = e.element;
-		if (void 0 === this.ft) return this.ft = new Set(Object.keys(r)), this.render(r);
-		for (const t of this.ft) r[t] ?? (this.ft.delete(t), t.includes("-") ? s.removeProperty(t) : s[t] = null);
-		for (const t in r) {
-			const e = r[t];
-			if (null != e) {
-				this.ft.add(t);
-				const r = "string" == typeof e && e.endsWith(i);
-				t.includes("-") || r ? s.setProperty(t, r ? e.slice(0, -11) : e, r ? n : "") : s[t] = e;
-			}
-		}
-		return E;
-	}
-});
 // src/cartes/confort.ts
 var MIN = 14;
 var MAX = 28;
@@ -3599,7 +3595,7 @@ var BAS = 19;
 var HAUT = 22;
 var AutomaticConfort = class extends CarteAutomatic {
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:8px 18px}
     .ligne{display:grid;grid-template-columns:minmax(90px,1.1fr) 62px minmax(90px,2.4fr) 48px 22px;align-items:center;gap:12px;min-height:44px;
       border-top:1px solid var(--divider-color);cursor:pointer}
@@ -3661,11 +3657,11 @@ var AutomaticConfort = class extends CarteAutomatic {
 		const pos = (v) => `${(Math.max(MIN, Math.min(MAX, v)) - MIN) / 14 * 100}%`;
 		return b`<ha-card>${lignes.map((l) => b`<div class="ligne" @click=${() => naviguer(l.p.area_id)}>
       <span class="nom">${l.p.name}</span><span class="temp chiffre">${degres(hass, l.temp)}</span>
-      <span class="echelle"><span class="zone" style=${o({
+      <span class="echelle"><span class="zone" ${poserStyle({
 			left: pos(BAS),
 			right: `calc(100% - ${pos(HAUT)})`
 		})}></span>
-        <span class="point ${l.c < BAS ? "froid" : l.c > HAUT ? "chaud" : ""}" style=${o({ left: pos(l.c) })}></span></span>
+        <span class="point ${l.c < BAS ? "froid" : l.c > HAUT ? "chaud" : ""}" ${poserStyle({ left: pos(l.c) })}></span></span>
       <span class="hum doux chiffre">${l.hum !== null ? `${nombre(hass, l.hum, 0)} %` : A}</span>
       <span class="etat">${l.chauffe ? b`<ha-icon class="chauffe" icon="mdi:radiator"></ha-icon>` : l.froid ? b`<ha-icon class="refroidit" icon="mdi:snowflake"></ha-icon>` : A}</span></div>`)}<div class="graduations"><span></span><span></span><span class="g">${[
 			MIN,
@@ -3704,7 +3700,7 @@ var AutomaticDepart = class extends CarteAutomatic {
 		this._message = "";
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:8px 20px 16px}
     .groupe{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:14px 0;border-top:1px solid var(--divider-color)}
     .groupe:first-child{border-top:0}
@@ -3740,7 +3736,7 @@ var AutomaticDepart = class extends CarteAutomatic {
 		].map((e) => e.id);
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const a = avantDePartir(hass, m);
 		const groupes = [];
 		const liste = (entites) => b`<div class="liste">${entites.map((e) => b`<button @click=${() => plusDInfos(this, e.id)}>
@@ -3769,7 +3765,7 @@ var AutomaticDepart = class extends CarteAutomatic {
 		try {
 			await faire();
 		} catch (erreur) {
-			this._message = `${t$1(this.hass).departEchec} ${erreur?.message ?? ""}`.trim();
+			this._message = `${t(this.hass).departEchec} ${erreur?.message ?? ""}`.trim();
 		} finally {
 			this._enCours = null;
 		}
@@ -3819,7 +3815,7 @@ var AutomaticFavori = class extends CarteAutomatic {
 		this.annuler = () => window.clearTimeout(this._appui);
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     button.tuile{display:grid;grid-template-columns:auto 1fr;align-items:center;gap:11px;width:100%;height:100%;min-height:56px;
       padding:4px 12px 4px 9px;border-radius:var(--ha-card-border-radius, 12px);box-sizing:border-box;text-align:left;
       background:var(--ha-card-background, var(--card-background-color));border:var(--ha-card-border-width, 1px) solid var(--ha-card-border-color, var(--divider-color));
@@ -3856,7 +3852,7 @@ var AutomaticFavori = class extends CarteAutomatic {
 		const couleur = domaine === "light" ? "var(--state-light-active-color, #E9A23B)" : etat.state === "heat" ? "var(--state-climate-heat-color, #D97A2B)" : etat.state === "cool" ? "var(--state-climate-cool-color, #0288D1)" : "var(--state-active-color, var(--primary-color))";
 		const nom = String(this._config?.name ?? nomCourt(hass, id, m.noms));
 		const texteEtat = valide(etat) && domaine === "light" && etat.state === "on" && typeof etat.attributes.brightness === "number" ? `${Math.round(etat.attributes.brightness / 255 * 100)} %` : hass.formatEntityState?.(etat) ?? etat.state;
-		return b`<button class=${actif ? "tuile actif" : "tuile"} style=${`--couleur:${couleur}`} title=${nom}
+		return b`<button class=${actif ? "tuile actif" : "tuile"} ${poserStyle({ "--couleur": couleur })} title=${nom}
       @pointerdown=${this.appuyer} @pointerup=${this.relacher} @pointerleave=${this.annuler} @contextmenu=${(ev) => ev.preventDefault()}
       @keydown=${(ev) => {
 			if (ev.key === "Enter" || ev.key === " ") {
@@ -3884,7 +3880,7 @@ var AutomaticHeros = class extends CarteAutomatic {
 		this.properties = { _donnees: { state: true } };
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{position:relative;padding:22px 26px;border-radius:28px;box-shadow:var(--automatic-dashboard-ombre, var(--ha-card-box-shadow))}
     .trame{position:absolute;inset:0 0 auto auto;width:55%;height:100%;background-size:22px 22px;pointer-events:none;
       -webkit-mask-image:linear-gradient(225deg,#000 0%,transparent 65%);mask-image:linear-gradient(225deg,#000 0%,transparent 65%)}
@@ -3953,7 +3949,7 @@ var AutomaticHeros = class extends CarteAutomatic {
       <div class="l">${trait ? b`<span class="trait ${trait}"></span>` : A}${legende}</div></div>`;
 	}
 	enveloppe(hass, gauche, droite, classe = "") {
-		return b`<ha-card class=${classe}><div class="trame" style=${o({ "background-image": trame(hass) })}></div>
+		return b`<ha-card class=${classe}><div class="trame" ${poserStyle({ "background-image": trame(hass) })}></div>
       <div class="contenu">${gauche}${droite}</div></ha-card>`;
 	}
 	charger(cle, demande) {
@@ -3970,11 +3966,17 @@ var AutomaticHeros = class extends CarteAutomatic {
 	}
 	/** La place de la courbe, le temps qu'elle arrive. */
 	courbeEnAttente() {
-		return b`<div class="visuel" aria-busy="true"><span class="attente graphe"></span><div class="axe"><span class="attente" style="width:120px;height:11px"></span></div></div>`;
+		return b`<div class="visuel" aria-busy="true"><span class="attente graphe"></span><div class="axe"><span class="attente" ${poserStyle({
+			"width": "120px",
+			"height": "11px"
+		})}></span></div></div>`;
 	}
 	/** Un chiffre dont la valeur n'est pas encore arrivée : sa légende, et une forme à la place du nombre. */
 	chiffreEnAttente(legende) {
-		return b`<div aria-busy="true"><div class="v"><span class="attente" style="width:96px;height:36px"></span></div><div class="l">${legende}</div></div>`;
+		return b`<div aria-busy="true"><div class="v"><span class="attente" ${poserStyle({
+			"width": "96px",
+			"height": "36px"
+		})}></span></div><div class="l">${legende}</div></div>`;
 	}
 	climat(hass, m) {
 		const w = mh(hass);
@@ -4034,7 +4036,7 @@ var AutomaticHeros = class extends CarteAutomatic {
 	}
 	securite(hass, m) {
 		const w = mh(hass);
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const etat = (id) => hass.states[id];
 		const nom = (e) => nomCourt(hass, e.id, m.noms);
 		const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on");
@@ -4077,7 +4079,10 @@ var AutomaticHeros = class extends CarteAutomatic {
       <span>${majs ? w.majs(majs) : w.aJour}<div class="detail">${w.version} ${hass.config.version ?? ""}</div></span>
       ${majs ? b`<button class="bouton" @click=${() => naviguer("/config/updates")}>${w.voir}</button>` : A}</div>`;
 		let droite;
-		if (!ok(dReussie) && !ok(dProchaine)) droite = b`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));color:var(--automatic-dashboard-alerte, var(--error-color, #B42318))"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
+		if (!ok(dReussie) && !ok(dProchaine)) droite = b`<div class="colonne"><div class="ligne"><span class="ico" ${poserStyle({
+			"background": "var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent))",
+			"color": "var(--automatic-dashboard-alerte, var(--error-color, #B42318))"
+		})}><ha-icon icon="mdi:backup-restore"></ha-icon></span>
         <span>${w.sansSauvegarde}<div class="detail">${w.sansSauvegardeDetail}</div></span></div>
         <div class="boutons"><button class="bouton" @click=${() => naviguer("/config/backup")}>${w.regler}</button></div></div>`;
 		else {
@@ -4097,10 +4102,10 @@ var AutomaticHeros = class extends CarteAutomatic {
 		const reste = m.aRanger.length;
 		if (!reste) return null;
 		const part = Math.round(ranges / Math.max(1, ranges + reste) * 100);
-		const gauche = b`<div class="colonne"><div style="width:min(100%, 360px)"><div class="v chiffre">${ranges}<small>/ ${ranges + reste}</small></div>
-      <div class="barre"><span style=${o({ width: `${part}%` })}></span></div>
+		const gauche = b`<div class="colonne"><div ${poserStyle({ "width": "min(100%, 360px)" })}><div class="v chiffre">${ranges}<small>/ ${ranges + reste}</small></div>
+      <div class="barre"><span ${poserStyle({ width: `${part}%` })}></span></div>
       <div class="legende"><span>${w.ranges(ranges)}</span><span>${w.aRanger(reste)}</span></div></div></div>`;
-		const droite = b`<div class="boutons" style="justify-content:flex-end">
+		const droite = b`<div class="boutons" ${poserStyle({ "justify-content": "flex-end" })}>
       <button class="bouton" @click=${() => naviguer("/config/devices/dashboard")}><ha-icon icon="mdi:sofa-outline"></ha-icon>${w.rangerTout}</button>
       <button class="bouton second" @click=${() => naviguer("/config/areas/dashboard")}><ha-icon icon="mdi:plus"></ha-icon>${w.creerPiece}</button></div>`;
 		return this.enveloppe(hass, gauche, droite);
@@ -4209,7 +4214,7 @@ var AutomaticMesFavoris = class extends CarteAutomatic {
 		this._favoris = null;
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:16px 20px 18px;display:grid;gap:18px}
     h2{margin:0;font-size:16px;font-weight:650;color:var(--primary-text-color)}
     .aide{margin:4px 0 0;font-size:13.5px;color:var(--secondary-text-color)}
@@ -4243,12 +4248,12 @@ var AutomaticMesFavoris = class extends CarteAutomatic {
 		};
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		if (!this._demande) {
 			this._demande = true;
 			lireFavorisPerso(hass).then((ids) => this._favoris = ids);
 		}
-		if (this._favoris === null) return b`<ha-card><span class="attente" style="height:120px"></span></ha-card>`;
+		if (this._favoris === null) return b`<ha-card><span class="attente" ${poserStyle({ "height": "120px" })}></span></ha-card>`;
 		const mes = this._favoris.filter((id) => hass.states[id]);
 		const candidats = m.gardees.filter((e) => e.role === "commande" && !e.secondaire || e.domaine === "scene" || e.domaine === "script");
 		const parPiece = [...m.pieces.map((p) => [p.name, candidats.filter((e) => e.piece === p.area_id)]), [tx.sansPieceTitre, candidats.filter((e) => !e.piece)]].filter(([, l]) => l.length);
@@ -4358,7 +4363,7 @@ var nomPhenomene = (nom, francais) => PHENOMENES[nom]?.[francais ? 0 : 1] ?? nom
 var CARTE_OFFICIELLE = "https://vigilance.meteofrance.fr";
 var AutomaticMeteoFrance = class extends CarteAutomatic {
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{display:flex;flex-direction:column;gap:12px;padding:14px 16px}
     button.pluie{display:block;width:100%;border-radius:12px}
     .tete{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
@@ -4395,7 +4400,7 @@ var AutomaticMeteoFrance = class extends CarteAutomatic {
 		return definis([m.meteoFrance, m.vigilance]);
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const pluie = lirePluie(m.meteoFrance ? hass.states[m.meteoFrance] : void 0);
 		const vig = lireVigilance(m.vigilance ? hass.states[m.vigilance] : void 0);
 		if (!pluie && !vig) return null;
@@ -4409,13 +4414,13 @@ var AutomaticMeteoFrance = class extends CarteAutomatic {
 		return b`<ha-card>${alerte}${pluie ? this.pluie(hass, pluie, m.meteoFrance) : A}${vert}</ha-card>`;
 	}
 	pluie(hass, p, id) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const type = (texte) => texte ? tx.pluieTypes[texte] ?? texte : "";
 		const phrase = p.dans === null ? tx.pluieAucune : p.continue ? tx.pluieContinue : p.fin !== null ? tx.pluieFin(p.fin) : tx.pluieDans(type(p.type), p.dans);
 		return b`<button class="pluie" @click=${() => plusDInfos(this, id)}>
       <span class="tete"><span class="sur">${tx.pluieTitre}</span>${p.reference ? b`<span class="source doux">${tx.pluieSource(heure(hass, p.reference))}</span>` : A}</span>
       <span class="phrase"><ha-icon icon=${p.dans === null ? "mdi:umbrella-closed-outline" : "mdi:umbrella-outline"}></ha-icon>${phrase}</span>
-      <span class="barre" aria-hidden="true">${p.tranches.map((tr) => b`<i class="i${tr.intensite}" style="flex:${tr.duree} 1 0"
+      <span class="barre" aria-hidden="true">${p.tranches.map((tr) => b`<i class="i${tr.intensite}" ${poserStyle({ "flex": `${tr.duree} 1 0` })}
         title=${`${tr.debut} min · ${type(tr.texte)}`}></i>`)}</span>
       <span class="axe"><span>${tx.maintenant}</span><span>${tx.dans1h}</span></span></button>`;
 	}
@@ -4433,7 +4438,7 @@ var AutomaticMoment = class extends CarteAutomatic {
 		this._minute = 0;
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:12px 16px 8px}
     ul{list-style:none;margin:6px 0 0;padding:0}
     li{display:flex;align-items:center;gap:6px;border-top:1px solid var(--divider-color)}
@@ -4477,17 +4482,17 @@ var AutomaticMoment = class extends CarteAutomatic {
 			...this.courses(hass, m)
 		].slice(0, m.mode === "complet" ? 5 : 6);
 		if (!lignes.length) return null;
-		return b`<ha-card><span class="sur">${t$1(hass).enCeMomentTitre}</span><ul>${lignes.map((l) => b`<li>
+		return b`<ha-card><span class="sur">${t(hass).enCeMomentTitre}</span><ul>${lignes.map((l) => b`<li>
       <button class="ligne" @click=${() => this.ouvrir(l)}><ha-icon icon=${l.icone}></ha-icon>
         <span class="texte"><span>${l.avant ? b`<b>${l.avant}</b>` : A}${l.texte}</span>${l.detail ? b`<small>${l.detail}</small>` : A}</span></button>
-      ${l.pause ? b`<button class="pause" title=${t$1(hass).pauseMedia} aria-label=${t$1(hass).pauseMedia} @click=${() => this.pause(l.pause)}>
+      ${l.pause ? b`<button class="pause" title=${t(hass).pauseMedia} aria-label=${t(hass).pauseMedia} @click=${() => this.pause(l.pause)}>
         <ha-icon icon="mdi:pause"></ha-icon></button>` : A}</li>`)}</ul></ha-card>`;
 	}
 	medias(hass, m) {
 		const enLecture = m.medias.filter((e) => hass.states[e.id]?.state === "playing");
 		if (enLecture.length > 2) return [{
 			icone: "mdi:play-circle-outline",
-			texte: t$1(hass).mediasEnLecture(enLecture.length),
+			texte: t(hass).mediasEnLecture(enLecture.length),
 			entite: enLecture[0].id
 		}];
 		return enLecture.map((e) => {
@@ -4503,7 +4508,7 @@ var AutomaticMoment = class extends CarteAutomatic {
 		});
 	}
 	presence(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const suivies = m.personnes.map((id) => hass.states[id]).filter((p) => valide(p) && Array.isArray(p.attributes.device_trackers) && p.attributes.device_trackers.length > 0);
 		if (!suivies.length) return [];
 		const nom = (p) => m.noms[p.entity_id] || p.attributes.friendly_name || p.entity_id;
@@ -4519,7 +4524,7 @@ var AutomaticMoment = class extends CarteAutomatic {
 		}];
 	}
 	agenda(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const minuit = (/* @__PURE__ */ new Date(/* @__PURE__ */ new Date())).setHours(0, 0, 0, 0);
 		const jour = (d) => Math.floor((new Date(d).setHours(0, 0, 0, 0) - minuit) / 864e5);
 		const lire = (s) => new Date(String(s ?? "").replace(" ", "T"));
@@ -4539,7 +4544,7 @@ var AutomaticMoment = class extends CarteAutomatic {
 		});
 	}
 	machines(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const lignes = [];
 		for (const id of m.enMarche) {
 			const e = hass.states[id];
@@ -4584,7 +4589,7 @@ var AutomaticMoment = class extends CarteAutomatic {
 		if (!m.courses || Number.isNaN(n) || n <= 0) return [];
 		return [{
 			icone: "mdi:cart-outline",
-			texte: t$1(hass).articles(n),
+			texte: t(hass).articles(n),
 			chemin: `/todo?entity_id=${m.courses}`
 		}];
 	}
@@ -4622,7 +4627,7 @@ function bilanAbsence(hass, m) {
 }
 /** Les points propres à l'absence : lumières oubliées, serrures ouvertes, alarme désarmée. */
 function pointsAbsence(hass, m) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const fr = estFrancais(hass);
 	const b = bilanAbsence(hass, m);
 	const points = [];
@@ -4667,7 +4672,7 @@ function pointsAbsence(hass, m) {
 }
 // src/moteur/points.ts
 function pointsARegarder(hass, m) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const etat = (id) => hass.states[id];
 	const points = [];
 	for (const e of m.alertes) {
@@ -4852,7 +4857,7 @@ var BLEU = "var(--primary-color)";
 * reste quand personne n'est là, la météo en mode Découverte, les points, ou « tout va bien ».
 */
 function phraseAccueil(hass, m) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const points = pointsVisibles(hass, m).visibles;
 	const graves = points.filter((p) => p.niveau === 3);
 	if (graves.length) return {
@@ -4887,7 +4892,7 @@ function phraseAccueil(hass, m) {
 }
 /** « Éclaircies, 12,4°. Pas de pluie dans l'heure. » */
 function phraseMeteo(hass, m) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const meteo = m.meteo ? hass.states[m.meteo] : void 0;
 	if (!valide(meteo)) return {
 		phrase: "",
@@ -4904,7 +4909,7 @@ function phraseMeteo(hass, m) {
 }
 /** « 21,3° · 48 %, 2 lumières allumées, chauffage en marche. » */
 function phrasePiece(hass, p) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const morceaux = [];
 	const temp = premiereValeur(hass, p.temperatures);
 	const hum = premiereValeur(hass, p.humidites);
@@ -4928,7 +4933,7 @@ function phrasePiece(hass, p) {
 }
 /** La phrase d'une page thématique : climat, énergie, sécurité, système ou à ranger. */
 function phraseSujet(hass, m, sujet) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const etat = (id) => id ? hass.states[id] : void 0;
 	const nom = (e) => nomCourt(hass, e.id, m.noms);
 	if (sujet === "climat") {
@@ -5015,7 +5020,7 @@ function phraseSujet(hass, m, sujet) {
 }
 /** « L'air est bon partout. », ou le conseil le plus pressant. */
 function phraseAir(hass, m) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const avis = conseils(hass, m).points.filter((p) => p.cle.startsWith("air:")).sort((a, b) => b.niveau - a.niveau);
 	return avis.length ? {
 		phrase: `${avis[0].titre} : ${avis[0].detail}`,
@@ -5027,7 +5032,7 @@ function phraseAir(hass, m) {
 }
 /** « Batterie à 80 %, en charge. » */
 function phraseVehicule(hass, m) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const batterie = m.vehicules.find((e) => e.classe === "battery" && e.domaine === "sensor");
 	const charge = m.vehicules.find((e) => e.classe === "battery_charging" || e.domaine === "binary_sensor" && e.classe === "plug");
 	const v = batterie ? Number.parseFloat(hass.states[batterie.id]?.state ?? "") : NaN;
@@ -5044,7 +5049,7 @@ function phraseVehicule(hass, m) {
 // src/cartes/ciel.ts
 var CYCLE = 29.530588853;
 /** Le style du ciel, partagé par l'en-tête de l'accueil et la tablette murale. */
-var STYLE_CIEL = i$5`
+var STYLE_CIEL = i$4`
   .ciel{margin:0;flex:none;display:flex;flex-direction:column;align-items:center;gap:2px}
   .ciel svg{display:block;overflow:visible}
   .ciel .rond{width:216px;height:96px}
@@ -5103,9 +5108,9 @@ function ciel(hass, maintenant = /* @__PURE__ */ new Date()) {
 	if (!j) return A;
 	const jour = j.avancement >= 0 && j.avancement <= 1;
 	const lune = phaseLune(maintenant, langue(hass));
-	const legende = jour ? t$1(hass).leverCoucher(heure(hass, j.lever), heure(hass, j.coucher)) : lune.nom;
+	const legende = jour ? t(hass).leverCoucher(heure(hass, j.lever), heure(hass, j.coucher)) : lune.nom;
 	return b`<figure class="ciel" aria-label=${legende}>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <svg width="0" height="0" ${poserStyle({ "position": "absolute" })} aria-hidden="true"><defs>
       <linearGradient id="arc-jour" x1="0" x2="1"><stop offset="0" stop-color="#E9A23B" stop-opacity=".25"/><stop offset="1" stop-color="#E9A23B"/></linearGradient>
       <radialGradient id="halo"><stop offset="0" stop-color="#F6C453" stop-opacity=".55"/><stop offset="1" stop-color="#F6C453" stop-opacity="0"/></radialGradient>
     </defs></svg>
@@ -5124,7 +5129,7 @@ var AutomaticOuverture = class extends CarteAutomatic {
 		this.styles = [
 			STYLE_COMMUN,
 			STYLE_CIEL,
-			i$5`
+			i$4`
     :host{display:block}
     .bloc{padding:6px 2px 4px}
     .sur{display:inline-flex;align-items:center;gap:8px;color:var(--accent-color)}
@@ -5166,7 +5171,7 @@ var AutomaticOuverture = class extends CarteAutomatic {
 		return (/* @__PURE__ */ new Date()).getHours() !== this._heure;
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const page = this._config?.page || "accueil";
 		const maintenant = /* @__PURE__ */ new Date();
 		this._heure = maintenant.getHours();
@@ -5223,7 +5228,7 @@ var AutomaticOuverture = class extends CarteAutomatic {
 			sur = date;
 			({phrase, point} = phraseSujet(hass, m, page));
 		}
-		const bloc = b`<div class="bloc" style=${o({ "--point": point })}><div class="sur">${sur}</div><h1>${titre}</h1>
+		const bloc = b`<div class="bloc" ${poserStyle({ "--point": point })}><div class="sur">${sur}</div><h1>${titre}</h1>
       ${phrase ? b`<div class="phrase">${phrase}</div>` : A}</div>`;
 		return page === "accueil" && m.reglages.ciel !== false ? b`<div class="tete">${bloc}${ciel(hass, maintenant)}</div>` : bloc;
 	}
@@ -5231,7 +5236,7 @@ var AutomaticOuverture = class extends CarteAutomatic {
 // src/cartes/pastille.ts
 var AutomaticPastille = class extends CarteAutomatic {
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     :host{display:inline-block;height:auto;container-type:normal}
     button{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 13px 0 10px;border-radius:999px;white-space:nowrap;
       background:var(--ha-card-background);border:1px solid var(--divider-color);font-size:14px;font-weight:600;color:var(--primary-text-color)}
@@ -5273,7 +5278,7 @@ var AutomaticPastille = class extends CarteAutomatic {
 		return [];
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const s = this._config?.sujet;
 		const etat = (id) => id ? hass.states[id] : void 0;
 		let icone = "mdi:circle-small", libelle = "", valeur = "", ton = "";
@@ -5386,7 +5391,7 @@ var AutomaticPastille = class extends CarteAutomatic {
 // src/cartes/piece.ts
 var AutomaticPiece = class extends CarteAutomatic {
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     button.carte{display:flex;flex-direction:column;justify-content:space-between;width:100%;height:100%;padding:13px 14px 12px;border-radius:var(--ha-card-border-radius)}
     .haut{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
     .mesures{text-align:right;line-height:1}
@@ -5431,7 +5436,7 @@ var AutomaticPiece = class extends CarteAutomatic {
 		] : [];
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const p = m.pieces.find((x) => x.area_id === this._config?.piece);
 		if (!p) return null;
 		const etat = (id) => hass.states[id]?.state ?? "";
@@ -5478,7 +5483,7 @@ var PALIERS = [
 var couleurTemperature = (t) => t === null ? null : PALIERS.find(([seuil]) => t < seuil)[1];
 var AutomaticPlan = class extends CarteAutomatic {
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:16px 16px 14px;display:grid;gap:12px}
     .etage{display:grid;grid-template-columns:auto 1fr;gap:10px;align-items:stretch}
     .etage > .sur{writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:10.5px;padding:4px 0}
@@ -5515,7 +5520,7 @@ var AutomaticPlan = class extends CarteAutomatic {
 		const capteur = pieces.find((p) => p.temperatures.length).temperatures[0];
 		const groupes = [...m.etages].sort((a, b) => (b.level ?? 0) - (a.level ?? 0)).map((e) => [e.name, pieces.filter((p) => p.etage === e.floor_id)]).filter(([, l]) => l.length);
 		const sans = pieces.filter((p) => !p.etage);
-		if (sans.length) groupes.push([groupes.length ? t$1(hass).autresTitre : null, sans]);
+		if (sans.length) groupes.push([groupes.length ? t(hass).autresTitre : null, sans]);
 		return b`<ha-card>
       ${groupes.map(([nom, liste]) => b`<div class=${nom ? "etage" : "etage sans-etage"}>
         ${nom ? b`<span class="sur">${nom}</span>` : A}
@@ -5532,7 +5537,10 @@ var AutomaticPlan = class extends CarteAutomatic {
 			"piece",
 			couleur ? "" : "inconnue",
 			p.exterieur ? "dehors" : ""
-		].join(" ")} style=${`flex:${poids} 1 ${Math.round(86 * poids)}px;${couleur ? `--c:${couleur}` : ""}`}
+		].join(" ")} ${poserStyle({
+			flex: `${poids} 1 ${Math.round(86 * poids)}px`,
+			...couleur ? { "--c": couleur } : {}
+		})}
       title=${p.name} @click=${() => p.entites.length && naviguer(p.area_id)}>
       <span class="nom">${p.name}</span>
       <span class="bas"><span class="temp chiffre">${t === null ? "—" : degres(hass, t)}</span>
@@ -5686,7 +5694,7 @@ var AutomaticPoints = class extends CarteAutomatic {
 		this._ouvert = null;
 	}
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:6px 16px}
     ha-card.grave{background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));border-color:transparent}
     ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr;column-gap:28px;align-items:start}
@@ -5742,7 +5750,7 @@ var AutomaticPoints = class extends CarteAutomatic {
 		]);
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const { visibles: points, ignores } = pointsVisibles(hass, m);
 		if (!points.length && !ignores.length) return null;
 		const plafond = m.mode === "decouverte" ? 3 : 4;
@@ -5770,7 +5778,7 @@ var AutomaticPoints = class extends CarteAutomatic {
 	}
 	/** Les actions d'un point, en toutes lettres : ignorer, être prévenu. */
 	actions(hass, m, p) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const actions = [];
 		if (ignorable(p)) actions.push(b`<button @click=${() => {
 			this._ouvert = null;
@@ -5791,7 +5799,7 @@ var AutomaticPoints = class extends CarteAutomatic {
 		return actions;
 	}
 	async creer(a) {
-		const tx = t$1(this.hass);
+		const tx = t(this.hass);
 		const annoncer = (message, action) => this.dispatchEvent(new CustomEvent("hass-notification", {
 			detail: {
 				message,
@@ -5824,7 +5832,7 @@ var AMSTERDAM = {
 };
 var AutomaticPremiersPas = class extends CarteAutomatic {
 	static {
-		this.styles = [STYLE_COMMUN, i$5`
+		this.styles = [STYLE_COMMUN, i$4`
     ha-card{padding:16px 18px 10px}
     .titre{font-size:17px;font-weight:700;color:var(--primary-text-color)}
     .sous{font-size:13px;margin:3px 0 8px}
@@ -5857,7 +5865,7 @@ var AutomaticPremiersPas = class extends CarteAutomatic {
 	}
 	rendu(hass, m) {
 		if (!hass.user?.is_admin) return null;
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const c = new Set(hass.config.components ?? []);
 		const amsterdam = Math.abs(hass.config.latitude - AMSTERDAM.latitude) < .001 && Math.abs(hass.config.longitude - AMSTERDAM.longitude) < .001;
 		const prochaine = this.prochaineSauvegarde();
@@ -6137,7 +6145,7 @@ function contexteMaison(hass, m, avecReglages) {
 }
 /** Accueil des modes Maison et Complet. */
 function accueilMaison(hass, m, avecReglages, pastilles, favoris) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const piece = (id) => avecReglages({
 		type: "custom:automatic-dashboard-piece",
 		piece: id
@@ -6168,7 +6176,7 @@ function accueilMaison(hass, m, avecReglages, pastilles, favoris) {
 			scene.push(section([titre(etage.name, { icon: etage.icon || void 0 }), ...avecLargeurs(liste.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
 		}
 		const autres = pieces.filter((p) => !p.etage);
-		if (autres.length) scene.push(section([titre(t$1(hass).autresPieces), ...avecLargeurs(autres.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
+		if (autres.length) scene.push(section([titre(t(hass).autresPieces), ...avecLargeurs(autres.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
 	} else if (m.mode === "complet" && pieces.length) scene.push(section([titre(tx.pieces), ...avecLargeurs(pieces.map((p) => piece(p.area_id)), 4, "promotion", 2)]));
 	else if (pieces.length) {
 		const ordre = [...pieces];
@@ -6203,7 +6211,7 @@ function accueilMaison(hass, m, avecReglages, pastilles, favoris) {
 }
 /** Accueil du mode Découverte : la météo en grand, chaque appareil en grand, les premiers pas. */
 function accueilDecouverte(hass, m, avecReglages, pastilles) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const scene = [];
 	if (m.meteo) scene.push(section([{
 		type: "weather-forecast",
@@ -6369,7 +6377,7 @@ var AutomaticTablette = class extends CarteAutomatic {
 		this.styles = [
 			STYLE_COMMUN,
 			STYLE_CIEL,
-			i$5`
+			i$4`
     :host{height:100%}
     .ecran{position:relative;box-sizing:border-box;min-height:calc(100vh - var(--header-height, 56px) - 16px);display:grid;
       grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:clamp(20px,4vw,64px);padding:clamp(20px,4vw,56px);align-items:center}
@@ -6467,7 +6475,7 @@ var AutomaticTablette = class extends CarteAutomatic {
 		if (this._kiosque) this.appliquerKiosque(false);
 	}
 	rendu(hass, m) {
-		const tx = t$1(hass);
+		const tx = t(hass);
 		const maintenant = /* @__PURE__ */ new Date();
 		const heure = new Intl.DateTimeFormat(langue(hass), {
 			hour: "2-digit",
@@ -6478,7 +6486,10 @@ var AutomaticTablette = class extends CarteAutomatic {
 			const graine = maintenant.getHours() * 60 + maintenant.getMinutes();
 			const x = 8 + graine * 37 % 50;
 			const y = 10 + graine * 53 % 60;
-			return b`<div class="veille" role="button" aria-label=${tx.reveiller}><span class="heure" style=${`left:${x}%;top:${y}%`}>${heure}</span></div>`;
+			return b`<div class="veille" role="button" aria-label=${tx.reveiller}><span class="heure" ${poserStyle({
+				left: `${x}%`,
+				top: `${y}%`
+			})}>${heure}</span></div>`;
 		}
 		const date = majuscule(new Intl.DateTimeFormat(langue(hass), {
 			weekday: "long",
@@ -6506,7 +6517,7 @@ var AutomaticTablette = class extends CarteAutomatic {
 		}}
           @pointerup=${() => window.clearTimeout(this._appuiHeure)} @pointerleave=${() => window.clearTimeout(this._appuiHeure)}>${heure}</div>
         <div class="date">${date}</div>
-        <div class="phrase" style=${`--point:${point}`}>${phrase}</div>
+        <div class="phrase" ${poserStyle({ "--point": point })}>${phrase}</div>
         <div class="chiffres">
           ${dehors !== null ? b`<div class="chiffre-tab"><b>${degres(hass, dehors)}</b>
             <span><ha-icon icon=${conditionMeteo(hass, meteo).icone}></ha-icon>${tx.dehors}</span></div>` : A}
@@ -6546,6 +6557,26 @@ var AutomaticTablette = class extends CarteAutomatic {
       <span>${m.noms[id] || nomCourt(hass, id, m.noms)}</span></button>`;
 	}
 };
+// src/cartes/elements.ts
+var CARTES = [
+	["automatic-dashboard-ouverture", AutomaticOuverture],
+	["automatic-dashboard-pastille", AutomaticPastille],
+	["automatic-dashboard-points", AutomaticPoints],
+	["automatic-dashboard-piece", AutomaticPiece],
+	["automatic-dashboard-apercu", AutomaticApercu],
+	["automatic-dashboard-premiers-pas", AutomaticPremiersPas],
+	["automatic-dashboard-heros", AutomaticHeros],
+	["automatic-dashboard-confort", AutomaticConfort],
+	["automatic-dashboard-a-ranger", AutomaticARanger],
+	["automatic-dashboard-meteo-france", AutomaticMeteoFrance],
+	["automatic-dashboard-moment", AutomaticMoment],
+	["automatic-dashboard-bilan", AutomaticBilan],
+	["automatic-dashboard-plan", AutomaticPlan],
+	["automatic-dashboard-tablette", AutomaticTablette],
+	["automatic-dashboard-favori", AutomaticFavori],
+	["automatic-dashboard-depart", AutomaticDepart],
+	["automatic-dashboard-mes-favoris", AutomaticMesFavoris]
+];
 /** Le formulaire de ticket « Le tableau range mal un appareil ». */
 var TICKET_CLASSEMENT = "https://github.com/Automatic-Dashboard/automatic-dashboard/issues/new?template=1-classement.yml";
 /** Les mots que les règles lisent dans un nom : on les garde, et rien d'autre. */
@@ -6849,7 +6880,7 @@ async function chargerComposants() {
 		}))?.constructor?.getConfigElement?.();
 	} catch {}
 }
-var AutomaticEditeur = class extends i$2 {
+var AutomaticEditeur = class extends i$1 {
 	static {
 		this.properties = {
 			hass: { attribute: false },
@@ -7335,7 +7366,7 @@ var AutomaticEditeur = class extends i$2 {
 		}}></ha-entity-picker>`;
 	}
 	static {
-		this.styles = i$5`
+		this.styles = i$4`
     :host{display:block;container-type:inline-size}
     .editeur{display:flex;flex-direction:column;gap:30px;padding:4px 0 20px}
     section{display:flex;flex-direction:column;gap:10px}
@@ -7507,7 +7538,7 @@ async function preparerPremierTableau() {
 		}).catch(() => void 0);
 	}
 	await hass.callWS({ type: "automatic_dashboard/fait" });
-	const tx = t$1(hass);
+	const tx = t(hass);
 	document.querySelector("home-assistant")?.dispatchEvent(new CustomEvent("hass-notification", {
 		detail: {
 			message: tx.tableauPret,
@@ -7525,7 +7556,7 @@ async function preparerPremierTableau() {
 /** Les intégrations qui décrivent la machine de Home Assistant elle-même. */
 var MACHINE = /* @__PURE__ */ new Set(["systemmonitor", "hassio"]);
 function sousVues(hass, m, avecReglages, reglages = {}) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const vues = [];
 	const ouverture = (page, extra = {}) => avecReglages({
 		type: "custom:automatic-dashboard-ouverture",
@@ -8042,7 +8073,7 @@ async function genererTableau(config, hass) {
 * d'erreur à joindre au ticket, plutôt qu'une erreur technique de Home Assistant.
 */
 function tableauEnPanne(config, hass, erreur, version) {
-	const tx = t$1(hass);
+	const tx = t(hass);
 	const message = erreur instanceof Error ? `${erreur.name}: ${erreur.message}` : String(erreur);
 	const lien = `https://github.com/Automatic-Dashboard/automatic-dashboard/issues/new?template=2-probleme.yml&title=${encodeURIComponent(tx.panneTitre)}`;
 	const contenu = [
@@ -8085,7 +8116,7 @@ function genererSection(nom, config, hass) {
 		...c,
 		reglages
 	});
-	const tx = t$1(hass);
+	const tx = t(hass);
 	return {
 		type: "grid",
 		cards: {
@@ -8118,7 +8149,7 @@ function sectionEnPanne(hass, erreur) {
 		type: "grid",
 		cards: [{
 			type: "markdown",
-			content: `**${t$1(hass).panneTitre}**\n\n\`${message.slice(0, 300)}\``
+			content: `**${t(hass).panneTitre}**\n\n\`${message.slice(0, 300)}\``
 		}]
 	};
 }
@@ -8147,23 +8178,7 @@ var AutomaticStrategie = class extends HTMLElement {
 };
 var elements = [
 	["ll-strategy-dashboard-automatic-dashboard", AutomaticStrategie],
-	["automatic-dashboard-ouverture", AutomaticOuverture],
-	["automatic-dashboard-pastille", AutomaticPastille],
-	["automatic-dashboard-points", AutomaticPoints],
-	["automatic-dashboard-piece", AutomaticPiece],
-	["automatic-dashboard-apercu", AutomaticApercu],
-	["automatic-dashboard-premiers-pas", AutomaticPremiersPas],
-	["automatic-dashboard-heros", AutomaticHeros],
-	["automatic-dashboard-confort", AutomaticConfort],
-	["automatic-dashboard-a-ranger", AutomaticARanger],
-	["automatic-dashboard-meteo-france", AutomaticMeteoFrance],
-	["automatic-dashboard-moment", AutomaticMoment],
-	["automatic-dashboard-bilan", AutomaticBilan],
-	["automatic-dashboard-plan", AutomaticPlan],
-	["automatic-dashboard-tablette", AutomaticTablette],
-	["automatic-dashboard-favori", AutomaticFavori],
-	["automatic-dashboard-depart", AutomaticDepart],
-	["automatic-dashboard-mes-favoris", AutomaticMesFavoris],
+	...CARTES,
 	["automatic-dashboard-editeur", AutomaticEditeur]
 ];
 for (const [balise, classe] of elements) if (!customElements.get(balise)) customElements.define(balise, classe);

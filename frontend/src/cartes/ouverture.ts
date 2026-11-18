@@ -2,7 +2,7 @@
 // surtitre, titre, phrase.
 
 import { css, html, nothing, type TemplateResult } from "lit";
-import { styleMap } from "lit/directives/style-map.js";
+import { poserStyle } from "./style";
 import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
 import { phraseAccueil, phraseAir, phraseMeteo, phrasePiece, phraseSujet, phraseVehicule } from "../phrases";
@@ -93,7 +93,7 @@ export class AutomaticOuverture extends CarteAutomatic {
       sur = date;
       ({ phrase, point } = phraseSujet(hass, m, page));
     }
-    const bloc = html`<div class="bloc" style=${styleMap({ "--point": point })}><div class="sur">${sur}</div><h1>${titre}</h1>
+    const bloc = html`<div class="bloc" ${poserStyle({ "--point": point })}><div class="sur">${sur}</div><h1>${titre}</h1>
       ${phrase ? html`<div class="phrase">${phrase}</div>` : nothing}</div>`;
     // L'accueil porte le ciel du jour, à droite du texte : la disposition ne change pas, le ciel tourne.
     return page === "accueil" && m.reglages.ciel !== false ? html`<div class="tete">${bloc}${ciel(hass, maintenant)}</div>` : bloc;

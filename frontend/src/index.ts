@@ -1,23 +1,7 @@
 // Point d'entrée : charge la police, enregistre la stratégie de tableau et les cartes
 // Automatic Dashboard auprès de Home Assistant. Ce fichier est servi par l'intégration.
 
-import { AutomaticApercu } from "./cartes/apercu";
-import { AutomaticARanger } from "./cartes/a-ranger";
-import { AutomaticBilan } from "./cartes/bilan";
-import { AutomaticConfort } from "./cartes/confort";
-import { AutomaticDepart } from "./cartes/depart";
-import { AutomaticFavori } from "./cartes/favori";
-import { AutomaticHeros } from "./cartes/heros";
-import { AutomaticMesFavoris } from "./cartes/mes-favoris";
-import { AutomaticMeteoFrance } from "./cartes/meteo-france";
-import { AutomaticMoment } from "./cartes/moment";
-import { AutomaticOuverture } from "./cartes/ouverture";
-import { AutomaticPastille } from "./cartes/pastille";
-import { AutomaticPiece } from "./cartes/piece";
-import { AutomaticPlan } from "./cartes/plan";
-import { AutomaticPoints } from "./cartes/points";
-import { AutomaticPremiersPas } from "./cartes/premiers-pas";
-import { AutomaticTablette } from "./cartes/tablette";
+import { CARTES } from "./cartes/elements";
 import { AutomaticEditeur } from "./editeur/editeur";
 import type { HomeAssistant } from "./ha";
 import { analyserMemo } from "./moteur/analyser";
@@ -52,23 +36,7 @@ class AutomaticStrategie extends HTMLElement {
 
 const elements: [string, CustomElementConstructor][] = [
   ["ll-strategy-dashboard-automatic-dashboard", AutomaticStrategie],
-  ["automatic-dashboard-ouverture", AutomaticOuverture],
-  ["automatic-dashboard-pastille", AutomaticPastille],
-  ["automatic-dashboard-points", AutomaticPoints],
-  ["automatic-dashboard-piece", AutomaticPiece],
-  ["automatic-dashboard-apercu", AutomaticApercu],
-  ["automatic-dashboard-premiers-pas", AutomaticPremiersPas],
-  ["automatic-dashboard-heros", AutomaticHeros],
-  ["automatic-dashboard-confort", AutomaticConfort],
-  ["automatic-dashboard-a-ranger", AutomaticARanger],
-  ["automatic-dashboard-meteo-france", AutomaticMeteoFrance],
-  ["automatic-dashboard-moment", AutomaticMoment],
-  ["automatic-dashboard-bilan", AutomaticBilan],
-  ["automatic-dashboard-plan", AutomaticPlan],
-  ["automatic-dashboard-tablette", AutomaticTablette],
-  ["automatic-dashboard-favori", AutomaticFavori],
-  ["automatic-dashboard-depart", AutomaticDepart],
-  ["automatic-dashboard-mes-favoris", AutomaticMesFavoris],
+  ...CARTES,
   ["automatic-dashboard-editeur", AutomaticEditeur],
 ];
 // Le fichier peut être chargé deux fois (ancienne et nouvelle version en mémoire) : on ne redéfinit rien.

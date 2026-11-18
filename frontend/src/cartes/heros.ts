@@ -2,7 +2,7 @@
 // deux ou trois chiffres de 40 px et un visuel (courbe, liste, progression).
 
 import { css, html, nothing, type PropertyDeclarations, type TemplateResult } from "lit";
-import { styleMap } from "lit/directives/style-map.js";
+import { poserStyle } from "./style";
 import { historique, type Serie, variationJour } from "../donnees/historique";
 import type { HomeAssistant } from "../ha";
 import { courbes } from "../mise-en-page/courbes";
@@ -87,7 +87,7 @@ export class AutomaticHeros extends CarteAutomatic {
   }
 
   private enveloppe(hass: HomeAssistant, gauche: TemplateResult, droite: TemplateResult, classe = ""): TemplateResult {
-    return html`<ha-card class=${classe}><div class="trame" style=${styleMap({ "background-image": trame(hass) })}></div>
+    return html`<ha-card class=${classe}><div class="trame" ${poserStyle({ "background-image": trame(hass) })}></div>
       <div class="contenu">${gauche}${droite}</div></ha-card>`;
   }
 
@@ -110,12 +110,12 @@ export class AutomaticHeros extends CarteAutomatic {
 
   /** La place de la courbe, le temps qu'elle arrive. */
   private courbeEnAttente(): TemplateResult {
-    return html`<div class="visuel" aria-busy="true"><span class="attente graphe"></span><div class="axe"><span class="attente" style="width:120px;height:11px"></span></div></div>`;
+    return html`<div class="visuel" aria-busy="true"><span class="attente graphe"></span><div class="axe"><span class="attente" ${poserStyle({ "width": "120px", "height": "11px" })}></span></div></div>`;
   }
 
   /** Un chiffre dont la valeur n'est pas encore arrivée : sa légende, et une forme à la place du nombre. */
   private chiffreEnAttente(legende: string): TemplateResult {
-    return html`<div aria-busy="true"><div class="v"><span class="attente" style="width:96px;height:36px"></span></div><div class="l">${legende}</div></div>`;
+    return html`<div aria-busy="true"><div class="v"><span class="attente" ${poserStyle({ "width": "96px", "height": "36px" })}></span></div><div class="l">${legende}</div></div>`;
   }
 
   private climat(hass: HomeAssistant, m: Maison): TemplateResult | null {
@@ -223,7 +223,7 @@ export class AutomaticHeros extends CarteAutomatic {
       ${majs ? html`<button class="bouton" @click=${() => naviguer("/config/updates")}>${w.voir}</button>` : nothing}</div>`;
     let droite: TemplateResult;
     if (!ok(dReussie) && !ok(dProchaine)) {
-      droite = html`<div class="colonne"><div class="ligne"><span class="ico" style="background:var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent));color:var(--automatic-dashboard-alerte, var(--error-color, #B42318))"><ha-icon icon="mdi:backup-restore"></ha-icon></span>
+      droite = html`<div class="colonne"><div class="ligne"><span class="ico" ${poserStyle({ "background": "var(--automatic-dashboard-alerte-pale, color-mix(in srgb, var(--error-color, #B42318) 12%, transparent))", "color": "var(--automatic-dashboard-alerte, var(--error-color, #B42318))" })}><ha-icon icon="mdi:backup-restore"></ha-icon></span>
         <span>${w.sansSauvegarde}<div class="detail">${w.sansSauvegardeDetail}</div></span></div>
         <div class="boutons"><button class="bouton" @click=${() => naviguer("/config/backup")}>${w.regler}</button></div></div>`;
     } else {
@@ -247,10 +247,10 @@ export class AutomaticHeros extends CarteAutomatic {
     const reste = m.aRanger.length;
     if (!reste) return null;
     const part = Math.round((ranges / Math.max(1, ranges + reste)) * 100);
-    const gauche = html`<div class="colonne"><div style="width:min(100%, 360px)"><div class="v chiffre">${ranges}<small>/ ${ranges + reste}</small></div>
-      <div class="barre"><span style=${styleMap({ width: `${part}%` })}></span></div>
+    const gauche = html`<div class="colonne"><div ${poserStyle({ "width": "min(100%, 360px)" })}><div class="v chiffre">${ranges}<small>/ ${ranges + reste}</small></div>
+      <div class="barre"><span ${poserStyle({ width: `${part}%` })}></span></div>
       <div class="legende"><span>${w.ranges(ranges)}</span><span>${w.aRanger(reste)}</span></div></div></div>`;
-    const droite = html`<div class="boutons" style="justify-content:flex-end">
+    const droite = html`<div class="boutons" ${poserStyle({ "justify-content": "flex-end" })}>
       <button class="bouton" @click=${() => naviguer("/config/devices/dashboard")}><ha-icon icon="mdi:sofa-outline"></ha-icon>${w.rangerTout}</button>
       <button class="bouton second" @click=${() => naviguer("/config/areas/dashboard")}><ha-icon icon="mdi:plus"></ha-icon>${w.creerPiece}</button></div>`;
     return this.enveloppe(hass, gauche, droite);

@@ -3,7 +3,7 @@
 // Une maison en °F est placée sur la même barre, graduée dans son unité.
 
 import { css, html, nothing, type TemplateResult } from "lit";
-import { styleMap } from "lit/directives/style-map.js";
+import { poserStyle } from "./style";
 import type { HomeAssistant } from "../ha";
 import type { Maison } from "../moteur/types";
 import { depuisCelsius, premiereTemperatureC, premiereValeur } from "../moteur/valeurs";
@@ -60,8 +60,8 @@ export class AutomaticConfort extends CarteAutomatic {
     const pos = (v: number) => `${((Math.max(MIN, Math.min(MAX, v)) - MIN) / (MAX - MIN)) * 100}%`;
     return html`<ha-card>${lignes.map((l) => html`<div class="ligne" @click=${() => naviguer(l.p.area_id)}>
       <span class="nom">${l.p.name}</span><span class="temp chiffre">${degres(hass, l.temp)}</span>
-      <span class="echelle"><span class="zone" style=${styleMap({ left: pos(BAS), right: `calc(100% - ${pos(HAUT)})` })}></span>
-        <span class="point ${l.c < BAS ? "froid" : l.c > HAUT ? "chaud" : ""}" style=${styleMap({ left: pos(l.c) })}></span></span>
+      <span class="echelle"><span class="zone" ${poserStyle({ left: pos(BAS), right: `calc(100% - ${pos(HAUT)})` })}></span>
+        <span class="point ${l.c < BAS ? "froid" : l.c > HAUT ? "chaud" : ""}" ${poserStyle({ left: pos(l.c) })}></span></span>
       <span class="hum doux chiffre">${l.hum !== null ? `${nombre(hass, l.hum, 0)} %` : nothing}</span>
       <span class="etat">${l.chauffe ? html`<ha-icon class="chauffe" icon="mdi:radiator"></ha-icon>` : l.froid ? html`<ha-icon class="refroidit" icon="mdi:snowflake"></ha-icon>` : nothing}</span></div>`)}<div class="graduations"><span></span><span></span><span class="g">${[MIN, BAS, HAUT, MAX].map((c) => html`<span>${Math.round(depuisCelsius(hass, c, lignes[0].p.temperatures[0]))}°</span>`)}</span><span></span><span></span></div></ha-card>`;
   }

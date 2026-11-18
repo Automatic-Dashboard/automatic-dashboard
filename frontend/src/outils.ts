@@ -51,6 +51,9 @@ export function conditionMeteo(hass: HomeAssistant | undefined, etat?: EtatHA): 
 
 /** Navigue dans Home Assistant. Un chemin relatif reste dans le tableau courant. */
 export function naviguer(chemin: string): void {
+  // Dans la démo du site, la page change dans la démo elle-même.
+  const demo = (window as unknown as { __automaticDashboardNaviguer?: (c: string) => void }).__automaticDashboardNaviguer;
+  if (demo) return demo(chemin);
   const cible = chemin.startsWith("/") ? chemin : `/${location.pathname.split("/")[1]}/${chemin}`;
   history.pushState(null, "", cible);
   window.dispatchEvent(new CustomEvent("location-changed", { detail: { replace: false } }));

@@ -6,6 +6,7 @@
 // l'heure, faible, et la déplace un peu chaque minute ; un geste, ou un détecteur de présence
 // choisi dans les réglages, le rallume.
 
+import { poserStyle } from "./style";
 import { css, html, nothing, type PropertyDeclarations, type TemplateResult } from "lit";
 import { favorisDeLaPersonne } from "../strategie/accueil";
 import type { HomeAssistant } from "../ha";
@@ -194,7 +195,7 @@ export class AutomaticTablette extends CarteAutomatic {
       const graine = maintenant.getHours() * 60 + maintenant.getMinutes();
       const x = 8 + ((graine * 37) % 50);
       const y = 10 + ((graine * 53) % 60);
-      return html`<div class="veille" role="button" aria-label=${tx.reveiller}><span class="heure" style=${`left:${x}%;top:${y}%`}>${heure}</span></div>`;
+      return html`<div class="veille" role="button" aria-label=${tx.reveiller}><span class="heure" ${poserStyle({ left: `${x}%`, top: `${y}%` })}>${heure}</span></div>`;
     }
     const date = majuscule(new Intl.DateTimeFormat(langue(hass), { weekday: "long", day: "numeric", month: "long" }).format(maintenant));
     const { phrase, point } = phraseAccueil(hass, m);
@@ -216,7 +217,7 @@ export class AutomaticTablette extends CarteAutomatic {
           @pointerdown=${() => { this._appuiHeure = window.setTimeout(() => this.basculerKiosque(false), 1000); }}
           @pointerup=${() => window.clearTimeout(this._appuiHeure)} @pointerleave=${() => window.clearTimeout(this._appuiHeure)}>${heure}</div>
         <div class="date">${date}</div>
-        <div class="phrase" style=${`--point:${point}`}>${phrase}</div>
+        <div class="phrase" ${poserStyle({ "--point": point })}>${phrase}</div>
         <div class="chiffres">
           ${dehors !== null ? html`<div class="chiffre-tab"><b>${degres(hass, dehors)}</b>
             <span><ha-icon icon=${conditionMeteo(hass, meteo).icone}></ha-icon>${tx.dehors}</span></div>` : nothing}

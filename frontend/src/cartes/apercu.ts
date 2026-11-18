@@ -1,6 +1,7 @@
 // Les aperçus : un sujet, un chiffre, une tendance (climat, énergie, humidité,
 // éphéméride, appareils à ranger).
 
+import { poserStyle } from "./style";
 import { css, html, nothing, type PropertyDeclarations, type TemplateResult } from "lit";
 import { historique, type Serie } from "../donnees/historique";
 import type { HomeAssistant } from "../ha";
@@ -122,9 +123,9 @@ export class AutomaticApercu extends CarteAutomatic {
   private gabarit(icone: string, sur: string, valeur: TemplateResult | string, detail: string): TemplateResult {
     const valeurs = this._courbe ?? [];
     return html`<ha-card><button class="carte" @click=${this._clic}><span class="tete"><span class="sur">${sur}</span><ha-icon icon=${icone}></ha-icon></span>
-      <span><span class="valeur chiffre">${valeur}</span><span class="detail doux" style="display:block">${detail}</span></span>
+      <span><span class="valeur chiffre">${valeur}</span><span class="detail doux" ${poserStyle({ "display": "block" })}>${detail}</span></span>
       ${valeurs.length ? html`<span class="bas">${courbe(valeurs, 200, 30)}</span>`
-        : this._demande && this._courbe === undefined ? html`<span class="bas" aria-busy="true"><span class="attente" style="height:22px;margin:0 15px 8px"></span></span>` : nothing}
+        : this._demande && this._courbe === undefined ? html`<span class="bas" aria-busy="true"><span class="attente" ${poserStyle({ "height": "22px", "margin": "0 15px 8px" })}></span></span>` : nothing}
       </button></ha-card>`;
   }
 

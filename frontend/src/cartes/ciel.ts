@@ -2,6 +2,7 @@
 // le soleil à sa place de l'instant ; la nuit, la lune et sa phase. Dessiné d'après
 // sun.sun (Home Assistant le met à jour toutes les quelques minutes).
 
+import { poserStyle } from "./style";
 import { css, html, nothing, svg, type TemplateResult } from "lit";
 import type { HomeAssistant } from "../ha";
 import { heure, langue, phaseLune, t } from "../outils";
@@ -79,7 +80,7 @@ export function ciel(hass: HomeAssistant, maintenant = new Date()): TemplateResu
     ? t(hass).leverCoucher(heure(hass, j.lever), heure(hass, j.coucher))
     : lune.nom;
   return html`<figure class="ciel" aria-label=${legende}>
-    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+    <svg width="0" height="0" ${poserStyle({ "position": "absolute" })} aria-hidden="true"><defs>
       <linearGradient id="arc-jour" x1="0" x2="1"><stop offset="0" stop-color="#E9A23B" stop-opacity=".25"/><stop offset="1" stop-color="#E9A23B"/></linearGradient>
       <radialGradient id="halo"><stop offset="0" stop-color="#F6C453" stop-opacity=".55"/><stop offset="1" stop-color="#F6C453" stop-opacity="0"/></radialGradient>
     </defs></svg>

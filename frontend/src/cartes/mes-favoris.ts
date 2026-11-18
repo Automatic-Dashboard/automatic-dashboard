@@ -2,6 +2,7 @@
 // gardés dans son compte Home Assistant et remplacent, pour elle seulement, les favoris
 // épinglés du tableau. L'ordre est celui des flèches.
 
+import { poserStyle } from "./style";
 import { css, html, nothing, type PropertyDeclarations, type TemplateResult } from "lit";
 import { ecrireFavorisPerso, lireFavorisPerso } from "../donnees/favoris";
 import type { HomeAssistant } from "../ha";
@@ -59,7 +60,7 @@ export class AutomaticMesFavoris extends CarteAutomatic {
       this._demande = true;
       lireFavorisPerso(hass).then((ids) => (this._favoris = ids));
     }
-    if (this._favoris === null) return html`<ha-card><span class="attente" style="height:120px"></span></ha-card>`;
+    if (this._favoris === null) return html`<ha-card><span class="attente" ${poserStyle({ "height": "120px" })}></span></ha-card>`;
     const mes = this._favoris.filter((id) => hass.states[id]);
     // Ce qu'on peut mettre en favori : les commandes de chaque pièce, puis celles sans pièce.
     const candidats = m.gardees.filter((e) => e.role === "commande" && !e.secondaire || e.domaine === "scene" || e.domaine === "script");
