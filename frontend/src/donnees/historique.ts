@@ -77,13 +77,17 @@ function enTranches(r: Record<string, PointHistorique[]> | null | undefined): Se
 
 const statistiques = new Map<string, { quand: number; promesse: Promise<number | null> }>();
 
-/** Variation d'un compteur d'énergie sur la journée (ou la veille, `decalage` -1), par les statistiques. */
+/**
+ * Variation d'un compteur d'énergie sur la journée (ou la veille, `decalage` -1), par les statistiques,
+ * toujours en kWh : des compteurs en Wh et en kWh s'additionnent sans erreur.
+ */
 export function variationJour(hass: HomeAssistant, ids: string[], decalage = 0): Promise<number | null> {
   const cle = `${ids.join()}|${decalage}`;
   const deja = statistiques.get(cle);
   if (deja && Date.now() - deja.quand < 5 * 60000) return deja.promesse;
   const promesse = Promise.all(ids.map((id) => hass.callWS<{ change?: number | null } | null>({
     type: "recorder/statistic_during_period", statistic_id: id, calendar: { period: "day", offset: decalage }, types: ["change"],
+    units: { energy: "kWh" },
   }).then((r) => r?.change ?? null).catch(() => null)))
     .then((valeurs) => (valeurs.every((v) => v === null) ? null : valeurs.reduce<number>((a, b) => a + (b || 0), 0)));
   statistiques.set(cle, { quand: Date.now(), promesse });

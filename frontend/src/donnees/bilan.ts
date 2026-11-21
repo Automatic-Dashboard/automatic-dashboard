@@ -107,7 +107,7 @@ export function chargerBilan(hass: HomeAssistant, m: Maison, maintenant = new Da
 
   const statistiques = <T>(ids: string[], depuis: Date, types: string[]) => (ids.length
     ? hass.callWS<Record<string, T[]>>({ type: "recorder/statistics_during_period", start_time: depuis.toISOString(),
-      end_time: fin.toISOString(), statistic_ids: ids, period: "day", types }).catch(() => ({} as Record<string, T[]>))
+      end_time: fin.toISOString(), statistic_ids: ids, period: "day", types, units: { energy: "kWh" } }).catch(() => ({} as Record<string, T[]>))
     : Promise.resolve({} as Record<string, T[]>));
 
   const promesse = Promise.all([

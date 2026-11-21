@@ -14,7 +14,8 @@ export async function favorisAutomatiques(hass: HomeAssistant, m: Maison): Promi
   // Jamais une entité masquée dans les réglages ou écartée du tri (la prédiction ne les connaît pas),
   // et seulement ce qui se commande : la météo ou un capteur ont déjà leur place ailleurs.
   const commandes = new Set(m.gardees.filter((e) => e.role === "commande").map((e) => e.id));
-  const garder = (ids: string[]) => ids.filter((id) => hass.states[id] && commandes.has(id));
+  // Ni une entité indisponible : un favori qui ne répond pas n'aide personne.
+  const garder = (ids: string[]) => ids.filter((id) => hass.states[id] && hass.states[id].state !== "unavailable" && commandes.has(id));
   let favoris: string[] = [];
   try {
     const r = await hass.callWS<{ entities?: string[] }>({ type: "usage_prediction/common_control" });
@@ -26,7 +27,7 @@ export async function favorisAutomatiques(hass: HomeAssistant, m: Maison): Promi
   if (!favoris.length) {
     favoris = garder([
       ...m.pieces.filter((p) => !p.exterieur && !p.annexe)
-        .map((p) => p.entites.find((e) => e.domaine === "light" && e.principale) ?? p.entites.find((e) => e.domaine === "light"))
+        .map((p) => p.entites.find((e) => e.domaine === "light" && e.principale && !e.secondaire) ?? p.entites.find((e) => e.domaine === "light" && !e.secondaire))
         .filter((e) => e !== undefined).map((e) => e.id),
       ...m.climats.filter((e) => e.piece).map((e) => e.id),
     ]);

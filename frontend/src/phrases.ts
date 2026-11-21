@@ -118,6 +118,9 @@ export function phraseSujet(hass: HomeAssistant, m: Maison, sujet: string): Phra
     const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on");
     const alertes = m.alertes.filter((e) => etat(e.id)?.state === "on");
     if (alertes.length) return { phrase: `${tx.fuite}${tx.deuxPoints}${alertes.map(nom).join(", ")}.`, point: ROUGE };
+    // Ne pas affirmer « tout est fermé » sans le savoir : un capteur qui ne répond pas le dit.
+    const muets = m.ouvrants.filter((e) => ["unavailable", "unknown"].includes(etat(e.id)?.state ?? "unavailable")).length;
+    if (!ouverts.length && muets) return { phrase: muets === m.ouvrants.length ? tx.ouverturesMuettes(muets) : `${tx.toutFermePhrase} ${tx.ouverturesMuettes(muets)}`, point: ORANGE };
     if (!ouverts.length) return { phrase: tx.toutFermePhrase, point: VERT };
     const liste = ouverts.slice(0, 2).map(nom).join(tx.et);
     return {

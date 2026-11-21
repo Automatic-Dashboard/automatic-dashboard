@@ -2,6 +2,36 @@
 
 Les numéros suivent ceux de Home Assistant : l'année, le mois, puis les corrections (2026.12.0, 2026.12.1…). Chaque version est publiée comme une release GitHub, avec ces notes en français et en anglais.
 
+## 2026.12.4
+
+Les leçons d'une première vraie maison : plus de 400 entités, des caméras, des estimations PowerCalc, un pont hors ligne.
+
+### En français
+
+**Corrigé**
+- L'énergie du jour et le bilan additionnent sans erreur des compteurs en Wh et en kWh : un compteur en Wh comptait mille fois trop.
+- Une consommation en veille ou une estimation (PowerCalc) n'est plus prise pour la puissance de la maison. Sans vrai compteur, le tableau n'affiche pas de puissance plutôt qu'une fausse.
+- La sécurité ne dit plus « Tout est fermé » quand les capteurs d'ouverture ne répondent pas.
+
+**Amélioré**
+- Les restes d'intégrations supprimées ou renommées (des entités en double que plus rien ne fournit) disparaissent du tableau. Un appareil hors ligne reste affiché, et un point signale « N appareils ne répondent plus ».
+- Les totaux par jour, semaine ou mois d'un compteur sont écartés ; les estimations PowerCalc vont sur la page Énergie, plus dans les pièces.
+- Les accessoires d'une caméra (projecteur, sirène, mode privé) et la télécommande d'un téléviseur passent au second plan, et le projecteur d'une caméra n'est plus compté parmi les lumières.
+- Les favoris ne proposent plus d'entité indisponible.
+
+### In English
+
+**Fixed**
+- Today's energy and the summary now add up Wh and kWh meters correctly: a Wh meter counted a thousand times too much.
+- A standby consumption or an estimate (PowerCalc) is no longer taken for the home's power. Without a real meter, the dashboard shows no power rather than a wrong one.
+- Security no longer says "Everything is closed" when door and window sensors do not respond.
+
+**Improved**
+- Leftovers of removed or renamed integrations (duplicate entities that nothing provides anymore) disappear from the dashboard. An offline device stays visible, and a point says "N devices not responding".
+- Per-day, per-week and per-month meter totals are left out; PowerCalc estimates go to the Energy page instead of the rooms.
+- Camera accessories (floodlight, siren, privacy mode) and a TV's remote move to the background, and a camera floodlight no longer counts as a light.
+- Favorites no longer suggest an unavailable entity.
+
 ## 2026.12.3
 
 ### En français

@@ -66,8 +66,11 @@ export class AutomaticPastille extends CarteAutomatic {
     } else if (s === "securite") {
       const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on").length;
       const alertes = m.alertes.filter((e) => etat(e.id)?.state === "on").length;
+      // Aucun capteur d'ouverture ne répond : la pastille ne promet pas que tout est fermé.
+      const muets = m.ouvrants.length > 0 && m.ouvrants.every((e) => ["unavailable", "unknown"].includes(etat(e.id)?.state ?? "unavailable"));
       icone = alertes ? "mdi:shield-alert-outline" : "mdi:shield-home-outline"; libelle = tx.securite;
-      valeur = alertes ? tx.fuite : ouverts ? tx.ouverts(ouverts) : tx.toutFerme; ton = alertes ? "alerte" : ouverts ? "attention" : "";
+      valeur = alertes ? tx.fuite : ouverts ? tx.ouverts(ouverts) : muets ? tx.sansReponse : tx.toutFerme;
+      ton = alertes ? "alerte" : ouverts || muets ? "attention" : "";
       court = alertes ? "!" : ouverts ? String(ouverts) : "";
     } else if (s === "energie") {
       const reseau = etat(m.puissanceReseau);

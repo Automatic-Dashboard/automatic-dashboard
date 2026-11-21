@@ -1,5 +1,6 @@
 // Les points à regarder : ce qui demande une action, du plus grave au moins grave.
 
+import { ESTIMATIONS } from "./regles";
 import { estIgnore } from "../donnees/ignores";
 import type { HomeAssistant } from "../ha";
 import type { Sujet } from "./automatismes";
@@ -67,6 +68,19 @@ export function pointsARegarder(hass: HomeAssistant, m: Maison): Point[] {
     if (etat(e.id)?.state === "down") {
       points.push({ cle: `service:${e.id}`, niveau: 2, icone: "mdi:server-off", titre: tx.serviceEnPanne, detail: nomCourt(hass, e.id, m.noms), entite: e.id });
     }
+  }
+  // Des appareils que leur intégration ne fournit plus (pont arrêté, intégration en panne ou supprimée) :
+  // toutes leurs entités sont indisponibles et « restaurées ». Un téléviseur simplement éteint n'y est pas.
+  const parAppareil = new Map<string, string[]>();
+  // Une estimation (PowerCalc) continue de « vivre » sans l'appareil : elle ne compte pas.
+  for (const e of m.gardees) if (e.appareil && !ESTIMATIONS.has(e.plateforme)) parAppareil.set(e.appareil, [...(parAppareil.get(e.appareil) ?? []), e.id]);
+  const horsLigne = [...parAppareil].filter(([, ids]) => ids.every((id) => etat(id)?.state === "unavailable") && ids.some((id) => etat(id)?.attributes.restored))
+    .map(([id]) => id).sort();
+  if (horsLigne.length) {
+    const noms = horsLigne.map((id) => hass.devices?.[id]?.name_by_user || hass.devices?.[id]?.name || id);
+    const liste = noms.length > 3 ? `${noms.slice(0, 3).join(", ")} ${tx.autres(noms.length - 3)}` : noms.join(", ");
+    points.push({ cle: `hors-ligne:${horsLigne.join(",")}`, niveau: 1, icone: "mdi:lan-disconnect", titre: tx.horsLigne(horsLigne.length),
+      detail: tx.horsLigneDetail(liste), chemin: "/config/devices/dashboard" });
   }
   const majs = m.majs.filter((e) => etat(e.id)?.state === "on");
   if (majs.length) points.push({ cle: "majs", niveau: 1, icone: "mdi:package-up", titre: tx.majs(majs.length), detail: tx.majsDetail, chemin: "/config/updates" });

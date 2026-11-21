@@ -701,7 +701,10 @@ function enTranches(r) {
 	return tranches.map((l) => l.length ? precedent = l.reduce((a, b) => a + b, 0) / l.length : precedent);
 }
 var statistiques = /* @__PURE__ */ new Map();
-/** Variation d'un compteur d'énergie sur la journée (ou la veille, `decalage` -1), par les statistiques. */
+/**
+* Variation d'un compteur d'énergie sur la journée (ou la veille, `decalage` -1), par les statistiques,
+* toujours en kWh : des compteurs en Wh et en kWh s'additionnent sans erreur.
+*/
 function variationJour(hass, ids, decalage = 0) {
 	const cle = `${ids.join()}|${decalage}`;
 	const deja = statistiques.get(cle);
@@ -713,7 +716,8 @@ function variationJour(hass, ids, decalage = 0) {
 			period: "day",
 			offset: decalage
 		},
-		types: ["change"]
+		types: ["change"],
+		units: { energy: "kWh" }
 	}).then((r) => r?.change ?? null).catch(() => null))).then((valeurs) => valeurs.every((v) => v === null) ? null : valeurs.reduce((a, b) => a + (b || 0), 0));
 	statistiques.set(cle, {
 		quand: Date.now(),
@@ -868,6 +872,8 @@ var en = {
 		alarme: "Alarm triggered",
 		pileFaible: "Low battery",
 		serviceEnPanne: "Service offline",
+		horsLigne: (n) => n > 1 ? `${n} devices not responding` : "1 device not responding",
+		horsLigneDetail: (noms) => `${noms}. Their integration no longer provides them: check it, or delete the ones that no longer exist.`,
 		fermer: (quoi) => `Close ${quoi}`,
 		fermerSans: "To close",
 		chauffageOuvert: "The heating is on while it's open.",
@@ -1011,6 +1017,8 @@ var en = {
 		horsConfort: (n) => `${n} rooms outside the comfort zone.`,
 		chauffagesEnMarche: (n) => `${n} heater${n > 1 ? "s" : ""} on.`,
 		toutFermePhrase: "Everything is closed.",
+		ouverturesMuettes: (n) => n > 1 ? `${n} door and window sensors are not responding.` : "The door or window sensor is not responding.",
+		sansReponse: "No response",
 		ouvertsPhrase: (liste, n) => `${liste} ${n > 1 ? "are" : "is"} open.`,
 		sansSauvegardePhrase: (majs) => `No automatic backup.${majs ? ` ${majs}.` : ""}`,
 		systemeOkPhrase: (_majs, quand) => `All good. Backup ${quand}.`,
@@ -1363,6 +1371,8 @@ var fr = {
 		alarme: "Alarme déclenchée",
 		pileFaible: "Pile faible",
 		serviceEnPanne: "Service hors ligne",
+		horsLigne: (n) => n > 1 ? `${n} appareils ne répondent plus` : "1 appareil ne répond plus",
+		horsLigneDetail: (noms) => `${noms}. Leur intégration ne les fournit plus : vérifiez-la, ou supprimez ceux qui n'existent plus.`,
 		fermer: (quoi) => `Fermez ${quoi}`,
 		fermerSans: "À fermer",
 		chauffageOuvert: "Le chauffage tourne pendant que c'est ouvert.",
@@ -1502,6 +1512,8 @@ var fr = {
 		horsConfort: (n) => `${n} pièces hors de la zone de confort.`,
 		chauffagesEnMarche: (n) => `${n} chauffage${n > 1 ? "s" : ""} en marche.`,
 		toutFermePhrase: "Tout est fermé.",
+		ouverturesMuettes: (n) => n > 1 ? `${n} capteurs d'ouverture ne répondent pas.` : "Le capteur d'ouverture ne répond pas.",
+		sansReponse: "Sans réponse",
 		ouvertsPhrase: (liste, n) => `${liste} ${n > 1 ? "sont ouvertes" : "est ouverte"}. ${n > 2 ? `Et ${n - 2} autres.` : "Tout le reste est fermé."}`,
 		sansSauvegardePhrase: (majs) => `Aucune sauvegarde automatique.${majs ? ` ${majs}.` : " Tout le reste est à jour."}`,
 		systemeOkPhrase: (majs, quand) => `Tout fonctionne. ${majs ? `${majs}, sauvegarde ${quand}.` : `Tout est à jour, sauvegarde ${quand}.`}`,
@@ -2516,6 +2528,12 @@ var ETIQUETTES = {
 };
 /** L'une de ces étiquettes est-elle posée ? */
 var porte = (etiquettes, cle) => Boolean(etiquettes?.some((l) => ETIQUETTES[cle].includes(l)));
+/** Les plateformes qui estiment une consommation (PowerCalc) : utiles sur la page Énergie, pas dans les pièces. */
+var ESTIMATIONS = /* @__PURE__ */ new Set(["powercalc"]);
+/** Une consommation « en veille » : jamais la puissance de la maison. */
+var NOM_VEILLE = /standby|veille/i;
+/** Le total d'un compteur par période (jour, semaine, mois) : il redit le compteur lui-même. */
+var totalPeriodique = (e) => e.domaine === "sensor" && (e.plateforme === "utility_meter" || "next_reset" in e.etat.attributes || "last_period" in e.etat.attributes && "status" in e.etat.attributes);
 /** Classe d'un capteur, déduite de son unité quand l'intégration n'en donne pas. */
 function classeDe(etat) {
 	const a = etat?.attributes ?? {};
@@ -2530,8 +2548,11 @@ function classeDe(etat) {
 	if (u === "%" && /humid/i.test(nom)) return "humidity";
 	if (u === "ppm" && /co2|co₂/i.test(nom)) return "carbon_dioxide";
 }
-/** Juge une entité : l'écarte (avec sa raison) ou lui donne un rôle et une section. */
-function juger(e, en, masquer) {
+/**
+* Juge une entité : l'écarte (avec sa raison) ou lui donne un rôle et une section.
+* `orpheline` : son intégration ne la fournit plus (voir analyser).
+*/
+function juger(e, en, masquer, orpheline = false) {
 	const { domaine, classe } = e;
 	if (en.hidden) {
 		e.ecart = "masquee";
@@ -2539,6 +2560,10 @@ function juger(e, en, masquer) {
 	}
 	if (masquer.has(e.id)) {
 		e.ecart = "masquee_reglage";
+		return;
+	}
+	if (orpheline) {
+		e.ecart = "orpheline";
 		return;
 	}
 	if (DOMAINES_TECHNIQUES.has(domaine)) {
@@ -2590,6 +2615,10 @@ function juger(e, en, masquer) {
 		e.ecart = "aide_sans_piece";
 		return;
 	}
+	if (totalPeriodique(e)) {
+		e.ecart = "total_periodique";
+		return;
+	}
 	const donner = (role, section, secondaire = false) => {
 		e.role = role;
 		e.section = section;
@@ -2627,7 +2656,7 @@ function juger(e, en, masquer) {
 		else donner("info", "pieces", true);
 	} else if (domaine === "sensor") {
 		if (classe && MESURES.has(classe)) donner("mesure", "climat");
-		else if (classe && ENERGIE.has(classe)) donner("energie", "energie");
+		else if (classe && ENERGIE.has(classe)) donner("energie", "energie", ESTIMATIONS.has(e.plateforme));
 		else if (classe && ENERGIE_SECONDAIRE.has(classe)) donner("energie", "energie", true);
 		else if (classe && MESURES_SECONDAIRES.has(classe)) donner("mesure", "pieces", true);
 		else donner("info", "pieces", true);
@@ -2706,6 +2735,10 @@ function analyser(maison, reglages = {}) {
 	};
 	const racine = (id) => appareils[id]?.parent_device_id || id;
 	const zones = maison.areas ?? {};
+	const demarree = !["NOT_RUNNING", "STARTING"].includes(maison.config?.state ?? "");
+	const restauree = (id) => maison.states[id]?.attributes.restored === true;
+	const vivants = new Set(Object.values(maison.entities ?? {}).filter((en) => en.device_id && maison.states[en.entity_id] && !restauree(en.entity_id)).map((en) => `${en.device_id}|${en.platform}`));
+	const orpheline = (en) => demarree && restauree(en.entity_id) && (!en.device_id || !appareils[en.device_id] || vivants.has(`${en.device_id}|${en.platform}`));
 	const toutes = [];
 	for (const en of Object.values(maison.entities ?? {})) {
 		const etat = maison.states[en.entity_id];
@@ -2731,7 +2764,7 @@ function analyser(maison, reglages = {}) {
 			secondaire: false
 		};
 		if (porte(en.labels, "masquer") || porte(appareil?.labels, "masquer") || porte(e.piece ? zones[e.piece]?.labels : null, "masquer")) masquer.add(e.id);
-		juger(e, en, masquer);
+		juger(e, en, masquer, orpheline(en));
 		toutes.push(e);
 	}
 	const gardees = toutes.filter((e) => !e.ecart);
@@ -2748,6 +2781,14 @@ function analyser(maison, reglages = {}) {
 		if (!e.appareil) continue;
 		if (!parAppareil.has(e.appareil)) parAppareil.set(e.appareil, []);
 		parAppareil.get(e.appareil).push(e);
+	}
+	for (const liste of parAppareil.values()) {
+		const camera = liste.some((e) => e.domaine === "camera");
+		const lecteur = liste.some((e) => e.domaine === "media_player");
+		for (const e of liste) {
+			if (camera && e.role === "commande") e.secondaire = true;
+			if (lecteur && e.domaine === "remote") e.secondaire = true;
+		}
 	}
 	const dedie = /* @__PURE__ */ new Set();
 	for (const [id, liste] of parAppareil) {
@@ -2839,7 +2880,7 @@ function analyser(maison, reglages = {}) {
 		].includes(e.etat.state)))?.id ?? null,
 		ferie: gardees.find((e) => e.domaine === "calendar" && e.plateforme === "holiday")?.id ?? null,
 		lune: gardees.find((e) => e.plateforme === "moon")?.id ?? null,
-		lumieres: gardees.filter((e) => e.domaine === "light" && e.piece),
+		lumieres: gardees.filter((e) => e.domaine === "light" && e.piece && !e.secondaire),
 		climats: gardees.filter((e) => [
 			"climate",
 			"water_heater",
@@ -2873,8 +2914,8 @@ function analyser(maison, reglages = {}) {
 function choisirReseau(energie) {
 	const declaree = reglagesEnergie()?.puissance.find((id) => energie.some((e) => e.id === id));
 	if (declaree) return declaree;
-	const puissances = energie.filter((e) => e.classe === "power" || e.classe === "apparent_power");
-	return (puissances.find((e) => e.classe === "apparent_power" || /linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home/i.test(e.etat.attributes.friendly_name ?? "")) ?? puissances.find((e) => !e.piece))?.id ?? null;
+	const puissances = energie.filter((e) => (e.classe === "power" || e.classe === "apparent_power") && !ESTIMATIONS.has(e.plateforme) && !NOM_VEILLE.test(`${e.id} ${e.etat.attributes.friendly_name ?? ""}`));
+	return (puissances.find((e) => e.classe === "apparent_power" || /linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home|total|g(é|e)n(é|e)ral/i.test(e.etat.attributes.friendly_name ?? "")) ?? puissances.find((e) => !e.piece))?.id ?? null;
 }
 var memoire$1 = null;
 /** Version mémorisée : ne recalcule que si un registre ou un réglage a changé (les états ne changent pas le tri). */
@@ -3369,7 +3410,8 @@ function chargerBilan(hass, m, maintenant = /* @__PURE__ */ new Date(), periode 
 		end_time: fin.toISOString(),
 		statistic_ids: ids,
 		period: "day",
-		types
+		types,
+		units: { energy: "kWh" }
 	}).catch(() => ({})) : Promise.resolve({});
 	const promesse = Promise.all([
 		statistiques(energies, avant, ["change"]),
@@ -4749,6 +4791,21 @@ function pointsARegarder(hass, m) {
 		detail: nomCourt(hass, e.id, m.noms),
 		entite: e.id
 	});
+	const parAppareil = /* @__PURE__ */ new Map();
+	for (const e of m.gardees) if (e.appareil && !ESTIMATIONS.has(e.plateforme)) parAppareil.set(e.appareil, [...parAppareil.get(e.appareil) ?? [], e.id]);
+	const horsLigne = [...parAppareil].filter(([, ids]) => ids.every((id) => etat(id)?.state === "unavailable") && ids.some((id) => etat(id)?.attributes.restored)).map(([id]) => id).sort();
+	if (horsLigne.length) {
+		const noms = horsLigne.map((id) => hass.devices?.[id]?.name_by_user || hass.devices?.[id]?.name || id);
+		const liste = noms.length > 3 ? `${noms.slice(0, 3).join(", ")} ${tx.autres(noms.length - 3)}` : noms.join(", ");
+		points.push({
+			cle: `hors-ligne:${horsLigne.join(",")}`,
+			niveau: 1,
+			icone: "mdi:lan-disconnect",
+			titre: tx.horsLigne(horsLigne.length),
+			detail: tx.horsLigneDetail(liste),
+			chemin: "/config/devices/dashboard"
+		});
+	}
 	const majs = m.majs.filter((e) => etat(e.id)?.state === "on");
 	if (majs.length) points.push({
 		cle: "majs",
@@ -4985,6 +5042,11 @@ function phraseSujet(hass, m, sujet) {
 		if (alertes.length) return {
 			phrase: `${tx.fuite}${tx.deuxPoints}${alertes.map(nom).join(", ")}.`,
 			point: ROUGE
+		};
+		const muets = m.ouvrants.filter((e) => ["unavailable", "unknown"].includes(etat(e.id)?.state ?? "unavailable")).length;
+		if (!ouverts.length && muets) return {
+			phrase: muets === m.ouvrants.length ? tx.ouverturesMuettes(muets) : `${tx.toutFermePhrase} ${tx.ouverturesMuettes(muets)}`,
+			point: ORANGE
 		};
 		if (!ouverts.length) return {
 			phrase: tx.toutFermePhrase,
@@ -5306,10 +5368,11 @@ var AutomaticPastille = class extends CarteAutomatic {
 		} else if (s === "securite") {
 			const ouverts = m.ouvrants.filter((e) => etat(e.id)?.state === "on").length;
 			const alertes = m.alertes.filter((e) => etat(e.id)?.state === "on").length;
+			const muets = m.ouvrants.length > 0 && m.ouvrants.every((e) => ["unavailable", "unknown"].includes(etat(e.id)?.state ?? "unavailable"));
 			icone = alertes ? "mdi:shield-alert-outline" : "mdi:shield-home-outline";
 			libelle = tx.securite;
-			valeur = alertes ? tx.fuite : ouverts ? tx.ouverts(ouverts) : tx.toutFerme;
-			ton = alertes ? "alerte" : ouverts ? "attention" : "";
+			valeur = alertes ? tx.fuite : ouverts ? tx.ouverts(ouverts) : muets ? tx.sansReponse : tx.toutFerme;
+			ton = alertes ? "alerte" : ouverts || muets ? "attention" : "";
 			court = alertes ? "!" : ouverts ? String(ouverts) : "";
 		} else if (s === "energie") {
 			const reseau = etat(m.puissanceReseau);
@@ -6049,12 +6112,12 @@ var aFonction = (c) => Array.isArray(c.features) && c.features.length > 0;
 /** Les commandes habituelles prédites par Home Assistant, sinon une lumière par pièce de vie, puis les thermostats. */
 async function favorisAutomatiques(hass, m) {
 	const commandes = new Set(m.gardees.filter((e) => e.role === "commande").map((e) => e.id));
-	const garder = (ids) => ids.filter((id) => hass.states[id] && commandes.has(id));
+	const garder = (ids) => ids.filter((id) => hass.states[id] && hass.states[id].state !== "unavailable" && commandes.has(id));
 	let favoris = [];
 	try {
 		favoris = garder((await hass.callWS({ type: "usage_prediction/common_control" }))?.entities ?? []);
 	} catch {}
-	if (!favoris.length) favoris = garder([...m.pieces.filter((p) => !p.exterieur && !p.annexe).map((p) => p.entites.find((e) => e.domaine === "light" && e.principale) ?? p.entites.find((e) => e.domaine === "light")).filter((e) => e !== void 0).map((e) => e.id), ...m.climats.filter((e) => e.piece).map((e) => e.id)]);
+	if (!favoris.length) favoris = garder([...m.pieces.filter((p) => !p.exterieur && !p.annexe).map((p) => p.entites.find((e) => e.domaine === "light" && e.principale && !e.secondaire) ?? p.entites.find((e) => e.domaine === "light" && !e.secondaire)).filter((e) => e !== void 0).map((e) => e.id), ...m.climats.filter((e) => e.piece).map((e) => e.id)]);
 	return favoris;
 }
 /**
@@ -7706,8 +7769,8 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 			coteApres: 1
 		}));
 	}
-	if (m.energie.length) {
-		const appareils = m.energie.filter((e) => e.classe === "power" && e.id !== m.puissanceReseau && e.piece).slice(0, m.mode === "complet" ? 12 : 8);
+	if (m.energie.length || energiesMaison(hass, m).length) {
+		const appareils = m.gardees.filter((e) => e.role === "energie" && e.classe === "power" && e.id !== m.puissanceReseau && e.piece && hass.states[e.id]?.state !== "unavailable").slice(0, m.mode === "complet" ? 12 : 8);
 		const compteurs = m.energie.filter((e) => e.classe === "energy");
 		const scene = [section([heros("energie")])];
 		if (appareils.length) scene.push(section([titre(tx.appareils), ...avecLargeurs(appareils.map((e) => tuile(e, "maison")), 6, "fin", 2)]));
@@ -7787,7 +7850,7 @@ function sousVues(hass, m, avecReglages, reglages = {}) {
 		}));
 	}
 	const valeur = (e) => Number.parseFloat(etat(e.id) ?? "");
-	const piles = [...m.piles].sort((a, b) => valeur(a) - valeur(b));
+	const piles = m.piles.filter((e) => hass.states[e.id]?.state !== "unavailable").sort((a, b) => valeur(a) - valeur(b));
 	const majsDabord = [...m.majs].sort((a, b) => Number(etat(b.id) === "on") - Number(etat(a.id) === "on"));
 	const plafond = m.mode === "complet" ? 16 : 8;
 	const affichables = m.systeme.filter((e) => e.plateforme !== "backup" && [

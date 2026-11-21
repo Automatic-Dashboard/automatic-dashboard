@@ -89,8 +89,13 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
   }
 
   // Énergie : Héros, appareils avec leur courbe, compteurs ; sur le côté, la répartition et les 7 derniers jours.
-  if (m.energie.length) {
-    const appareils = m.energie.filter((e) => e.classe === "power" && e.id !== m.puissanceReseau && e.piece).slice(0, m.mode === "complet" ? 12 : 8);
+  // La page existe dès qu'il y a un capteur d'énergie, ou des compteurs déclarés dans les réglages Énergie.
+  if (m.energie.length || energiesMaison(hass, m).length) {
+    // Les appareils, mesurés ou estimés (PowerCalc) : c'est ici que leur consommation a sa place.
+    // Sans ceux qui ne répondent pas : une courbe vide n'apprend rien.
+    const appareils = m.gardees.filter((e) => e.role === "energie" && e.classe === "power" && e.id !== m.puissanceReseau && e.piece
+      && hass.states[e.id]?.state !== "unavailable")
+      .slice(0, m.mode === "complet" ? 12 : 8);
     const compteurs = m.energie.filter((e) => e.classe === "energy");
     const scene = [section([heros("energie")])];
     if (appareils.length) scene.push(section([titre(tx.appareils), ...avecLargeurs(appareils.map((e) => tuile(e, "maison")), 6, "fin", 2)]));
@@ -129,7 +134,8 @@ export function sousVues(hass: HomeAssistant, m: Maison, avecReglages: AvecRegla
 
   // Système : Héros, mises à jour, piles (les plus faibles d'abord), machine ; sur le côté, réparations et appareils découverts.
   const valeur = (e: Entite) => Number.parseFloat(etat(e.id) ?? "");
-  const piles = [...m.piles].sort((a, b) => valeur(a) - valeur(b));
+  // Sans les piles des appareils qui ne répondent plus : le point « ne répondent plus » les signale déjà.
+  const piles = m.piles.filter((e) => hass.states[e.id]?.state !== "unavailable").sort((a, b) => valeur(a) - valeur(b));
   const majsDabord = [...m.majs].sort((a, b) => Number(etat(b.id) === "on") - Number(etat(a.id) === "on"));
   const plafond = m.mode === "complet" ? 16 : 8;
   // La machine de Home Assistant, puis un groupe par service du réseau (Glances, Uptime Kuma, AdGuard, Speedtest…).

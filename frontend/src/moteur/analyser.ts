@@ -5,7 +5,7 @@
 import type { Instantane } from "../ha";
 import { reglagesEnergie } from "../donnees/energie";
 import { proposerPiece } from "./ranger";
-import { AIR, NOM_EXTERIEUR, PIECES_ANNEXES, PIECES_EXTERIEURES, PLATEFORMES_OFFICE, PLATEFORMES_VEHICULE, classeDe, iconePiece, juger, porte } from "./regles";
+import { AIR, ESTIMATIONS, NOM_EXTERIEUR, NOM_VEILLE, PIECES_ANNEXES, PIECES_EXTERIEURES, PLATEFORMES_OFFICE, PLATEFORMES_VEHICULE, classeDe, iconePiece, juger, porte } from "./regles";
 import type { Entite, Maison, Mode, Piece, Reglages } from "./types";
 
 const ROLES_UTILES = new Set(["commande", "ouvrant", "alerte", "camera", "mesure", "energie"]);
@@ -33,6 +33,17 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
   const racine = (id: string) => appareils[id]?.parent_device_id || id;
   const zones = maison.areas ?? {};
 
+  // Une entité « restaurée » que son intégration ne fournit plus : le reste d'une intégration supprimée
+  // ou renommée. Orpheline seulement si elle n'a plus d'appareil, ou si la même intégration fournit
+  // d'autres entités bien vivantes sur cet appareil (un doublon). Sinon l'appareil est simplement hors
+  // ligne (un pont Zigbee arrêté, une intégration en panne, même si PowerCalc s'y greffe encore), et il
+  // reste affiché, indisponible. Rien pendant le démarrage.
+  const demarree = !["NOT_RUNNING", "STARTING"].includes((maison as { config?: { state?: string } }).config?.state ?? "");
+  const restauree = (id: string) => maison.states[id]?.attributes.restored === true;
+  const vivants = new Set(Object.values(maison.entities ?? {}).filter((en) => en.device_id && maison.states[en.entity_id] && !restauree(en.entity_id))
+    .map((en) => `${en.device_id}|${en.platform}`));
+  const orpheline = (en: { entity_id: string; device_id?: string | null; platform: string }) => demarree && restauree(en.entity_id)
+    && (!en.device_id || !appareils[en.device_id] || vivants.has(`${en.device_id}|${en.platform}`));
   const toutes: Entite[] = [];
   for (const en of Object.values(maison.entities ?? {})) {
     const etat = maison.states[en.entity_id];
@@ -61,7 +72,7 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
     if (porte(en.labels, "masquer") || porte(appareil?.labels, "masquer") || porte(e.piece ? zones[e.piece]?.labels : null, "masquer")) {
       masquer.add(e.id);
     }
-    juger(e, en, masquer);
+    juger(e, en, masquer, orpheline(en));
     toutes.push(e);
   }
   const gardees = toutes.filter((e) => !e.ecart);
@@ -84,6 +95,16 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
     if (!e.appareil) continue;
     if (!parAppareil.has(e.appareil)) parAppareil.set(e.appareil, []);
     parAppareil.get(e.appareil)!.push(e);
+  }
+  // Les accessoires d'une caméra (projecteur, sirène, mode privé, boutons) et la télécommande d'un
+  // téléviseur passent au second plan : la caméra et le lecteur suffisent dans la pièce.
+  for (const liste of parAppareil.values()) {
+    const camera = liste.some((e) => e.domaine === "camera");
+    const lecteur = liste.some((e) => e.domaine === "media_player");
+    for (const e of liste) {
+      if (camera && e.role === "commande") e.secondaire = true;
+      if (lecteur && e.domaine === "remote") e.secondaire = true;
+    }
   }
   const dedie = new Set<string>();
   for (const [id, liste] of parAppareil) {
@@ -165,7 +186,8 @@ export function analyser(maison: Instantane, reglages: Reglages = {}): Maison {
       && (e.id.endsWith("_weather_alert") || ["Vert", "Jaune", "Orange", "Rouge"].includes(e.etat.state)))?.id ?? null,
     ferie: gardees.find((e) => e.domaine === "calendar" && e.plateforme === "holiday")?.id ?? null,
     lune: gardees.find((e) => e.plateforme === "moon")?.id ?? null,
-    lumieres: gardees.filter((e) => e.domaine === "light" && e.piece),
+    // Les vraies lumières des pièces : pas le projecteur d'une caméra.
+    lumieres: gardees.filter((e) => e.domaine === "light" && e.piece && !e.secondaire),
     climats: gardees.filter((e) => ["climate", "water_heater", "humidifier"].includes(e.domaine)),
     temperaturesInterieures: pieces.filter((p) => !p.exterieur && !p.annexe && p.temperatures.length).map((p) => p.temperatures),
     temperaturesExterieures: pieces.filter((p) => p.exterieur).flatMap((p) => p.temperatures),
@@ -198,9 +220,11 @@ export function choisirReseau(energie: Entite[]): string | null {
   // La puissance déclarée dans les réglages Énergie de Home Assistant l'emporte.
   const declaree = reglagesEnergie()?.puissance.find((id) => energie.some((e) => e.id === id));
   if (declaree) return declaree;
-  const puissances = energie.filter((e) => e.classe === "power" || e.classe === "apparent_power");
+  // Jamais une estimation (PowerCalc) ni une consommation en veille : sans vrai compteur, mieux vaut ne rien montrer.
+  const puissances = energie.filter((e) => (e.classe === "power" || e.classe === "apparent_power") && !ESTIMATIONS.has(e.plateforme)
+    && !NOM_VEILLE.test(`${e.id} ${e.etat.attributes.friendly_name ?? ""}`));
   const compteur = puissances.find((e) => e.classe === "apparent_power"
-    || /linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home/i.test(e.etat.attributes.friendly_name ?? ""));
+    || /linky|compteur|tic\b|meter|grid|r(é|e)seau|maison|home|total|g(é|e)n(é|e)ral/i.test(e.etat.attributes.friendly_name ?? ""));
   return (compteur ?? puissances.find((e) => !e.piece))?.id ?? null;
 }
 

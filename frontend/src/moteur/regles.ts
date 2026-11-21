@@ -68,6 +68,17 @@ export const ETIQUETTES = {
 export const porte = (etiquettes: readonly string[] | undefined | null, cle: keyof typeof ETIQUETTES): boolean =>
   Boolean(etiquettes?.some((l) => (ETIQUETTES[cle] as readonly string[]).includes(l)));
 
+/** Les plateformes qui estiment une consommation (PowerCalc) : utiles sur la page Énergie, pas dans les pièces. */
+export const ESTIMATIONS = new Set(["powercalc"]);
+
+/** Une consommation « en veille » : jamais la puissance de la maison. */
+export const NOM_VEILLE = /standby|veille/i;
+
+/** Le total d'un compteur par période (jour, semaine, mois) : il redit le compteur lui-même. */
+export const totalPeriodique = (e: Entite): boolean =>
+  e.domaine === "sensor" && (e.plateforme === "utility_meter" || "next_reset" in e.etat.attributes
+    || ("last_period" in e.etat.attributes && "status" in e.etat.attributes));
+
 /** Classe d'un capteur, déduite de son unité quand l'intégration n'en donne pas. */
 export function classeDe(etat: EtatHA | undefined): string | undefined {
   const a = etat?.attributes ?? {};
@@ -84,11 +95,15 @@ export function classeDe(etat: EtatHA | undefined): string | undefined {
   return undefined;
 }
 
-/** Juge une entité : l'écarte (avec sa raison) ou lui donne un rôle et une section. */
-export function juger(e: Entite, en: EntiteHA, masquer: Set<string>): void {
+/**
+ * Juge une entité : l'écarte (avec sa raison) ou lui donne un rôle et une section.
+ * `orpheline` : son intégration ne la fournit plus (voir analyser).
+ */
+export function juger(e: Entite, en: EntiteHA, masquer: Set<string>, orpheline = false): void {
   const { domaine, classe } = e;
   if (en.hidden) { e.ecart = "masquee"; return; }
   if (masquer.has(e.id)) { e.ecart = "masquee_reglage"; return; }
+  if (orpheline) { e.ecart = "orpheline"; return; }
   if (DOMAINES_TECHNIQUES.has(domaine)) { e.ecart = "domaine_technique"; return; }
   // Mises à jour, piles et plateformes système vont en Système, même rangées en « diagnostic ».
   if (domaine === "update") { e.role = "maintenance"; e.section = "systeme"; return; }
@@ -107,6 +122,7 @@ export function juger(e: Entite, en: EntiteHA, masquer: Set<string>): void {
     e.ecart = "technique"; return;
   }
   if (AIDES.has(domaine) && !e.piece) { e.ecart = "aide_sans_piece"; return; }
+  if (totalPeriodique(e)) { e.ecart = "total_periodique"; return; }
 
   const donner = (role: Entite["role"], section: Entite["section"], secondaire = false) => {
     e.role = role; e.section = section; e.secondaire = secondaire;
@@ -125,7 +141,7 @@ export function juger(e: Entite, en: EntiteHA, masquer: Set<string>): void {
     else donner("info", "pieces", true);
   } else if (domaine === "sensor") {
     if (classe && MESURES.has(classe)) donner("mesure", "climat");
-    else if (classe && ENERGIE.has(classe)) donner("energie", "energie");
+    else if (classe && ENERGIE.has(classe)) donner("energie", "energie", ESTIMATIONS.has(e.plateforme));
     else if (classe && ENERGIE_SECONDAIRE.has(classe)) donner("energie", "energie", true);
     else if (classe && MESURES_SECONDAIRES.has(classe)) donner("mesure", "pieces", true);
     else donner("info", "pieces", true);
